@@ -31,24 +31,33 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
             this.gestureRecognizer = new Microsoft.WindowsMobile.Gestures.GestureRecognizer();
             this.mainMenu1 = new System.Windows.Forms.MainMenu();
+            this.physics = new Microsoft.WindowsMobile.Gestures.PhysicsEngine();
             this.SuspendLayout();
             // 
             // gestureRecognizer
             // 
-            this.gestureRecognizer.TargetControl = this;
             this.gestureRecognizer.Hold += new System.EventHandler<Microsoft.WindowsMobile.Gestures.GestureEventArgs>(this.gestureRecognizer_Hold);
+            this.gestureRecognizer.End += new System.EventHandler<Microsoft.WindowsMobile.Gestures.GestureEventArgs>(this.gestureRecognizer_End);
             this.gestureRecognizer.Select += new System.EventHandler<Microsoft.WindowsMobile.Gestures.GestureEventArgs>(this.gestureRecognizer1_Select);
+            this.gestureRecognizer.Begin += new System.EventHandler<Microsoft.WindowsMobile.Gestures.GestureEventArgs>(this.gestureRecognizer_Begin);
+            this.gestureRecognizer.Pan += new System.EventHandler<Microsoft.WindowsMobile.Gestures.GestureEventArgs>(this.gestureRecognizer_Pan);
             this.gestureRecognizer.Scroll += new System.EventHandler<Microsoft.WindowsMobile.Gestures.GestureScrollEventArgs>(this.gestureRecognizer_Scroll);
+            // 
+            // physics
+            // 
+            this.physics.AnimateXAxis = false;
+            this.physics.ViewportControl = null;
+            this.physics.AnimateFrame += new System.EventHandler<Microsoft.WindowsMobile.Gestures.PhysicsAnimationFrameEventArgs>(this.physics_AnimateFrame);
             // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(96F, 96F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
             resources.ApplyResources(this, "$this");
+            this.ForeColor = System.Drawing.SystemColors.WindowText;
             this.Menu = this.mainMenu1;
             this.Name = "MainForm";
             this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
-            this.Paint += new System.Windows.Forms.PaintEventHandler(this.MainForm_Paint);
             this.ResumeLayout(false);
 
         }
@@ -57,6 +66,7 @@
 
         private System.Windows.Forms.MainMenu mainMenu1;
         private Microsoft.WindowsMobile.Gestures.GestureRecognizer gestureRecognizer;
+        private Microsoft.WindowsMobile.Gestures.PhysicsEngine physics;
 
 
     }

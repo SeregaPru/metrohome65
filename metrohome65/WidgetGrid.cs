@@ -1,26 +1,21 @@
 ﻿using System;
-using System.Linq;
 using System.Collections.Generic;
 using System.Text;
 using System.Drawing;
+using System.Windows.Forms;
 
 namespace SmartDeviceProject1
 {
-    /// <summary>
-    /// widget on the screen description
-    /// </summary>
-    class WidgetScreenInfo
-    {
-        /// <summary>
-        /// screen absolute position and size of widget
-        /// </summary>
-        public Rectangle Rect = new Rectangle(0, 0, 0, 0);
 
-        public BaseWidget Widget = null;
+    class PageControl : Control
+    {
+        public virtual void SetScrollPosition(Point Location) { }
+        public virtual Point GetScrollPosition() { return new Point(0, 0); }
+        public virtual void ClickAt(Point Location) { }
+        public virtual void ShowPopupMenu(Point Location) { }
     }
 
-
-    class WidgetGrid
+    class WidgetGrid : PageControl
     {
         private int CellWidth = 90;
 
@@ -33,12 +28,44 @@ namespace SmartDeviceProject1
         /// <summary>
         /// widgets list
         /// </summary>
-        private List<WidgetScreenInfo> widgets;
+        private List<WidgetWrapper> Widgets;
 
         public WidgetGrid()
         {
-            widgets = new List<WidgetScreenInfo>();
+            Widgets = new List<WidgetWrapper>();
             Initialize();
+            CreatePopupMenu();
+        }
+
+        private ContextMenu _mnuWidgetActions;
+        private WidgetWrapper _mnuWidgetSender;
+
+        private void CreatePopupMenu()
+        {
+            _mnuWidgetActions = new ContextMenu();
+
+            MenuItem menuSettings = new System.Windows.Forms.MenuItem();
+            menuSettings.Text = "Setings";
+            menuSettings.Click += ShowWidgetSettings;
+
+            MenuItem menuMove = new System.Windows.Forms.MenuItem();
+            menuMove.Text = "Move";
+            menuMove.Click += MoveWidget;
+
+            MenuItem menuDelete = new System.Windows.Forms.MenuItem();
+            menuDelete.Text = "Delete";
+            menuDelete.Click += DeleteWidget;
+
+            _mnuWidgetActions.MenuItems.Add(menuSettings);
+            _mnuWidgetActions.MenuItems.Add(menuMove);
+            _mnuWidgetActions.MenuItems.Add(menuDelete);
+        }
+
+        public override void ShowPopupMenu(Point Location)
+        {
+            _mnuWidgetSender = GetWidgetAtPos(Location);
+            if (_mnuWidgetSender != null)
+                _mnuWidgetActions.Show(this, Location);
         }
 
         /// <summary>
@@ -54,74 +81,63 @@ namespace SmartDeviceProject1
         /// and calc widget screen coordinates
         /// </summary>
         /// <param name="Widget"></param>
-        private void AddWidget(BaseWidget Widget)
+        private WidgetWrapper AddWidget(Point Position, Point Size, IWidget Widget)
         {
-            WidgetScreenInfo newWidgetScreenInfo = new WidgetScreenInfo();
-            newWidgetScreenInfo.Widget = Widget;
-            widgets.Add(newWidgetScreenInfo);
+            WidgetWrapper Wrapper = new WidgetWrapper(Size, Position, Widget);
 
-            newWidgetScreenInfo.Rect.X = Widget.position.X * (CellWidth + CellSpacingHor) + CellSpacingHor;
-            newWidgetScreenInfo.Rect.Y = Widget.position.Y * (CellHeight + CellSpacingVer) + CellSpacingVer;
-            newWidgetScreenInfo.Rect.Width = Widget.size.X * (CellWidth + CellSpacingHor) - CellSpacingHor;
-            newWidgetScreenInfo.Rect.Height = Widget.size.Y * (CellHeight + CellSpacingVer) - CellSpacingVer;
+            Wrapper.ScreenRect.X = Position.X * (CellWidth + CellSpacingHor) + CellSpacingHor;
+            Wrapper.ScreenRect.Y = Position.Y * (CellHeight + CellSpacingVer) + CellSpacingVer;
+            Wrapper.ScreenRect.Width = Size.X * (CellWidth + CellSpacingHor) - CellSpacingHor;
+            Wrapper.ScreenRect.Height = Size.Y * (CellHeight + CellSpacingVer) - CellSpacingVer;
+
+            Widgets.Add(Wrapper);
+
+            int Height = 0;
+            foreach (WidgetWrapper wsInfo in Widgets)
+                Height = Math.Max(Height, wsInfo.ScreenRect.Bottom);
+            this.Height = Height + 50;
+
+            return Wrapper;
         }
 
-        // fill grid with debug values
-        private void DebugFill()
+        protected override void OnPaint(PaintEventArgs e)
         {
-            ShortcutWidget PhoneWidget = new ShortcutWidget();
-            PhoneWidget.position = new Point(0, 0);
-            PhoneWidget.size = new Point(2, 2);
-            PhoneWidget.Caption = "Phone";
-            PhoneWidget.IconPath = System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().GetName().CodeBase) + 
-              "\\icons\\phone.png";
-            PhoneWidget.CommandLine = @"\Windows\TaskMgr.exe";
-            AddWidget(PhoneWidget);
+            // paing background
+            Brush bgBrush = new System.Drawing.SolidBrush(System.Drawing.Color.Black);
+            e.Graphics.FillRectangle(bgBrush, 0, 0, this.Width, this.Height);
 
-            ShortcutWidget SMSWidget = new ShortcutWidget();
-            SMSWidget.position = new Point(0, 2);
-            SMSWidget.size = new Point(2, 2);
-            SMSWidget.Caption = "SMS";
-            SMSWidget.IconPath = System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().GetName().CodeBase) +
-              "\\icons\\mail.png";
-            SMSWidget.CommandLine = "";
-            AddWidget(SMSWidget);
+            // paint widgets
+            Rectangle WidgetRect;
 
-            ShortcutWidget PeopleWidget = new ShortcutWidget();
-            PeopleWidget.position = new Point(2, 0);
-            PeopleWidget.size = new Point(2, 2);
-            PeopleWidget.Caption = "People";
-            PeopleWidget.CommandLine = "";
-            AddWidget(PeopleWidget);
-
-            IconWidget AnalogClockWidget = new IconWidget();
-            AnalogClockWidget.position = new Point(2, 2);
-            AnalogClockWidget.size = new Point(2, 2);
-            AddWidget(AnalogClockWidget);
-
-            DigitalClockWidget ClockWidget = new DigitalClockWidget();
-            ClockWidget.position = new Point(0, 4);
-            ClockWidget.size = new Point(4, 2);
-            ClockWidget.bgColor = Color.FromArgb(30, 30, 30);
-            AddWidget(ClockWidget);
-
-            IconWidget BTWidget = new IconWidget();
-            BTWidget.position = new Point(0, 6);
-            BTWidget.size = new Point(1, 1);
-            AddWidget(BTWidget);
-
-            IconWidget WiFiWidget = new IconWidget();
-            WiFiWidget.position = new Point(0, 7);
-            WiFiWidget.size = new Point(1, 1);
-            AddWidget(WiFiWidget);
-        }
-
-        public void Paint(Graphics g)
-        {
-            foreach (WidgetScreenInfo wsInfo in widgets) 
+            foreach (WidgetWrapper wsInfo in Widgets)
             {
-                wsInfo.Widget.Paint(g, wsInfo.Rect);
+                WidgetRect = wsInfo.ScreenRect;
+                WidgetRect.Offset(0, this.TopOffset);
+                wsInfo.Paint(e.Graphics, WidgetRect);
             }
+        }
+
+        private int TopOffset = 0;
+
+        public override void SetScrollPosition(Point Location) 
+        {
+            this.TopOffset = Location.Y;
+            Invalidate();
+        }
+
+        public override Point GetScrollPosition() 
+        { 
+            return new Point(0, TopOffset); 
+        }
+
+        private WidgetWrapper GetWidgetAtPos(Point Location)
+        {
+            foreach (WidgetWrapper wsInfo in Widgets)
+            {
+                if (wsInfo.ScreenRect.Contains(Location))
+                    return wsInfo;
+            }
+            return null;
         }
 
         /// <summary>
@@ -130,15 +146,68 @@ namespace SmartDeviceProject1
         /// and then call widget's click event handler
         /// </summary>
         /// <param name="Location"></param>
-        public void ClickAt(Point Location)
+        public override void ClickAt(Point Location)
         {
-            foreach (WidgetScreenInfo wsInfo in widgets)
-            {
-                if (wsInfo.Rect.Contains(Location)) 
-                {
-                    wsInfo.Widget.OnClick(new Point(Location.X - wsInfo.Rect.Left, Location.Y - wsInfo.Rect.Top));
-                }
-            }
+            WidgetWrapper TargetWidget = GetWidgetAtPos(Location);
+            if (TargetWidget != null)
+                TargetWidget.OnClick(new Point(Location.X - TargetWidget.ScreenRect.Left, Location.Y - TargetWidget.ScreenRect.Top));
         }
+
+        private void ShowWidgetSettings(object sender, EventArgs e)
+        {
+            MessageBox.Show("settings");
+        }
+
+        private void DeleteWidget(object sender, EventArgs e)
+        {
+            MessageBox.Show("delete");
+        }
+
+        private void MoveWidget(object sender, EventArgs e)
+        {
+            MessageBox.Show("move");
+        }
+
+
+        // fill grid with debug values
+        private void DebugFill()
+        {
+            ShortcutWidget PhoneWidget = new ShortcutWidget();
+            PhoneWidget.Caption = "Phone";
+            PhoneWidget.IconPath = System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().GetName().CodeBase) +
+              "\\icons\\phone.png";
+            PhoneWidget.CommandLine = @"\Windows\TaskMgr.exe";
+            AddWidget(new Point(0, 0), new Point(2, 2), PhoneWidget);
+
+            ShortcutWidget SMSWidget = new ShortcutWidget();
+            SMSWidget.Caption = "SMS";
+            SMSWidget.IconPath = System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().GetName().CodeBase) +
+              "\\icons\\mail.png";
+            SMSWidget.CommandLine = "";
+            AddWidget(new Point(0, 2), new Point(2, 2), SMSWidget);
+
+            ShortcutWidget PeopleWidget = new ShortcutWidget();
+            PeopleWidget.Caption = "People";
+            PeopleWidget.CommandLine = "";
+            AddWidget(new Point(2, 0), new Point(2, 2), PeopleWidget);
+
+            IconWidget AnalogClockWidget = new IconWidget();
+            AddWidget(new Point(2, 2), new Point(2, 2), AnalogClockWidget);
+
+            DigitalClockWidget ClockWidget = new DigitalClockWidget();
+            AddWidget(new Point(0, 4), new Point(4, 2), ClockWidget).
+                bgColor = Color.FromArgb(30, 30, 30);
+
+            IconWidget BTWidget = new IconWidget();
+            AddWidget(new Point(0, 6), new Point(1, 1), BTWidget);
+
+            IconWidget WiFiWidget = new IconWidget();
+            AddWidget(new Point(0, 7), new Point(1, 1), WiFiWidget);
+
+            DigitalClockWidget ClockWidget2 = new DigitalClockWidget();
+            AddWidget(new Point(0, 8), new Point(4, 2), ClockWidget2).
+                bgColor = Color.FromArgb(30, 30, 30);
+        }
+
     }
 }

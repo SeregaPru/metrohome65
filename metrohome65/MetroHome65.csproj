@@ -80,7 +80,10 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <Compile Include="WidgetGrid.cs" />
+    <Compile Include="WidgetGrid.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="WidgetWrapper.cs" />
     <Compile Include="WigetInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CompactFramework.CSharp.targets" />

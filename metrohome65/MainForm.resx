@@ -120,6 +120,12 @@
   <metadata name="gestureRecognizer.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>116, 13</value>
   </metadata>
+  <metadata name="mainMenu1.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>21, 11</value>
+  </metadata>
+  <metadata name="physics.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>259, 13</value>
+  </metadata>
   <metadata name="$this.FormFactorShadowProperty" xml:space="preserve">
     <value>Pocket_PC_Phone</value>
   </metadata>
@@ -136,9 +142,6 @@
   <data name="$this.Location" type="System.Drawing.Point, System.Drawing">
     <value>0, 0</value>
   </data>
-  <metadata name="mainMenu1.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>21, 11</value>
-  </metadata>
   <data name="$this.Text" xml:space="preserve">
     <value>WP7UI</value>
   </data>
@@ -153,6 +156,12 @@
   </data>
   <data name="&gt;&gt;mainMenu1.Type" xml:space="preserve">
     <value>System.Windows.Forms.MainMenu, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;physics.Name" xml:space="preserve">
+    <value>physics</value>
+  </data>
+  <data name="&gt;&gt;physics.Type" xml:space="preserve">
+    <value>Microsoft.CompactFramework.Design.UnsafeComponent, Microsoft.CompactFramework.Design, Version=9.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="&gt;&gt;$this.Name" xml:space="preserve">
     <value>MainForm</value>

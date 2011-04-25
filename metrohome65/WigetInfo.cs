@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Linq;
-using System.Collections.Generic;
 using System.Text;
 using System.Drawing;
 using System.Windows.Forms;
@@ -8,41 +6,56 @@ using System.Drawing.Imaging;
 
 namespace SmartDeviceProject1
 {
-    public abstract class BaseWidget
+    public interface IWidget
     {
         /// <summary>
-        /// widget position in grid
-        /// </summary>
-        public Point position;
-
-        /// <summary>
-        /// widget size in cells
+        /// widget possible sizes, in cells
         /// 1x1 1x2 2x2 etc. .. 4x4 is max
         /// </summary>
-        public Point size;
-
-        protected BaseWidget()
-        {
-            position = new Point(0, 0);
-            size = new Point(1, 1);
-        }
+        Point[] Sizes { get; }
 
         /// <summary>
-        /// paint widget interior.
-        /// Must be override in descendant classes.
+        /// Widget transparency.
+        /// Transparent widget draws itself over grid background.
+        /// Not transparent widget should draw the whole area.
+        /// </summary>
+        Boolean Transparent { get; }
+
+        /// <summary>
+        /// Handler for click event
+        /// </summary>
+        /// <param name="Location">
+        ///   Coordinates of click event, 
+        ///   relative to widget's left upper corner
+        /// </param>
+        void OnClick(Point Location);
+
+        /// <summary>
+        /// paint widget internal area.
         /// </summary>
         /// <param name="g">Graphics context</param>
         /// <param name="rect">Drawing area</param>
-        public abstract void Paint(Graphics g, Rectangle rect);
+        void Paint(Graphics g, Rectangle Rect);
+    }
 
-        /// <summary>
-        /// click event handler.
-        /// </summary>
-        /// <param name="Location">Click position relative to widget's top left corner</param>
+
+    public class BaseWidget : IWidget
+    {
+        protected virtual Point[] GetSizes() { return null; }
+        public Point[] Sizes { get { return GetSizes(); } }
+
+        protected virtual Boolean GetTransparent() { return false; }
+        public Boolean Transparent { get { return GetTransparent(); } }
+
+        public virtual void Paint(Graphics g, Rectangle Rect)
+        {
+            //
+        }
+
         public virtual void OnClick(Point Location)
         {
-            MessageBox.Show(String.Format("click at widget at pos {0}, {1}", 
-                this.position.X, this.position.Y));
+            MessageBox.Show(String.Format("click at widget at {0}:{1}", 
+                Location.X, Location.Y));
         }
     }
 
@@ -52,19 +65,7 @@ namespace SmartDeviceProject1
     /// </summary>
     public class TransparentWidget : BaseWidget
     {
-        ///!! todo - button style, color
-        public Color bgColor = System.Drawing.Color.Blue;
-
-        /// <summary>
-        /// Paints button with user defined style and color
-        /// </summary>
-        /// <param name="g"></param>
-        /// <param name="Rect"></param>
-        public override void Paint(Graphics g, Rectangle Rect)
-        {
-            Brush bgBrush = new System.Drawing.SolidBrush(bgColor);
-            g.FillRectangle(bgBrush, Rect.Left, Rect.Top, Rect.Width, Rect.Height);
-        }
+        protected override Boolean GetTransparent() { return true; }
     }
 
 
