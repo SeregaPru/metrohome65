@@ -17,7 +17,7 @@ namespace SmartDeviceProject1
         /// <summary>
         /// Widget size in cells
         /// </summary>
-        public Point Size = new Point(1, 1);
+        public Size Size = new Size(1, 1);
 
         ///!! todo - button style, color
         public Color bgColor = System.Drawing.Color.Blue;
@@ -29,7 +29,7 @@ namespace SmartDeviceProject1
         /// </summary>
         public Rectangle ScreenRect = new Rectangle(0, 0, 0, 0);
         
-        public WidgetWrapper(Point Size, Point Position, IWidget Widget)
+        public WidgetWrapper(Size Size, Point Position, IWidget Widget)
         {
             this.Size = Size;
             this.Position = Position;

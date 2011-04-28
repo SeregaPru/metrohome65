@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Drawing;
+using System.Text;
 using System.Windows.Forms;
 
 namespace SmartDeviceProject1
@@ -74,6 +74,8 @@ namespace SmartDeviceProject1
         private void Initialize()
         {
             DebugFill();
+
+            PaintBuffer();
         }
 
         /// <summary>
@@ -81,14 +83,14 @@ namespace SmartDeviceProject1
         /// and calc widget screen coordinates
         /// </summary>
         /// <param name="Widget"></param>
-        private WidgetWrapper AddWidget(Point Position, Point Size, IWidget Widget)
+        private WidgetWrapper AddWidget(Point Position, Size Size, IWidget Widget)
         {
             WidgetWrapper Wrapper = new WidgetWrapper(Size, Position, Widget);
 
             Wrapper.ScreenRect.X = Position.X * (CellWidth + CellSpacingHor) + CellSpacingHor;
             Wrapper.ScreenRect.Y = Position.Y * (CellHeight + CellSpacingVer) + CellSpacingVer;
-            Wrapper.ScreenRect.Width = Size.X * (CellWidth + CellSpacingHor) - CellSpacingHor;
-            Wrapper.ScreenRect.Height = Size.Y * (CellHeight + CellSpacingVer) - CellSpacingVer;
+            Wrapper.ScreenRect.Width = Size.Width * (CellWidth + CellSpacingHor) - CellSpacingHor;
+            Wrapper.ScreenRect.Height = Size.Height * (CellHeight + CellSpacingVer) - CellSpacingVer;
 
             Widgets.Add(Wrapper);
 
@@ -100,21 +102,33 @@ namespace SmartDeviceProject1
             return Wrapper;
         }
 
-        protected override void OnPaint(PaintEventArgs e)
+        private Bitmap DoubleBuffer = null;
+
+        private void PaintBuffer()
         {
+            DoubleBuffer = new Bitmap(this.Width, this.Height);
+            Graphics g = Graphics.FromImage(DoubleBuffer);
+
             // paing background
             Brush bgBrush = new System.Drawing.SolidBrush(System.Drawing.Color.Black);
-            e.Graphics.FillRectangle(bgBrush, 0, 0, this.Width, this.Height);
+            g.FillRectangle(bgBrush, 0, 0, this.Width, this.Height);
 
             // paint widgets
-            Rectangle WidgetRect;
-
             foreach (WidgetWrapper wsInfo in Widgets)
             {
-                WidgetRect = wsInfo.ScreenRect;
-                WidgetRect.Offset(0, this.TopOffset);
-                wsInfo.Paint(e.Graphics, WidgetRect);
+                wsInfo.Paint(g, wsInfo.ScreenRect);
             }
+        }
+
+        protected override void OnPaint(PaintEventArgs e)
+        {
+            e.Graphics.DrawImage(DoubleBuffer, 0, this.TopOffset);
+        }
+
+        protected override void OnResize(EventArgs e)
+        {
+            base.OnResize(e);
+            PaintBuffer();
         }
 
         private int TopOffset = 0;
@@ -134,8 +148,9 @@ namespace SmartDeviceProject1
         {
             foreach (WidgetWrapper wsInfo in Widgets)
             {
-                if (wsInfo.ScreenRect.Contains(Location))
-                    return wsInfo;
+                if (wsInfo.ScreenRect.Contains(
+                    new Point(Location.X, Location.Y + TopOffset)))
+                  return wsInfo;
             }
             return null;
         }
@@ -177,35 +192,35 @@ namespace SmartDeviceProject1
             PhoneWidget.IconPath = System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().GetName().CodeBase) +
               "\\icons\\phone.png";
             PhoneWidget.CommandLine = @"\Windows\TaskMgr.exe";
-            AddWidget(new Point(0, 0), new Point(2, 2), PhoneWidget);
+            AddWidget(new Point(0, 0), new Size(2, 2), PhoneWidget);
 
             ShortcutWidget SMSWidget = new ShortcutWidget();
             SMSWidget.Caption = "SMS";
             SMSWidget.IconPath = System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().GetName().CodeBase) +
               "\\icons\\mail.png";
             SMSWidget.CommandLine = "";
-            AddWidget(new Point(0, 2), new Point(2, 2), SMSWidget);
+            AddWidget(new Point(0, 2), new Size(2, 2), SMSWidget);
 
             ShortcutWidget PeopleWidget = new ShortcutWidget();
             PeopleWidget.Caption = "People";
             PeopleWidget.CommandLine = "";
-            AddWidget(new Point(2, 0), new Point(2, 2), PeopleWidget);
+            AddWidget(new Point(2, 0), new Size(2, 2), PeopleWidget);
 
             IconWidget AnalogClockWidget = new IconWidget();
-            AddWidget(new Point(2, 2), new Point(2, 2), AnalogClockWidget);
+            AddWidget(new Point(2, 2), new Size(2, 2), AnalogClockWidget);
 
             DigitalClockWidget ClockWidget = new DigitalClockWidget();
-            AddWidget(new Point(0, 4), new Point(4, 2), ClockWidget).
+            AddWidget(new Point(0, 4), new Size(4, 2), ClockWidget).
                 bgColor = Color.FromArgb(30, 30, 30);
 
             IconWidget BTWidget = new IconWidget();
-            AddWidget(new Point(0, 6), new Point(1, 1), BTWidget);
+            AddWidget(new Point(0, 6), new Size(1, 1), BTWidget);
 
             IconWidget WiFiWidget = new IconWidget();
-            AddWidget(new Point(0, 7), new Point(1, 1), WiFiWidget);
+            AddWidget(new Point(0, 7), new Size(1, 1), WiFiWidget);
 
             DigitalClockWidget ClockWidget2 = new DigitalClockWidget();
-            AddWidget(new Point(0, 8), new Point(4, 2), ClockWidget2).
+            AddWidget(new Point(0, 8), new Size(4, 2), ClockWidget2).
                 bgColor = Color.FromArgb(30, 30, 30);
         }
 

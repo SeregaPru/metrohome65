@@ -35,8 +35,9 @@ namespace SmartDeviceProject1
             this.PageControl = APageControl;
 
             this.PageControl.Location = new Point(0, 0);
-            this.PageControl.Width = Math.Max(this.PageControl.Width, this.Width);
-            this.PageControl.Height = Math.Max(this.PageControl.Height, this.Height);
+            this.PageControl.Size = new Size(
+                Math.Max(this.PageControl.Width, this.Width),
+                Math.Max(this.PageControl.Height, this.Height));
 
             this.Controls.Add(this.PageControl);
             this.PageControl.Resize += new EventHandler(PageControl_Resize);
@@ -55,6 +56,16 @@ namespace SmartDeviceProject1
             physics.ViewportSize = this.Size;
         }
 
+        private Point last;
+        private Point offset;
+
+        private void ScrollTo(Point Location)
+        {
+            this.PageControl.SetScrollPosition(Location);
+            //!! during animation
+            this.physics.Origin = this.PageControl.GetScrollPosition().Negate();
+        }
+
         private void gestureRecognizer1_Select(object sender, GestureEventArgs e)
         {
             this.PageControl.ClickAt(e.Location);            
@@ -71,8 +82,10 @@ namespace SmartDeviceProject1
             physics.Start(e.Angle, e.Velocity);
         }
 
-        private Point last;
-        private Point offset;
+        private void physics_AnimateFrame(object sender, PhysicsAnimationFrameEventArgs e)
+        {
+            ScrollTo(e.Location.Negate());
+        }
 
         private void gestureRecognizer_Pan(object sender, GestureEventArgs e)
         {
@@ -86,29 +99,9 @@ namespace SmartDeviceProject1
 
             Point delta = e.Location.Subtract(this.last);
             this.offset = this.offset.Subtract(delta);
-
-            this.PageControl.SetScrollPosition(this.offset.Negate());
-            this.physics.Origin = this.PageControl.GetScrollPosition().Negate();
-
             this.last = e.Location;
-        }
 
-        private void physics_AnimateFrame(object sender, PhysicsAnimationFrameEventArgs e)
-        {
-//            this.PageControl.SetScrollPosition(new Point(
-//                - e.Location.X - this.offset.X,
-//                - e.Location.Y - this.offset.Y));
-
-/*            Point delta = e.Location.Subtract(this.last);
-            this.offset = this.offset.Subtract(delta);
-
-            this.PageControl.SetScrollPosition(this.offset.Negate());
-
-            this.last = e.Location;
- */
-            this.PageControl.SetScrollPosition(e.Location.Negate());
-            //!! during animation
-            this.physics.Origin = this.PageControl.GetScrollPosition().Negate();
+            ScrollTo(this.offset.Negate());
         }
 
         private void gestureRecognizer_Begin(object sender, GestureEventArgs e)
@@ -122,7 +115,6 @@ namespace SmartDeviceProject1
             {
                 this.physics.Angle = 0;
                 this.physics.Velocity = 0;
-                //this.physics.Origin = this.offset.Negate();
                 this.physics.Start();
             }
         }

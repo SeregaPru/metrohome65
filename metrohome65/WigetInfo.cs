@@ -12,7 +12,7 @@ namespace SmartDeviceProject1
         /// widget possible sizes, in cells
         /// 1x1 1x2 2x2 etc. .. 4x4 is max
         /// </summary>
-        Point[] Sizes { get; }
+        Size[] Sizes { get; }
 
         /// <summary>
         /// Widget transparency.
@@ -41,8 +41,8 @@ namespace SmartDeviceProject1
 
     public class BaseWidget : IWidget
     {
-        protected virtual Point[] GetSizes() { return null; }
-        public Point[] Sizes { get { return GetSizes(); } }
+        protected virtual Size[] GetSizes() { return null; }
+        public Size[] Sizes { get { return GetSizes(); } }
 
         protected virtual Boolean GetTransparent() { return false; }
         public Boolean Transparent { get { return GetTransparent(); } }
@@ -95,7 +95,7 @@ namespace SmartDeviceProject1
             base.Paint(g, Rect);
 
             // draw icon
-            if (IconPath != "")
+            if (IconPath != "") 
             {
                 Bitmap MyBitmap = new Bitmap(IconPath);
                 ImageAttributes attrib = new ImageAttributes();
