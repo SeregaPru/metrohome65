@@ -2,60 +2,50 @@
 using System.Text;
 using System.Drawing;
 using System.Windows.Forms;
-using System.Drawing.Imaging;
+using OpenNETCF.Drawing;
+using System.Collections.Generic;
+using System.ComponentModel;
+
 
 namespace SmartDeviceProject1
 {
-    public interface IWidget
-    {
-        /// <summary>
-        /// widget possible sizes, in cells
-        /// 1x1 1x2 2x2 etc. .. 4x4 is max
-        /// </summary>
-        Size[] Sizes { get; }
-
-        /// <summary>
-        /// Widget transparency.
-        /// Transparent widget draws itself over grid background.
-        /// Not transparent widget should draw the whole area.
-        /// </summary>
-        Boolean Transparent { get; }
-
-        /// <summary>
-        /// Handler for click event
-        /// </summary>
-        /// <param name="Location">
-        ///   Coordinates of click event, 
-        ///   relative to widget's left upper corner
-        /// </param>
-        void OnClick(Point Location);
-
-        /// <summary>
-        /// paint widget internal area.
-        /// </summary>
-        /// <param name="g">Graphics context</param>
-        /// <param name="rect">Drawing area</param>
-        void Paint(Graphics g, Rectangle Rect);
-    }
-
 
     public class BaseWidget : IWidget
     {
+        private EventHandlerList _Events = new EventHandlerList();
+        private static readonly object _EventWidgetUpdate = new object();
+
         protected virtual Size[] GetSizes() { return null; }
         public Size[] Sizes { get { return GetSizes(); } }
 
         protected virtual Boolean GetTransparent() { return false; }
         public Boolean Transparent { get { return GetTransparent(); } }
 
-        public virtual void Paint(Graphics g, Rectangle Rect)
-        {
-            //
-        }
+        public virtual void Paint(Graphics g, Rectangle Rect) { }
 
         public virtual void OnClick(Point Location)
         {
             MessageBox.Show(String.Format("click at widget at {0}:{1}", 
                 Location.X, Location.Y));
+        }
+
+        /// <summary>
+        /// Event raised when Widget needs to be updated (repainted)
+        /// </summary>
+        public event WidgetUpdateEventHandler WidgetUpdate
+        {
+            add { _Events.AddHandler(_EventWidgetUpdate, value); }
+            remove { _Events.RemoveHandler(_EventWidgetUpdate, value); }       
+        }
+
+        protected void OnWidgetUpdate()
+        {
+            var handler = _Events[_EventWidgetUpdate] as WidgetUpdateEventHandler;
+            if (handler != null)
+            {
+                WidgetUpdateEventArgs e = new WidgetUpdateEventArgs(this);
+                handler(this, e);
+            }
         }
     }
 
@@ -73,17 +63,61 @@ namespace SmartDeviceProject1
     /// Class for transparent widget with icon and caption.
     /// </summary>
     public class IconWidget : TransparentWidget
-    {        
-        /// <summary>
-        /// relative or absolute path to icon file.
-        /// icon format must be transparent PNG
-        /// </summary>
-        public String IconPath = "";
+    {
+        //Эти переменные понядобятся для загрузки изображений при запуске приложения.
+        private OpenNETCF.Drawing.Imaging.ImagingFactoryClass _factory = new OpenNETCF.Drawing.Imaging.ImagingFactoryClass();
+        private OpenNETCF.Drawing.Imaging.IImage _img = null;
 
         /// <summary>
         /// user defined caption for widget
         /// </summary>
         public String Caption = "";
+
+        private String _IconPath = "";
+        
+        /// <summary>
+        /// relative or absolute path to icon file.
+        /// icon format must be transparent PNG
+        /// </summary>
+        public String IconPath { 
+            get { return _IconPath; } 
+            set { 
+                _IconPath = value;
+                try
+                {
+                    if (_IconPath != "")
+                        _factory.CreateImageFromFile(_IconPath, out _img);
+                } catch {
+                }
+            }
+        }
+
+        protected void PaintIcon(Graphics g, Rectangle Rect)
+        {
+            // draw icon
+            if (_img != null)
+            {
+                try
+                {
+                    IntPtr hdc = g.GetHdc();
+                    OpenNETCF.Drawing.Imaging.RECT ImgRect = OpenNETCF.Drawing.Imaging.RECT.FromXYWH(Rect.Left + 45, Rect.Top + 45, 92, 90);
+                    _img.Draw(hdc, ImgRect, null);
+                }
+                catch { }
+            }
+        }
+
+        protected void PaintCaption(Graphics g, Rectangle Rect)
+        {
+            // draw caption
+            if (Caption != "")
+            {
+                Font captionFont = new System.Drawing.Font("Helvetica", 10, FontStyle.Regular);
+                Brush captionBrush = new System.Drawing.SolidBrush(System.Drawing.Color.White);
+                g.DrawString(Caption, captionFont, captionBrush,
+                    Rect.Left + 10, Rect.Bottom - 5 - g.MeasureString(Caption, captionFont).Height);
+            }
+        }
 
         /// <summary>
         /// Paints icon and caption over standart backround (user defined button)
@@ -93,31 +127,8 @@ namespace SmartDeviceProject1
         public override void Paint(Graphics g, Rectangle Rect)
         {
             base.Paint(g, Rect);
-
-            // draw icon
-            if (IconPath != "") 
-            {
-                Bitmap MyBitmap = new Bitmap(IconPath);
-                ImageAttributes attrib = new ImageAttributes();
-                Color color = MyBitmap.GetPixel(0, 0);
-                attrib.SetColorKey(color, color);
-
-                Rectangle rectIconBox = new Rectangle(Rect.Left, Rect.Top, Rect.Width, Rect.Height);
-                rectIconBox.Inflate(-20, -20);
-
-                g.DrawImage(MyBitmap, rectIconBox,
-                    0, 0, MyBitmap.Width, MyBitmap.Height, GraphicsUnit.Pixel, attrib);
-                //!! потом сделать масштабирование из произвольного размера
-            }
-            
-            // draw caption
-            if (Caption != "")
-            {
-                Font captionFont = new System.Drawing.Font("Helvetica", 9, FontStyle.Regular);
-                Brush captionBrush = new System.Drawing.SolidBrush(System.Drawing.Color.White);
-                g.DrawString(Caption, captionFont, captionBrush, 
-                    Rect.Left + 10, Rect.Bottom - 5 - g.MeasureString(Caption, captionFont).Height);
-            }
+            PaintIcon(g, Rect);
+            PaintCaption(g, Rect);
         }
 
         public override void OnClick(Point Location)
@@ -142,9 +153,8 @@ namespace SmartDeviceProject1
 
         public override void OnClick(Point Location)
         {
-            if (CommandLine != "") {
+            if (CommandLine != "") 
               StartProcess(CommandLine);
-            }
         }
 
         private static void StartProcess(string FileName)
@@ -152,10 +162,8 @@ namespace SmartDeviceProject1
             try
             {
                 System.Diagnostics.Process myProcess = new System.Diagnostics.Process();                
-                
                 myProcess.StartInfo.UseShellExecute = true;
                 myProcess.StartInfo.FileName = FileName;
-
                 myProcess.Start();
             }
             catch (Exception ex)
@@ -166,30 +174,62 @@ namespace SmartDeviceProject1
 
     }
 
-
-
-    public class DigitalClockWidget : TransparentWidget
+    
+    public class DigitalClockWidget : TransparentWidget, IWidgetUpdatable
     {
+        private Brush _brushCaption;
+        private Font _fntTime;
+        private Font _fntDate;
+        private System.Windows.Forms.Timer _Timer;
+        private Boolean _ShowPoints = true;
+
+        public DigitalClockWidget() : base()
+        {
+            _brushCaption = new System.Drawing.SolidBrush(System.Drawing.Color.White);
+            _fntTime = new System.Drawing.Font("Verdana", 36, FontStyle.Regular);
+            _fntDate = new System.Drawing.Font("Helvetica", 12, FontStyle.Regular);
+        }
+
         public override void Paint(Graphics g, Rectangle Rect)
         {
             base.Paint(g, Rect);
 
-            Brush brushCaption = new System.Drawing.SolidBrush(System.Drawing.Color.White);
-            String sTime = DateTime.Now.ToString("hh:mm");
+            String sTime = DateTime.Now.ToString("hh" + (_ShowPoints ? ":" : " ") + "mm");
             String sDate = DateTime.Now.DayOfWeek.ToString() + ", " + DateTime.Now.ToString("MMMM") + " " + DateTime.Now.Day.ToString();
 
-            Font fntTime = new System.Drawing.Font("Verdana", 36, FontStyle.Regular);
-            SizeF TimeBox = g.MeasureString(sTime, fntTime);
-            Font fntDate = new System.Drawing.Font("Helvetica", 12, FontStyle.Regular);
-            SizeF DateBox = g.MeasureString(sDate, fntDate);
+            SizeF TimeBox = g.MeasureString(sTime, _fntTime);
+            SizeF DateBox = g.MeasureString(sDate, _fntDate);
 
-            g.DrawString(sTime, fntTime, brushCaption,
+            g.DrawString(sTime, _fntTime, _brushCaption,
                 Rect.Left + (Rect.Width - TimeBox.Width) / 2, 
                 Rect.Top + (Rect.Height - TimeBox.Height - DateBox.Height) / 2);
 
-            g.DrawString(sDate, fntDate, brushCaption,
+            g.DrawString(sDate, _fntDate, _brushCaption,
                 Rect.Left + (Rect.Width - DateBox.Width) / 2,
                 Rect.Bottom - (Rect.Height - TimeBox.Height - DateBox.Height) / 2 - DateBox.Height);
         }
+
+        public void StartUpdate()
+        {
+            if (_Timer == null)
+            {
+                _Timer = new System.Windows.Forms.Timer();
+                _Timer.Tick += new EventHandler(OnTimer);
+            }
+            _Timer.Interval = 1000;
+            _Timer.Enabled = true;
+        }
+
+        public void StopUpdate()
+        {
+            _Timer.Enabled = false;
+        }
+
+        private void OnTimer(object sender, EventArgs e)
+        {
+            _ShowPoints = !_ShowPoints;
+            OnWidgetUpdate();
+        }
+
     }
 }

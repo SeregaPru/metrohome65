@@ -18,8 +18,23 @@ namespace SmartDeviceProject1
         public MainForm()
         {
             InitializeComponent();
+        }
 
+        private void MainForm_Load(object sender, EventArgs e)
+        {
             SetPageControl(new WidgetGrid());
+        }
+
+        private void MainForm_Activated(object sender, EventArgs e)
+        {
+            if (this.PageControl != null)
+                this.PageControl.Active = true;
+        }
+
+        private void MainForm_Deactivate(object sender, EventArgs e)
+        {
+            if (this.PageControl != null)
+                this.PageControl.Active = false;
         }
 
         private void SetPageControl(PageControl APageControl)
@@ -62,8 +77,8 @@ namespace SmartDeviceProject1
         private void ScrollTo(Point Location)
         {
             this.PageControl.SetScrollPosition(Location);
-            //!! during animation
-            this.physics.Origin = this.PageControl.GetScrollPosition().Negate();
+            if (! this.physics.IsAnimating)
+                this.physics.Origin = this.PageControl.GetScrollPosition().Negate();
         }
 
         private void gestureRecognizer1_Select(object sender, GestureEventArgs e)

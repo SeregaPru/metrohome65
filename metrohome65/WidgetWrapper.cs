@@ -1,14 +1,24 @@
 ﻿using System;
 using System.Text;
 using System.Drawing;
+using System.Xml.Serialization;
 
 namespace SmartDeviceProject1
 {
+  
     /// <summary>
     /// Container for widget, middle layer between widget grid and widget plugin.
     /// </summary>
-    class WidgetWrapper
+    public class WidgetWrapper
     {
+        public static int CellWidth = 92;
+
+        public static int CellHeight = 90;
+
+        public static int CellSpacingVer = 9;
+
+        public static int CellSpacingHor = 9;
+
         /// <summary>
         /// Widget position in grid
         /// </summary>
@@ -22,11 +32,12 @@ namespace SmartDeviceProject1
         ///!! todo - button style, color
         public Color bgColor = System.Drawing.Color.Blue;
         
-        private IWidget Widget = null;
+        public IWidget Widget = null;
 
         /// <summary>
         /// Widget absolute position on screen and size (in pixels) 
         /// </summary>
+        [XmlIgnore]
         public Rectangle ScreenRect = new Rectangle(0, 0, 0, 0);
         
         public WidgetWrapper(Size Size, Point Position, IWidget Widget)
@@ -34,6 +45,12 @@ namespace SmartDeviceProject1
             this.Size = Size;
             this.Position = Position;
             this.Widget = Widget;
+
+            ScreenRect.X = Position.X * (CellWidth + CellSpacingHor) + CellSpacingHor;
+            ScreenRect.Y = Position.Y * (CellHeight + CellSpacingVer) + CellSpacingVer;
+            ScreenRect.Width = Size.Width * (CellWidth + CellSpacingHor) - CellSpacingHor;
+            ScreenRect.Height = Size.Height * (CellHeight + CellSpacingVer) - CellSpacingVer;
+
         }
 
         public void Paint(Graphics g, Rectangle Rect)
