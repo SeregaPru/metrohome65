@@ -4,8 +4,8 @@ using System.Drawing;
 using System.Windows.Forms;
 using OpenNETCF.Drawing;
 using System.Collections.Generic;
+using System.Collections;
 using System.ComponentModel;
-
 
 namespace SmartDeviceProject1
 {
@@ -18,9 +18,12 @@ namespace SmartDeviceProject1
         protected virtual Size[] GetSizes() { return null; }
         public Size[] Sizes { get { return GetSizes(); } }
 
+        protected virtual String[] GetMenuItems() { return null; } 
+        public String[] MenuItems { get { return GetMenuItems(); } }
+        
         protected virtual Boolean GetTransparent() { return false; }
         public Boolean Transparent { get { return GetTransparent(); } }
-
+        
         public virtual void Paint(Graphics g, Rectangle Rect) { }
 
         public virtual void OnClick(Point Location)
@@ -28,6 +31,8 @@ namespace SmartDeviceProject1
             MessageBox.Show(String.Format("click at widget at {0}:{1}", 
                 Location.X, Location.Y));
         }
+
+        public virtual void MenuItemClick(String ItemName) { }
 
         /// <summary>
         /// Event raised when Widget needs to be updated (repainted)
@@ -71,26 +76,31 @@ namespace SmartDeviceProject1
         /// <summary>
         /// user defined caption for widget
         /// </summary>
-        public String Caption = "";
-
-        private String _IconPath = "";
-        
+        [WidgetParameter]
+        public String Caption { get { return _Caption; } set { _Caption = value; } }
+        private String _Caption = "";
+       
         /// <summary>
         /// relative or absolute path to icon file.
         /// icon format must be transparent PNG
         /// </summary>
-        public String IconPath { 
-            get { return _IconPath; } 
-            set { 
-                _IconPath = value;
+        [WidgetParameter]
+        public String IconPath {
+            get { return _IconPath; }
+            set {
                 try
                 {
+                    _IconPath = value;
                     if (_IconPath != "")
-                        _factory.CreateImageFromFile(_IconPath, out _img);
-                } catch {
+                        _factory.CreateImageFromFile(value, out _img);
+                }
+                catch (Exception e)
+                {
+                    MessageBox.Show(e.StackTrace, "SetIconPath");
                 }
             }
         }
+        private String _IconPath = "";
 
         protected void PaintIcon(Graphics g, Rectangle Rect)
         {
@@ -99,11 +109,18 @@ namespace SmartDeviceProject1
             {
                 try
                 {
+                    Size IconSize = new Size(92, 90);
+
                     IntPtr hdc = g.GetHdc();
-                    OpenNETCF.Drawing.Imaging.RECT ImgRect = OpenNETCF.Drawing.Imaging.RECT.FromXYWH(Rect.Left + 45, Rect.Top + 45, 92, 90);
+                    OpenNETCF.Drawing.Imaging.RECT ImgRect = OpenNETCF.Drawing.Imaging.RECT.FromXYWH(
+                        (Rect.Left + Rect.Right - IconSize.Width) / 2, 
+                        (Rect.Top + Rect.Bottom - IconSize.Height) / 2, IconSize.Width, IconSize.Height);
                     _img.Draw(hdc, ImgRect, null);
+                    g.ReleaseHdc(hdc);
                 }
-                catch { }
+                catch (Exception e) {
+                    MessageBox.Show(e.StackTrace, "PaintIcon");
+                }
             }
         }
 
@@ -112,7 +129,7 @@ namespace SmartDeviceProject1
             // draw caption
             if (Caption != "")
             {
-                Font captionFont = new System.Drawing.Font("Helvetica", 10, FontStyle.Regular);
+                Font captionFont = new System.Drawing.Font("Helvetica", 9, FontStyle.Regular);
                 Brush captionBrush = new System.Drawing.SolidBrush(System.Drawing.Color.White);
                 g.DrawString(Caption, captionFont, captionBrush,
                     Rect.Left + 10, Rect.Bottom - 5 - g.MeasureString(Caption, captionFont).Height);
@@ -147,9 +164,14 @@ namespace SmartDeviceProject1
     public class ShortcutWidget : IconWidget
     {
         /// <summary>
-        /// relative or absolute path to application with parameters.
+        /// parameter "CommandLine" - relative or absolute path to application with parameters.
         /// </summary>
-        public String CommandLine = "";
+        [WidgetParameter]
+        public String CommandLine { 
+            get { return _CommandLine; } 
+            set { _CommandLine = value; } 
+        }
+        private String _CommandLine = "";
 
         public override void OnClick(Point Location)
         {
@@ -171,7 +193,6 @@ namespace SmartDeviceProject1
                 MessageBox.Show(ex.Message);
             }
         }
-
     }
 
     
@@ -216,13 +237,14 @@ namespace SmartDeviceProject1
                 _Timer = new System.Windows.Forms.Timer();
                 _Timer.Tick += new EventHandler(OnTimer);
             }
-            _Timer.Interval = 1000;
+            _Timer.Interval = 2000;
             _Timer.Enabled = true;
         }
 
         public void StopUpdate()
         {
-            _Timer.Enabled = false;
+            if (_Timer != null)
+                _Timer.Enabled = false;
         }
 
         private void OnTimer(object sender, EventArgs e)
@@ -232,4 +254,50 @@ namespace SmartDeviceProject1
         }
 
     }
+
+
+    public class ContactWidget : BaseWidget
+    {
+        protected override String[] GetMenuItems() 
+        { 
+            String[] Items = { "Call", "Send SMS" };
+            return Items; 
+        }
+        
+        public override void MenuItemClick(String ItemName) 
+        {
+            MessageBox.Show(ItemName);
+        }
+
+        public override void Paint(Graphics g, Rectangle Rect)
+        {
+            Brush bgBrush = new System.Drawing.SolidBrush(Color.Red);
+            g.FillRectangle(bgBrush, Rect.Left, Rect.Top, Rect.Width, Rect.Height);
+        }
+    }
+
+
+    public class PhoneWidget : ShortcutWidget
+    {
+        public override void Paint(Graphics g, Rectangle Rect)
+        {
+            PaintIcon(g, new Rectangle(Rect.Left - 15, Rect.Top, Rect.Width, Rect.Height));
+            PaintCaption(g, Rect);
+            PaintCalls(g, Rect);
+        }
+
+        private void PaintCalls(Graphics g, Rectangle Rect)
+        {
+            // draw missing calls
+            String MissingCalls = "0";
+
+            Font captionFont = new System.Drawing.Font("Helvetica", 22, FontStyle.Regular);
+            Brush captionBrush = new System.Drawing.SolidBrush(System.Drawing.Color.White);
+            g.DrawString(MissingCalls, captionFont, captionBrush,
+                Rect.Right - g.MeasureString(MissingCalls, captionFont).Width - 20, 
+                (Rect.Bottom + Rect.Top - g.MeasureString(MissingCalls, captionFont).Height) / 2 - 2);
+        }
+
+    }
+
 }

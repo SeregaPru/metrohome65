@@ -25,8 +25,20 @@ namespace SmartDeviceProject1
             SetPageControl(new WidgetGrid());
         }
 
+        /// <summary>
+        /// When app activated, switch on widgets update,
+        /// and bring focus to current control
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void MainForm_Activated(object sender, EventArgs e)
         {
+            this.BringToFront();
+            this.Focus();
+
+            this.PageControl.BringToFront();
+            this.PageControl.Focus();
+
             if (this.PageControl != null)
                 this.PageControl.Active = true;
         }

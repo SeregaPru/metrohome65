@@ -25,13 +25,14 @@ namespace SmartDeviceProject1
         private Bitmap _DoubleBuffer = null;
         private Graphics _graphics = null;
         private int TopOffset = 0;
+        private List<String> plugins = new List<String>();
 
         public WidgetGrid() : base()
         {
             this.ForeColor = Color.Black;
             this.BackColor = Color.Black;
 
-            CreatePopupMenu();
+            _mnuWidgetActions = new ContextMenu();
 
             Widgets = new List<WidgetWrapper>();
 
@@ -46,33 +47,44 @@ namespace SmartDeviceProject1
         {
             // start updatable widgets
             foreach (WidgetWrapper wsInfo in Widgets)
-                if (wsInfo.Widget is IWidgetUpdatable)
-                {
-                    if (Active)
-                        (wsInfo.Widget as IWidgetUpdatable).StartUpdate();
-                    else
-                        (wsInfo.Widget as IWidgetUpdatable).StopUpdate();
-                }
+                wsInfo.Active = Active;
         }
 
-        private void CreatePopupMenu()
+        private void FillPopupMenu(IWidget Widget)
         {
-            _mnuWidgetActions = new ContextMenu();
+            _mnuWidgetActions.MenuItems.Clear();
 
+            // fill menu with widget customn actions
+            if (Widget.MenuItems != null)
+            {
+                foreach (String Item in Widget.MenuItems)
+                {
+                    MenuItem CustomItem = new System.Windows.Forms.MenuItem();
+                    CustomItem.Text = Item;
+                    CustomItem.Click += OnCustomMenuClick;
+                    _mnuWidgetActions.MenuItems.Add(CustomItem);
+                }
+
+                // add separator
+                MenuItem Separator = new System.Windows.Forms.MenuItem();
+                Separator.Text = "-";
+                _mnuWidgetActions.MenuItems.Add(Separator);
+            }
+
+            // fill menu with standart actions
             MenuItem menuSettings = new System.Windows.Forms.MenuItem();
             menuSettings.Text = "Setings";
             menuSettings.Click += ShowWidgetSettings;
+            _mnuWidgetActions.MenuItems.Add(menuSettings);
 
             MenuItem menuMove = new System.Windows.Forms.MenuItem();
             menuMove.Text = "Move";
             menuMove.Click += MoveWidget;
+            _mnuWidgetActions.MenuItems.Add(menuMove);
 
             MenuItem menuDelete = new System.Windows.Forms.MenuItem();
             menuDelete.Text = "Delete";
             menuDelete.Click += DeleteWidget;
-
-            _mnuWidgetActions.MenuItems.Add(menuSettings);
-            _mnuWidgetActions.MenuItems.Add(menuMove);
             _mnuWidgetActions.MenuItems.Add(menuDelete);
         }
 
@@ -80,7 +92,10 @@ namespace SmartDeviceProject1
         {
             _mnuWidgetSender = GetWidgetAtPos(Location);
             if (_mnuWidgetSender != null)
+            {
+                FillPopupMenu(_mnuWidgetSender.Widget);
                 _mnuWidgetActions.Show(this, Location);
+            }
         }
 
         /// <summary>
@@ -128,7 +143,7 @@ namespace SmartDeviceProject1
             int Height = 0;
             foreach (WidgetWrapper wsInfo in Widgets)
                 Height = Math.Max(Height, wsInfo.ScreenRect.Bottom);
-            this.Height = Height + 50;
+            this.Height = Height + WidgetWrapper.PaddingVer;
 
             WriteSettings();
         }
@@ -147,9 +162,11 @@ namespace SmartDeviceProject1
                 writer.Close();
             }
             catch
-            { 
+            {
+                MessageBox.Show("error in WriteSettings");
             }
         }
+
 
         /// <summary>
         /// Read widgets settings from XML file
@@ -177,6 +194,7 @@ namespace SmartDeviceProject1
             RealignWidgets();
         }
 
+        
         private void PaintBuffer()
         {
             // paing background
@@ -185,16 +203,16 @@ namespace SmartDeviceProject1
 
             // paint widgets
             foreach (WidgetWrapper wsInfo in Widgets)
-            {
                 wsInfo.Paint(_graphics, wsInfo.ScreenRect);
-            }
         }
+
 
         protected override void OnPaint(PaintEventArgs e)
         {
             e.Graphics.DrawImage(_DoubleBuffer, 0, this.TopOffset);
         }
 
+        
         protected override void OnResize(EventArgs e)
         {
             base.OnResize(e);
@@ -205,27 +223,31 @@ namespace SmartDeviceProject1
             PaintBuffer();
         }
 
+        
         public override void SetScrollPosition(Point Location) 
         {
             this.TopOffset = Location.Y;
             Invalidate();
         }
 
+        
         public override Point GetScrollPosition() 
         { 
             return new Point(0, TopOffset); 
         }
 
+        
         private WidgetWrapper GetWidgetAtPos(Point Location)
         {
             foreach (WidgetWrapper wsInfo in Widgets)
             {
                 if (wsInfo.ScreenRect.Contains(
-                    new Point(Location.X, Location.Y + TopOffset)))
+                    new Point(Location.X, Location.Y - TopOffset)))
                   return wsInfo;
             }
             return null;
         }
+
 
         /// <summary>
         /// Handle click event.
@@ -239,6 +261,7 @@ namespace SmartDeviceProject1
             if (TargetWidget != null)
                 TargetWidget.OnClick(new Point(Location.X - TargetWidget.ScreenRect.Left, Location.Y - TargetWidget.ScreenRect.Top));
         }
+
 
         private void ShowWidgetSettings(object sender, EventArgs e)
         {
@@ -255,44 +278,60 @@ namespace SmartDeviceProject1
             MessageBox.Show("move");
         }
 
+        private void OnCustomMenuClick(object sender, EventArgs e)
+        {
+            if (sender is MenuItem)
+                MessageBox.Show((sender as MenuItem).Text);
+        }
+
+
         // fill grid with debug values
         private void DebugFill()
         {
-            ShortcutWidget PhoneWidget = new ShortcutWidget();
-            PhoneWidget.Caption = "Phone";
-            PhoneWidget.IconPath = System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().GetName().CodeBase) +
-              "\\icons\\Phone.png";
-            PhoneWidget.CommandLine = @"\Windows\TaskMgr.exe";
-            AddWidget(new Point(0, 0), new Size(2, 2), PhoneWidget);
+            plugins.Add("ShortcutWidget");
+            plugins.Add("IconWidget");
+            plugins.Add("DigitalClockWidget");
+            plugins.Add("ContactWidget");
+
+            String CoreDir = System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().GetName().CodeBase);
+
+            PhoneWidget PhoneWidget = new PhoneWidget();
+            AddWidget(new Point(0, 2), new Size(2, 2), PhoneWidget).
+                SetParameter("Caption", "Phone").
+                SetParameter("IconPath", CoreDir + "\\icons\\phone.png").
+                SetParameter("CommandLine", @"\Windows\TaskMgr.exe").
+                SetButtonImage(CoreDir + "\\buttons\\button light gray.png");
 
             ShortcutWidget SMSWidget = new ShortcutWidget();
-            SMSWidget.Caption = "SMS";
-            SMSWidget.IconPath = System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().GetName().CodeBase) +
-              "\\icons\\mail.png";
-            SMSWidget.CommandLine = "";
-            AddWidget(new Point(0, 2), new Size(2, 2), SMSWidget);
+            AddWidget(new Point(0, 0), new Size(2, 2), SMSWidget).
+                SetParameter("Caption", "SMS").
+                SetParameter("IconPath", CoreDir + "\\icons\\mail.png").
+                SetParameter("CommandLine", @"\Windows\fexplore.exe").
+                SetColor(Color.Orange);
 
             ShortcutWidget PeopleWidget = new ShortcutWidget();
-            PeopleWidget.Caption = "People";
-            PeopleWidget.CommandLine = "";
-            AddWidget(new Point(2, 0), new Size(2, 2), PeopleWidget);
+            AddWidget(new Point(2, 0), new Size(2, 2), PeopleWidget).
+                SetParameter("IconPath", CoreDir + "\\icons\\people.png").
+                SetButtonImage(CoreDir + "\\buttons\\button gray.png").
+                SetParameter("Caption", "People");
 
             IconWidget AnalogClockWidget = new IconWidget();
-            AddWidget(new Point(2, 2), new Size(2, 2), AnalogClockWidget);
+            AddWidget(new Point(2, 2), new Size(2, 2), AnalogClockWidget).
+                SetButtonImage(CoreDir + "\\buttons\\button blue.png");
 
             DigitalClockWidget ClockWidget = new DigitalClockWidget();
             AddWidget(new Point(0, 4), new Size(4, 2), ClockWidget).
-                bgColor = Color.FromArgb(30, 30, 30);
+                SetColor(Color.FromArgb(30, 30, 30));
 
             IconWidget BTWidget = new IconWidget();
-            AddWidget(new Point(0, 6), new Size(1, 1), BTWidget);
+            AddWidget(new Point(0, 6), new Size(1, 1), BTWidget).
+                SetButtonImage(CoreDir + "\\buttons\\button light gray.png");
 
             IconWidget WiFiWidget = new IconWidget();
             AddWidget(new Point(0, 7), new Size(1, 1), WiFiWidget);
 
-            DigitalClockWidget ClockWidget2 = new DigitalClockWidget();
-            AddWidget(new Point(0, 8), new Size(4, 2), ClockWidget2).
-                bgColor = Color.FromArgb(30, 30, 30);
+            ContactWidget ContactWidget = new ContactWidget();
+            AddWidget(new Point(0, 8), new Size(2, 2), ContactWidget);
         }
 
     }

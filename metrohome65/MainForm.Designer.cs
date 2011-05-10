@@ -30,7 +30,6 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
             this.gestureRecognizer = new Microsoft.WindowsMobile.Gestures.GestureRecognizer();
-            this.mainMenu1 = new System.Windows.Forms.MainMenu();
             this.physics = new Microsoft.WindowsMobile.Gestures.PhysicsEngine();
             this.SuspendLayout();
             // 
@@ -51,13 +50,14 @@
             // 
             // MainForm
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(96F, 96F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(192F, 192F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
             this.BackColor = System.Drawing.Color.Black;
             resources.ApplyResources(this, "$this");
+            this.ControlBox = false;
             this.ForeColor = System.Drawing.Color.Black;
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
-            this.Menu = this.mainMenu1;
+            this.KeyPreview = true;
             this.MinimizeBox = false;
             this.Name = "MainForm";
             this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
@@ -70,7 +70,6 @@
 
         #endregion
 
-        private System.Windows.Forms.MainMenu mainMenu1;
         private Microsoft.WindowsMobile.Gestures.GestureRecognizer gestureRecognizer;
         private Microsoft.WindowsMobile.Gestures.PhysicsEngine physics;
 
