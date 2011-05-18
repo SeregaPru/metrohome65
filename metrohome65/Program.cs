@@ -3,7 +3,7 @@ using System.Linq;
 using System.Collections.Generic;
 using System.Windows.Forms;
 
-namespace SmartDeviceProject1
+namespace MetroHome65
 {
     static class Program
     {
@@ -13,7 +13,7 @@ namespace SmartDeviceProject1
         [MTAThread]
         static void Main()
         {
-            Application.Run(new MainForm());
+            Application.Run(new MetroHome65.Main.MainForm());
         }
     }
 }

@@ -1,28 +1,28 @@
 ﻿using System;
-using System.Linq;
-using System.Collections.Generic;
 using System.ComponentModel;
-using System.Data;
 using System.Drawing;
-using System.Text;
 using System.Windows.Forms;
 using Microsoft.WindowsMobile.Gestures;
+using MetroHome65.Pages;
 
-namespace SmartDeviceProject1
+namespace MetroHome65.Main
 {
       public partial class MainForm : Form
       {
 
-        private PageControl PageControl = null;
+        private IPageControl PageControl = null;
 
         public MainForm()
         {
             InitializeComponent();
+
+            this.Height = System.Windows.Forms.Screen.PrimaryScreen.Bounds.Height - this.Top;
+            this.Width = System.Windows.Forms.Screen.PrimaryScreen.Bounds.Width;
         }
 
         private void MainForm_Load(object sender, EventArgs e)
         {
-            SetPageControl(new WidgetGrid());
+            SetPageControl(new MetroHome65.Pages.WidgetGrid());
         }
 
         /// <summary>
@@ -33,43 +33,43 @@ namespace SmartDeviceProject1
         /// <param name="e"></param>
         private void MainForm_Activated(object sender, EventArgs e)
         {
-            this.BringToFront();
-            this.Focus();
-
-            this.PageControl.BringToFront();
-            this.PageControl.Focus();
-
             if (this.PageControl != null)
+            {
                 this.PageControl.Active = true;
+                gestureRecognizer.TargetControl = this.PageControl.GetControl();
+            }
         }
 
         private void MainForm_Deactivate(object sender, EventArgs e)
         {
+            gestureRecognizer.TargetControl = null;
+
             if (this.PageControl != null)
                 this.PageControl.Active = false;
         }
 
-        private void SetPageControl(PageControl APageControl)
+        private void SetPageControl(IPageControl APageControl)
         {
             // unlink previous control
             if (this.PageControl != null)
             {
                 gestureRecognizer.TargetControl = null;
-                this.PageControl.Resize += null;
-                this.Controls.Remove(this.PageControl);
+                this.PageControl.GetControl().Resize += null;
+                this.Controls.Remove(this.PageControl.GetControl());
             }
 
             this.PageControl = APageControl;
 
-            this.PageControl.Location = new Point(0, 0);
-            this.PageControl.Size = new Size(
-                Math.Max(this.PageControl.Width, this.Width),
-                Math.Max(this.PageControl.Height, this.Height));
+            this.PageControl.SetBackColor(this.BackColor);
+            this.PageControl.GetControl().Location = new Point(0, 0);
+            this.PageControl.GetControl().Size = new Size(this.Width, this.Height);
 
-            this.Controls.Add(this.PageControl);
-            this.PageControl.Resize += new EventHandler(PageControl_Resize);
-            gestureRecognizer.TargetControl = this.PageControl;
+            this.Controls.Add(this.PageControl.GetControl());
+            this.PageControl.GetControl().Resize += new EventHandler(PageControl_Resize);
+            gestureRecognizer.TargetControl = this.PageControl.GetControl();
             UpdateScrollSize();
+
+            this.PageControl.Active = true;
         }
 
         void PageControl_Resize(object sender, EventArgs e)
@@ -79,8 +79,8 @@ namespace SmartDeviceProject1
 
         private void UpdateScrollSize()
         {
-            physics.Extent = PageControl.Size;
-            physics.ViewportSize = this.Size;
+            physics.Extent = PageControl.GetExtentSize();
+            physics.ViewportSize = PageControl.GetViewportSize();
         }
 
         private Point last;
@@ -98,9 +98,22 @@ namespace SmartDeviceProject1
             this.PageControl.ClickAt(e.Location);            
         }
 
+        private void gestureRecognizer_DoubleSelect(object sender, GestureEventArgs e)
+        {
+            this.PageControl.DblClickAt(e.Location);            
+        }
+
+        /// <summary>
+        /// Hold (long press) handler.
+        /// Calls current control's popup menu.
+        /// If fails, shows main popup menu
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void gestureRecognizer_Hold(object sender, GestureEventArgs e)
         {
-            this.PageControl.ShowPopupMenu(e.Location);
+            if (!this.PageControl.ShowPopupMenu(e.Location))
+                this.mnuMain.Show(this, e.Location);
         }
 
         private void gestureRecognizer_Scroll(object sender, GestureScrollEventArgs e)
@@ -144,6 +157,16 @@ namespace SmartDeviceProject1
                 this.physics.Velocity = 0;
                 this.physics.Start();
             }
+        }
+
+        /// <summary>
+        /// Menu handler - Close application
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void mnuExit_Click(object sender, EventArgs e)
+        {
+            this.Close();
         }
 
     }

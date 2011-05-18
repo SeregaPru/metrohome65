@@ -3,20 +3,8 @@ using System.Drawing;
 using System.Collections;
 
 
-namespace SmartDeviceProject1
+namespace MetroHome65.Widgets
 {
-    public class WidgetUpdateEventArgs : EventArgs
-    {
-        public IWidget Widget { get; private set; }
-
-        public WidgetUpdateEventArgs(IWidget Widget)
-        {
-            this.Widget = Widget;
-        }
-    }
-
-    public delegate void WidgetUpdateEventHandler(object sender, WidgetUpdateEventArgs e);
-
     /// <summary>
     /// Signs field or property of widget, that it is user defined parameter,
     /// and it should be stored in widget's user settings
@@ -26,7 +14,7 @@ namespace SmartDeviceProject1
 
 
     /// <summary>
-    /// Base interface for widget
+    /// Widget base interface
     /// </summary>
     public interface IWidget
     {
@@ -50,15 +38,6 @@ namespace SmartDeviceProject1
         Boolean Transparent { get; }
 
         /// <summary>
-        /// Handler for click event
-        /// </summary>
-        /// <param name="Location">
-        ///   Coordinates of click event, 
-        ///   relative to widget's left upper corner
-        /// </param>
-        void OnClick(Point Location);
-
-        /// <summary>
         /// paint widget's internal area.
         /// </summary>
         /// <param name="g">Graphics context</param>
@@ -69,10 +48,40 @@ namespace SmartDeviceProject1
         /// Hanler for custom menu item click
         /// </summary>
         /// <param name="ItemName"></param>
-        void MenuItemClick(String ItemName);
+        void OnMenuItemClick(String ItemName);
+
+        /// <summary>
+        /// Handler for click event
+        /// </summary>
+        /// <param name="Location">
+        ///   Coordinates of click event, 
+        ///   relative to widget's left upper corner
+        /// </param>
+        void OnClick(Point Location);
+
+        void OnDblClick(Point Location);
     }
 
 
+    /// <summary>
+    /// Event triggered when widget should be updated
+    /// </summary>
+    public class WidgetUpdateEventArgs : EventArgs
+    {
+        public IWidget Widget { get; private set; }
+
+        public WidgetUpdateEventArgs(IWidget Widget)
+        {
+            this.Widget = Widget;
+        }
+    }
+
+    public delegate void WidgetUpdateEventHandler(object sender, WidgetUpdateEventArgs e);
+
+
+    /// <summary>
+    /// Additional interface for widget, that periodically updates its state
+    /// </summary>
     public interface IWidgetUpdatable : IWidget
     {
         /// <summary>

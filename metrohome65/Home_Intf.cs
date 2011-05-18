@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Drawing;
 
-namespace SmartDeviceProject1
+namespace MetroHome65
 {
     interface IHome
     {
