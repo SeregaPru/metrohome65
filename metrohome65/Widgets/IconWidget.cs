@@ -13,6 +13,8 @@ namespace MetroHome65.Widgets
         //Эти переменные понядобятся для загрузки изображений при запуске приложения.
         private OpenNETCF.Drawing.Imaging.ImagingFactoryClass _factory = new OpenNETCF.Drawing.Imaging.ImagingFactoryClass();
         private OpenNETCF.Drawing.Imaging.IImage _img = null;
+        private String _Caption = "";
+        private String _IconPath = "";
 
 
         /// <summary>
@@ -20,7 +22,6 @@ namespace MetroHome65.Widgets
         /// </summary>
         [WidgetParameter]
         public String Caption { get { return _Caption; } set { _Caption = value; } }
-        private String _Caption = "";
 
 
         /// <summary>
@@ -41,13 +42,19 @@ namespace MetroHome65.Widgets
                 }
                 catch (Exception e)
                 {
-                    MessageBox.Show(e.StackTrace, "SetIconPath");
+                    //!! write to log  (e.StackTrace, "SetIconPath")
                 }
             }
         }
 
-        private String _IconPath = "";
-
+        protected override Size[] GetSizes() 
+        {
+            Size[] sizes = new Size[] { 
+                new Size(1, 1), 
+                new Size(2, 2) 
+            };
+            return sizes;
+        }
 
         protected void PaintIcon(Graphics g, Rectangle Rect)
         {
@@ -67,7 +74,7 @@ namespace MetroHome65.Widgets
                 }
                 catch (Exception e)
                 {
-                    MessageBox.Show(e.StackTrace, "PaintIcon");
+                    //!! write to log  (e.StackTrace, "PaintIcon")
                 }
             }
         }

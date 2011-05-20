@@ -8,6 +8,16 @@ namespace MetroHome65.Widgets
         private System.Windows.Forms.Timer _Timer;
         private int _MissedCount = 0;
 
+
+        protected override Size[] GetSizes()
+        {
+            Size[] sizes = new Size[] { 
+                new Size(2, 2) 
+            };
+            return sizes;
+        }
+
+
         protected virtual int GetMissedCount()
         {
             return Microsoft.WindowsMobile.Status.SystemState.PhoneMissedCalls;

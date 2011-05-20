@@ -212,7 +212,7 @@ namespace MetroHome65.Pages
             }
             catch
             {
-                MessageBox.Show("error in WriteSettings");
+                //!! write to log  (e.StackTrace, "WriteSettings")
             }
         }
 
@@ -236,6 +236,7 @@ namespace MetroHome65.Pages
             }
             catch (Exception e)
             {
+                //!! write to log  (e.StackTrace, "ReadSettings")
                 DebugFill();
             }
 

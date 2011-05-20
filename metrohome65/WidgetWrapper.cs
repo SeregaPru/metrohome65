@@ -74,9 +74,37 @@ namespace MetroHome65.Pages
         /// </summary>
         public Size Size { get { return _Size; } set { SetSize(value); } }
 
+        /// <summary>
+        /// Sets widget size in grid cells.
+        /// Checks if specified size contain in widget's possible sizes.
+        /// If not, size will be first available widget size.
+        /// </summary>
+        /// <param name="Size"></param>
+        /// <returns></returns>
         public WidgetWrapper SetSize(Size Size)
         {
-            _Size = Size;
+            Boolean SizeOk = false;
+            foreach (Size size in _Widget.Sizes)
+            {
+                if (size.Equals(Size))
+                {
+                    _Size = Size;
+                    SizeOk = true;
+                    break;
+                }
+            }
+            if (!SizeOk) 
+                if ((_Widget.Sizes != null) && (_Widget.Sizes.Length > 0))
+                {
+                    _Size = _Widget.Sizes[0];
+                    //!! write to log
+                }
+                else
+                {
+                    _Size = new Size(2, 2);
+                    //!! write to log
+                }
+
             UpdateScreenPosition();
             return this;
         }
@@ -161,7 +189,7 @@ namespace MetroHome65.Pages
             }
             catch (Exception e)
             {
-                MessageBox.Show(e.StackTrace, "SetBtnImg");
+                //!! write to log  (e.StackTrace, "SetBtnImg")
             }
 
             return this;
@@ -241,7 +269,7 @@ namespace MetroHome65.Pages
                     return;
                 }
                 catch (Exception e) {
-                    MessageBox.Show(e.StackTrace, "PaintBackground");
+                    //!! write to log  (e.StackTrace, "PaintBackground")
                 }
             }
 

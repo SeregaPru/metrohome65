@@ -11,6 +11,14 @@ namespace MetroHome65.Widgets
         [WidgetParameter]
         public String ItemId = null;
 
+        protected override Size[] GetSizes()
+        {
+            Size[] sizes = new Size[] { 
+                new Size(2, 2) 
+            };
+            return sizes;
+        }
+
         protected override String[] GetMenuItems()
         {
             String[] Items = { "Call", "Send SMS" };
@@ -47,7 +55,7 @@ namespace MetroHome65.Widgets
 
             if (contact == null)
             {
-                g.DrawString("Contact not found", captionFont, captionBrush,
+                g.DrawString("Contact \n not \n found", captionFont, captionBrush,
                     Rect.Left + 10, Rect.Top + 10);
                 return;
             }

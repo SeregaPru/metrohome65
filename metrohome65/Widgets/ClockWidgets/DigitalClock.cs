@@ -19,6 +19,16 @@ namespace MetroHome65.Widgets
             _fntDate = new System.Drawing.Font("Helvetica", 12, FontStyle.Regular);
         }
 
+
+        protected override Size[] GetSizes()
+        {
+            Size[] sizes = new Size[] { 
+                new Size(4, 2) 
+            };
+            return sizes;
+        }
+
+
         public override void Paint(Graphics g, Rectangle Rect)
         {
             base.Paint(g, Rect);

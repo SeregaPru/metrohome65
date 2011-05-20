@@ -10,6 +10,9 @@ namespace MetroHome65.Widgets
     /// </summary>
     public class ShortcutWidget : IconWidget
     {
+        private String _CommandLine = "";
+
+        
         /// <summary>
         /// parameter "CommandLine" - relative or absolute path to application with parameters.
         /// </summary>
@@ -19,7 +22,15 @@ namespace MetroHome65.Widgets
             get { return _CommandLine; }
             set { _CommandLine = value; }
         }
-        private String _CommandLine = "";
+
+        protected override Size[] GetSizes()
+        {
+            Size[] sizes = new Size[] { 
+                new Size(1, 1), 
+                new Size(2, 2) 
+            };
+            return sizes;
+        }
 
         public override void OnClick(Point Location)
         {
@@ -38,7 +49,7 @@ namespace MetroHome65.Widgets
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message);
+                //!! write to log  (e.StackTrace, "StartProcess")
             }
         }
     }
