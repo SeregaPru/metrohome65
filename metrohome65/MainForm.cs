@@ -10,7 +10,9 @@ namespace MetroHome65.Main
       public partial class MainForm : Form
       {
 
-        private IPageControl PageControl = null;
+        private IPageControl _PageControl = null;
+        private Point _ScrollLast;
+        private Point _ScrollOffset;
 
         public MainForm()
         {
@@ -33,10 +35,10 @@ namespace MetroHome65.Main
         /// <param name="e"></param>
         private void MainForm_Activated(object sender, EventArgs e)
         {
-            if (this.PageControl != null)
+            if (this._PageControl != null)
             {
-                this.PageControl.Active = true;
-                gestureRecognizer.TargetControl = this.PageControl.GetControl();
+                this._PageControl.Active = true;
+                gestureRecognizer.TargetControl = this._PageControl.GetControl();
             }
         }
 
@@ -44,32 +46,43 @@ namespace MetroHome65.Main
         {
             gestureRecognizer.TargetControl = null;
 
-            if (this.PageControl != null)
-                this.PageControl.Active = false;
+            if (this._PageControl != null)
+                this._PageControl.Active = false;
         }
 
         private void SetPageControl(IPageControl APageControl)
         {
             // unlink previous control
-            if (this.PageControl != null)
+            if (this._PageControl != null)
             {
                 gestureRecognizer.TargetControl = null;
-                this.PageControl.GetControl().Resize += null;
-                this.Controls.Remove(this.PageControl.GetControl());
+
+                this._PageControl.Active = false;
+                this._PageControl.GetControl().Resize += null;
+                this.Controls.Remove(this._PageControl.GetControl());
             }
 
-            this.PageControl = APageControl;
+            this._PageControl = APageControl;
 
-            this.PageControl.SetBackColor(this.BackColor);
-            this.PageControl.GetControl().Location = new Point(0, 0);
-            this.PageControl.GetControl().Size = new Size(this.Width, this.Height);
+            if (this._PageControl != null)
+            {
+                this._PageControl.SetBackColor(this.BackColor);
+                this._PageControl.GetControl().Location = new Point(0, 0);
+                this._PageControl.GetControl().Size = new Size(this.Width, this.Height);
 
-            this.Controls.Add(this.PageControl.GetControl());
-            this.PageControl.GetControl().Resize += new EventHandler(PageControl_Resize);
-            gestureRecognizer.TargetControl = this.PageControl.GetControl();
-            UpdateScrollSize();
+                this.Controls.Add(this._PageControl.GetControl());
+                this._PageControl.GetControl().Resize += new EventHandler(PageControl_Resize);
+                gestureRecognizer.TargetControl = this._PageControl.GetControl();
+                UpdateScrollSize();
 
-            this.PageControl.Active = true;
+                this._PageControl.Active = true;
+            }
+        }
+
+        private void UpdateScrollSize()
+        {
+            physics.Extent = _PageControl.GetExtentSize();
+            physics.ViewportSize = _PageControl.GetViewportSize();
         }
 
         void PageControl_Resize(object sender, EventArgs e)
@@ -77,30 +90,21 @@ namespace MetroHome65.Main
             UpdateScrollSize();
         }
 
-        private void UpdateScrollSize()
-        {
-            physics.Extent = PageControl.GetExtentSize();
-            physics.ViewportSize = PageControl.GetViewportSize();
-        }
-
-        private Point last;
-        private Point offset;
-
         private void ScrollTo(Point Location)
         {
-            this.PageControl.SetScrollPosition(Location);
+            this._PageControl.SetScrollPosition(Location);
             if (! this.physics.IsAnimating)
-                this.physics.Origin = this.PageControl.GetScrollPosition().Negate();
+                this.physics.Origin = this._PageControl.GetScrollPosition().Negate();
         }
 
         private void gestureRecognizer1_Select(object sender, GestureEventArgs e)
         {
-            this.PageControl.ClickAt(e.Location);            
+            this._PageControl.ClickAt(e.Location);            
         }
 
         private void gestureRecognizer_DoubleSelect(object sender, GestureEventArgs e)
         {
-            this.PageControl.DblClickAt(e.Location);            
+            this._PageControl.DblClickAt(e.Location);            
         }
 
         /// <summary>
@@ -112,7 +116,7 @@ namespace MetroHome65.Main
         /// <param name="e"></param>
         private void gestureRecognizer_Hold(object sender, GestureEventArgs e)
         {
-            if (!this.PageControl.ShowPopupMenu(e.Location))
+            if (!this._PageControl.ShowPopupMenu(e.Location))
                 this.mnuMain.Show(this, e.Location);
         }
 
@@ -132,16 +136,16 @@ namespace MetroHome65.Main
             this.physics.Stop();
             if ((e.State & GestureState.Begin) == GestureState.Begin)
             {
-                this.last = e.Location;
-                this.offset = this.PageControl.GetScrollPosition().Negate();
+                this._ScrollLast = e.Location;
+                this._ScrollOffset = this._PageControl.GetScrollPosition().Negate();
                 return;
             }
 
-            Point delta = e.Location.Subtract(this.last);
-            this.offset = this.offset.Subtract(delta);
-            this.last = e.Location;
+            Point delta = e.Location.Subtract(this._ScrollLast);
+            this._ScrollOffset = this._ScrollOffset.Subtract(delta);
+            this._ScrollLast = e.Location;
 
-            ScrollTo(this.offset.Negate());
+            ScrollTo(this._ScrollOffset.Negate());
         }
 
         private void gestureRecognizer_Begin(object sender, GestureEventArgs e)
@@ -166,8 +170,9 @@ namespace MetroHome65.Main
         /// <param name="e"></param>
         private void mnuExit_Click(object sender, EventArgs e)
         {
-            this.Close();
+            Application.Exit();
         }
+
 
     }
 }

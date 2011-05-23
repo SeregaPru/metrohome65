@@ -19,7 +19,7 @@ namespace MetroHome65.Pages
 
         public StoredParameter() { }
 
-            public StoredParameter(String Name, String Value)
+        public StoredParameter(String Name, String Value)
         {
             this.Name = Name;
             this.Value = Value;

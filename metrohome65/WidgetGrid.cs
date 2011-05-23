@@ -36,9 +36,10 @@ namespace MetroHome65.Pages
             _DoubleBuffer = new Bitmap(1, 1);
             _graphics = Graphics.FromImage(_DoubleBuffer);
 
-            _WidgetsContainer.Location = new Point(PaddingHor, PaddingVer);
             _WidgetsImage.Location = new Point(0, 0);
+
             _WidgetsContainer.Controls.Add(_WidgetsImage);
+            _WidgetsContainer.Location = new Point(PaddingHor, PaddingVer);
             this.Controls.Add(_WidgetsContainer);
 
             _PictureBoxArrow.Size = Properties.Resources.arrow_right_white.Size;
@@ -185,15 +186,17 @@ namespace MetroHome65.Pages
             }
             WidgetsHeight += 10; // add padding at bottom
 
+
+            //!!WriteSettings();
+
+            // change size of internal bitmap and repaint it
             _DoubleBuffer = new Bitmap(WidgetsWidth, WidgetsHeight);
             _graphics = Graphics.FromImage(_DoubleBuffer);
 
             PaintBuffer();
-
+            
             _WidgetsImage.Image = _DoubleBuffer;
             _WidgetsImage.Size = _DoubleBuffer.Size;
-
-            //!!WriteSettings();
         }
 
 
@@ -251,7 +254,7 @@ namespace MetroHome65.Pages
             _WidgetsImage.Top = this.TopOffset;
             //Invalidate();
             //_WidgetsImage.Invalidate();
-            _WidgetsContainer.Invalidate();
+            //_WidgetsContainer.Invalidate();
         }
         
         public override Point GetScrollPosition() { return new Point(0, TopOffset); }
@@ -293,14 +296,32 @@ namespace MetroHome65.Pages
                 TargetWidget.OnDblClick(new Point(Location.X - TargetWidget.ScreenRect.Left, Location.Y - TargetWidget.ScreenRect.Top));
         }
 
+        /// <summary>
+        /// Shows widget settings dialog and applies changes in widget settings.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void ShowWidgetSettings(object sender, EventArgs e)
         {
-            MessageBox.Show("settings");
+            FrmWidgetSettings WidgetSettingsForm = new FrmWidgetSettings();
+            WidgetSettingsForm.Widget = _mnuWidgetSender;
+            WidgetSettingsForm.Owner = (Form)this.Parent;
+            WidgetSettingsForm.ShowDialog();
         }
 
+        /// <summary>
+        /// Delete current widget from grid.
+        /// Then widgets are realigned, if deleted widget was alone on its row.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void DeleteWidget(object sender, EventArgs e)
         {
-            MessageBox.Show("delete");
+            if (_mnuWidgetSender != null)
+            {
+                Widgets.Remove(_mnuWidgetSender);
+                RealignWidgets();
+            }
         }
 
         private void MoveWidget(object sender, EventArgs e)
@@ -404,6 +425,7 @@ namespace MetroHome65.Pages
                 SetParameter("IconPath", _CoreDir + "\\icons\\fexplore.png").
                 SetParameter("CommandLine", @"\Windows\fexplore.exe");
 
+            RealignWidgets();
         }
 
     }
