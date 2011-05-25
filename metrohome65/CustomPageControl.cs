@@ -5,7 +5,7 @@ using System.Drawing;
 
 namespace MetroHome65.Pages
 {
-    class CustomPageControl : Panel, IPageControl
+    class CustomPageControl : UserControl, IPageControl
     {
         public virtual void SetScrollPosition(Point Location) { }
 
@@ -27,5 +27,26 @@ namespace MetroHome65.Pages
         public virtual Control GetControl() { return this; }
 
         public virtual void SetBackColor(Color value) { this.BackColor = value; }
+
+        private void InitializeComponent()
+        {
+            this.SuspendLayout();
+            // 
+            // CustomPageControl
+            // 
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Inherit;
+            this.BackColor = System.Drawing.Color.Black;
+            this.Name = "CustomPageControl";
+            this.ResumeLayout(false);
+        }
+
+
+        public event EventHandler ChangePage = null;
+
+        public void OnChangePage(EventArgs e)
+        {
+            if (this.ChangePage != null)
+                this.ChangePage(this, e);
+        }
     }
 }

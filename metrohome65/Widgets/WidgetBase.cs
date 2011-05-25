@@ -6,7 +6,7 @@ using System.ComponentModel;
 namespace MetroHome65.Widgets
 {
 
-    public class BaseWidget : IWidget
+    public abstract class BaseWidget : IWidget
     {
         private EventHandlerList _Events = new EventHandlerList();
         private static readonly object _EventWidgetUpdate = new object();
@@ -58,7 +58,7 @@ namespace MetroHome65.Widgets
     /// <summary>
     /// Base class for abstract transparent widget.
     /// </summary>
-    public class TransparentWidget : BaseWidget
+    public abstract class TransparentWidget : BaseWidget
     {
         protected override Boolean GetTransparent() { return true; }
     }

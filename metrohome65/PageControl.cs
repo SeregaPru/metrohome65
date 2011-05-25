@@ -21,5 +21,7 @@ namespace MetroHome65.Pages
         void SetBackColor(Color value);
 
         Control GetControl();
+
+        event EventHandler ChangePage;
     }
 }

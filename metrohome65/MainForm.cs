@@ -1,6 +1,7 @@
 ﻿using System;
 using System.ComponentModel;
 using System.Drawing;
+using System.Collections.Generic;
 using System.Windows.Forms;
 using Microsoft.WindowsMobile.Gestures;
 using MetroHome65.Pages;
@@ -11,6 +12,7 @@ namespace MetroHome65.Main
       {
 
         private IPageControl _PageControl = null;
+        private List<IPageControl> _Pages = new List<IPageControl>();
         private Point _ScrollLast;
         private Point _ScrollOffset;
 
@@ -24,8 +26,18 @@ namespace MetroHome65.Main
 
         private void MainForm_Load(object sender, EventArgs e)
         {
-            SetPageControl(new MetroHome65.Pages.WidgetGrid());
+            AddPage(new MetroHome65.Pages.WidgetGrid());
+            AddPage(new MetroHome65.Pages.ProgramList());
+
+            SetPageControl(_Pages[0]);
         }
+
+        private void AddPage(IPageControl Page)
+        {
+            _Pages.Add(Page);
+            Page.ChangePage += new EventHandler(PageControl_ChangePage);
+        }
+
 
         /// <summary>
         /// When app activated, switch on widgets update,
@@ -38,7 +50,7 @@ namespace MetroHome65.Main
             if (this._PageControl != null)
             {
                 this._PageControl.Active = true;
-                gestureRecognizer.TargetControl = this._PageControl.GetControl();
+                gestureRecognizer.TargetControl = this;//!!._PageControl.GetControl();
             }
         }
 
@@ -52,11 +64,12 @@ namespace MetroHome65.Main
 
         private void SetPageControl(IPageControl APageControl)
         {
+            // stop animation
+            this.physics.Stop();
+
             // unlink previous control
             if (this._PageControl != null)
             {
-                gestureRecognizer.TargetControl = null;
-
                 this._PageControl.Active = false;
                 this._PageControl.GetControl().Resize += null;
                 this.Controls.Remove(this._PageControl.GetControl());
@@ -72,7 +85,6 @@ namespace MetroHome65.Main
 
                 this.Controls.Add(this._PageControl.GetControl());
                 this._PageControl.GetControl().Resize += new EventHandler(PageControl_Resize);
-                gestureRecognizer.TargetControl = this._PageControl.GetControl();
                 UpdateScrollSize();
 
                 this._PageControl.Active = true;
@@ -85,9 +97,28 @@ namespace MetroHome65.Main
             physics.ViewportSize = _PageControl.GetViewportSize();
         }
 
+
+        /// <summary>
+        /// when page is resised, new scroll size must be assigned
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         void PageControl_Resize(object sender, EventArgs e)
         {
             UpdateScrollSize();
+        }
+
+        /// <summary>
+        /// Change active page to another one, next in list.
+        /// !! todo - lather do change back and forward
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        void PageControl_ChangePage(object sender, EventArgs e)
+        {
+            int CurIndex = _Pages.IndexOf(this._PageControl);
+            CurIndex = ((CurIndex == -1) || (CurIndex == _Pages.Count - 1)) ? 0 : CurIndex + 1;
+            SetPageControl(_Pages[CurIndex]);
         }
 
         private void ScrollTo(Point Location)

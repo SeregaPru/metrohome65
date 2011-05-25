@@ -43,6 +43,7 @@ namespace MetroHome65.Pages
         private Color _Color = System.Drawing.Color.Blue;
         private Point _Location = new Point(0, 0);
         private Size _Size = new Size(1, 1);
+        private String _ButtonImage = "";
 
         public WidgetWrapper()
         {
@@ -133,8 +134,12 @@ namespace MetroHome65.Pages
             // create new widget instance by class name
             set
             {
-                _Widget = PluginManager.GetInstance().CreateWidget(value);
-                FillWidgetProperties();
+                if (WidgetClass != value)
+                {
+                    _Widget = PluginManager.GetInstance().CreateWidget(value);
+                    FillWidgetProperties();
+                    this.Active = true;
+                }
             }
         }
 
@@ -159,15 +164,16 @@ namespace MetroHome65.Pages
         [XmlIgnore]
         public Boolean Active { 
             set {
-                if (Widget is IWidgetUpdatable)
+                if (_Widget is IWidgetUpdatable)
                 {
                     if (value)
-                        (Widget as IWidgetUpdatable).StartUpdate();
+                        (_Widget as IWidgetUpdatable).StartUpdate();
                     else
-                        (Widget as IWidgetUpdatable).StopUpdate();
+                        (_Widget as IWidgetUpdatable).StopUpdate();
                 }
             }
         }
+
 
         /// <summary>
         /// backround button or solid box color
@@ -180,16 +186,25 @@ namespace MetroHome65.Pages
             return this;
         }
 
+
+        public String ButtonImage { get { return _ButtonImage; } set { SetButtonImage(value); } }
+
         public WidgetWrapper SetButtonImage(String ImagePath)
         {
-            try
+            if (_ButtonImage != ImagePath)
             {
-                if ((ImagePath != "") && (ImagePath != null))
-                    _factory.CreateImageFromFile(ImagePath, out _img);
-            }
-            catch (Exception e)
-            {
-                //!! write to log  (e.StackTrace, "SetBtnImg")
+                _ButtonImage = ImagePath;
+                try
+                {
+                    if ((ImagePath != "") && (ImagePath != null))
+                        _factory.CreateImageFromFile(ImagePath, out _img);
+                    else
+                        _img = null;
+                }
+                catch (Exception e)
+                {
+                    //!! write to log  (e.StackTrace, "SetBtnImg")
+                }
             }
 
             return this;
@@ -259,13 +274,6 @@ namespace MetroHome65.Pages
                     OpenNETCF.Drawing.Imaging.RECT ImgRect = OpenNETCF.Drawing.Imaging.RECT.FromXYWH(Rect.Left, Rect.Top, ScreenRect.Width, ScreenRect.Height);
                     _img.Draw(hdc, ImgRect, null);
                     g.ReleaseHdc(hdc);
-                    /*
-                    OpenNETCF.Drawing.Imaging.IBitmapImage bmp;
-                    _factory.CreateBitmapFromImage(_img, Rect.Width, Rect.Height,
-                        System.Drawing.Imaging.PixelFormat.Format24bppRgb,
-                        OpenNETCF.Drawing.Imaging.InterpolationHint.InterpolationHintDefault,
-                        out bmp);
-                    */
                     return;
                 }
                 catch (Exception e) {

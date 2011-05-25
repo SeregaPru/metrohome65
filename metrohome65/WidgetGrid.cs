@@ -10,8 +10,8 @@ namespace MetroHome65.Pages
 
     class WidgetGrid : CustomPageControl, IPageControl
     {
-        private static int PaddingVer = 5;
-        private static int PaddingHor = 38;
+        private static int PaddingHor = 38; //todo comment
+        private static int PaddingVer = 5; //todo comment
 
         private String _CoreDir = System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().GetName().CodeBase);
         private String SettingsFile() { return _CoreDir + "\\settings.xml"; }
@@ -20,12 +20,25 @@ namespace MetroHome65.Pages
         private ContextMenu _mnuWidgetActions;
         private WidgetWrapper _mnuWidgetSender;
         private int TopOffset = 0;
+        private Boolean _Active = false;
 
         PictureBox _PictureBoxArrow = new PictureBox();
         private Bitmap _DoubleBuffer = null;
         private Graphics _graphics = null;
         private PictureBox _WidgetsImage = new PictureBox();
         private Panel _WidgetsContainer = new Panel();
+
+        private void InitializeComponent()
+        {
+            this.SuspendLayout();
+            // 
+            // WidgetGrid
+            // 
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Inherit;
+            this.Name = "WidgetGrid";
+            this.Size = new System.Drawing.Size(200, 200);
+            this.ResumeLayout(false);
+        }
 
         public WidgetGrid() : base()
         {
@@ -44,13 +57,11 @@ namespace MetroHome65.Pages
 
             _PictureBoxArrow.Size = Properties.Resources.arrow_right_white.Size;
             _PictureBoxArrow.Image = Properties.Resources.arrow_right_white;
+            _PictureBoxArrow.Click += new EventHandler(_PictureBoxArrow_Click);
             this.Controls.Add(_PictureBoxArrow);
 
             ReadSettings();
         }
-
-
-        private Boolean _Active = false;
 
         protected override void SetActive(Boolean Active) 
         {
@@ -168,7 +179,8 @@ namespace MetroHome65.Pages
 
             // paint widgets
             foreach (WidgetWrapper wsInfo in Widgets)
-                wsInfo.Paint(_graphics, wsInfo.ScreenRect);
+                wsInfo.Paint(_graphics, new Rectangle(
+                    wsInfo.ScreenRect.Left, wsInfo.ScreenRect.Top, wsInfo.ScreenRect.Width, wsInfo.ScreenRect.Height));
         }
 
 
@@ -177,6 +189,34 @@ namespace MetroHome65.Pages
         /// </summary>
         private void RealignWidgets()
         {
+            object[,] cells = new object[100, 4]; //!! todo calc y dim
+            int MaxRow = 0;
+            foreach (WidgetWrapper wsInfo in Widgets)
+            {
+                for (int y = 0; y < wsInfo.Size.Height; y++)
+                    for (int x = 0; x < wsInfo.Size.Width; x++)
+                        cells[wsInfo.Location.Y + y, wsInfo.Location.X + x] = wsInfo;
+                MaxRow = Math.Max(MaxRow, wsInfo.Location.Y + wsInfo.Size.Height);
+            }
+
+            // looking for empty rows and delete them - shift widgets 1 row top
+            for (int row = MaxRow; row >= 0; row--)
+            {
+                if ((cells[row, 0] == null) && (cells[row, 1] == null) && (cells[row, 2] == null) && (cells[row, 3] == null))
+                {
+                    foreach (WidgetWrapper wsInfo in Widgets)
+                    {
+                        if (wsInfo.Location.Y > row)
+                            wsInfo.Location = new Point(wsInfo.Location.X, wsInfo.Location.Y - 1);
+                    }
+                }
+            }
+
+
+            // write new widgets position after realign
+            WriteSettings();
+
+            // calc max image dimensions for widgets grid
             int WidgetsHeight = 0;
             int WidgetsWidth = 0;
             foreach (WidgetWrapper wsInfo in Widgets)
@@ -184,19 +224,22 @@ namespace MetroHome65.Pages
                 WidgetsHeight = Math.Max(WidgetsHeight, wsInfo.ScreenRect.Bottom);
                 WidgetsWidth = Math.Max(WidgetsWidth, wsInfo.ScreenRect.Right);
             }
-            WidgetsHeight += 10; // add padding at bottom
+            WidgetsHeight += 10; // add padding at bottom and blank spaces at top and bottom
 
-
-            //!!WriteSettings();
 
             // change size of internal bitmap and repaint it
             _DoubleBuffer = new Bitmap(WidgetsWidth, WidgetsHeight);
+            _graphics.Dispose();
             _graphics = Graphics.FromImage(_DoubleBuffer);
 
             PaintBuffer();
-            
+
+            if (_WidgetsImage.Image != null)
+                _WidgetsImage.Image.Dispose();
             _WidgetsImage.Image = _DoubleBuffer;
             _WidgetsImage.Size = _DoubleBuffer.Size;
+
+            //!! todo - известить глав форму чтоб пересчитала скролл
         }
 
 
@@ -205,6 +248,7 @@ namespace MetroHome65.Pages
         /// </summary>
         private void WriteSettings()
         {
+            /*
             try
             {
                 System.Xml.Serialization.XmlSerializer serializer = new System.Xml.Serialization.XmlSerializer(Widgets.GetType());
@@ -217,6 +261,7 @@ namespace MetroHome65.Pages
             {
                 //!! write to log  (e.StackTrace, "WriteSettings")
             }
+            */
         }
 
 
@@ -252,9 +297,7 @@ namespace MetroHome65.Pages
             this.TopOffset = Location.Y;
 
             _WidgetsImage.Top = this.TopOffset;
-            //Invalidate();
-            //_WidgetsImage.Invalidate();
-            //_WidgetsContainer.Invalidate();
+            _WidgetsContainer.Refresh();
         }
         
         public override Point GetScrollPosition() { return new Point(0, TopOffset); }
@@ -269,7 +312,7 @@ namespace MetroHome65.Pages
             foreach (WidgetWrapper wsInfo in Widgets)
             {
                 if (wsInfo.ScreenRect.Contains(
-                    new Point(Location.X, Location.Y - TopOffset)))
+                    new Point(Location.X - PaddingHor, Location.Y - TopOffset - PaddingVer)))
                   return wsInfo;
             }
             return null;
@@ -286,14 +329,18 @@ namespace MetroHome65.Pages
         {
             WidgetWrapper TargetWidget = GetWidgetAtPos(Location);
             if (TargetWidget != null)
-                TargetWidget.OnClick(new Point(Location.X - TargetWidget.ScreenRect.Left, Location.Y - TargetWidget.ScreenRect.Top));
+                TargetWidget.OnClick(new Point(
+                    Location.X - PaddingHor - TargetWidget.ScreenRect.Left,
+                    Location.Y - PaddingVer - TopOffset - TargetWidget.ScreenRect.Top));
         }
 
         public override void DblClickAt(Point Location)
         {
             WidgetWrapper TargetWidget = GetWidgetAtPos(Location);
             if (TargetWidget != null)
-                TargetWidget.OnDblClick(new Point(Location.X - TargetWidget.ScreenRect.Left, Location.Y - TargetWidget.ScreenRect.Top));
+                TargetWidget.OnDblClick(new Point(
+                    Location.X - PaddingHor - TargetWidget.ScreenRect.Left,
+                    Location.Y - PaddingVer - TopOffset - TargetWidget.ScreenRect.Top));
         }
 
         /// <summary>
@@ -306,7 +353,9 @@ namespace MetroHome65.Pages
             FrmWidgetSettings WidgetSettingsForm = new FrmWidgetSettings();
             WidgetSettingsForm.Widget = _mnuWidgetSender;
             WidgetSettingsForm.Owner = (Form)this.Parent;
-            WidgetSettingsForm.ShowDialog();
+            if (WidgetSettingsForm.ShowDialog() == DialogResult.OK)
+                RealignWidgets();
+
         }
 
         /// <summary>
@@ -339,11 +388,20 @@ namespace MetroHome65.Pages
         {
             base.OnResize(e);
 
-            _WidgetsContainer.Size = new Size(WidgetWrapper.CellWidth * 4 + WidgetWrapper.CellSpacingHor * 3, this.Height - PaddingVer);
+            _WidgetsContainer.Size = new Size(
+                WidgetWrapper.CellWidth * 4 + WidgetWrapper.CellSpacingHor * 3, 
+                this.Height - PaddingVer);
 
             _PictureBoxArrow.Location = new Point(
                 this.Width - (this.Width - PaddingHor - _WidgetsContainer.Width)/2 - _PictureBoxArrow.Width/2, PaddingVer);
         }
+
+
+        void _PictureBoxArrow_Click(object sender, EventArgs e)
+        {
+            OnChangePage(EventArgs.Empty);
+        }
+
 
         // fill grid with debug values
         private void DebugFill()
@@ -382,8 +440,7 @@ namespace MetroHome65.Pages
 
             newWidget = new DigitalClockWidget();
             AddWidget(new Point(0, 4), new Size(4, 2), newWidget.ToString()).
-                SetButtonImage(_CoreDir + "\\buttons\\bg5.png").
-                SetColor(Color.FromArgb(30, 30, 30));
+                SetButtonImage(_CoreDir + "\\buttons\\bg5.png");
 
             newWidget = new IconWidget();
             AddWidget(new Point(0, 6), new Size(1, 1), newWidget.ToString()).

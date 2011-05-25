@@ -16,7 +16,7 @@ namespace MetroHome65.Widgets
         /// <summary>
         /// parameter "CommandLine" - relative or absolute path to application with parameters.
         /// </summary>
-        [WidgetParameter]
+        [WidgetParameter(WidgetParameterEditType.edFile, "Application")]
         public String CommandLine
         {
             get { return _CommandLine; }

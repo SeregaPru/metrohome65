@@ -8,8 +8,8 @@ namespace MetroHome65.Widgets
 
     public class ContactWidget : BaseWidget
     {
-        [WidgetParameter]
-        public String ItemId = null;
+        [WidgetParameter(WidgetParameterEditType.edCustom, "Contact")]
+        public String ContactId = null;
 
         protected override Size[] GetSizes()
         {
@@ -51,7 +51,7 @@ namespace MetroHome65.Widgets
             Font captionFont = new System.Drawing.Font("Helvetica", 9, FontStyle.Regular);
             Brush captionBrush = new System.Drawing.SolidBrush(System.Drawing.Color.White);
 
-            Contact contact = FindContact(this.ItemId);
+            Contact contact = FindContact(this.ContactId);
 
             if (contact == null)
             {

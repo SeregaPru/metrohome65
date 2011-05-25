@@ -5,12 +5,34 @@ using System.Collections;
 
 namespace MetroHome65.Widgets
 {
+    public enum WidgetParameterEditType {
+        edString,
+        edFile,
+        edImage,
+        edCustom
+    };
+
     /// <summary>
     /// Signs field or property of widget, that it is user defined parameter,
     /// and it should be stored in widget's user settings
     /// </summary>
     [AttributeUsage(AttributeTargets.Property | AttributeTargets.Field | AttributeTargets.Parameter | AttributeTargets.ReturnValue)]
-    public class WidgetParameter : Attribute { }
+    public class WidgetParameter : Attribute {
+        private WidgetParameterEditType _EditType = WidgetParameterEditType.edString;
+        private String _Caption = "";
+
+        public WidgetParameterEditType EditType { get { return _EditType; } }
+        public String Caption { get { return _Caption; } }
+
+
+        public WidgetParameter() { }
+
+        public WidgetParameter(WidgetParameterEditType EditType, String Caption) 
+        {
+            this._EditType = EditType;
+            this._Caption = Caption;
+        }
+    }
 
 
     /// <summary>

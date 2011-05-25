@@ -11,8 +11,7 @@ namespace MetroHome65.Widgets
         private Font _fntDate;
         private Boolean _ShowPoints = true;
 
-        public DigitalClockWidget()
-            : base()
+        public DigitalClockWidget() : base()
         {
             _brushCaption = new System.Drawing.SolidBrush(System.Drawing.Color.White);
             _fntTime = new System.Drawing.Font("Verdana", 36, FontStyle.Regular);

@@ -27,7 +27,8 @@ namespace MetroHome65.Pages
             LoadPlugins();
         }
         
-        private Hashtable _plugins = new Hashtable();
+        //!! todo потом сделать приватным а выставить итератор
+        public Hashtable _plugins = new Hashtable();
 
         /// <summary>
         /// reads all .dll in Plugins folder and scans for plugins with 
@@ -42,7 +43,9 @@ namespace MetroHome65.Pages
 
             foreach (Type type in assembly.GetTypes())
             {
-                if ((type.IsClass) && (type.GetInterfaces().Contains(typeof(IWidget))))
+                if ((type.IsClass) && 
+                    (type.GetInterfaces().Contains(typeof(IWidget))) &&
+                    (! type.IsAbstract))
                 {
                     _plugins.Add(type.FullName, type);
                 }
@@ -57,5 +60,6 @@ namespace MetroHome65.Pages
             IWidget Widget = (IWidget)Activator.CreateInstance(WidgetType);
             return Widget;
         }
+
     }
 }

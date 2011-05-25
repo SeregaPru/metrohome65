@@ -36,7 +36,7 @@
             // 
             // gestureRecognizer
             // 
-            this.gestureRecognizer.TargetControl = this;
+            this.gestureRecognizer.TargetControl = null;
             this.gestureRecognizer.Hold += new System.EventHandler<Microsoft.WindowsMobile.Gestures.GestureEventArgs>(this.gestureRecognizer_Hold);
             this.gestureRecognizer.End += new System.EventHandler<Microsoft.WindowsMobile.Gestures.GestureEventArgs>(this.gestureRecognizer_End);
             this.gestureRecognizer.DoubleSelect += new System.EventHandler<Microsoft.WindowsMobile.Gestures.GestureEventArgs>(this.gestureRecognizer_DoubleSelect);
@@ -72,6 +72,7 @@
             this.KeyPreview = true;
             this.MinimizeBox = false;
             this.Name = "MainForm";
+            this.Text = " ";
             this.Deactivate += new System.EventHandler(this.MainForm_Deactivate);
             this.Load += new System.EventHandler(this.MainForm_Load);
             this.Activated += new System.EventHandler(this.MainForm_Activated);

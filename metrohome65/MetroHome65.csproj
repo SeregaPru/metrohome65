@@ -68,7 +68,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CustomPageControl.cs">
-      <SubType>Component</SubType>
+      <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="FrmWidgetSettings.cs">
       <SubType>Form</SubType>
@@ -87,25 +87,76 @@
     </Compile>
     <Compile Include="PluginManager.cs" />
     <Compile Include="Program.cs" />
+    <Compile Include="ProgramList.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="ProgramList.Designer.cs">
+      <DependentUpon>ProgramList.cs</DependentUpon>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="CustomPageControl.resx">
+      <DependentUpon>CustomPageControl.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="FrmWidgetSettings.resx">
       <DependentUpon>FrmWidgetSettings.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="MainForm.resx">
       <DependentUpon>MainForm.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="ProgramList.resx">
+      <DependentUpon>ProgramList.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Settings_color.resx">
+      <DependentUpon>Settings_color.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Settings_file.resx">
+      <DependentUpon>Settings_file.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Settings_image.resx">
+      <DependentUpon>Settings_image.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Settings_string.resx">
+      <DependentUpon>Settings_string.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WidgetGrid.resx">
+      <DependentUpon>WidgetGrid.cs</DependentUpon>
     </EmbeddedResource>
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
+    <Compile Include="Settings_color.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Settings_color.Designer.cs">
+      <DependentUpon>Settings_color.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Settings_file.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Settings_file.Designer.cs">
+      <DependentUpon>Settings_file.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Settings_image.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Settings_image.Designer.cs">
+      <DependentUpon>Settings_image.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Settings_string.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Settings_string.Designer.cs">
+      <DependentUpon>Settings_string.cs</DependentUpon>
+    </Compile>
     <Compile Include="WidgetGrid.cs">
-      <SubType>Component</SubType>
+      <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="Widgets\ClockWidgets\DigitalClock.cs" />
     <Compile Include="Widgets\IconWidget.cs" />
@@ -124,49 +175,49 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="buttons\bg1.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="buttons\bg2.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="buttons\bg3.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="buttons\bg4.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="buttons\bg5.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="buttons\button blue.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="buttons\button gray.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="icons\calc.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="icons\contacts.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="icons\fexplore.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="icons\iexplore.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="icons\mail.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="icons\media.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="icons\people.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="icons\phone.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CompactFramework.CSharp.targets" />
