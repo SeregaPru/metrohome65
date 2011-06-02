@@ -50,7 +50,7 @@ namespace MetroHome65.Main
             if (this._PageControl != null)
             {
                 this._PageControl.Active = true;
-                gestureRecognizer.TargetControl = this;//!!._PageControl.GetControl();
+                gestureRecognizer.TargetControl = this; //!! _PageControl.GetControl();
             }
         }
 
@@ -86,6 +86,8 @@ namespace MetroHome65.Main
                 this.Controls.Add(this._PageControl.GetControl());
                 this._PageControl.GetControl().Resize += new EventHandler(PageControl_Resize);
                 UpdateScrollSize();
+
+                //!!gestureRecognizer.TargetControl = _PageControl.GetControl();
 
                 this._PageControl.Active = true;
             }

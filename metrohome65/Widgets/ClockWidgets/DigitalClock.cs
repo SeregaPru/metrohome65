@@ -3,6 +3,7 @@ using System.Drawing;
 
 namespace MetroHome65.Widgets
 {
+    [WidgetInfo("Digital clock")]
     public class DigitalClockWidget : TransparentWidget, IWidgetUpdatable
     {
         private System.Windows.Forms.Timer _Timer;

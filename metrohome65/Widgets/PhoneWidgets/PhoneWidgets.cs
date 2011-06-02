@@ -3,6 +3,7 @@ using System.Drawing;
 
 namespace MetroHome65.Widgets
 {
+    [WidgetInfo("Phone")]
     public class PhoneWidget : ShortcutWidget, IWidgetUpdatable
     {
         private System.Windows.Forms.Timer _Timer;
@@ -71,6 +72,7 @@ namespace MetroHome65.Widgets
 
 
 
+    [WidgetInfo("SMS")]
     public class SMSWidget : PhoneWidget, IWidgetUpdatable
     {
         protected override int GetMissedCount()

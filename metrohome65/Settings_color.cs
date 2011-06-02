@@ -18,7 +18,7 @@ namespace MetroHome65
             InitializeComponent();
         }
 
-        public Color ButtonColor { 
+        public Color Value { 
             get {
                 return _Color;
             } 

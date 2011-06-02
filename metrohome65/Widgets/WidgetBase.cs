@@ -52,6 +52,8 @@ namespace MetroHome65.Widgets
                 handler(this, e);
             }
         }
+
+        public virtual Control[] EditControls { get { return null; } }
     }
 
 

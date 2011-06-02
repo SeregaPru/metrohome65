@@ -30,7 +30,6 @@
         {
             this.lblCaption = new System.Windows.Forms.Label();
             this.buttonSelectBG = new System.Windows.Forms.Button();
-            this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
             this.buttonClear = new System.Windows.Forms.Button();
             this.pictureBoxBG = new System.Windows.Forms.PictureBox();
             this.SuspendLayout();
@@ -46,7 +45,7 @@
             // 
             // buttonSelectBG
             // 
-            this.buttonSelectBG.BackColor = System.Drawing.Color.Gold;
+            this.buttonSelectBG.BackColor = System.Drawing.Color.White;
             this.buttonSelectBG.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular);
             this.buttonSelectBG.Location = new System.Drawing.Point(8, 68);
             this.buttonSelectBG.Name = "buttonSelectBG";
@@ -55,11 +54,6 @@
             this.buttonSelectBG.TabStop = false;
             this.buttonSelectBG.Text = "Browse image...";
             this.buttonSelectBG.Click += new System.EventHandler(this.buttonSelectBG_Click);
-            // 
-            // openFileDialog1
-            // 
-            this.openFileDialog1.FileName = "openFileDialog1";
-            this.openFileDialog1.Filter = "Image files|*.jpg;*.png;*.bmp;*.gif";
             // 
             // buttonClear
             // 
@@ -99,7 +93,6 @@
         private System.Windows.Forms.Label lblCaption;
         private System.Windows.Forms.Button buttonSelectBG;
         private System.Windows.Forms.PictureBox pictureBoxBG;
-        private System.Windows.Forms.OpenFileDialog openFileDialog1;
         private System.Windows.Forms.Button buttonClear;
     }
 }

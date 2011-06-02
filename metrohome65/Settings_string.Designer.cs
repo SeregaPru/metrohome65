@@ -50,6 +50,7 @@
             this.textValue.Name = "textValue";
             this.textValue.Size = new System.Drawing.Size(391, 51);
             this.textValue.TabIndex = 2;
+            this.textValue.TextChanged += new System.EventHandler(this.textValue_TextChanged);
             // 
             // buttonClear
             // 

@@ -17,20 +17,11 @@ namespace MetroHome65.Pages
         private IWidget _SelectedWidget = null;
         private Settings_color ctrlColorSelect = null;
         private Settings_image ctrlImageSelect = null;
-        private int _ControlTop = 0;
+        private List<Type> _WidgetTypes = new List<Type>();
 
         public FrmWidgetSettings()
         {
             InitializeComponent();
-
-            _ControlTop = panelSize.Bottom;
-
-            ctrlColorSelect = new Settings_color();
-            PlaceControl(ctrlColorSelect, false);
-
-            ctrlImageSelect = new Settings_image();
-            ctrlImageSelect.Caption = "Button background";
-            PlaceControl(ctrlImageSelect, false);
         }
 
         public WidgetWrapper Widget { set { SetWidget(value); } }
@@ -39,21 +30,22 @@ namespace MetroHome65.Pages
         {
             _Widget = value;
 
-            FillWidgetTypes();
             FillButtonColor(_Widget.Color);
-            FillButtonImage(_Widget.ButtonImage);
 
             SetWidgetType(_Widget.Widget);
+
+            FillWidgetTypes();
         }
 
         private void SetWidgetType(IWidget value)
         {
             if ((_SelectedWidget == null) ||
-                ((object)_SelectedWidget).GetType() != ((object)value).GetType())
+                (((object)_SelectedWidget).GetType() != ((object)value).GetType()) )
             {
                 _SelectedWidget = value;
 
                 FillSizes();
+                FillButtonImage(_Widget.ButtonImage);
                 FillWidgetProperties();
             }
         }
@@ -61,12 +53,28 @@ namespace MetroHome65.Pages
         private void FillWidgetTypes()
         {
             cbType.Items.Clear();
+            _WidgetTypes.Clear();
 
+            int CurIndex;
+            String WidgetName;
             foreach (Type Plugin in PluginManager.GetInstance()._plugins.Values)
             {
-                cbType.Items.Add(Plugin.FullName);
+                // get human readable widget name for display in list
+                WidgetName = "";
+                object[] Attributes = Plugin.GetCustomAttributes(typeof(WidgetInfoAttribute), true);
+                if (Attributes.Length > 0)
+                    WidgetName = (Attributes[0] as WidgetInfoAttribute).Caption;
+                if (WidgetName == "")
+                    WidgetName = Plugin.Name;
+
+                CurIndex = cbType.Items.Add(WidgetName);
+                _WidgetTypes.Add(Plugin);
+
+                if (Plugin.FullName == _Widget.Widget.GetType().FullName)
+                    cbType.SelectedIndex = CurIndex;
             }
-            cbType.SelectedIndex = 0;
+            if (cbType.SelectedIndex == -1)
+                cbType.SelectedIndex = 0;
         }
 
         private void FillSizes()
@@ -74,22 +82,37 @@ namespace MetroHome65.Pages
             cbSize.Items.Clear();
 
             String SizeStr = "";
+            int CurIndex;
             foreach (Size Size in _SelectedWidget.Sizes)
             {
                 SizeStr = Size.Width + " x " + Size.Height;
-                cbSize.Items.Add(SizeStr);
+                CurIndex = cbSize.Items.Add(SizeStr);
+                if (Size.Equals(_Widget.Size))
+                    cbSize.SelectedIndex = CurIndex;
             }
-            cbSize.SelectedIndex = 0;
+            if (cbSize.SelectedIndex == -1)
+                cbSize.SelectedIndex = 0;
         }
 
         private void FillButtonColor(Color Color)
         {
-            ctrlColorSelect.ButtonColor = Color;
+            ctrlColorSelect = new Settings_color();
+            ctrlColorSelect.Value = Color;
+
+            PlaceControl(ctrlColorSelect, false);
         }
 
         private void FillButtonImage(String ButtonImage)
         {
-            ctrlImageSelect.Value = ButtonImage;
+            if (_SelectedWidget.Transparent)
+            {
+                if (ctrlImageSelect == null)
+                    ctrlImageSelect = new Settings_image();
+                ctrlImageSelect.Caption = "Button background";
+                ctrlImageSelect.Value = ButtonImage;
+
+                PlaceControl(ctrlImageSelect, false);
+            }
         }
 
         private void FillWidgetProperties()
@@ -100,53 +123,12 @@ namespace MetroHome65.Pages
                 if (Control.Name.StartsWith("__"))
                     this.Controls.Remove(Control);
             }
-            _ControlTop = ctrlImageSelect.Bottom;
 
-
-            // add current widget properties
-            foreach (PropertyInfo propertyInfo in ((object)_SelectedWidget).GetType().GetProperties())
+            Control[] Controls = _SelectedWidget.EditControls;
+            if (Controls != null)
             {
-                object[] Attributes = propertyInfo.GetCustomAttributes(typeof(WidgetParameter), true);
-                if (Attributes.Length > 0)
-                {
-                    foreach (object Attribute in Attributes)
-                    {
-                        Control Control = null;
-
-                        switch ((Attribute as WidgetParameter).EditType)
-                        {
-                            case WidgetParameterEditType.edString:
-                            {
-                                Settings_string EditControl = new Settings_string();
-                                EditControl.Caption = (Attribute as WidgetParameter).Caption;
-                                EditControl.Value = (String)propertyInfo.GetValue((object)_SelectedWidget, null);
-                                Control = EditControl;
-                                break;
-                            }
-
-                            case WidgetParameterEditType.edFile:
-                            {
-                                Settings_file FileControl = new Settings_file();
-                                FileControl.Caption = (Attribute as WidgetParameter).Caption;
-                                FileControl.Value = (String)propertyInfo.GetValue((object)_SelectedWidget, null);
-                                Control = FileControl;
-                                break;
-                            }
-
-                            case WidgetParameterEditType.edImage:
-                            {
-                                Settings_image ImgControl = new Settings_image();
-                                ImgControl.Caption = (Attribute as WidgetParameter).Caption;
-                                ImgControl.Value = (String)propertyInfo.GetValue((object)_SelectedWidget, null);
-                                Control = ImgControl;
-                                break;
-                            }
-                        }
-
-                        // place parameter editor control
-                        PlaceControl(Control, true);
-                    }
-                }
+                foreach (Control UserControl in Controls)
+                    PlaceControl(UserControl, true);
             }
         }
 
@@ -154,25 +136,29 @@ namespace MetroHome65.Pages
         {
             if (Control != null)
             {
+                int _ControlTop = 0;
+                foreach (Control ctrl in this.Controls)
+                    _ControlTop = Math.Max(_ControlTop, ctrl.Bottom);
+                
                 if (UserParam)
                     Control.Name = "__Control_" + this.Controls.Count.ToString();
 
                 Control.Parent = this;
                 Control.Width = this.Width;
                 Control.Top = _ControlTop;
-                _ControlTop += Control.Height;
 
                 this.Controls.Add(Control);
             }
         }
-        
 
-        // chane widget type
+
+        // change widget type
         private void cbType_SelectedValueChanged(object sender, EventArgs e)
         {
-            String WidgetName = (sender as ComboBox).SelectedItem.ToString();
+            String WidgetName = _WidgetTypes[(sender as ComboBox).SelectedIndex].FullName;
             SetWidgetType(PluginManager.GetInstance().CreateWidget(WidgetName));
         }
+
 
         private void menuCancel_Click(object sender, EventArgs e)
         {
@@ -185,8 +171,22 @@ namespace MetroHome65.Pages
             {
                 _Widget.WidgetClass = ((object)_SelectedWidget).GetType().ToString();
                 _Widget.Size = _SelectedWidget.Sizes[cbSize.SelectedIndex];
-                _Widget.Color = ctrlColorSelect.ButtonColor;
-                _Widget.ButtonImage = ctrlImageSelect.Value;
+                _Widget.Color = ctrlColorSelect.Value;
+                if (_SelectedWidget.Transparent)
+                    _Widget.ButtonImage = ctrlImageSelect.Value;
+
+                // apply custom widget parameters
+                foreach (PropertyInfo propertyInfo in ((object)_SelectedWidget).GetType().GetProperties())
+                {
+                    object[] Attributes = propertyInfo.GetCustomAttributes(typeof(WidgetParameterAttribute), true);
+                    if (Attributes.Length > 0)
+                    {
+                        foreach (object Attribute in Attributes)
+                        {
+                            _Widget.SetParameter(propertyInfo.Name, propertyInfo.GetValue((object)_SelectedWidget, null));
+                        }
+                    }
+                }
             }
             catch (Exception ex)
             {

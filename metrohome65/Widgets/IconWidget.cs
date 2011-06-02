@@ -1,14 +1,16 @@
 ﻿using System;
 using System.Drawing;
 using System.Windows.Forms;
+using System.ComponentModel;
 using OpenNETCF.Drawing;
+using MetroHome65.Pages;
 
 namespace MetroHome65.Widgets
 {
     /// <summary>
     /// Class for transparent widget with icon and caption.
     /// </summary>
-    public class IconWidget : TransparentWidget
+    public abstract class IconWidget : TransparentWidget
     {
         //Эти переменные понядобятся для загрузки изображений при запуске приложения.
         private OpenNETCF.Drawing.Imaging.ImagingFactoryClass _factory = new OpenNETCF.Drawing.Imaging.ImagingFactoryClass();
@@ -20,7 +22,7 @@ namespace MetroHome65.Widgets
         /// <summary>
         /// user defined caption for widget
         /// </summary>
-        [WidgetParameter(WidgetParameterEditType.edString, "Caption")]
+        [WidgetParameter]
         public String Caption { get { return _Caption; } set { _Caption = value; } }
 
 
@@ -28,7 +30,7 @@ namespace MetroHome65.Widgets
         /// relative or absolute path to icon file.
         /// icon format must be transparent PNG
         /// </summary>
-        [WidgetParameter(WidgetParameterEditType.edImage, "Icon image")]
+        [WidgetParameter]
         public String IconPath
         {
             get { return _IconPath; }
@@ -111,6 +113,39 @@ namespace MetroHome65.Widgets
             MessageBox.Show(String.Format("Icon widget {0} at pos {1}:{2}",
                 this.Caption, Location.X, Location.Y));
         }
+
+
+        public override Control[] EditControls
+        {
+            get
+            {
+                Control[] Controls = new Control[2];
+                Settings_string EditControl = new Settings_string();
+                EditControl.Caption = "Caption";
+                EditControl.Value = Caption;
+                EditControl.OnValueChanged += new Settings_string.ValueChangedHandler(EditControl_OnValueChanged);
+                Controls[0] = EditControl;
+
+                Settings_image ImgControl = new Settings_image();
+                ImgControl.Caption = "Icon image";
+                ImgControl.Value = IconPath;
+                ImgControl.OnValueChanged += new Settings_image.ValueChangedHandler(ImgControl_OnValueChanged);
+                Controls[1] = ImgControl;
+
+                return Controls;
+            }
+        }
+
+        void ImgControl_OnValueChanged(string Value)
+        {
+            IconPath = Value;
+        }
+
+        void EditControl_OnValueChanged(string Value)
+        {
+            Caption = Value;
+        }
+
 
     }
 

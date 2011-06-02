@@ -151,7 +151,7 @@ namespace MetroHome65.Pages
 
             // get widget properties
             foreach (PropertyInfo propertyInfo in ((object)_Widget).GetType().GetProperties())
-                if (propertyInfo.GetCustomAttributes(typeof(WidgetParameter), true).Length > 0)
+                if (propertyInfo.GetCustomAttributes(typeof(WidgetParameterAttribute), true).Length > 0)
                 {
                     _propertyInfos.Add(propertyInfo);
                 }

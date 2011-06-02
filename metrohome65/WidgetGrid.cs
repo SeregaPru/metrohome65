@@ -228,8 +228,10 @@ namespace MetroHome65.Pages
 
 
             // change size of internal bitmap and repaint it
-            _DoubleBuffer = new Bitmap(WidgetsWidth, WidgetsHeight);
             _graphics.Dispose();
+            _DoubleBuffer.Dispose();
+
+            _DoubleBuffer = new Bitmap(WidgetsWidth, WidgetsHeight);
             _graphics = Graphics.FromImage(_DoubleBuffer);
 
             PaintBuffer();
@@ -442,19 +444,19 @@ namespace MetroHome65.Pages
             AddWidget(new Point(0, 4), new Size(4, 2), newWidget.ToString()).
                 SetButtonImage(_CoreDir + "\\buttons\\bg5.png");
 
-            newWidget = new IconWidget();
+            newWidget = new ShortcutWidget();
             AddWidget(new Point(0, 6), new Size(1, 1), newWidget.ToString()).
                 SetButtonImage(_CoreDir + "\\buttons\\button gray.png");
 
-            newWidget = new IconWidget();
+            newWidget = new ShortcutWidget();
             AddWidget(new Point(1, 6), new Size(1, 1), newWidget.ToString()).
                 SetColor(Color.DarkGreen);
 
-            newWidget = new IconWidget();
+            newWidget = new ShortcutWidget();
             AddWidget(new Point(2, 6), new Size(1, 1), newWidget.ToString()).
                 SetButtonImage(_CoreDir + "\\buttons\\button blue.png"); ;
 
-            newWidget = new IconWidget();
+            newWidget = new ShortcutWidget();
             AddWidget(new Point(3, 6), new Size(1, 1), newWidget.ToString()).
                 SetColor(Color.Maroon);
 

@@ -8,6 +8,7 @@ namespace MetroHome65.Widgets
     /// Widget for applications launch.
     /// Looks like icon widget - icon with caption. 
     /// </summary>
+    [WidgetInfo("Shortcut")]
     public class ShortcutWidget : IconWidget
     {
         private String _CommandLine = "";
@@ -16,7 +17,7 @@ namespace MetroHome65.Widgets
         /// <summary>
         /// parameter "CommandLine" - relative or absolute path to application with parameters.
         /// </summary>
-        [WidgetParameter(WidgetParameterEditType.edFile, "Application")]
+        [WidgetParameter]
         public String CommandLine
         {
             get { return _CommandLine; }
@@ -35,22 +36,8 @@ namespace MetroHome65.Widgets
         public override void OnClick(Point Location)
         {
             if (CommandLine != "")
-                StartProcess(CommandLine);
+                MetroHome65.Routines.StartProcess(CommandLine);
         }
 
-        private static void StartProcess(string FileName)
-        {
-            try
-            {
-                System.Diagnostics.Process myProcess = new System.Diagnostics.Process();
-                myProcess.StartInfo.UseShellExecute = true;
-                myProcess.StartInfo.FileName = FileName;
-                myProcess.Start();
-            }
-            catch (Exception ex)
-            {
-                //!! write to log  (e.StackTrace, "StartProcess")
-            }
-        }
     }
 }

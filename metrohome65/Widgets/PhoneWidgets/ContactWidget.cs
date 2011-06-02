@@ -5,11 +5,11 @@ using Microsoft.WindowsMobile.PocketOutlook;
 
 namespace MetroHome65.Widgets
 {
-
+    [WidgetInfo("Contact")]
     public class ContactWidget : BaseWidget
     {
-        [WidgetParameter(WidgetParameterEditType.edCustom, "Contact")]
-        public String ContactId = null;
+        [WidgetParameter]
+        public int ContactId = -1;
 
         protected override Size[] GetSizes()
         {
@@ -25,7 +25,7 @@ namespace MetroHome65.Widgets
             return Items;
         }
 
-        Contact FindContact(String ItemIdKey)
+        Contact FindContact(int ItemIdKey)
         {
             Contact FindedContact = null;
             OutlookSession mySession = new OutlookSession();
@@ -75,6 +75,26 @@ namespace MetroHome65.Widgets
         public override void OnMenuItemClick(String ItemName)
         {
             MessageBox.Show(ItemName);
+        }
+
+
+        public override Control[] EditControls
+        {
+            get
+            {
+                Control[] Controls = new Control[1];
+                Settings_contact EditControl = new Settings_contact();
+                EditControl.Value = ContactId;
+                EditControl.OnValueChanged += new Settings_contact.ValueChangedHandler(EditControl_OnValueChanged);
+                Controls[0] = EditControl;
+
+                return Controls;
+            }
+        }
+
+        void EditControl_OnValueChanged(int Value)
+        {
+            ContactId = Value;
         }
 
     }

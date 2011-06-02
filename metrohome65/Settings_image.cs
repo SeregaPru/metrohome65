@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Windows.Forms;
+using Microsoft.WindowsMobile.Forms;
 
 namespace MetroHome65.Pages
 {
@@ -15,7 +16,11 @@ namespace MetroHome65.Pages
 
         public String Caption { set { lblCaption.Text = value; } }
 
-        public String Value { get { return _ButtonImage; } set { SetButtonImage(value); } }
+        public String Value
+        { 
+            get { return _ButtonImage; } 
+            set { SetButtonImage(value); } 
+        }
 
         private void SetButtonImage(String value)
         {
@@ -43,18 +48,35 @@ namespace MetroHome65.Pages
                 }
                 else
                     pictureBoxBG.Image = null;
+
+                ValueChanged(_ButtonImage);
             }
         }
 
         private void buttonSelectBG_Click(object sender, EventArgs e)
         {
-            if (openFileDialog1.ShowDialog() == DialogResult.OK)
-                SetButtonImage(openFileDialog1.FileName);
+            SelectPictureDialog ImgDialog = new SelectPictureDialog();
+            ImgDialog.Filter = "Image files|*.jpg;*.png;*.bmp;*.gif";
+            ImgDialog.Title = "Select image";
+            ImgDialog.InitialDirectory = System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().GetName().CodeBase);
+
+            if (ImgDialog.ShowDialog() == DialogResult.OK)
+                SetButtonImage(ImgDialog.FileName);
         }
 
         private void buttonClear_Click(object sender, EventArgs e)
         {
             SetButtonImage("");
+        }
+
+        public delegate void ValueChangedHandler(String Value);
+
+        public event ValueChangedHandler OnValueChanged;
+
+        public void ValueChanged(String Value)
+        {
+            if (OnValueChanged != null)
+                OnValueChanged(Value);
         }
 
     }

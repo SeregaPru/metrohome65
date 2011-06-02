@@ -11,11 +11,14 @@ namespace MetroHome65.Pages
 {
     public partial class Settings_string : UserControl
     {
-        private String _Value = "";
-
         public String Caption { set { lblCaption.Text = value; } }
 
-        public String Value { get { return _Value; } set { _Value = value; } }
+        public String Value {
+            get { return textValue.Text; } 
+            set { 
+                textValue.Text = value; 
+            } 
+        }
 
 
         public Settings_string()
@@ -25,7 +28,24 @@ namespace MetroHome65.Pages
 
         private void buttonClear_Click(object sender, EventArgs e)
         {
-            textValue.Text = "";
+            Value = "";
         }
+
+
+        public delegate void ValueChangedHandler(String Value);
+
+        public event ValueChangedHandler OnValueChanged;
+
+        private void textValue_TextChanged(object sender, EventArgs e)
+        {
+            ValueChanged(Value);
+        }
+
+        public void ValueChanged(String Value)
+        {
+            if (OnValueChanged != null)
+                OnValueChanged(Value);
+        }
+
     }
 }
