@@ -1,4 +1,6 @@
 ﻿using System;
+using System.IO;
+using System.Runtime.InteropServices;
 
 namespace MetroHome65
 {
@@ -23,5 +25,22 @@ namespace MetroHome65
             }
         }
 
+
+        [DllImport("coredll.dll", CharSet = CharSet.Unicode, SetLastError = true)]
+        public static extern IntPtr SHGetFileInfo([MarshalAs(UnmanagedType.VBByRefStr)] ref string A_0, int A_1, ref structa A_2, int A_3, int A_4);
+
+        [StructLayout(LayoutKind.Sequential)]
+        public struct structa
+        {
+            public IntPtr a;
+            public int b;
+            public int c;
+            [MarshalAs(UnmanagedType.ByValTStr, SizeConst = 260)]
+            public string d;
+            [MarshalAs(UnmanagedType.ByValTStr, SizeConst = 80)]
+            public string e;
+        }
+    
     }
+
 }

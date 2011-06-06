@@ -88,7 +88,7 @@ namespace MetroHome65.Pages
         private void FillListView()
         {
             String fname;
-            structa refa = new structa();
+            Routines.structa refa = new Routines.structa();
             IntPtr ptr;
 
             Brush bgBrush = new System.Drawing.SolidBrush(_BGColor);
@@ -101,7 +101,7 @@ namespace MetroHome65.Pages
             {
                 // get icon from file
                 fname = FileDescr.Path;
-                ptr = SHGetFileInfo(ref fname, 0, ref refa, Marshal.SizeOf(refa), 0x100);
+                ptr = Routines.SHGetFileInfo(ref fname, 0, ref refa, Marshal.SizeOf(refa), 0x100);
                 Icon icon = Icon.FromHandle(refa.a);
 
                 Bitmap image = new Bitmap(Rect.Width + _BlankSize*2, Rect.Height + _BlankSize*2);
@@ -144,23 +144,6 @@ namespace MetroHome65.Pages
                 MetroHome65.Routines.StartProcess(FileName);
             }
         }
-
-
-
-        [StructLayout(LayoutKind.Sequential)]
-        public struct structa
-        {
-            public IntPtr a;
-            public int b;
-            public int c;
-            [MarshalAs(UnmanagedType.ByValTStr, SizeConst = 260)]
-            public string d;
-            [MarshalAs(UnmanagedType.ByValTStr, SizeConst = 80)]
-            public string e;
-        }
-
-        [DllImport("coredll.dll", CharSet = CharSet.Unicode, SetLastError = true)]
-        public static extern IntPtr SHGetFileInfo([MarshalAs(UnmanagedType.VBByRefStr)] ref string A_0, int A_1, ref structa A_2, int A_3, int A_4);
 
 
         // IPageControl

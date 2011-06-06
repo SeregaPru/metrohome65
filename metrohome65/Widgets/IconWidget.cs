@@ -17,6 +17,7 @@ namespace MetroHome65.Widgets
         private OpenNETCF.Drawing.Imaging.IImage _img = null;
         private String _Caption = "";
         private String _IconPath = "";
+        private Size _IconSize = new Size(92, 90);
 
 
         /// <summary>
@@ -36,15 +37,10 @@ namespace MetroHome65.Widgets
             get { return _IconPath; }
             set
             {
-                try
+                if (_IconPath != value)
                 {
                     _IconPath = value;
-                    if (_IconPath != "")
-                        _factory.CreateImageFromFile(value, out _img);
-                }
-                catch (Exception e)
-                {
-                    //!! write to log  (e.StackTrace, "SetIconPath")
+                    UpdateIconImage();
                 }
             }
         }
@@ -58,19 +54,32 @@ namespace MetroHome65.Widgets
             return sizes;
         }
 
-        protected void PaintIcon(Graphics g, Rectangle Rect)
+        protected virtual void UpdateIconImage()
+        {
+            try
+            {
+                if (_IconPath != "")
+                    _factory.CreateImageFromFile(_IconPath, out _img);
+                else
+                    _img = null;
+            }
+            catch (Exception e)
+            {
+                //!! write to log  (e.StackTrace, "SetIconPath")
+            }
+        }
+
+        protected virtual void PaintIcon(Graphics g, Rectangle Rect)
         {
             // draw icon
             if (_img != null)
             {
                 try
                 {
-                    Size IconSize = new Size(92, 90);
-
                     IntPtr hdc = g.GetHdc();
                     OpenNETCF.Drawing.Imaging.RECT ImgRect = OpenNETCF.Drawing.Imaging.RECT.FromXYWH(
-                        (Rect.Left + Rect.Right - IconSize.Width) / 2,
-                        (Rect.Top + Rect.Bottom - IconSize.Height - 10) / 2, IconSize.Width, IconSize.Height);
+                        (Rect.Left + Rect.Right - _IconSize.Width) / 2,
+                        (Rect.Top + Rect.Bottom - _IconSize.Height - 10) / 2, _IconSize.Width, _IconSize.Height);
                     _img.Draw(hdc, ImgRect, null);
                     g.ReleaseHdc(hdc);
                 }
@@ -82,7 +91,7 @@ namespace MetroHome65.Widgets
         }
 
 
-        protected void PaintCaption(Graphics g, Rectangle Rect)
+        protected virtual void PaintCaption(Graphics g, Rectangle Rect)
         {
             // draw caption
             if (Caption != "")

@@ -61,8 +61,6 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
-    <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
@@ -113,21 +111,6 @@
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="Settings_color.resx">
-      <DependentUpon>Settings_color.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Settings_contact.resx">
-      <DependentUpon>Settings_contact.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Settings_file.resx">
-      <DependentUpon>Settings_file.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Settings_image.resx">
-      <DependentUpon>Settings_image.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Settings_string.resx">
-      <DependentUpon>Settings_string.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="WidgetGrid.resx">
       <DependentUpon>WidgetGrid.cs</DependentUpon>
     </EmbeddedResource>
@@ -137,36 +120,6 @@
       <DesignTime>True</DesignTime>
     </Compile>
     <Compile Include="Routines.cs" />
-    <Compile Include="Settings_color.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="Settings_color.Designer.cs">
-      <DependentUpon>Settings_color.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Settings_contact.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="Settings_contact.Designer.cs">
-      <DependentUpon>Settings_contact.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Settings_file.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="Settings_file.Designer.cs">
-      <DependentUpon>Settings_file.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Settings_image.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="Settings_image.Designer.cs">
-      <DependentUpon>Settings_image.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Settings_string.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="Settings_string.Designer.cs">
-      <DependentUpon>Settings_string.cs</DependentUpon>
-    </Compile>
     <Compile Include="WidgetGrid.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -231,6 +184,12 @@
     <Content Include="icons\phone.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="Metrohome.Settings.Controls\Metrohome.Settings.Controls.csproj">
+      <Project>{A6BFA5B1-E501-4588-BCF0-F07356F120E3}</Project>
+      <Name>Metrohome.Settings.Controls</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CompactFramework.CSharp.targets" />
   <ProjectExtensions>

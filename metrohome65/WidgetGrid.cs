@@ -10,7 +10,7 @@ namespace MetroHome65.Pages
 
     class WidgetGrid : CustomPageControl, IPageControl
     {
-        private static int PaddingHor = 38; //todo comment
+        private static int PaddingHor = 30; //todo comment
         private static int PaddingVer = 5; //todo comment
 
         private String _CoreDir = System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().GetName().CodeBase);
@@ -414,30 +414,30 @@ namespace MetroHome65.Pages
 
             newWidget = new SMSWidget();
             AddWidget(new Point(0, 0), new Size(2, 2), newWidget.ToString()).
+                SetParameter("CommandLine", @"\Windows\tMail.exe").
                 SetParameter("Caption", "SMS").
                 SetParameter("IconPath", _CoreDir + "\\icons\\mail.png").
-                SetParameter("CommandLine", @"\Windows\tMail.exe").
                 SetColor(Color.Orange);
 
             newWidget = new PhoneWidget();
             AddWidget(new Point(0, 2), new Size(2, 2), newWidget.ToString()).
+                SetParameter("CommandLine", @"\windows\cprog.exe").
                 SetParameter("Caption", "Phone").
                 SetParameter("IconPath", _CoreDir + "\\icons\\phone.png").
-                SetParameter("CommandLine", @"\windows\cprog.exe").
                 SetButtonImage(_CoreDir + "\\buttons\\button gray.png");
 
             newWidget = new ShortcutWidget();
             AddWidget(new Point(2, 0), new Size(2, 2), newWidget.ToString()).
+                SetParameter("CommandLine", @"\Windows\Start Menu\Programs\Contacts.lnk").
                 SetParameter("Caption", "Contacts").
                 SetParameter("IconPath", _CoreDir + "\\icons\\contacts.png").
-                SetParameter("CommandLine", @"\Windows\Start Menu\Programs\Contacts.lnk").
                 SetButtonImage(_CoreDir + "\\buttons\\button gray.png");
 
             newWidget = new ShortcutWidget();
             AddWidget(new Point(2, 2), new Size(2, 2), newWidget.ToString()).
-                SetParameter("Caption", "Internet Explorer").
-                SetParameter("IconPath", _CoreDir + "\\icons\\iexplore.png").
                 SetParameter("CommandLine", @"\Windows\iexplore.exe").
+                SetParameter("Caption", "Internet Explorer").
+//                SetParameter("IconPath", _CoreDir + "\\icons\\iexplore.png").
                 SetButtonImage(_CoreDir + "\\buttons\\button blue.png");
 
             newWidget = new DigitalClockWidget();
@@ -468,21 +468,21 @@ namespace MetroHome65.Pages
 
             newWidget = new ShortcutWidget();
             AddWidget(new Point(0, 9), new Size(2, 2), newWidget.ToString()).
+                SetParameter("CommandLine", @"\Windows\MobileCalculator.exe").
                 SetParameter("Caption", "Calculator").
-                SetParameter("IconPath", _CoreDir + "\\icons\\calc.png").
-                SetParameter("CommandLine", @"\Windows\MobileCalculator.exe");
+                SetParameter("IconPath", _CoreDir + "\\icons\\calc.png");
 
             newWidget = new ShortcutWidget();
             AddWidget(new Point(2, 9), new Size(2, 2), newWidget.ToString()).
+                SetParameter("CommandLine", @"\Windows\wmplayer.exe").
                 SetParameter("Caption", "Media player").
-                SetParameter("IconPath", _CoreDir + "\\icons\\media.png").
-                SetParameter("CommandLine", @"\Windows\wmplayer.exe");
+                SetParameter("IconPath", _CoreDir + "\\icons\\media.png");
 
             newWidget = new ShortcutWidget();
             AddWidget(new Point(0, 11), new Size(2, 2), newWidget.ToString()).
+                SetParameter("CommandLine", @"\Windows\fexplore.exe").
                 SetParameter("Caption", "Explorer").
-                SetParameter("IconPath", _CoreDir + "\\icons\\fexplore.png").
-                SetParameter("CommandLine", @"\Windows\fexplore.exe");
+                SetParameter("IconPath", _CoreDir + "\\icons\\fexplore.png");
 
             RealignWidgets();
         }

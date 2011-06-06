@@ -9,11 +9,14 @@ namespace MetroHome65.Widgets
         private System.Windows.Forms.Timer _Timer;
         private int _MissedCount = 0;
 
+        private static int PaddingRightCnt = 50; //todo comment
+        private static int PaddingRightIco = 160; //todo comment
 
         protected override Size[] GetSizes()
         {
             Size[] sizes = new Size[] { 
-                new Size(2, 2) 
+                new Size(2, 2),
+                new Size(4, 2) 
             };
             return sizes;
         }
@@ -26,7 +29,7 @@ namespace MetroHome65.Widgets
 
         public override void Paint(Graphics g, Rectangle Rect)
         {
-            PaintIcon(g, new Rectangle(Rect.Left - 15, Rect.Top, Rect.Width, Rect.Height));
+            PaintIcon(g, new Rectangle(Rect.Right - PaddingRightIco, Rect.Top, Rect.Right - PaddingRightCnt, Rect.Height));
             PaintCaption(g, Rect);
             PaintCount(g, Rect);
         }
@@ -38,7 +41,7 @@ namespace MetroHome65.Widgets
             Font captionFont = new System.Drawing.Font("Helvetica", 24, FontStyle.Regular);
             Brush captionBrush = new System.Drawing.SolidBrush(System.Drawing.Color.White);
             g.DrawString(MissedCountStr, captionFont, captionBrush,
-                Rect.Right - g.MeasureString(MissedCountStr, captionFont).Width - 20,
+                Rect.Right - PaddingRightCnt,
                 (Rect.Bottom + Rect.Top - g.MeasureString(MissedCountStr, captionFont).Height) / 2 - 9);
         }
 
