@@ -85,15 +85,19 @@ namespace MetroHome65.Pages
         public WidgetWrapper SetSize(Size Size)
         {
             Boolean SizeOk = false;
-            foreach (Size size in _Widget.Sizes)
+            if ((_Widget.Sizes != null) && (_Widget.Sizes.Length > 0))
             {
-                if (size.Equals(Size))
+                foreach (Size size in _Widget.Sizes)
                 {
-                    _Size = Size;
-                    SizeOk = true;
-                    break;
+                    if (size.Equals(Size))
+                    {
+                        _Size = Size;
+                        SizeOk = true;
+                        break;
+                    }
                 }
             }
+
             if (!SizeOk) 
                 if ((_Widget.Sizes != null) && (_Widget.Sizes.Length > 0))
                 {

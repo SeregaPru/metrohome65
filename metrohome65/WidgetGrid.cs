@@ -410,76 +410,60 @@ namespace MetroHome65.Pages
         {
             Widgets.Clear();
 
-            BaseWidget newWidget;
-
-            newWidget = new SMSWidget();
-            AddWidget(new Point(0, 0), new Size(2, 2), newWidget.ToString()).
+            AddWidget(new Point(0, 0), new Size(2, 2), "SMSWidget").
                 SetParameter("CommandLine", @"\Windows\tMail.exe").
                 SetParameter("Caption", "SMS").
                 SetParameter("IconPath", _CoreDir + "\\icons\\mail.png").
                 SetColor(Color.Orange);
 
-            newWidget = new PhoneWidget();
-            AddWidget(new Point(0, 2), new Size(2, 2), newWidget.ToString()).
+            AddWidget(new Point(0, 2), new Size(2, 2), "PhoneWidget").
                 SetParameter("CommandLine", @"\windows\cprog.exe").
                 SetParameter("Caption", "Phone").
                 SetParameter("IconPath", _CoreDir + "\\icons\\phone.png").
                 SetButtonImage(_CoreDir + "\\buttons\\button gray.png");
 
-            newWidget = new ShortcutWidget();
-            AddWidget(new Point(2, 0), new Size(2, 2), newWidget.ToString()).
+            AddWidget(new Point(2, 0), new Size(2, 2), "ShortcutWidget").
                 SetParameter("CommandLine", @"\Windows\Start Menu\Programs\Contacts.lnk").
                 SetParameter("Caption", "Contacts").
                 SetParameter("IconPath", _CoreDir + "\\icons\\contacts.png").
                 SetButtonImage(_CoreDir + "\\buttons\\button gray.png");
 
-            newWidget = new ShortcutWidget();
-            AddWidget(new Point(2, 2), new Size(2, 2), newWidget.ToString()).
+            AddWidget(new Point(2, 2), new Size(2, 2), "ShortcutWidget").
                 SetParameter("CommandLine", @"\Windows\iexplore.exe").
                 SetParameter("Caption", "Internet Explorer").
 //                SetParameter("IconPath", _CoreDir + "\\icons\\iexplore.png").
                 SetButtonImage(_CoreDir + "\\buttons\\button blue.png");
 
-            newWidget = new DigitalClockWidget();
-            AddWidget(new Point(0, 4), new Size(4, 2), newWidget.ToString()).
+            AddWidget(new Point(0, 4), new Size(4, 2), "DigitalClockWidget").
                 SetButtonImage(_CoreDir + "\\buttons\\bg5.png");
 
-            newWidget = new ShortcutWidget();
-            AddWidget(new Point(0, 6), new Size(1, 1), newWidget.ToString()).
+            AddWidget(new Point(0, 6), new Size(1, 1), "ShortcutWidget").
                 SetButtonImage(_CoreDir + "\\buttons\\button gray.png");
 
-            newWidget = new ShortcutWidget();
-            AddWidget(new Point(1, 6), new Size(1, 1), newWidget.ToString()).
+            AddWidget(new Point(1, 6), new Size(1, 1), "ShortcutWidget").
                 SetColor(Color.DarkGreen);
 
-            newWidget = new ShortcutWidget();
-            AddWidget(new Point(2, 6), new Size(1, 1), newWidget.ToString()).
+            AddWidget(new Point(2, 6), new Size(1, 1), "ShortcutWidget").
                 SetButtonImage(_CoreDir + "\\buttons\\button blue.png"); ;
 
-            newWidget = new ShortcutWidget();
-            AddWidget(new Point(3, 6), new Size(1, 1), newWidget.ToString()).
+            AddWidget(new Point(3, 6), new Size(1, 1), "ShortcutWidget").
                 SetColor(Color.Maroon);
 
-            newWidget = new ContactWidget();
-            AddWidget(new Point(0, 7), new Size(2, 2), newWidget.ToString());
+            AddWidget(new Point(0, 7), new Size(2, 2), "ContactWidget");
 
-            newWidget = new ContactWidget();
-            AddWidget(new Point(2, 7), new Size(2, 2), newWidget.ToString());
+            AddWidget(new Point(2, 7), new Size(2, 2), "ContactWidget");
 
-            newWidget = new ShortcutWidget();
-            AddWidget(new Point(0, 9), new Size(2, 2), newWidget.ToString()).
+            AddWidget(new Point(0, 9), new Size(2, 2), "ShortcutWidget").
                 SetParameter("CommandLine", @"\Windows\MobileCalculator.exe").
                 SetParameter("Caption", "Calculator").
                 SetParameter("IconPath", _CoreDir + "\\icons\\calc.png");
 
-            newWidget = new ShortcutWidget();
-            AddWidget(new Point(2, 9), new Size(2, 2), newWidget.ToString()).
+            AddWidget(new Point(2, 9), new Size(2, 2), "ShortcutWidget").
                 SetParameter("CommandLine", @"\Windows\wmplayer.exe").
                 SetParameter("Caption", "Media player").
                 SetParameter("IconPath", _CoreDir + "\\icons\\media.png");
 
-            newWidget = new ShortcutWidget();
-            AddWidget(new Point(0, 11), new Size(2, 2), newWidget.ToString()).
+            AddWidget(new Point(0, 11), new Size(2, 2), "ShortcutWidget").
                 SetParameter("CommandLine", @"\Windows\fexplore.exe").
                 SetParameter("Caption", "Explorer").
                 SetParameter("IconPath", _CoreDir + "\\icons\\fexplore.png");
