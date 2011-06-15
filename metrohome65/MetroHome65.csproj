@@ -65,16 +65,13 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CustomPageControl.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
     <Compile Include="FrmWidgetSettings.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="FrmWidgetSettings.Designer.cs">
       <DependentUpon>FrmWidgetSettings.cs</DependentUpon>
     </Compile>
-    <Compile Include="Home_Intf.cs" />
+    <Compile Include="Host_Intf.cs" />
     <Compile Include="MainForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -92,9 +89,6 @@
       <DependentUpon>ProgramList.cs</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <EmbeddedResource Include="CustomPageControl.resx">
-      <DependentUpon>CustomPageControl.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="FrmWidgetSettings.resx">
       <DependentUpon>FrmWidgetSettings.cs</DependentUpon>
     </EmbeddedResource>
@@ -121,13 +115,10 @@
     <Compile Include="WidgetGrid.cs">
       <SubType>UserControl</SubType>
     </Compile>
+    <Compile Include="WidgetGrid.Designer.cs">
+      <DependentUpon>WidgetGrid.cs</DependentUpon>
+    </Compile>
     <Compile Include="WidgetWrapper.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="resources\arrow-left-white.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="resources\arrow-right-white.png" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="buttons\bg1.png">
@@ -175,15 +166,7 @@
     <Content Include="icons\phone.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <EntityDeploy Include="Widgets\BaseWidgets.dll">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </EntityDeploy>
-    <EntityDeploy Include="Widgets\ClockWidgets.dll">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </EntityDeploy>
-    <EntityDeploy Include="Widgets\PhoneWidgets.dll">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </EntityDeploy>
+    <Content Include="resources\unpin.ico" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="Metrohome.Settings.Controls\Metrohome.Settings.Controls.csproj">

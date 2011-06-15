@@ -1,0 +1,118 @@
+﻿namespace MetroHome65.Pages
+{
+    partial class WidgetGrid
+    {
+        /// <summary> 
+        /// Требуется переменная конструктора.
+        /// </summary>
+        private System.ComponentModel.IContainer components = null;
+
+        /// <summary> 
+        /// Освободить все используемые ресурсы.
+        /// </summary>
+        /// <param name="disposing">истинно, если управляемый ресурс  следует удалить; иначе ложно.</param>
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing && (components != null))
+            {
+                components.Dispose();
+            }
+            base.Dispose(disposing);
+        }
+
+        #region Код, автоматически созданный конструктором компонентов
+
+        /// <summary> 
+        /// Обязательный метод для поддержки конструктора - не изменяйте 
+        /// содержимое данного метода при помощи редактора кода.
+        /// </summary>
+        private void InitializeComponent()
+        {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(WidgetGrid));
+            this._WidgetsContainer = new System.Windows.Forms.Panel();
+            this._WidgetsImage = new System.Windows.Forms.PictureBox();
+            this.buttonNextPage = new System.Windows.Forms.PictureBox();
+            this.gestureRecognizer = new Microsoft.WindowsMobile.Gestures.GestureRecognizer();
+            this.physics = new Microsoft.WindowsMobile.Gestures.PhysicsEngine();
+            this._mnuWidgetActions = new System.Windows.Forms.ContextMenu();
+            this.mnuMain = new System.Windows.Forms.ContextMenu();
+            this.mnuExit = new System.Windows.Forms.MenuItem();
+            this._WidgetsContainer.SuspendLayout();
+            this.SuspendLayout();
+            // 
+            // _WidgetsContainer
+            // 
+            this._WidgetsContainer.BackColor = System.Drawing.Color.Black;
+            this._WidgetsContainer.Controls.Add(this._WidgetsImage);
+            this._WidgetsContainer.Location = new System.Drawing.Point(30, 6);
+            this._WidgetsContainer.Name = "_WidgetsContainer";
+            this._WidgetsContainer.Size = new System.Drawing.Size(302, 336);
+            // 
+            // _WidgetsImage
+            // 
+            this._WidgetsImage.Location = new System.Drawing.Point(0, 0);
+            this._WidgetsImage.Name = "_WidgetsImage";
+            this._WidgetsImage.Size = new System.Drawing.Size(200, 100);
+            // 
+            // buttonNextPage
+            // 
+            this.buttonNextPage.Image = ((System.Drawing.Image)(resources.GetObject("buttonNextPage.Image")));
+            this.buttonNextPage.Location = new System.Drawing.Point(346, 6);
+            this.buttonNextPage.Name = "buttonNextPage";
+            this.buttonNextPage.Size = new System.Drawing.Size(44, 44);
+            this.buttonNextPage.Click += new System.EventHandler(this.buttonNextPage_Click);
+            // 
+            // gestureRecognizer
+            // 
+            this.gestureRecognizer.TargetControl = this;
+            this.gestureRecognizer.Hold += new System.EventHandler<Microsoft.WindowsMobile.Gestures.GestureEventArgs>(this.gestureRecognizer_Hold);
+            this.gestureRecognizer.End += new System.EventHandler<Microsoft.WindowsMobile.Gestures.GestureEventArgs>(this.gestureRecognizer_End);
+            this.gestureRecognizer.DoubleSelect += new System.EventHandler<Microsoft.WindowsMobile.Gestures.GestureEventArgs>(this.gestureRecognizer_DoubleSelect);
+            this.gestureRecognizer.Select += new System.EventHandler<Microsoft.WindowsMobile.Gestures.GestureEventArgs>(this.gestureRecognizer1_Select);
+            this.gestureRecognizer.Begin += new System.EventHandler<Microsoft.WindowsMobile.Gestures.GestureEventArgs>(this.gestureRecognizer_Begin);
+            this.gestureRecognizer.Pan += new System.EventHandler<Microsoft.WindowsMobile.Gestures.GestureEventArgs>(this.gestureRecognizer_Pan);
+            this.gestureRecognizer.Scroll += new System.EventHandler<Microsoft.WindowsMobile.Gestures.GestureScrollEventArgs>(this.gestureRecognizer_Scroll);
+            // 
+            // physics
+            // 
+            this.physics.AnimateXAxis = false;
+            this.physics.ExtentControl = null;
+            this.physics.ViewportControl = null;
+            this.physics.AnimateFrame += new System.EventHandler<Microsoft.WindowsMobile.Gestures.PhysicsAnimationFrameEventArgs>(this.physics_AnimateFrame);
+            // 
+            // mnuMain
+            // 
+            this.mnuMain.MenuItems.Add(this.mnuExit);
+            // 
+            // mnuExit
+            // 
+            this.mnuExit.Text = "Exit";
+            this.mnuExit.Click += new System.EventHandler(this.Exit_Click);
+            // 
+            // WidgetGrid
+            // 
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Inherit;
+            this.BackColor = System.Drawing.Color.Black;
+            this.Controls.Add(this.buttonNextPage);
+            this.Controls.Add(this._WidgetsContainer);
+            this.ForeColor = System.Drawing.Color.White;
+            this.Name = "WidgetGrid";
+            this.Size = new System.Drawing.Size(402, 402);
+            this.Resize += new System.EventHandler(this.WidgetGrid_Resize);
+            this._WidgetsContainer.ResumeLayout(false);
+            this.ResumeLayout(false);
+
+        }
+
+        #endregion
+
+        private System.Windows.Forms.Panel _WidgetsContainer;
+        private System.Windows.Forms.PictureBox _WidgetsImage;
+        private System.Windows.Forms.PictureBox buttonNextPage;
+        private Microsoft.WindowsMobile.Gestures.GestureRecognizer gestureRecognizer;
+        private Microsoft.WindowsMobile.Gestures.PhysicsEngine physics;
+        private System.Windows.Forms.ContextMenu _mnuWidgetActions;
+        private System.Windows.Forms.ContextMenu mnuMain;
+        private System.Windows.Forms.MenuItem mnuExit;
+    }
+}

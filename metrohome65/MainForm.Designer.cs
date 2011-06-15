@@ -28,37 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.gestureRecognizer = new Microsoft.WindowsMobile.Gestures.GestureRecognizer();
-            this.physics = new Microsoft.WindowsMobile.Gestures.PhysicsEngine();
-            this.mnuMain = new System.Windows.Forms.ContextMenu();
-            this.mnuExit = new System.Windows.Forms.MenuItem();
             this.SuspendLayout();
-            // 
-            // gestureRecognizer
-            // 
-            this.gestureRecognizer.TargetControl = null;
-            this.gestureRecognizer.Hold += new System.EventHandler<Microsoft.WindowsMobile.Gestures.GestureEventArgs>(this.gestureRecognizer_Hold);
-            this.gestureRecognizer.End += new System.EventHandler<Microsoft.WindowsMobile.Gestures.GestureEventArgs>(this.gestureRecognizer_End);
-            this.gestureRecognizer.DoubleSelect += new System.EventHandler<Microsoft.WindowsMobile.Gestures.GestureEventArgs>(this.gestureRecognizer_DoubleSelect);
-            this.gestureRecognizer.Select += new System.EventHandler<Microsoft.WindowsMobile.Gestures.GestureEventArgs>(this.gestureRecognizer1_Select);
-            this.gestureRecognizer.Begin += new System.EventHandler<Microsoft.WindowsMobile.Gestures.GestureEventArgs>(this.gestureRecognizer_Begin);
-            this.gestureRecognizer.Pan += new System.EventHandler<Microsoft.WindowsMobile.Gestures.GestureEventArgs>(this.gestureRecognizer_Pan);
-            this.gestureRecognizer.Scroll += new System.EventHandler<Microsoft.WindowsMobile.Gestures.GestureScrollEventArgs>(this.gestureRecognizer_Scroll);
-            // 
-            // physics
-            // 
-            this.physics.AnimateXAxis = false;
-            this.physics.ViewportControl = null;
-            this.physics.AnimateFrame += new System.EventHandler<Microsoft.WindowsMobile.Gestures.PhysicsAnimationFrameEventArgs>(this.physics_AnimateFrame);
-            // 
-            // mnuMain
-            // 
-            this.mnuMain.MenuItems.Add(this.mnuExit);
-            // 
-            // mnuExit
-            // 
-            this.mnuExit.Text = "Exit";
-            this.mnuExit.Click += new System.EventHandler(this.mnuExit_Click);
             // 
             // MainForm
             // 
@@ -82,10 +52,6 @@
 
         #endregion
 
-        private Microsoft.WindowsMobile.Gestures.GestureRecognizer gestureRecognizer;
-        private Microsoft.WindowsMobile.Gestures.PhysicsEngine physics;
-        private System.Windows.Forms.ContextMenu mnuMain;
-        private System.Windows.Forms.MenuItem mnuExit;
 
     }
 }

@@ -5,7 +5,7 @@ using System.Drawing;
 
 namespace MetroHome65.Pages
 {
-    class CustomPageControl : UserControl, IPageControl
+    public partial class CustomPageControl : UserControl, IPageControl
     {
         public virtual void SetScrollPosition(Point Location) { }
 
@@ -37,7 +37,9 @@ namespace MetroHome65.Pages
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Inherit;
             this.BackColor = System.Drawing.Color.Black;
             this.Name = "CustomPageControl";
+            this.Size = new System.Drawing.Size(207, 171);
             this.ResumeLayout(false);
+
         }
 
 

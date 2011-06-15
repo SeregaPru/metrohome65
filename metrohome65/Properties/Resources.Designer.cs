@@ -57,17 +57,10 @@ namespace MetroHome65.Properties {
             }
         }
         
-        internal static System.Drawing.Bitmap arrow_left_white {
+        internal static System.Drawing.Icon unpin {
             get {
-                object obj = ResourceManager.GetObject("arrow_left_white", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        internal static System.Drawing.Bitmap arrow_right_white {
-            get {
-                object obj = ResourceManager.GetObject("arrow_right_white", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
+                object obj = ResourceManager.GetObject("unpin", resourceCulture);
+                return ((System.Drawing.Icon)(obj));
             }
         }
     }

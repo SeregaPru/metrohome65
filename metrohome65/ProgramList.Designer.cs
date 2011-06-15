@@ -35,12 +35,13 @@
             this.lvApps = new System.Windows.Forms.ListView();
             this.columnHeader1 = new System.Windows.Forms.ColumnHeader();
             this.ilAppIcons = new System.Windows.Forms.ImageList();
+            this.gestureRecognizer = new Microsoft.WindowsMobile.Gestures.GestureRecognizer();
             this.SuspendLayout();
             // 
             // buttonBack
             // 
             this.buttonBack.Image = ((System.Drawing.Image)(resources.GetObject("buttonBack.Image")));
-            this.buttonBack.Location = new System.Drawing.Point(19, 0);
+            this.buttonBack.Location = new System.Drawing.Point(19, 6);
             this.buttonBack.Name = "buttonBack";
             this.buttonBack.Size = new System.Drawing.Size(45, 45);
             this.buttonBack.Click += new System.EventHandler(this.buttonBack_Click);
@@ -77,6 +78,11 @@
             // 
             this.ilAppIcons.ImageSize = new System.Drawing.Size(88, 88);
             // 
+            // gestureRecognizer
+            // 
+            this.gestureRecognizer.TargetControl = this.lvApps;
+            this.gestureRecognizer.Hold += new System.EventHandler<Microsoft.WindowsMobile.Gestures.GestureEventArgs>(this.gestureRecognizer_Hold);
+            // 
             // ProgramList
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(192F, 192F);
@@ -97,5 +103,6 @@
         private System.Windows.Forms.ListView lvApps;
         private System.Windows.Forms.ImageList ilAppIcons;
         private System.Windows.Forms.ColumnHeader columnHeader1;
+        private Microsoft.WindowsMobile.Gestures.GestureRecognizer gestureRecognizer;
     }
 }

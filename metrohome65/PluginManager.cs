@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Reflection;
 using System.Linq;
+using System.IO;
 
 using MetroHome65.Widgets;
 
@@ -37,9 +38,20 @@ namespace MetroHome65.Pages
         /// </summary>
         private void LoadPlugins()
         {
-            //!! read plugins from current assembly.
-            //!! in future get from external plugins
-            Assembly assembly = Assembly.GetExecutingAssembly();
+            DirectoryInfo FolderInfo = new DirectoryInfo(
+                System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().GetName().CodeBase));
+            FileInfo[] files = FolderInfo.GetFiles();
+
+            foreach (FileInfo file in files)
+            {
+                if (file.Extension == ".dll")
+                    LoadPlugin(file.FullName);
+            }
+        }
+
+        private void LoadPlugin(String PluginPath)
+        {
+            Assembly assembly = Assembly.LoadFrom(PluginPath);
 
             foreach (Type type in assembly.GetTypes())
             {

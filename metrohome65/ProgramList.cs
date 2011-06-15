@@ -17,23 +17,28 @@ namespace MetroHome65.Pages
 
     public partial class ProgramList : UserControl, IPageControl
     {
+        private static int PaddingHor = 30; 
         private Size _IconSize = new Size(64, 64);
         private int _BorderSize = 7;
         private int _BlankSize = 5;
         private Color _BGColor = Color.Green;
         private List<FileDescr> _FileList = new List<FileDescr>();
+        private WidgetGrid _WidgetGrid;
+        private MetroHome65.Main.IHost _Host;
 
-        
-        public ProgramList()
+
+        public ProgramList(WidgetGrid WidgetGrid)
         {
             InitializeComponent();
+
+            this._WidgetGrid = WidgetGrid;
 
             FillProgramList();
         }
 
         private void ProgramList_Resize(object sender, EventArgs e)
         {
-            this.lvApps.Width = this.Width - this.lvApps.Left + 30;
+            this.lvApps.Width = this.Width - this.lvApps.Left + PaddingHor;
             this.lvApps.Height = this.Height;
         }
 
@@ -146,35 +151,54 @@ namespace MetroHome65.Pages
 
 
         // IPageControl
-        public void SetScrollPosition(Point Location) { }
-        public Point GetScrollPosition() { return new Point(0, 0); }
-
-        public Size GetViewportSize() { return this.Size; }
-        public Size GetExtentSize() { return this.Size; }
-
-        public void ClickAt(Point Location) { }
-        public void DblClickAt(Point Location) { }
-        public Boolean ShowPopupMenu(Point Location) { return false; }
-
         public Boolean Active { set { } }
-
         public void SetBackColor(Color value) { }
-
         public Control GetControl() { return this; }
 
-
-        public event EventHandler ChangePage = null;
-
-        public void OnChangePage(EventArgs e)
+        public void SetHost(MetroHome65.Main.IHost Host)
         {
-            if (this.ChangePage != null)
-                this.ChangePage(this, e);
+            _Host = Host;
         }
 
 
         private void buttonBack_Click(object sender, EventArgs e)
         {
-            OnChangePage(EventArgs.Empty);
+            if (_Host != null)
+                _Host.ChangePage(false);
+        }
+
+
+        /// <summary>
+        /// Shows popup menu - pin to Start
+        /// </summary>
+        /// <param name="Location"></param>
+        /// <returns></returns>
+        public Boolean ShowPopupMenu(Point Location) {
+            if (! lvApps.Bounds.Contains(Location))
+                return false; 
+
+            ContextMenu _mnuWidgetActions = new ContextMenu();
+            _mnuWidgetActions.MenuItems.Clear();
+
+            MenuItem menuAddWidget = new System.Windows.Forms.MenuItem();
+            menuAddWidget.Text = "Pin to start";
+            menuAddWidget.Click += AddWidget_Click;
+            _mnuWidgetActions.MenuItems.Add(menuAddWidget);
+
+            _mnuWidgetActions.Show(this, Location);
+            return true;
+        }
+
+        private void AddWidget_Click(object sender, EventArgs e)
+        {
+            _WidgetGrid.AddWidget(new Point(0, 90), new Size(2, 2), "MetroHome65.Widgets.ShortcutWidget");
+            if (_Host != null)
+                _Host.ChangePage(false);
+        }
+
+        private void gestureRecognizer_Hold(object sender, Microsoft.WindowsMobile.Gestures.GestureEventArgs e)
+        {
+            ShowPopupMenu(e.Location);
         }
 
     }

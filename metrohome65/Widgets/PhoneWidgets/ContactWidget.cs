@@ -74,7 +74,11 @@ namespace MetroHome65.Widgets
 
         public override void OnMenuItemClick(String ItemName)
         {
-            MessageBox.Show(ItemName);
+            if (ItemName == "Call")
+                MakeCall();
+            else
+            if (ItemName == "Send SMS")
+                SendSMS();
         }
 
 
@@ -95,6 +99,42 @@ namespace MetroHome65.Widgets
         void EditControl_OnValueChanged(int Value)
         {
             ContactId = Value;
+        }
+
+
+        /// <summary>
+        /// on click open contact
+        /// </summary>
+        /// <param name="Location"></param>
+        public override void OnClick(Point Location)
+        {
+            OpenContact();
+        }
+        
+        /// <summary>
+        /// on double click make a call
+        /// </summary>
+        /// <param name="Location"></param>
+        public override void OnDblClick(Point Location)
+        {
+            MakeCall();
+        }
+
+
+        private void MakeCall()
+        {
+
+        }
+
+        private void SendSMS()
+        {
+            Contact contact = FindContact(ContactId);
+            OutlookSession mySession = new OutlookSession();
+            SmsMessage message = new Microsoft.WindowsMobile.PocketOutlook.SmsMessage(contact.ItemId);
+        }
+
+        private void OpenContact()
+        {
         }
 
     }

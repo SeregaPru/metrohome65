@@ -40,10 +40,14 @@ namespace MetroHome65.Pages
         private OpenNETCF.Drawing.Imaging.ImagingFactoryClass _factory = new OpenNETCF.Drawing.Imaging.ImagingFactoryClass();
         private OpenNETCF.Drawing.Imaging.IImage _img = null;
         private IWidget _Widget = null;
-        private Color _Color = System.Drawing.Color.Blue;
+        private Color _Color = System.Drawing.Color.LightBlue;
         private Point _Location = new Point(0, 0);
         private Size _Size = new Size(1, 1);
         private String _ButtonImage = "";
+
+        [XmlIgnore]
+        public WidgetGrid WidgetGrid = null;
+
 
         public WidgetWrapper()
         {
@@ -56,7 +60,6 @@ namespace MetroHome65.Pages
             this.Location = Location;
         }
 
-
         /// <summary>
         /// Widget location in grid
         /// </summary>
@@ -65,7 +68,7 @@ namespace MetroHome65.Pages
         public WidgetWrapper SetLocation(Point Location)
         {
             _Location = Location;
-            UpdateScreenPosition();
+            CalcScreenPosition();
             return this;
         }
 
@@ -84,6 +87,9 @@ namespace MetroHome65.Pages
         /// <returns></returns>
         public WidgetWrapper SetSize(Size Size)
         {
+            if (_Widget == null) 
+                return this;
+
             Boolean SizeOk = false;
             if ((_Widget.Sizes != null) && (_Widget.Sizes.Length > 0))
             {
@@ -110,11 +116,11 @@ namespace MetroHome65.Pages
                     //!! write to log
                 }
 
-            UpdateScreenPosition();
+            CalcScreenPosition();
             return this;
         }
 
-        private void UpdateScreenPosition()
+        public void CalcScreenPosition()
         {
             ScreenRect.X = _Location.X * (CellWidth + CellSpacingHor);
             ScreenRect.Y = _Location.Y * (CellHeight + CellSpacingVer);
@@ -259,6 +265,14 @@ namespace MetroHome65.Pages
                     PaintBackground(g, Rect);
                 Widget.Paint(g, Rect);
             }
+            else
+            {
+                Pen Pen = new Pen(Color.Gray, 1);
+                Pen.DashStyle = System.Drawing.Drawing2D.DashStyle.Dash;
+                g.DrawRectangle(Pen, Rect);
+                g.DrawString("Widget\nnot\nfound", new System.Drawing.Font("Verdana", 8, FontStyle.Regular),
+                    new SolidBrush(Color.Yellow), Rect.X + 5, Rect.Y + 5);
+            }
         }
 
         /// <summary>
@@ -275,7 +289,7 @@ namespace MetroHome65.Pages
                 try
                 {
                     IntPtr hdc = g.GetHdc();
-                    OpenNETCF.Drawing.Imaging.RECT ImgRect = OpenNETCF.Drawing.Imaging.RECT.FromXYWH(Rect.Left, Rect.Top, ScreenRect.Width, ScreenRect.Height);
+                    OpenNETCF.Drawing.Imaging.RECT ImgRect = OpenNETCF.Drawing.Imaging.RECT.FromXYWH(Rect.Left, Rect.Top, Rect.Width, Rect.Height);
                     _img.Draw(hdc, ImgRect, null);
                     g.ReleaseHdc(hdc);
                     return;
@@ -301,5 +315,12 @@ namespace MetroHome65.Pages
             if (Widget != null)
                 Widget.OnClick(Location);
         }
+
+        /// <summary>
+        /// Flag when widget is in moving mode
+        /// </summary>
+        [XmlIgnore]
+        public bool Moving = false;
+
     }
 }

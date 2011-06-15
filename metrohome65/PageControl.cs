@@ -4,24 +4,14 @@ using System.Drawing;
 
 namespace MetroHome65.Pages
 {
-    interface IPageControl 
-    {
-        void SetScrollPosition(Point Location);
-        Point GetScrollPosition();
-
-        Size GetViewportSize();
-        Size GetExtentSize();
-
-        void ClickAt(Point Location);
-        void DblClickAt(Point Location);
-        Boolean ShowPopupMenu(Point Location);
-        
+    public interface IPageControl 
+    {     
         Boolean Active { set; }
 
         void SetBackColor(Color value);
 
-        Control GetControl();
+        void SetHost(MetroHome65.Main.IHost Host);
 
-        event EventHandler ChangePage;
+        Control GetControl();
     }
 }
