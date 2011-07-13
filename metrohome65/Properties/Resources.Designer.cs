@@ -56,12 +56,5 @@ namespace MetroHome65.Properties {
                 resourceCulture = value;
             }
         }
-        
-        internal static System.Drawing.Icon unpin {
-            get {
-                object obj = ResourceManager.GetObject("unpin", resourceCulture);
-                return ((System.Drawing.Icon)(obj));
-            }
-        }
     }
 }

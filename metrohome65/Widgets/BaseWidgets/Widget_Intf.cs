@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Drawing;
-using System.Collections;
+using System.Collections.Generic;
 using System.Windows.Forms;
 
 
@@ -85,7 +85,7 @@ namespace MetroHome65.Widgets
 
         void OnDblClick(Point Location);
 
-        Control[] EditControls { get; }
+        List<Control> EditControls { get; }
     }
 
 

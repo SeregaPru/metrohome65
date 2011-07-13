@@ -1,4 +1,4 @@
-﻿namespace MetroHome65.Pages
+﻿namespace MetroHome65.Settings.Controls
 {
     partial class Settings_string
     {
@@ -35,7 +35,7 @@
             // 
             // lblCaption
             // 
-            this.lblCaption.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular);
+            this.lblCaption.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular);
             this.lblCaption.ForeColor = System.Drawing.Color.White;
             this.lblCaption.Location = new System.Drawing.Point(8, 20);
             this.lblCaption.Name = "lblCaption";

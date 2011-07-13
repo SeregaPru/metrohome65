@@ -15,8 +15,6 @@ namespace MetroHome65.Pages
     {
         private WidgetWrapper _Widget = null;
         private IWidget _SelectedWidget = null;
-        private Settings_color ctrlColorSelect = null;
-        private Settings_image ctrlImageSelect = null;
         private List<Type> _WidgetTypes = new List<Type>();
 
         public FrmWidgetSettings()
@@ -29,8 +27,6 @@ namespace MetroHome65.Pages
         private void SetWidget(WidgetWrapper value)
         {
             _Widget = value;
-
-            FillButtonColor(_Widget.Color);
 
             SetWidgetType(_Widget.Widget);
 
@@ -45,7 +41,6 @@ namespace MetroHome65.Pages
                 _SelectedWidget = value;
 
                 FillSizes();
-                FillButtonImage(_Widget.ButtonImage);
                 FillWidgetProperties();
             }
         }
@@ -94,26 +89,6 @@ namespace MetroHome65.Pages
                 cbSize.SelectedIndex = 0;
         }
 
-        private void FillButtonColor(Color Color)
-        {
-            ctrlColorSelect = new Settings_color();
-            ctrlColorSelect.Value = Color;
-
-            PlaceControl(ctrlColorSelect, false);
-        }
-
-        private void FillButtonImage(String ButtonImage)
-        {
-            if (_SelectedWidget.Transparent)
-            {
-                if (ctrlImageSelect == null)
-                    ctrlImageSelect = new Settings_image();
-                ctrlImageSelect.Caption = "Button background";
-                ctrlImageSelect.Value = ButtonImage;
-
-                PlaceControl(ctrlImageSelect, false);
-            }
-        }
 
         private void FillWidgetProperties()
         {
@@ -124,7 +99,7 @@ namespace MetroHome65.Pages
                     this.Controls.Remove(Control);
             }
 
-            Control[] Controls = _SelectedWidget.EditControls;
+            List<Control> Controls = _SelectedWidget.EditControls;
             if (Controls != null)
             {
                 foreach (Control UserControl in Controls)
@@ -144,7 +119,6 @@ namespace MetroHome65.Pages
                     Control.Name = "__Control_" + this.Controls.Count.ToString();
 
                 Control.Parent = this;
-                Control.Width = this.Width;
                 Control.Top = _ControlTop;
 
                 this.Controls.Add(Control);
@@ -171,9 +145,6 @@ namespace MetroHome65.Pages
             {
                 _Widget.WidgetClass = ((object)_SelectedWidget).GetType().ToString();
                 _Widget.Size = _SelectedWidget.Sizes[cbSize.SelectedIndex];
-                _Widget.Color = ctrlColorSelect.Value;
-                if (_SelectedWidget.Transparent)
-                    _Widget.ButtonImage = ctrlImageSelect.Value;
 
                 // apply custom widget parameters
                 foreach (PropertyInfo propertyInfo in ((object)_SelectedWidget).GetType().GetProperties())

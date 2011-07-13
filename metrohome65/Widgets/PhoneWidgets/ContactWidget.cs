@@ -1,19 +1,36 @@
 ﻿using System;
 using System.Drawing;
 using System.Windows.Forms;
+using System.Collections.Generic;
 using Microsoft.WindowsMobile.PocketOutlook;
+using MetroHome65.Settings.Controls;
+using MetroHome65.Routines;
 
 namespace MetroHome65.Widgets
 {
     [WidgetInfo("Contact")]
     public class ContactWidget : BaseWidget
     {
+        private int _ContactId = -1;
+
         [WidgetParameter]
-        public int ContactId = -1;
+        public int ContactId
+        {
+            get { return _ContactId; }
+            set {
+                if (_ContactId != value)
+                {
+                    _ContactId = value;
+                    NotifyPropertyChanged("ContactId");
+                }
+            }
+        }
+
 
         protected override Size[] GetSizes()
         {
             Size[] sizes = new Size[] { 
+                new Size(1, 1), 
                 new Size(2, 2) 
             };
             return sizes;
@@ -55,18 +72,23 @@ namespace MetroHome65.Widgets
 
             if (contact == null)
             {
+                g.FillRectangle(new System.Drawing.SolidBrush(Color.DarkBlue),
+                    new Rectangle(Rect.Left + 1, Rect.Top + 1, Rect.Width - 3, Rect.Height - 3));
                 g.DrawString("Contact \n not \n found", captionFont, captionBrush,
                     Rect.Left + 10, Rect.Top + 10);
                 return;
             }
 
-            String ContactName = contact.FileAs;
             if (contact.Picture != null)
                 g.DrawImage(contact.Picture,
                     new Rectangle(Rect.Left + 1, Rect.Top + 1, Rect.Width - 3, Rect.Height - 3),
                     0, 0, contact.Picture.Width, contact.Picture.Height, GraphicsUnit.Pixel,
                     new System.Drawing.Imaging.ImageAttributes());
+            else
+                g.FillRectangle(new System.Drawing.SolidBrush(Color.DarkBlue), 
+                    new Rectangle(Rect.Left + 1, Rect.Top + 1, Rect.Width - 3, Rect.Height - 3));
 
+            String ContactName = contact.FileAs;
             g.DrawString(ContactName, captionFont, captionBrush,
                 Rect.Left + 10, Rect.Bottom - 5 - g.MeasureString(ContactName, captionFont).Height);
         }
@@ -82,23 +104,20 @@ namespace MetroHome65.Widgets
         }
 
 
-        public override Control[] EditControls
+        public override List<Control> EditControls
         {
             get
             {
-                Control[] Controls = new Control[1];
+                List<Control> Controls = base.EditControls;
                 Settings_contact EditControl = new Settings_contact();
                 EditControl.Value = ContactId;
-                EditControl.OnValueChanged += new Settings_contact.ValueChangedHandler(EditControl_OnValueChanged);
-                Controls[0] = EditControl;
+                Controls.Add(EditControl);
+
+                BindingManager BindingManager = new BindingManager();
+                BindingManager.Bind(this, "ContactId", EditControl, "Value");
 
                 return Controls;
             }
-        }
-
-        void EditControl_OnValueChanged(int Value)
-        {
-            ContactId = Value;
         }
 
 
@@ -123,18 +142,27 @@ namespace MetroHome65.Widgets
 
         private void MakeCall()
         {
+            Contact contact = FindContact(this.ContactId);
+            if (contact == null)
+                return;
 
+            Microsoft.WindowsMobile.Telephony.Phone myPhone = new Microsoft.WindowsMobile.Telephony.Phone();
+            myPhone.Talk(contact.MobileTelephoneNumber, false);
         }
 
         private void SendSMS()
         {
             Contact contact = FindContact(ContactId);
             OutlookSession mySession = new OutlookSession();
-            SmsMessage message = new Microsoft.WindowsMobile.PocketOutlook.SmsMessage(contact.ItemId);
+            SmsMessage message = new Microsoft.WindowsMobile.PocketOutlook.SmsMessage(contact.MobileTelephoneNumber, "");
+            Microsoft.WindowsMobile.PocketOutlook.MessagingApplication.DisplayComposeForm(message);
         }
 
         private void OpenContact()
         {
+            Contact contact = FindContact(this.ContactId);
+            if (contact != null)
+                contact.ShowDialog();
         }
 
     }

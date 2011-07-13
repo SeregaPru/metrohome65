@@ -1,4 +1,4 @@
-﻿namespace MetroHome65
+﻿namespace MetroHome65.Settings.Controls
 {
     partial class Settings_color
     {
@@ -33,14 +33,14 @@
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.panelColorSample = new System.Windows.Forms.Panel();
-            this.trackRed = new System.Windows.Forms.TrackBar();
-            this.trackGreen = new System.Windows.Forms.TrackBar();
-            this.trackBlue = new System.Windows.Forms.TrackBar();
+            this.trackRed = new System.Windows.Forms.HScrollBar();
+            this.trackGreen = new System.Windows.Forms.HScrollBar();
+            this.trackBlue = new System.Windows.Forms.HScrollBar();
             this.SuspendLayout();
             // 
             // lblColor
             // 
-            this.lblColor.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular);
+            this.lblColor.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular);
             this.lblColor.ForeColor = System.Drawing.Color.White;
             this.lblColor.Location = new System.Drawing.Point(8, 20);
             this.lblColor.Name = "lblColor";
@@ -51,7 +51,7 @@
             // 
             this.label3.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular);
             this.label3.ForeColor = System.Drawing.Color.Blue;
-            this.label3.Location = new System.Drawing.Point(17, 198);
+            this.label3.Location = new System.Drawing.Point(15, 159);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(32, 40);
             this.label3.Text = "B";
@@ -61,9 +61,9 @@
             // 
             this.label2.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular);
             this.label2.ForeColor = System.Drawing.Color.Green;
-            this.label2.Location = new System.Drawing.Point(17, 136);
+            this.label2.Location = new System.Drawing.Point(15, 112);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(32, 41);
+            this.label2.Size = new System.Drawing.Size(32, 39);
             this.label2.Text = "G";
             this.label2.TextAlign = System.Drawing.ContentAlignment.TopCenter;
             // 
@@ -71,68 +71,59 @@
             // 
             this.label1.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular);
             this.label1.ForeColor = System.Drawing.Color.Red;
-            this.label1.Location = new System.Drawing.Point(17, 75);
+            this.label1.Location = new System.Drawing.Point(15, 67);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(32, 39);
+            this.label1.Size = new System.Drawing.Size(32, 42);
             this.label1.Text = "R";
             this.label1.TextAlign = System.Drawing.ContentAlignment.TopCenter;
             // 
             // panelColorSample
             // 
-            this.panelColorSample.Location = new System.Drawing.Point(368, 94);
+            this.panelColorSample.Location = new System.Drawing.Point(369, 75);
             this.panelColorSample.Name = "panelColorSample";
-            this.panelColorSample.Size = new System.Drawing.Size(78, 127);
+            this.panelColorSample.Size = new System.Drawing.Size(75, 118);
             // 
             // trackRed
             // 
-            this.trackRed.BackColor = System.Drawing.Color.Black;
-            this.trackRed.LargeChange = 10;
-            this.trackRed.Location = new System.Drawing.Point(55, 70);
+            this.trackRed.Location = new System.Drawing.Point(50, 75);
             this.trackRed.Maximum = 255;
             this.trackRed.Name = "trackRed";
-            this.trackRed.Size = new System.Drawing.Size(307, 55);
-            this.trackRed.TabIndex = 9;
-            this.trackRed.TickStyle = System.Windows.Forms.TickStyle.None;
+            this.trackRed.Size = new System.Drawing.Size(313, 26);
+            this.trackRed.TabIndex = 10;
             this.trackRed.ValueChanged += new System.EventHandler(this.trackBlue_ValueChanged);
             // 
             // trackGreen
             // 
-            this.trackGreen.BackColor = System.Drawing.Color.Black;
-            this.trackGreen.LargeChange = 10;
-            this.trackGreen.Location = new System.Drawing.Point(55, 131);
+            this.trackGreen.Location = new System.Drawing.Point(50, 121);
             this.trackGreen.Maximum = 255;
             this.trackGreen.Name = "trackGreen";
-            this.trackGreen.Size = new System.Drawing.Size(307, 55);
-            this.trackGreen.TabIndex = 7;
-            this.trackGreen.TickStyle = System.Windows.Forms.TickStyle.None;
+            this.trackGreen.Size = new System.Drawing.Size(313, 26);
+            this.trackGreen.TabIndex = 11;
             this.trackGreen.ValueChanged += new System.EventHandler(this.trackBlue_ValueChanged);
             // 
             // trackBlue
             // 
-            this.trackBlue.BackColor = System.Drawing.Color.Black;
-            this.trackBlue.LargeChange = 10;
-            this.trackBlue.Location = new System.Drawing.Point(55, 192);
+            this.trackBlue.Location = new System.Drawing.Point(50, 167);
             this.trackBlue.Maximum = 255;
             this.trackBlue.Name = "trackBlue";
-            this.trackBlue.Size = new System.Drawing.Size(307, 55);
-            this.trackBlue.TabIndex = 5;
-            this.trackBlue.TickStyle = System.Windows.Forms.TickStyle.None;
+            this.trackBlue.Size = new System.Drawing.Size(313, 26);
+            this.trackBlue.TabIndex = 12;
             this.trackBlue.ValueChanged += new System.EventHandler(this.trackBlue_ValueChanged);
             // 
             // Settings_color
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             this.BackColor = System.Drawing.Color.Black;
+            this.Controls.Add(this.trackBlue);
+            this.Controls.Add(this.trackGreen);
+            this.Controls.Add(this.trackRed);
             this.Controls.Add(this.lblColor);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.panelColorSample);
-            this.Controls.Add(this.trackRed);
-            this.Controls.Add(this.trackGreen);
-            this.Controls.Add(this.trackBlue);
             this.Name = "Settings_color";
-            this.Size = new System.Drawing.Size(450, 255);
+            this.Size = new System.Drawing.Size(450, 200);
             this.ResumeLayout(false);
 
         }
@@ -144,8 +135,8 @@
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Panel panelColorSample;
-        private System.Windows.Forms.TrackBar trackRed;
-        private System.Windows.Forms.TrackBar trackGreen;
-        private System.Windows.Forms.TrackBar trackBlue;
+        private System.Windows.Forms.HScrollBar trackRed;
+        private System.Windows.Forms.HScrollBar trackGreen;
+        private System.Windows.Forms.HScrollBar trackBlue;
     }
 }

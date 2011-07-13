@@ -4,6 +4,7 @@ using System.Drawing;
 using System.Xml.Serialization;
 using System.Collections.Generic;
 using System.Reflection;
+using System.Runtime.Serialization;
 using System.Windows.Forms;
 using MetroHome65.Widgets;
 
@@ -15,6 +16,7 @@ namespace MetroHome65.Pages
         [XmlAttribute]
         public String Name;
 
+        [XmlAttribute]
         public String Value;
 
         public StoredParameter() { }
@@ -30,6 +32,7 @@ namespace MetroHome65.Pages
     /// <summary>
     /// Container for widget, middle layer between widget grid and widget plugin.
     /// </summary>
+    [Serializable]
     public class WidgetWrapper
     {
         public static int CellWidth = 81;
@@ -37,13 +40,11 @@ namespace MetroHome65.Pages
         public static int CellSpacingHor = 12;
         public static int CellSpacingVer = 12;
 
-        private OpenNETCF.Drawing.Imaging.ImagingFactoryClass _factory = new OpenNETCF.Drawing.Imaging.ImagingFactoryClass();
-        private OpenNETCF.Drawing.Imaging.IImage _img = null;
         private IWidget _Widget = null;
-        private Color _Color = System.Drawing.Color.LightBlue;
         private Point _Location = new Point(0, 0);
         private Size _Size = new Size(1, 1);
-        private String _ButtonImage = "";
+        private bool _Moving = false;
+
 
         [XmlIgnore]
         public WidgetGrid WidgetGrid = null;
@@ -76,7 +77,10 @@ namespace MetroHome65.Pages
         /// <summary>
         /// Widget size in cells
         /// </summary>
-        public Size Size { get { return _Size; } set { SetSize(value); } }
+        public Size Size { 
+            get { return _Size; } 
+            set { SetSize(value); } 
+        }
 
         /// <summary>
         /// Sets widget size in grid cells.
@@ -128,6 +132,7 @@ namespace MetroHome65.Pages
             ScreenRect.Height = _Size.Height * (CellHeight + CellSpacingVer) - CellSpacingVer;
         }
 
+
         [XmlIgnore]
         public IWidget Widget { get { return _Widget; } }
 
@@ -153,20 +158,6 @@ namespace MetroHome65.Pages
             }
         }
 
-        private void FillWidgetProperties()
-        {
-            _propertyInfos.Clear();
-
-            if (_Widget == null) return;
-
-            // get widget properties
-            foreach (PropertyInfo propertyInfo in ((object)_Widget).GetType().GetProperties())
-                if (propertyInfo.GetCustomAttributes(typeof(WidgetParameterAttribute), true).Length > 0)
-                {
-                    _propertyInfos.Add(propertyInfo);
-                }
-        }
-
 
         /// <summary>
         /// Swithes off widget activity when application goes to background
@@ -186,62 +177,42 @@ namespace MetroHome65.Pages
 
 
         /// <summary>
-        /// backround button or solid box color
-        /// </summary>
-        public Color Color { get { return _Color; } set { SetColor(value); } }
-
-        public WidgetWrapper SetColor(Color Color)
-        {
-            _Color = Color;
-            return this;
-        }
-
-
-        public String ButtonImage { get { return _ButtonImage; } set { SetButtonImage(value); } }
-
-        public WidgetWrapper SetButtonImage(String ImagePath)
-        {
-            if (_ButtonImage != ImagePath)
-            {
-                _ButtonImage = ImagePath;
-                try
-                {
-                    if ((ImagePath != "") && (ImagePath != null))
-                        _factory.CreateImageFromFile(ImagePath, out _img);
-                    else
-                        _img = null;
-                }
-                catch (Exception e)
-                {
-                    //!! write to log  (e.StackTrace, "SetBtnImg")
-                }
-            }
-
-            return this;
-        }
-
-
-        /// <summary>
         /// Widget absolute position on screen and size (in pixels) 
         /// </summary>
         [XmlIgnore]
         public Rectangle ScreenRect = new Rectangle(0, 0, 0, 0);
+
         
         private List<PropertyInfo> _propertyInfos = new List<PropertyInfo>();
 
-        public List<StoredParameter> Parameters
+        private void FillWidgetProperties()
         {
-            get {
-                List<StoredParameter> parameters = new List<StoredParameter>();
-                foreach (PropertyInfo prop in _propertyInfos)
-                    parameters.Add(new StoredParameter(prop.Name, 
-                        (String)prop.GetValue((object)Widget, null)));
-                return parameters;
-            }
-            set {
-                foreach (StoredParameter param in value)
-                    SetParameter(param.Name, param.Value);
-            }
+            _propertyInfos.Clear();
+
+            if (_Widget == null) return;
+
+            // get widget properties
+            foreach (PropertyInfo propertyInfo in ((object)_Widget).GetType().GetProperties())
+                if (propertyInfo.GetCustomAttributes(typeof(WidgetParameterAttribute), true).Length > 0)
+                {
+                    _propertyInfos.Add(propertyInfo);
+                }
+        }
+
+
+        public List<StoredParameter> Parameters = null;
+
+        public void BeforeSerialize()
+        {
+            Parameters = new List<StoredParameter>();
+            foreach (PropertyInfo prop in _propertyInfos)
+                Parameters.Add(new StoredParameter(prop.Name, prop.GetValue((object)Widget, null).ToString()));
+        }
+
+        public void AfterDeserialize()
+        {
+            foreach (StoredParameter param in Parameters)
+                SetParameter(param.Name, param.Value);
         }
 
         public WidgetWrapper SetParameter(String Name, object Value)
@@ -250,7 +221,8 @@ namespace MetroHome65.Pages
             {
                 if (propertyInfo.Name == Name)
                 {
-                    propertyInfo.SetValue((object)Widget, Value, null);
+                    propertyInfo.SetValue((object)Widget, Convert.ChangeType(Value, propertyInfo.PropertyType, null), null);
+                    //propertyInfo.SetValue((object)Widget, Value, null);
                     break;
                 }
             }
@@ -259,10 +231,11 @@ namespace MetroHome65.Pages
 
         public void Paint(Graphics g, Rectangle Rect)
         {
+            Region prevRegion = g.Clip;
+            g.Clip = new Region(Rect);
+
             if (Widget != null)
             {
-                if (Widget.Transparent)
-                    PaintBackground(g, Rect);
                 Widget.Paint(g, Rect);
             }
             else
@@ -273,35 +246,7 @@ namespace MetroHome65.Pages
                 g.DrawString("Widget\nnot\nfound", new System.Drawing.Font("Verdana", 8, FontStyle.Regular),
                     new SolidBrush(Color.Yellow), Rect.X + 5, Rect.Y + 5);
             }
-        }
-
-        /// <summary>
-        /// Paints backgroud for transparent widget.
-        /// Style and color are user-defined.
-        /// </summary>
-        /// <param name="g"></param>
-        /// <param name="Rect"></param>
-        private void PaintBackground(Graphics g, Rectangle Rect)
-        {
-            // if button image is set, draw button image
-            if (_img != null)
-            {
-                try
-                {
-                    IntPtr hdc = g.GetHdc();
-                    OpenNETCF.Drawing.Imaging.RECT ImgRect = OpenNETCF.Drawing.Imaging.RECT.FromXYWH(Rect.Left, Rect.Top, Rect.Width, Rect.Height);
-                    _img.Draw(hdc, ImgRect, null);
-                    g.ReleaseHdc(hdc);
-                    return;
-                }
-                catch (Exception e) {
-                    //!! write to log  (e.StackTrace, "PaintBackground")
-                }
-            }
-
-            // if image is not set, draw solid box with specified color
-            Brush bgBrush = new System.Drawing.SolidBrush(Color);
-            g.FillRectangle(bgBrush, Rect.Left, Rect.Top, Rect.Width, Rect.Height);
+            g.Clip = prevRegion;
         }
 
         public void OnClick(Point Location)
@@ -316,11 +261,22 @@ namespace MetroHome65.Pages
                 Widget.OnClick(Location);
         }
 
+
         /// <summary>
         /// Flag when widget is in moving mode
         /// </summary>
         [XmlIgnore]
-        public bool Moving = false;
+        public bool Moving {
+            get { return _Moving; }
+            set
+            {
+                if (_Moving != value)
+                {
+                    _Moving = value;
+                    Active = !_Moving;
+                }
+            }
+        }
 
     }
 }

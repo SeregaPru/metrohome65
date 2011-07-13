@@ -1,6 +1,6 @@
-﻿namespace MetroHome65
+﻿namespace MetroHome65.Settings.Controls
 {
-    partial class Settings_contact
+    partial class Settings_file
     {
         /// <summary> 
         /// Требуется переменная конструктора.
@@ -30,60 +30,54 @@
         {
             this.buttonClear = new System.Windows.Forms.Button();
             this.lblCaption = new System.Windows.Forms.Label();
-            this.labelContactName = new System.Windows.Forms.Label();
-            this.buttonBrowse = new System.Windows.Forms.Button();
+            this.labelAppName = new System.Windows.Forms.Label();
+            this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
             this.SuspendLayout();
             // 
             // buttonClear
             // 
-            this.buttonClear.BackColor = System.Drawing.Color.Gray;
-            this.buttonClear.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular);
-            this.buttonClear.Location = new System.Drawing.Point(426, 67);
+            this.buttonClear.BackColor = System.Drawing.Color.DarkGray;
+            this.buttonClear.Location = new System.Drawing.Point(343, 67);
             this.buttonClear.Name = "buttonClear";
-            this.buttonClear.Size = new System.Drawing.Size(32, 37);
-            this.buttonClear.TabIndex = 9;
-            this.buttonClear.TabStop = false;
-            this.buttonClear.Text = "x";
+            this.buttonClear.Size = new System.Drawing.Size(105, 37);
+            this.buttonClear.TabIndex = 6;
+            this.buttonClear.Text = "Browse";
+            this.buttonClear.Click += new System.EventHandler(this.buttonClear_Click);
             // 
             // lblCaption
             // 
-            this.lblCaption.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular);
+            this.lblCaption.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular);
             this.lblCaption.ForeColor = System.Drawing.Color.White;
             this.lblCaption.Location = new System.Drawing.Point(8, 20);
             this.lblCaption.Name = "lblCaption";
             this.lblCaption.Size = new System.Drawing.Size(436, 47);
-            this.lblCaption.Text = "Contact";
+            this.lblCaption.Text = "<File parameter>";
             // 
-            // labelContactName
+            // labelAppName
             // 
-            this.labelContactName.Font = new System.Drawing.Font("Tahoma", 10F, System.Drawing.FontStyle.Regular);
-            this.labelContactName.ForeColor = System.Drawing.Color.LightSkyBlue;
-            this.labelContactName.Location = new System.Drawing.Point(8, 67);
-            this.labelContactName.Name = "labelContactName";
-            this.labelContactName.Size = new System.Drawing.Size(304, 37);
-            this.labelContactName.Text = "<empty>";
+            this.labelAppName.Font = new System.Drawing.Font("Tahoma", 10F, System.Drawing.FontStyle.Regular);
+            this.labelAppName.ForeColor = System.Drawing.Color.LightSkyBlue;
+            this.labelAppName.Location = new System.Drawing.Point(8, 67);
+            this.labelAppName.Name = "labelAppName";
+            this.labelAppName.Size = new System.Drawing.Size(327, 37);
+            this.labelAppName.Text = "<empty>";
             // 
-            // buttonBrowse
+            // openFileDialog1
             // 
-            this.buttonBrowse.BackColor = System.Drawing.Color.DarkGray;
-            this.buttonBrowse.Location = new System.Drawing.Point(318, 67);
-            this.buttonBrowse.Name = "buttonBrowse";
-            this.buttonBrowse.Size = new System.Drawing.Size(103, 37);
-            this.buttonBrowse.TabIndex = 13;
-            this.buttonBrowse.Text = "Browse";
-            this.buttonBrowse.Click += new System.EventHandler(this.buttonBrowse_Click);
+            this.openFileDialog1.FileName = "openFileDialog1";
+            this.openFileDialog1.Filter = "Executable files|*.exe;*.lnk";
+            this.openFileDialog1.InitialDirectory = "/";
             // 
-            // Settings_contact
+            // Settings_file
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(192F, 192F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
             this.BackColor = System.Drawing.Color.Black;
-            this.Controls.Add(this.buttonBrowse);
-            this.Controls.Add(this.labelContactName);
+            this.Controls.Add(this.labelAppName);
             this.Controls.Add(this.buttonClear);
             this.Controls.Add(this.lblCaption);
-            this.Name = "Settings_contact";
-            this.Size = new System.Drawing.Size(466, 110);
+            this.Name = "Settings_file";
+            this.Size = new System.Drawing.Size(450, 110);
             this.ResumeLayout(false);
 
         }
@@ -92,7 +86,7 @@
 
         private System.Windows.Forms.Button buttonClear;
         private System.Windows.Forms.Label lblCaption;
-        private System.Windows.Forms.Label labelContactName;
-        private System.Windows.Forms.Button buttonBrowse;
+        private System.Windows.Forms.Label labelAppName;
+        private System.Windows.Forms.OpenFileDialog openFileDialog1;
     }
 }

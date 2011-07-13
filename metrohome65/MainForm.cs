@@ -46,9 +46,7 @@ namespace MetroHome65.Main
         private void MainForm_Activated(object sender, EventArgs e)
         {
             if (this._PageControl != null)
-            {
                 this._PageControl.Active = true;
-            }
         }
 
         private void MainForm_Deactivate(object sender, EventArgs e)

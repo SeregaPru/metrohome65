@@ -6,16 +6,20 @@ using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
 
-namespace MetroHome65.Pages
+namespace MetroHome65.Settings.Controls
 {
-    public partial class Settings_string : UserControl
+    public partial class Settings_string : UserControl, INotifyPropertyChanged
     {
         public String Caption { set { lblCaption.Text = value; } }
 
         public String Value {
             get { return textValue.Text; } 
-            set { 
-                textValue.Text = value; 
+            set {
+                if (textValue.Text != value)
+                {
+                    textValue.Text = value;
+                    NotifyPropertyChanged("Value");
+                }
             } 
         }
 
@@ -30,21 +34,21 @@ namespace MetroHome65.Pages
             Value = "";
         }
 
-
-        public delegate void ValueChangedHandler(String Value);
-
-        public event ValueChangedHandler OnValueChanged;
-
         private void textValue_TextChanged(object sender, EventArgs e)
         {
-            ValueChanged(Value);
+            NotifyPropertyChanged("Value");
         }
 
-        public void ValueChanged(String Value)
+
+        #region INotifyPropertyChanged
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        protected void NotifyPropertyChanged(String info)
         {
-            if (OnValueChanged != null)
-                OnValueChanged(Value);
+            if (PropertyChanged != null)
+                PropertyChanged(this, new PropertyChangedEventArgs(info));
         }
+        #endregion
 
     }
 }

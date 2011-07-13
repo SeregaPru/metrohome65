@@ -2,12 +2,12 @@
 using System.IO;
 using System.Runtime.InteropServices;
 
-namespace MetroHome65
+namespace MetroHome65.Routines
 {
     /// <summary>
     /// Various service routines
     /// </summary>
-    class Routines
+    public static class FileRoutines
     {
 
         public static void StartProcess(string FileName)
