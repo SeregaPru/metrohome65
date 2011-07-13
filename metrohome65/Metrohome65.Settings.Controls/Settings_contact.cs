@@ -1,11 +1,12 @@
 ﻿using System;
 using System.Windows.Forms;
+using System.ComponentModel;
 using Microsoft.WindowsMobile.Forms;
 using Microsoft.WindowsMobile.PocketOutlook;
 
-namespace MetroHome65
+namespace MetroHome65.Settings.Controls
 {
-    public partial class Settings_contact : UserControl
+    public partial class Settings_contact : UserControl, INotifyPropertyChanged
     {
         private int _Value = -1;
 
@@ -21,14 +22,15 @@ namespace MetroHome65
                 if (_Value != value)
                 {
                     _Value = value;
-                    ValueChanged(_Value);
 
                     Contact contact = FindContact(this._Value);
-
                     labelContactName.Text = (contact != null) ? contact.FileAs : "<Contact not selected>";
+
+                    NotifyPropertyChanged("Value");
                 }
             }
         }
+
 
         private void buttonClear_Click(object sender, EventArgs e)
         {
@@ -43,17 +45,6 @@ namespace MetroHome65
 
             if (ContactDialog.ShowDialog() == DialogResult.OK)
                 Value = ContactDialog.SelectedContact.ItemId.GetHashCode();
-        }
-
-
-        public delegate void ValueChangedHandler(int Value);
-
-        public event ValueChangedHandler OnValueChanged;
-
-        public void ValueChanged(int Value)
-        {
-            if (OnValueChanged != null)
-                OnValueChanged(Value);
         }
 
 
@@ -74,6 +65,17 @@ namespace MetroHome65
 
             return FindedContact;
         }
+
+
+        #region INotifyPropertyChanged
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        protected void NotifyPropertyChanged(String info)
+        {
+            if (PropertyChanged != null)
+                PropertyChanged(this, new PropertyChangedEventArgs(info));
+        }
+        #endregion
 
     }
 }

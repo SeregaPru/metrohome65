@@ -37,7 +37,11 @@
             this._mnuWidgetActions = new System.Windows.Forms.ContextMenu();
             this.mnuMain = new System.Windows.Forms.ContextMenu();
             this.mnuExit = new System.Windows.Forms.MenuItem();
+            this.buttonUnpin = new System.Windows.Forms.PictureBox();
+            this.buttonSettings = new System.Windows.Forms.PictureBox();
+            this.panelButtons = new System.Windows.Forms.Panel();
             this._WidgetsContainer.SuspendLayout();
+            this.panelButtons.SuspendLayout();
             this.SuspendLayout();
             // 
             // _WidgetsContainer
@@ -57,9 +61,9 @@
             // buttonNextPage
             // 
             this.buttonNextPage.Image = ((System.Drawing.Image)(resources.GetObject("buttonNextPage.Image")));
-            this.buttonNextPage.Location = new System.Drawing.Point(346, 6);
+            this.buttonNextPage.Location = new System.Drawing.Point(0, 0);
             this.buttonNextPage.Name = "buttonNextPage";
-            this.buttonNextPage.Size = new System.Drawing.Size(44, 44);
+            this.buttonNextPage.Size = new System.Drawing.Size(48, 48);
             this.buttonNextPage.Click += new System.EventHandler(this.buttonNextPage_Click);
             // 
             // gestureRecognizer
@@ -89,17 +93,46 @@
             this.mnuExit.Text = "Exit";
             this.mnuExit.Click += new System.EventHandler(this.Exit_Click);
             // 
+            // buttonUnpin
+            // 
+            this.buttonUnpin.Image = ((System.Drawing.Image)(resources.GetObject("buttonUnpin.Image")));
+            this.buttonUnpin.Location = new System.Drawing.Point(0, 114);
+            this.buttonUnpin.Name = "buttonUnpin";
+            this.buttonUnpin.Size = new System.Drawing.Size(48, 48);
+            this.buttonUnpin.Visible = false;
+            this.buttonUnpin.Click += new System.EventHandler(this.buttonUnpin_Click);
+            // 
+            // buttonSettings
+            // 
+            this.buttonSettings.Image = ((System.Drawing.Image)(resources.GetObject("buttonSettings.Image")));
+            this.buttonSettings.Location = new System.Drawing.Point(0, 179);
+            this.buttonSettings.Name = "buttonSettings";
+            this.buttonSettings.Size = new System.Drawing.Size(48, 48);
+            this.buttonSettings.Visible = false;
+            this.buttonSettings.Click += new System.EventHandler(this.buttonSettings_Click);
+            // 
+            // panelButtons
+            // 
+            this.panelButtons.BackColor = System.Drawing.Color.Black;
+            this.panelButtons.Controls.Add(this.buttonSettings);
+            this.panelButtons.Controls.Add(this.buttonNextPage);
+            this.panelButtons.Controls.Add(this.buttonUnpin);
+            this.panelButtons.Location = new System.Drawing.Point(343, 6);
+            this.panelButtons.Name = "panelButtons";
+            this.panelButtons.Size = new System.Drawing.Size(48, 237);
+            // 
             // WidgetGrid
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Inherit;
             this.BackColor = System.Drawing.Color.Black;
-            this.Controls.Add(this.buttonNextPage);
+            this.Controls.Add(this.panelButtons);
             this.Controls.Add(this._WidgetsContainer);
             this.ForeColor = System.Drawing.Color.White;
             this.Name = "WidgetGrid";
             this.Size = new System.Drawing.Size(402, 402);
             this.Resize += new System.EventHandler(this.WidgetGrid_Resize);
             this._WidgetsContainer.ResumeLayout(false);
+            this.panelButtons.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -114,5 +147,8 @@
         private System.Windows.Forms.ContextMenu _mnuWidgetActions;
         private System.Windows.Forms.ContextMenu mnuMain;
         private System.Windows.Forms.MenuItem mnuExit;
+        private System.Windows.Forms.PictureBox buttonSettings;
+        private System.Windows.Forms.PictureBox buttonUnpin;
+        private System.Windows.Forms.Panel panelButtons;
     }
 }

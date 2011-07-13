@@ -3,7 +3,9 @@ using System.IO;
 using System.Drawing;
 using System.Windows.Forms;
 using System.Runtime.InteropServices;
-using MetroHome65.Pages;
+using System.Collections.Generic;
+using MetroHome65.Routines;
+using MetroHome65.Settings.Controls;
 
 namespace MetroHome65.Widgets
 {
@@ -28,10 +30,7 @@ namespace MetroHome65.Widgets
                 if (_CommandLine != value)
                 {
                     _CommandLine = value;
-
-                    // when CommandLine changed, we have to change Caption and icon
-                    Caption = Path.GetFileNameWithoutExtension(_CommandLine);
-                    IconPath = "";
+                    NotifyPropertyChanged("CommandLine");
                 }
             }
         }
@@ -40,59 +39,47 @@ namespace MetroHome65.Widgets
         {
             Size[] sizes = new Size[] { 
                 new Size(1, 1), 
-                new Size(2, 2) 
+                new Size(2, 2),
+                new Size(4, 2)
             };
             return sizes;
-        }
-
-        protected override void PaintIcon(Graphics g, Rectangle Rect)
-        {
-            // if image is set - draw image from specified file
-            if (IconPath != "")
-                base.PaintIcon(g, Rect);
-            else
-            {
-                // else get icon from file
-                String fname = CommandLine;
-                Routines.structa refa = new Routines.structa();
-                IntPtr ptr = Routines.SHGetFileInfo(ref fname, 0, ref refa, Marshal.SizeOf(refa), 0x100);
-                Icon icon = Icon.FromHandle(refa.a);
-
-                g.DrawIcon(icon, (Rect.Left + Rect.Right - icon.Width) / 2, (Rect.Top + Rect.Bottom - icon.Height - 10) / 2);
-
-                icon.Dispose();
-                icon = null;
-            }
         }
 
         public override void OnClick(Point Location)
         {
             if (CommandLine != "")
-                MetroHome65.Routines.StartProcess(CommandLine);
+                FileRoutines.StartProcess(CommandLine);
         }
 
-        public override Control[] EditControls
+        public override List<Control> EditControls
         {
             get
             {
-                Control[] BaseControls = base.EditControls;
-                Control[] Controls = new Control[BaseControls.Length + 1];
-                for (int i = 0; i < BaseControls.Length; i++)
-                    Controls[i] = BaseControls[i];                        
+                List<Control> Controls = base.EditControls;
 
-                Settings_file EditControl = new Settings_file();
-                EditControl.Caption = "Application";
-                EditControl.Value = CommandLine;
-                EditControl.OnValueChanged += new Settings_file.ValueChangedHandler(EditControl_OnValueChanged);
-                Controls[BaseControls.Length] = EditControl;
+                Settings_file FileControl = new Settings_file();
+                FileControl.Caption = "Application";
+                FileControl.Value = CommandLine;
+                Controls.Add(FileControl);
+
+                BindingManager BindingManager = new BindingManager();
+                BindingManager.Bind(this, "CommandLineForEdit", FileControl, "Value");
 
                 return Controls;
             }
         }
 
-        void EditControl_OnValueChanged(String Value)
+        public String CommandLineForEdit
         {
-            CommandLine = Value;
+            get { return _CommandLine; }
+            set
+            {
+                CommandLine = value;
+
+                // when CommandLine changed, we have to change Caption and icon
+                IconPath = _CommandLine;
+                Caption = Path.GetFileNameWithoutExtension(_CommandLine);
+            }
         }
 
     }

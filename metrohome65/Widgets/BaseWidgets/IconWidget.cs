@@ -2,8 +2,11 @@
 using System.Drawing;
 using System.Windows.Forms;
 using System.ComponentModel;
+using System.Collections.Generic;
+using System.Runtime.InteropServices;
 using OpenNETCF.Drawing;
-using MetroHome65.Pages;
+using MetroHome65.Routines;
+using MetroHome65.Settings.Controls;
 
 namespace MetroHome65.Widgets
 {
@@ -17,14 +20,22 @@ namespace MetroHome65.Widgets
         private OpenNETCF.Drawing.Imaging.IImage _img = null;
         private String _Caption = "";
         private String _IconPath = "";
-        private Size _IconSize = new Size(92, 90);
 
 
         /// <summary>
         /// user defined caption for widget
         /// </summary>
         [WidgetParameter]
-        public String Caption { get { return _Caption; } set { _Caption = value; } }
+        public String Caption { 
+            get { return _Caption; } 
+            set {
+                if (_Caption != value)
+                {
+                    _Caption = value;
+                    NotifyPropertyChanged("Caption");
+                }
+            } 
+        }
 
 
         /// <summary>
@@ -41,9 +52,11 @@ namespace MetroHome65.Widgets
                 {
                     _IconPath = value;
                     UpdateIconImage();
+                    NotifyPropertyChanged("IconPath");
                 }
             }
         }
+
 
         protected override Size[] GetSizes() 
         {
@@ -58,7 +71,7 @@ namespace MetroHome65.Widgets
         {
             try
             {
-                if (_IconPath != "")
+                if ((_IconPath != "") && (!IsExecutableIcon()))
                     _factory.CreateImageFromFile(_IconPath, out _img);
                 else
                     _img = null;
@@ -69,17 +82,32 @@ namespace MetroHome65.Widgets
             }
         }
 
+        private bool IsExecutableIcon()
+        {
+            return ((_IconPath.EndsWith(".exe")) || (_IconPath.EndsWith(".lnk")));
+        }
+
         protected virtual void PaintIcon(Graphics g, Rectangle Rect)
         {
-            // draw icon
+            // get icon from file
+            if (String.IsNullOrEmpty(_IconPath))
+                return;
+
+            int CaptionHeight = (Caption == "") ? 0 : Rect.Height / 20;
+
+            // draw icon from file
             if (_img != null)
             {
                 try
                 {
+                    OpenNETCF.Drawing.Imaging.ImageInfo ImageInfo;
+                    int tmp = _img.GetImageInfo(out ImageInfo);
+
                     IntPtr hdc = g.GetHdc();
                     OpenNETCF.Drawing.Imaging.RECT ImgRect = OpenNETCF.Drawing.Imaging.RECT.FromXYWH(
-                        (Rect.Left + Rect.Right - _IconSize.Width) / 2,
-                        (Rect.Top + Rect.Bottom - _IconSize.Height - 10) / 2, _IconSize.Width, _IconSize.Height);
+                        (Rect.Left + Rect.Right - (int)ImageInfo.Width) / 2,
+                        (Rect.Top + Rect.Bottom - (int)ImageInfo.Height) / 2 - CaptionHeight,
+                        (int)ImageInfo.Width, (int)ImageInfo.Height);
                     _img.Draw(hdc, ImgRect, null);
                     g.ReleaseHdc(hdc);
                 }
@@ -87,19 +115,31 @@ namespace MetroHome65.Widgets
                 {
                     //!! write to log  (e.StackTrace, "PaintIcon")
                 }
+                return;
+            }
+
+            if (IsExecutableIcon())
+            {
+                FileRoutines.structa refa = new FileRoutines.structa();
+                IntPtr ptr = FileRoutines.SHGetFileInfo(ref _IconPath, 0, ref refa, Marshal.SizeOf(refa), 0x100);
+                Icon icon = Icon.FromHandle(refa.a);
+
+                g.DrawIcon(icon, (Rect.Left + Rect.Right - icon.Width) / 2, (Rect.Top + Rect.Bottom - icon.Height) / 2 - CaptionHeight);
+
+                icon.Dispose();
+                icon = null;
             }
         }
-
 
         protected virtual void PaintCaption(Graphics g, Rectangle Rect)
         {
             // draw caption
             if (Caption != "")
             {
-                Font captionFont = new System.Drawing.Font("Verdana", 8, FontStyle.Regular);
+                Font captionFont = new System.Drawing.Font("Segoe UI Light", 8, FontStyle.Bold);
                 Brush captionBrush = new System.Drawing.SolidBrush(System.Drawing.Color.White);
                 g.DrawString(Caption, captionFont, captionBrush,
-                    Rect.Left + 10, Rect.Bottom - 5 - g.MeasureString(Caption, captionFont).Height);
+                    Rect.Left + 10, Rect.Bottom - 6 - g.MeasureString(Caption, captionFont).Height);
             }
         }
 
@@ -112,6 +152,7 @@ namespace MetroHome65.Widgets
         public override void Paint(Graphics g, Rectangle Rect)
         {
             base.Paint(g, Rect);
+
             PaintIcon(g, Rect);
             PaintCaption(g, Rect);
         }
@@ -124,37 +165,29 @@ namespace MetroHome65.Widgets
         }
 
 
-        public override Control[] EditControls
+        public override List<Control> EditControls
         {
             get
             {
-                Control[] Controls = new Control[2];
-                Settings_string EditControl = new Settings_string();
-                EditControl.Caption = "Caption";
-                EditControl.Value = Caption;
-                EditControl.OnValueChanged += new Settings_string.ValueChangedHandler(EditControl_OnValueChanged);
-                Controls[0] = EditControl;
+                List<Control> Controls = base.EditControls;
+
+                Settings_string CaptionControl = new Settings_string();
+                CaptionControl.Caption = "Caption";
+                CaptionControl.Value = Caption;
+                Controls.Add(CaptionControl);
 
                 Settings_image ImgControl = new Settings_image();
                 ImgControl.Caption = "Icon image";
                 ImgControl.Value = IconPath;
-                ImgControl.OnValueChanged += new Settings_image.ValueChangedHandler(ImgControl_OnValueChanged);
-                Controls[1] = ImgControl;
+                Controls.Add(ImgControl);
+
+                BindingManager BindingManager = new BindingManager();
+                BindingManager.Bind(this, "Caption", CaptionControl, "Value");
+                BindingManager.Bind(this, "IconPath", ImgControl, "Value");
 
                 return Controls;
             }
         }
-
-        void ImgControl_OnValueChanged(string Value)
-        {
-            IconPath = Value;
-        }
-
-        void EditControl_OnValueChanged(string Value)
-        {
-            Caption = Value;
-        }
-
 
     }
 

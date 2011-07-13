@@ -5,11 +5,11 @@ using System.Runtime.InteropServices;
 // Общие сведения об этой сборке предоставляются следующим набором 
 // атрибутов. Отредактируйте значения этих атрибутов, чтобы изменить
 // общие сведения об этой сборке.
-[assembly: AssemblyTitle("Metrohome.Settings.Controls")]
+[assembly: AssemblyTitle("Metrohome65.Settings.Controls")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("Metrohome.Settings.Controls")]
+[assembly: AssemblyProduct("Metrohome65.Settings.Controls")]
 [assembly: AssemblyCopyright("Copyright ©  2011")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]

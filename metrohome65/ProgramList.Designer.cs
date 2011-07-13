@@ -41,9 +41,9 @@
             // buttonBack
             // 
             this.buttonBack.Image = ((System.Drawing.Image)(resources.GetObject("buttonBack.Image")));
-            this.buttonBack.Location = new System.Drawing.Point(19, 6);
+            this.buttonBack.Location = new System.Drawing.Point(18, 6);
             this.buttonBack.Name = "buttonBack";
-            this.buttonBack.Size = new System.Drawing.Size(45, 45);
+            this.buttonBack.Size = new System.Drawing.Size(48, 48);
             this.buttonBack.Click += new System.EventHandler(this.buttonBack_Click);
             // 
             // lvApps

@@ -44,12 +44,11 @@
             // 
             // lblPageTitle
             // 
-            this.lblPageTitle.Dock = System.Windows.Forms.DockStyle.Top;
-            this.lblPageTitle.Font = new System.Drawing.Font("Arial", 28F, System.Drawing.FontStyle.Regular);
+            this.lblPageTitle.Font = new System.Drawing.Font("Segoe UI", 28F, System.Drawing.FontStyle.Regular);
             this.lblPageTitle.ForeColor = System.Drawing.Color.White;
             this.lblPageTitle.Location = new System.Drawing.Point(0, 0);
             this.lblPageTitle.Name = "lblPageTitle";
-            this.lblPageTitle.Size = new System.Drawing.Size(480, 104);
+            this.lblPageTitle.Size = new System.Drawing.Size(324, 104);
             this.lblPageTitle.Text = "Settings";
             // 
             // mainMenu1
@@ -72,23 +71,22 @@
             this.panelSize.BackColor = System.Drawing.Color.Black;
             this.panelSize.Controls.Add(this.cbSize);
             this.panelSize.Controls.Add(this.lblWidgetSize);
-            this.panelSize.Dock = System.Windows.Forms.DockStyle.Top;
             this.panelSize.Location = new System.Drawing.Point(0, 234);
             this.panelSize.Name = "panelSize";
-            this.panelSize.Size = new System.Drawing.Size(480, 78);
+            this.panelSize.Size = new System.Drawing.Size(450, 78);
             // 
             // cbSize
             // 
             this.cbSize.BackColor = System.Drawing.Color.LightGray;
             this.cbSize.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular);
-            this.cbSize.Location = new System.Drawing.Point(100, 20);
+            this.cbSize.Location = new System.Drawing.Point(99, 20);
             this.cbSize.Name = "cbSize";
             this.cbSize.Size = new System.Drawing.Size(260, 51);
             this.cbSize.TabIndex = 13;
             // 
             // lblWidgetSize
             // 
-            this.lblWidgetSize.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular);
+            this.lblWidgetSize.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular);
             this.lblWidgetSize.ForeColor = System.Drawing.Color.White;
             this.lblWidgetSize.Location = new System.Drawing.Point(8, 20);
             this.lblWidgetSize.Name = "lblWidgetSize";
@@ -100,10 +98,9 @@
             this.panelType.BackColor = System.Drawing.Color.Black;
             this.panelType.Controls.Add(this.cbType);
             this.panelType.Controls.Add(this.lblWidgetType);
-            this.panelType.Dock = System.Windows.Forms.DockStyle.Top;
             this.panelType.Location = new System.Drawing.Point(0, 104);
             this.panelType.Name = "panelType";
-            this.panelType.Size = new System.Drawing.Size(480, 130);
+            this.panelType.Size = new System.Drawing.Size(450, 130);
             // 
             // cbType
             // 
@@ -117,7 +114,7 @@
             // 
             // lblWidgetType
             // 
-            this.lblWidgetType.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular);
+            this.lblWidgetType.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular);
             this.lblWidgetType.ForeColor = System.Drawing.Color.White;
             this.lblWidgetType.Location = new System.Drawing.Point(8, 20);
             this.lblWidgetType.Name = "lblWidgetType";

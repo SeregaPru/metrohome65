@@ -22,16 +22,16 @@ namespace MetroHome65.Widgets
         }
 
 
-        protected virtual int GetMissedCount()
-        {
-            return Microsoft.WindowsMobile.Status.SystemState.PhoneMissedCalls;
-        }
-
         public override void Paint(Graphics g, Rectangle Rect)
         {
-            PaintIcon(g, new Rectangle(Rect.Right - PaddingRightIco, Rect.Top, Rect.Right - PaddingRightCnt, Rect.Height));
-            PaintCaption(g, Rect);
+            base.Paint(g, Rect);
             PaintCount(g, Rect);
+        }
+
+        protected override void PaintIcon(Graphics g, Rectangle Rect)
+        {
+            base.PaintIcon(g, new Rectangle(
+                Rect.Right - PaddingRightIco, Rect.Top, PaddingRightIco - PaddingRightCnt, Rect.Height));
         }
 
         private void PaintCount(Graphics g, Rectangle Rect)
@@ -70,6 +70,11 @@ namespace MetroHome65.Widgets
                 _MissedCount = CurrentMissedCount;
                 OnWidgetUpdate();
             }
+        }
+
+        protected virtual int GetMissedCount()
+        {
+            return Microsoft.WindowsMobile.Status.SystemState.PhoneMissedCalls;
         }
     }
 

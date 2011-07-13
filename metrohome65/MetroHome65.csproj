@@ -22,7 +22,7 @@
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
-    <Optimize>false</Optimize>
+    <Optimize>true</Optimize>
     <OutputPath>bin\Debug\</OutputPath>
     <DefineConstants>DEBUG;TRACE;$(PlatformFamilyName)</DefineConstants>
     <NoStdLib>true</NoStdLib>
@@ -111,7 +111,6 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
-    <Compile Include="Routines.cs" />
     <Compile Include="WidgetGrid.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -136,42 +135,76 @@
     <Content Include="buttons\bg5.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="buttons\bg6.png" />
+    <Content Include="buttons\bg7.png" />
+    <Content Include="buttons\bg8.png" />
+    <Content Include="buttons\bg9.png" />
     <Content Include="buttons\button blue.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="buttons\button darkgray.png" />
     <Content Include="buttons\button gray.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="buttons\button green.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="buttons\button orange.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="buttons\button red.png" />
+    <Content Include="buttons\button sky.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="icons\acrobat.png" />
+    <Content Include="icons\bluetooth.png" />
     <Content Include="icons\calc.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="icons\clock.png" />
     <Content Include="icons\contacts.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="icons\facebook.png" />
     <Content Include="icons\fexplore.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="icons\flag.png" />
+    <Content Include="icons\flash.png" />
+    <Content Include="icons\games.png" />
     <Content Include="icons\iexplore.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="icons\java.png" />
+    <Content Include="icons\list.png" />
     <Content Include="icons\mail.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="icons\media.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="icons\messagges.png" />
+    <Content Include="icons\Opera.png" />
     <Content Include="icons\people.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="icons\phone.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="resources\unpin.ico" />
+    <Content Include="icons\photo.png" />
+    <Content Include="icons\radio.png" />
+    <Content Include="icons\skype.png" />
+    <Content Include="icons\tuner.png" />
+    <Content Include="icons\world.png" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="Metrohome.Settings.Controls\Metrohome.Settings.Controls.csproj">
+    <ProjectReference Include="MetroHome65.Routines\MetroHome65.Routines.csproj">
+      <Project>{18D428A8-6722-4A69-B39D-F652AFA34D90}</Project>
+      <Name>MetroHome65.Routines</Name>
+    </ProjectReference>
+    <ProjectReference Include="Metrohome65.Settings.Controls\Metrohome65.Settings.Controls.csproj">
       <Project>{A6BFA5B1-E501-4588-BCF0-F07356F120E3}</Project>
-      <Name>Metrohome.Settings.Controls</Name>
+      <Name>Metrohome65.Settings.Controls</Name>
     </ProjectReference>
     <ProjectReference Include="Widgets\BaseWidgets\BaseWidgets.csproj">
       <Project>{B23D069D-4ED9-4F45-BE07-DA271A2106D4}</Project>

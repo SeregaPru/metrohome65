@@ -1,10 +1,11 @@
 ﻿using System;
 using System.Windows.Forms;
+using System.ComponentModel;
 using MobilePractices.OpenFileDialogEx;
 
-namespace MetroHome65.Pages
+namespace MetroHome65.Settings.Controls
 {
-    public partial class Settings_file : UserControl
+    public partial class Settings_file : UserControl, INotifyPropertyChanged
     {
         private String _ExeFile = "";
 
@@ -16,7 +17,8 @@ namespace MetroHome65.Pages
                 if (_ExeFile != value)
                 {
                     _ExeFile = value;
-                    ValueChanged(_ExeFile);
+                    labelAppName.Text = _ExeFile;
+                    NotifyPropertyChanged("Value");
                 }
             } 
         }
@@ -37,16 +39,15 @@ namespace MetroHome65.Pages
         }
 
 
-        public delegate void ValueChangedHandler(String Value);
+        #region INotifyPropertyChanged
+        public event PropertyChangedEventHandler PropertyChanged;
 
-        public event ValueChangedHandler OnValueChanged;
-
-        public void ValueChanged(String Value)
+        protected void NotifyPropertyChanged(String info)
         {
-            if (OnValueChanged != null)
-                OnValueChanged(Value);
+            if (PropertyChanged != null)
+                PropertyChanged(this, new PropertyChangedEventArgs(info));
         }
-
+        #endregion
 
     }
 }

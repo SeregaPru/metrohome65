@@ -15,7 +15,7 @@ namespace MetroHome65.Pages
         private MetroHome65.Main.IHost _Host;
 
         private String _CoreDir = System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().GetName().CodeBase);
-        private String SettingsFile() { return _CoreDir + "\\settings.xml"; }
+        private String SettingsFile() { return _CoreDir + "\\widgets.xml"; }
 
         private List<WidgetWrapper> Widgets;
         private WidgetWrapper _mnuWidgetSender;
@@ -61,92 +61,15 @@ namespace MetroHome65.Pages
         }
 
         public void SetBackColor(Color value) 
-        { 
-            this.BackColor = value;
-            _WidgetsContainer.BackColor = value;
-            PaintBuffer();
-        }
-
-        /// <summary>
-        /// Fill popup menu with widget specific actions.
-        /// If widget has its own actions they are added to standard widget menu
-        /// </summary>
-        /// <param name="Widget"></param>
-        /// <param name="Menu"></param>
-        private void FillWidgetPopupMenu(IWidget Widget, ContextMenu Menu)
         {
-            // fill menu with widget customn actions
-            if ((Widget != null) && (Widget.MenuItems != null))
+            if (this.BackColor != value)
             {
-                foreach (String Item in Widget.MenuItems)
-                {
-                    MenuItem CustomItem = new System.Windows.Forms.MenuItem();
-                    CustomItem.Text = Item;
-                    CustomItem.Click += OnCustomMenuClick;
-                    Menu.MenuItems.Add(CustomItem);
-                }
-
-                // add separator
-                MenuItem Separator = new System.Windows.Forms.MenuItem();
-                Separator.Text = "-";
-                Menu.MenuItems.Add(Separator);
+                this.BackColor = value;
+                _WidgetsContainer.BackColor = value;
+                RepaintGrid(false);
             }
-
-            // fill menu with standart actions
-            if (Widget != null)
-            {
-                MenuItem menuSettings = new System.Windows.Forms.MenuItem();
-                menuSettings.Text = "Setings";
-                menuSettings.Click += ShowWidgetSettings;
-                Menu.MenuItems.Add(menuSettings);
-            }
-
-            MenuItem menuMove = new System.Windows.Forms.MenuItem();
-            menuMove.Text = "Move";
-            menuMove.Click += MoveWidget;
-            Menu.MenuItems.Add(menuMove);
-
-            MenuItem menuDelete = new System.Windows.Forms.MenuItem();
-            menuDelete.Text = "Delete";
-            menuDelete.Click += DeleteWidget;
-            Menu.MenuItems.Add(menuDelete);
         }
 
-        /// <summary>
-        /// Fill popup menu for widget grid with grid settings
-        /// </summary>
-        /// <param name="Menu"></param>
-        private void FillMainPopupMenu(ContextMenu Menu)
-        {
-            MenuItem menuAddWidget = new System.Windows.Forms.MenuItem();
-            menuAddWidget.Text = "Add widget";
-            menuAddWidget.Click += AddWidget_Click;
-            Menu.MenuItems.Add(menuAddWidget);
-
-            // add separator
-            MenuItem Separator = new System.Windows.Forms.MenuItem();
-            Separator.Text = "-";
-            Menu.MenuItems.Add(Separator);
-
-            MenuItem menuExit = new System.Windows.Forms.MenuItem();
-            menuExit.Text = "Exit";
-            menuExit.Click += Exit_Click;
-            Menu.MenuItems.Add(menuExit);
-        }
-
-        public Boolean ShowWidgetPopupMenu(Point Location)
-        {
-            _mnuWidgetActions.MenuItems.Clear();
-
-            _mnuWidgetSender = GetWidgetAtPos(Location);
-            if (_mnuWidgetSender != null)
-                FillWidgetPopupMenu(_mnuWidgetSender.Widget, _mnuWidgetActions);
-            else
-                FillMainPopupMenu(_mnuWidgetActions);
-
-            _mnuWidgetActions.Show(this, Location);
-            return true;
-        }
 
         private void AddWidget_Click(object sender, EventArgs e)
         {
@@ -174,7 +97,10 @@ namespace MetroHome65.Pages
                 (Wrapper.Widget as IWidgetUpdatable).WidgetUpdate += new WidgetUpdateEventHandler(OnWidgetUpdate);
 
             if (DoRealign)
+            {
                 RealignWidgets();
+                WriteSettings();
+            }
 
             return Wrapper;
         }
@@ -194,16 +120,19 @@ namespace MetroHome65.Pages
             // repaint only updated widget
             foreach (WidgetWrapper wsInfo in Widgets)
                 if (e.Widget == wsInfo.Widget)
-                {
-                    wsInfo.Paint(_graphics, wsInfo.ScreenRect);
-
-                    Rectangle Rect = new Rectangle(
-                        wsInfo.ScreenRect.X, wsInfo.ScreenRect.Y, wsInfo.ScreenRect.Width, wsInfo.ScreenRect.Height);
-                    _WidgetsImage.Invalidate(Rect);
-                }
+                    RepaintWidget(wsInfo);
         }
 
-        private void PaintBuffer()
+        private void RepaintWidget(WidgetWrapper Widget)
+        {
+            Widget.Paint(_graphics, Widget.ScreenRect);
+
+            Rectangle Rect = new Rectangle(
+                Widget.ScreenRect.X, Widget.ScreenRect.Y, Widget.ScreenRect.Width, Widget.ScreenRect.Height);
+            _WidgetsImage.Invalidate(Rect);
+        }
+
+        private void RepaintGrid(bool BufferOnly)
         {
             // paing background
             Brush bgBrush = new System.Drawing.SolidBrush(this.BackColor);
@@ -212,69 +141,79 @@ namespace MetroHome65.Pages
             // paint widgets
             foreach (WidgetWrapper wsInfo in Widgets)
                 wsInfo.Paint(_graphics, wsInfo.ScreenRect);
+
+            if (!BufferOnly)
+                _WidgetsImage.Invalidate();
         }
+
 
         /// <summary>
         /// Update may be change widgets screen positions
         /// </summary>
         private void RealignWidgets()
         {
-            object[,] cells = new object[100, 4]; //!! todo calc y dim
-            int MaxRow = 0;
-            foreach (WidgetWrapper wsInfo in Widgets)
+            try
             {
-                for (int y = 0; y < wsInfo.Size.Height; y++)
-                    for (int x = 0; x < wsInfo.Size.Width; x++)
-                        cells[wsInfo.Location.Y + y, wsInfo.Location.X + x] = wsInfo;
-                MaxRow = Math.Max(MaxRow, wsInfo.Location.Y + wsInfo.Size.Height);
-            }
+                int MaxRow = 0;
+                foreach (WidgetWrapper wsInfo in Widgets)
+                    MaxRow = Math.Max(MaxRow, wsInfo.Location.Y + wsInfo.Size.Height);
 
-            // looking for empty rows and delete them - shift widgets 1 row top
-            for (int row = MaxRow; row >= 0; row--)
-            {
-                if ((cells[row, 0] == null) && (cells[row, 1] == null) && (cells[row, 2] == null) && (cells[row, 3] == null))
+                object[,] cells = new object[MaxRow+1, 4];
+                foreach (WidgetWrapper wsInfo in Widgets)
                 {
-                    foreach (WidgetWrapper wsInfo in Widgets)
+                    for (int y = 0; y < wsInfo.Size.Height; y++)
+                        for (int x = 0; x < wsInfo.Size.Width; x++)
+                            cells[wsInfo.Location.Y + y, Math.Min(3, wsInfo.Location.X + x)] = wsInfo;
+                }
+
+                // looking for empty rows and delete them - shift widgets 1 row top
+                for (int row = MaxRow; row >= 0; row--)
+                {
+                    if ((cells[row, 0] == null) && (cells[row, 1] == null) && (cells[row, 2] == null) && (cells[row, 3] == null))
                     {
-                        if (wsInfo.Location.Y > row)
-                            wsInfo.Location = new Point(wsInfo.Location.X, wsInfo.Location.Y - 1);
+                        foreach (WidgetWrapper wsInfo in Widgets)
+                            if (wsInfo.Location.Y > row)
+                                wsInfo.Location = new Point(wsInfo.Location.X, wsInfo.Location.Y - 1);
                     }
                 }
+
+
+                // calc max image dimensions for widgets grid
+                int WidgetsHeight = 0;
+                int WidgetsWidth = 0;
+                foreach (WidgetWrapper wsInfo in Widgets)
+                {
+                    WidgetsHeight = Math.Max(WidgetsHeight, wsInfo.ScreenRect.Bottom);
+                    WidgetsWidth = Math.Max(WidgetsWidth, wsInfo.ScreenRect.Right);
+                }
+                WidgetsHeight += 50; // add padding at bottom and blank spaces at top and bottom
+
+
+                // change size of internal bitmap and repaint it
+                _graphics.Dispose();
+                _graphics = null;
+                _DoubleBuffer.Dispose();
+                _DoubleBuffer = null;
+
+                _DoubleBuffer = new Bitmap(WidgetsWidth, WidgetsHeight);
+                _graphics = Graphics.FromImage(_DoubleBuffer);
+
+                RepaintGrid(true);
+
+                if (_WidgetsImage.Image != null)
+                    _WidgetsImage.Image.Dispose();
+                _WidgetsImage.Image = _DoubleBuffer;
+                _WidgetsImage.Size = _DoubleBuffer.Size;
             }
-
-
-            // write new widgets position after realign
-            WriteSettings();
-
-            // calc max image dimensions for widgets grid
-            int WidgetsHeight = 0;
-            int WidgetsWidth = 0;
-            foreach (WidgetWrapper wsInfo in Widgets)
+            catch (Exception e)
             {
-                WidgetsHeight = Math.Max(WidgetsHeight, wsInfo.ScreenRect.Bottom);
-                WidgetsWidth = Math.Max(WidgetsWidth, wsInfo.ScreenRect.Right);
+                MessageBox.Show(e.StackTrace);
+                //!! write to log  (e.StackTrace, "ReadSettings")
             }
-            WidgetsHeight += 10; // add padding at bottom and blank spaces at top and bottom
-
-
-            // change size of internal bitmap and repaint it
-            _graphics.Dispose();
-            _graphics = null;
-            _DoubleBuffer.Dispose();
-            _DoubleBuffer = null;
-
-            _DoubleBuffer = new Bitmap(WidgetsWidth, WidgetsHeight);
-            _graphics = Graphics.FromImage(_DoubleBuffer);
-
-            PaintBuffer();
-
-            if (_WidgetsImage.Image != null)
-                _WidgetsImage.Image.Dispose();
-            _WidgetsImage.Image = _DoubleBuffer;
-            _WidgetsImage.Size = _DoubleBuffer.Size;
 
             UpdateGridSize();
         }
+
 
         private void MoveWidgetTo(Point Location)
         {
@@ -287,14 +226,10 @@ namespace MetroHome65.Pages
             if (TargetCell.X + MovingWidget.Size.Width > 4)
                 return;
 
-            object[,] cells = new object[100, 4]; //!! todo calc y dim
-            bool PlaceEmpty = false;
-            while (!PlaceEmpty)
+            bool TargetCellIsEmpty = false;
+            while (!TargetCellIsEmpty)
             {
-                for (int y = 0; y < 100; y++)
-                    for (int x = 0; x < 4; x++)
-                        cells[y, x] = null;
-
+                object[,] cells = new object[100, 4]; 
                 foreach (WidgetWrapper wsInfo in Widgets)
                 {
                     for (int y = 0; y < wsInfo.Size.Height; y++)
@@ -302,26 +237,28 @@ namespace MetroHome65.Pages
                             cells[wsInfo.Location.Y + y, wsInfo.Location.X + x] = wsInfo;
                 }
 
-                PlaceEmpty = true;
+                TargetCellIsEmpty = true;
                 for (int y = TargetCell.Y; y < Math.Min(TargetCell.Y + MovingWidget.Size.Height, 100); y++)
                     for (int x = TargetCell.X; x < Math.Min(TargetCell.X + MovingWidget.Size.Width, 4); x++)
                         if ((cells[y, x] != null) && (!cells[y, x].Equals(MovingWidget)))
                         {
-                            PlaceEmpty = false;
+                            TargetCellIsEmpty = false;
                             break;
                         }
 
-                if (!PlaceEmpty)
+                if (!TargetCellIsEmpty)
+                {
                     foreach (WidgetWrapper wsInfo in Widgets)
                     {
                         if ((wsInfo.Location.Y + wsInfo.Size.Height - 1) >= TargetCell.Y)
                             wsInfo.Location = new Point(wsInfo.Location.X, wsInfo.Location.Y + 1);
                     }
+                }
             }
 
             MovingWidget.Location = TargetCell;
 
-            RealignWidgets();       
+            RealignWidgets();
         }
 
 
@@ -340,14 +277,21 @@ namespace MetroHome65.Pages
                 Widgets = (List<WidgetWrapper>)serializer.Deserialize(reader);
                 reader.Close();
 
-                foreach (WidgetWrapper Widget in Widgets)
-                    Widget.WidgetGrid = this;
+                foreach (WidgetWrapper Wrapper in Widgets)
+                {
+                    Wrapper.WidgetGrid = this;
+                    if (Wrapper.Widget is IWidgetUpdatable)
+                        (Wrapper.Widget as IWidgetUpdatable).WidgetUpdate += new WidgetUpdateEventHandler(OnWidgetUpdate);
+                    Wrapper.AfterDeserialize();
+                }
 
             }
             catch (Exception e)
             {
+                //!!MessageBox.Show(e.StackTrace);
                 //!! write to log  (e.StackTrace, "ReadSettings")
                 DebugFill();
+                WriteSettings();
             }
 
             RealignWidgets();
@@ -358,6 +302,9 @@ namespace MetroHome65.Pages
         /// </summary>
         private void WriteSettings()
         {
+            foreach (WidgetWrapper Widget in Widgets)
+                Widget.BeforeSerialize();
+
             try
             {
                 System.Xml.Serialization.XmlSerializer serializer = new System.Xml.Serialization.XmlSerializer(Widgets.GetType());
@@ -384,22 +331,6 @@ namespace MetroHome65.Pages
             return null;
         }
 
-        private WidgetWrapper GetBottomWidgetForPos(Point Location)
-        {
-            Rectangle WidgetRect;
-            foreach (WidgetWrapper wsInfo in Widgets)
-            {
-                WidgetRect = wsInfo.ScreenRect;
-                WidgetRect.Y -= WidgetWrapper.CellSpacingVer;
-                WidgetRect.Height += WidgetWrapper.CellSpacingVer;
-
-                if (WidgetRect.Contains(
-                    new Point(Location.X - _WidgetsContainer.Left, Location.Y - TopOffset - _WidgetsContainer.Top)))
-                    return wsInfo;
-            }
-            return null;
-        }
-
 
         /// <summary>
         /// Handle click event.
@@ -415,10 +346,7 @@ namespace MetroHome65.Pages
             // if we click at moving widget, exit from move mode
             if (MoveMode)
             {
-                if (TargetWidget == MovingWidget)
-                    MovingWidget = null;
-                else
-                    MoveWidgetTo(Location);
+                ClickAtMoveMode(TargetWidget, Location);
                 return;
             }
 
@@ -439,11 +367,116 @@ namespace MetroHome65.Pages
 
         private void HoldAt(Point Location)
         {
-            if (MoveMode)
+            WidgetWrapper TargetWidget = GetWidgetAtPos(Location);
+
+            if (TargetWidget == null)
+            {
+                ShowMainPopupMenu(Location);
                 return;
-                        
-            if (!ShowWidgetPopupMenu(Location))
-                mnuMain.Show(this, Location);
+            }
+
+            if (! MoveMode)
+            {
+                if (! ShowWidgetPopupMenu(TargetWidget, Location))
+                    MovingWidget = TargetWidget;
+            }
+        }
+
+        /// <summary>
+        /// Fill popup menu for widget grid with grid settings
+        /// </summary>
+        /// <param name="Menu"></param>
+        private void ShowMainPopupMenu(Point Location)
+        {
+            ContextMenu MainMenu = new ContextMenu();
+
+            MenuItem menuAddWidget = new System.Windows.Forms.MenuItem();
+            menuAddWidget.Text = "Add widget";
+            menuAddWidget.Click += AddWidget_Click;
+            MainMenu.MenuItems.Add(menuAddWidget);
+
+            // add separator
+            MenuItem Separator = new System.Windows.Forms.MenuItem();
+            Separator.Text = "-";
+            MainMenu.MenuItems.Add(Separator);
+
+            MenuItem menuExit = new System.Windows.Forms.MenuItem();
+            menuExit.Text = "Exit";
+            menuExit.Click += Exit_Click;
+            MainMenu.MenuItems.Add(menuExit);
+
+            MainMenu.Show(this, Location);
+        }
+
+        /// <summary>
+        /// Fill popup menu with widget specific actions.
+        /// If widget has its own actions they are added to standard widget menu
+        /// </summary>
+        /// <param name="Widget"></param>
+        /// <param name="Menu"></param>
+        private bool ShowWidgetPopupMenu(WidgetWrapper Widget, Point Location)
+        {
+            // fill menu with widget customn actions
+            if ((Widget.Widget != null) && (Widget.Widget.MenuItems != null))
+            {
+                _mnuWidgetSender = Widget;
+                ContextMenu WidgetMenu = new ContextMenu();
+
+                foreach (String Item in Widget.Widget.MenuItems)
+                {
+                    MenuItem CustomItem = new System.Windows.Forms.MenuItem();
+                    CustomItem.Text = Item;
+                    CustomItem.Click += OnCustomMenuClick;
+                    WidgetMenu.MenuItems.Add(CustomItem);
+                }
+
+                // add separator
+                MenuItem Separator = new System.Windows.Forms.MenuItem();
+                Separator.Text = "-";
+                WidgetMenu.MenuItems.Add(Separator);
+
+                // fill menu with standart actions
+                MenuItem menuMove = new System.Windows.Forms.MenuItem();
+                menuMove.Text = "Customize";
+                menuMove.Click += MoveWidget_Click;
+                WidgetMenu.MenuItems.Add(menuMove);
+
+                WidgetMenu.Show(this, Location);
+                return true;
+            }
+            else
+                return false;
+        }
+
+        private void OnCustomMenuClick(object sender, EventArgs e)
+        {
+            if ((sender is MenuItem) && (_mnuWidgetSender != null))
+                _mnuWidgetSender.Widget.OnMenuItemClick((sender as MenuItem).Text);
+        }
+
+        /// <summary>
+        /// Delete current widget from grid.
+        /// Then widgets are realigned, if deleted widget was alone on its row.
+        /// </summary>
+        private void DeleteWidget()
+        {
+            WidgetWrapper DeletingWidget = MovingWidget;
+            MovingWidget = null;
+            Widgets.Remove(DeletingWidget);
+            RealignWidgets();
+            WriteSettings();
+        }
+
+        private void buttonUnpin_Click(object sender, EventArgs e)
+        {
+            if (MoveMode)
+                DeleteWidget();
+        }
+
+        private void MoveWidget_Click(object sender, EventArgs e)
+        {
+            if (_mnuWidgetSender != null)
+                MovingWidget = _mnuWidgetSender;
         }
 
         /// <summary>
@@ -451,58 +484,30 @@ namespace MetroHome65.Pages
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void ShowWidgetSettings(object sender, EventArgs e)
+        private void ShowWidgetSettings(WidgetWrapper Widget)
         {
             FrmWidgetSettings WidgetSettingsForm = new FrmWidgetSettings();
-            WidgetSettingsForm.Widget = _mnuWidgetSender;
+            WidgetSettingsForm.Widget = Widget;
             WidgetSettingsForm.Owner = (Form)this.Parent;
+
+            // when show setting dialog, stop selected widget animation
+            WidgetWrapper prevMovingWidget = MovingWidget;
+            MovingWidget = null;
+
             if (WidgetSettingsForm.ShowDialog() == DialogResult.OK)
-                RealignWidgets();
-
-        }
-
-        /// <summary>
-        /// Delete current widget from grid.
-        /// Then widgets are realigned, if deleted widget was alone on its row.
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void DeleteWidget(object sender, EventArgs e)
-        {
-            if (_mnuWidgetSender != null)
             {
-                Widgets.Remove(_mnuWidgetSender);
                 RealignWidgets();
+                WriteSettings();
             }
+            else
+                MovingWidget = prevMovingWidget;
         }
 
-        private void MoveWidget(object sender, EventArgs e)
+        private void buttonSettings_Click(object sender, EventArgs e)
         {
-            if (_mnuWidgetSender != null)
-            {
-                MovingWidget = _mnuWidgetSender;
-            }
+            if (MoveMode)
+                ShowWidgetSettings(_MovingWidget);
         }
-
-        private void OnCustomMenuClick(object sender, EventArgs e)
-        {
-            if (sender is MenuItem)
-                MessageBox.Show((sender as MenuItem).Text);
-        }
-
-
-        private void WidgetGrid_Resize(object sender, EventArgs e)
-        {
-            _WidgetsContainer.Size = new Size(
-                WidgetWrapper.CellWidth * 4 + WidgetWrapper.CellSpacingHor * 3, 
-                this.Height - _WidgetsContainer.Top);
-
-            buttonNextPage.Location = new Point(
-                this.Width - (this.Width - _WidgetsContainer.Left - _WidgetsContainer.Width) / 2 - buttonNextPage.Width / 2, _WidgetsContainer.Top);
-
-            UpdateGridSize();
-        }
-
 
         private void buttonNextPage_Click(object sender, EventArgs e)
         {
@@ -521,49 +526,74 @@ namespace MetroHome65.Pages
         }
 
 
+        private void WidgetGrid_Resize(object sender, EventArgs e)
+        {
+            _WidgetsContainer.Size = new Size(
+                WidgetWrapper.CellWidth * 4 + WidgetWrapper.CellSpacingHor * 3, 
+                this.Height - _WidgetsContainer.Top);
+
+            panelButtons.Location = new Point(
+                this.Width - (this.Width - _WidgetsContainer.Left - _WidgetsContainer.Width) / 2 - panelButtons.Width / 2, _WidgetsContainer.Top);
+
+            UpdateGridSize();
+        }
+
+
         // fill grid with debug values
         private void DebugFill()
         {
             Widgets.Clear();
 
             AddWidget(new Point(0, 0), new Size(2, 2), "MetroHome65.Widgets.SMSWidget", false).
-                SetParameter("CommandLine", @"\Windows\tMail.exe").
+                SetParameter("CommandLine", @"\Windows\tmail.exe").
                 SetParameter("Caption", "SMS").
                 SetParameter("IconPath", _CoreDir + "\\icons\\mail.png").
-                SetColor(Color.Orange);
+                SetParameter("TileColor", Color.Orange.ToArgb());
 
             AddWidget(new Point(0, 2), new Size(2, 2), "MetroHome65.Widgets.PhoneWidget", false).
-                SetParameter("CommandLine", @"\windows\cprog.exe").
+                SetParameter("CommandLine", @"\Windows\cprog.exe").
                 SetParameter("Caption", "Phone").
                 SetParameter("IconPath", _CoreDir + "\\icons\\phone.png").
-                SetButtonImage(_CoreDir + "\\buttons\\button gray.png");
+                SetParameter("TileImage", _CoreDir + "\\buttons\\button gray.png");
 
             AddWidget(new Point(2, 0), new Size(2, 2), "MetroHome65.Widgets.ShortcutWidget", false).
-                SetParameter("CommandLine", @"\Windows\Start Menu\Programs\Contacts.lnk").
+                SetParameter("CommandLine", @"\Windows\addrbook.lnk").
                 SetParameter("Caption", "Contacts").
                 SetParameter("IconPath", _CoreDir + "\\icons\\contacts.png").
-                SetButtonImage(_CoreDir + "\\buttons\\button gray.png");
+                SetParameter("TileImage", _CoreDir + "\\buttons\\button darkgray.png");
 
             AddWidget(new Point(2, 2), new Size(2, 2), "MetroHome65.Widgets.ShortcutWidget", false).
                 SetParameter("CommandLine", @"\Windows\iexplore.exe").
                 SetParameter("Caption", "Internet Explorer").
-//                SetParameter("IconPath", _CoreDir + "\\icons\\iexplore.png").
-                SetButtonImage(_CoreDir + "\\buttons\\button blue.png");
+                SetParameter("IconPath", _CoreDir + "\\icons\\iexplore.png").
+                SetParameter("TileImage", _CoreDir + "\\buttons\\button blue.png");
 
             AddWidget(new Point(0, 4), new Size(4, 2), "MetroHome65.Widgets.DigitalClockWidget", false).
-                SetButtonImage(_CoreDir + "\\buttons\\bg5.png");
+                SetParameter("TileImage", _CoreDir + "\\buttons\\bg2.png");
 
             AddWidget(new Point(0, 6), new Size(1, 1), "MetroHome65.Widgets.ShortcutWidget", false).
-                SetButtonImage(_CoreDir + "\\buttons\\button gray.png");
+                SetParameter("CommandLine", @"\Windows\camera.exe").
+                SetParameter("IconPath", @"\Windows\camera.exe").
+                SetParameter("Caption", "").
+                SetParameter("TileImage", _CoreDir + "\\buttons\\button gray.png");
 
             AddWidget(new Point(1, 6), new Size(1, 1), "MetroHome65.Widgets.ShortcutWidget", false).
-                SetColor(Color.DarkGreen);
+                SetParameter("CommandLine", @"\Windows\wrlsmgr.exe").
+                SetParameter("IconPath", @"\Windows\wrlsmgr.exe").
+                SetParameter("Caption", "").
+                SetParameter("TileColor", Color.DarkGreen.ToArgb());
 
             AddWidget(new Point(2, 6), new Size(1, 1), "MetroHome65.Widgets.ShortcutWidget", false).
-                SetButtonImage(_CoreDir + "\\buttons\\button blue.png"); ;
+                SetParameter("CommandLine", @"\Windows\taskmgr.exe").
+                SetParameter("IconPath", @"\Windows\taskmgr.exe").
+                SetParameter("Caption", "").
+                SetParameter("TileImage", _CoreDir + "\\buttons\\button blue.png"); ;
 
             AddWidget(new Point(3, 6), new Size(1, 1), "MetroHome65.Widgets.ShortcutWidget", false).
-                SetColor(Color.Maroon);
+                SetParameter("CommandLine", @"\Windows\calendar.exe").
+                SetParameter("IconPath", @"\Windows\calendar.exe").
+                SetParameter("Caption", "").
+                SetParameter("TileColor", Color.Maroon.ToArgb());
 
             AddWidget(new Point(0, 7), new Size(2, 2), "MetroHome65.Widgets.ContactWidget", false);
 
@@ -679,6 +709,8 @@ namespace MetroHome65.Pages
 
         #region Moving widget
 
+        private bool MoveMode { get { return _MovingWidget != null; } }
+
         private WidgetWrapper _MovingWidget = null;
         private WidgetWrapper MovingWidget
         {
@@ -686,40 +718,71 @@ namespace MetroHome65.Pages
             set {
                 if (_MovingWidget != value)
                 {
+                    buttonSettings.Visible = (value != null);
+                    buttonUnpin.Visible = (value != null);
+
                     if (value == null)
                     {
                         _ResizeTimer = null;
+
                         _MovingWidget.Moving = false;
+                        WriteSettings();
+
+                        RepaintWidget(_MovingWidget);
+
                         _MovingWidget = null;
+                        _MovingWidgetImg.Dispose();
+                        _MovingWidgetImg = null;
+                                                
+                        _BGBrush = null;
                     }
                     else
                     {
                         _MovingWidget = value;
                         _MovingWidget.Moving = true;
 
-                        //_ResizeTimer = new System.Threading.Timer(OnResizeTimer, null, 0, 400);
+                        _MovingWidgetImg = CropImage(_DoubleBuffer, _MovingWidget.ScreenRect);
+                        _BGBrush = new System.Drawing.SolidBrush(this.BackColor);
+
+                        _ResizeTimer = new System.Threading.Timer(OnResizeTimer, null, 0, 300);
+                        /*
                         _ResizeTimer = new System.Windows.Forms.Timer();
                         _ResizeTimer.Tick += OnResizeTimer;
-                        _ResizeTimer.Interval = 500;
+                        _ResizeTimer.Interval = 400;
                         _ResizeTimer.Enabled = true;
+                         */
                     }
-                    RealignWidgets();
+
                 }
             }
         }
-        private bool MoveMode { get { return _MovingWidget != null; } }
 
-        private System.Windows.Forms.Timer _ResizeTimer;
+        private Bitmap CropImage(Bitmap source, Rectangle section)
+        {
+            // An empty bitmap which will hold the cropped image
+            Bitmap bmp = new Bitmap(section.Width, section.Height);
+            Graphics g = Graphics.FromImage(bmp);
+
+            // Draw the given area (section) of the source image
+            // at location 0,0 on the empty bitmap (bmp)
+            g.DrawImage(source, 0, 0, section, GraphicsUnit.Pixel);
+
+            return bmp;
+        }
+ 
+        Bitmap _MovingWidgetImg = null;
+        //!!private System.Windows.Forms.Timer _ResizeTimer;
+        private System.Threading.Timer _ResizeTimer;
         private int _deltaX = 0;
-        private int _deltaY = 0;
+        private int _deltaY = -2;
         private int _deltaXInc = 1;
         private int _deltaYInc = -1;
+        private Brush _BGBrush = null;
 
-        //private void OnResizeTimer(object state)
-        private void OnResizeTimer(object sender, EventArgs e)
+        private void OnResizeTimer(object state)
+        //!!private void OnResizeTimer(object sender, EventArgs e)
         {
-            if (_MovingWidget != null)
-                RepaintMovingWidget();
+            RepaintMovingWidget();
         }
 
         private delegate void OnRepaintMovingWidget();
@@ -731,42 +794,44 @@ namespace MetroHome65.Pages
                 return;
             }
 
-            _MovingWidget.CalcScreenPosition();
+            if (_MovingWidget == null)
+                return;
+
             Rectangle _MovingWidgetRect = new Rectangle(_MovingWidget.ScreenRect.Left, _MovingWidget.ScreenRect.Top,
                 _MovingWidget.ScreenRect.Width, _MovingWidget.ScreenRect.Height);
-            _MovingWidgetRect.Inflate(_deltaX >> 1, _deltaY >> 1);
-            _MovingWidgetRect.Offset(_deltaX, -_deltaY);
+            _MovingWidgetRect.Inflate(_deltaX, _deltaY);
 
-            if ((_deltaX >= 2) || (_deltaX <= -2))
+            if ((_deltaX >= 0) || (_deltaX <= -5))
                 _deltaXInc = -_deltaXInc;
             _deltaX += _deltaXInc;
-            if ((_deltaY >= 2) || (_deltaY <= -2))
+            if ((_deltaY >= 0) || (_deltaY <= -5))
                 _deltaYInc = -_deltaYInc;
             _deltaY += _deltaYInc;
 
             // paing background
-            Brush bgBrush = new System.Drawing.SolidBrush(this.BackColor);
             Rectangle OutRect = new Rectangle(
                 _MovingWidget.ScreenRect.Left - WidgetWrapper.CellSpacingHor + 1,
                 _MovingWidget.ScreenRect.Top - WidgetWrapper.CellSpacingVer + 1,
                 _MovingWidget.ScreenRect.Width + WidgetWrapper.CellSpacingHor - 1,
                 _MovingWidget.ScreenRect.Height + WidgetWrapper.CellSpacingVer - 1);
-            _graphics.FillRectangle(bgBrush, OutRect);
+            _graphics.FillRectangle(_BGBrush, OutRect);
 
             // paint widgets
-            _MovingWidget.Paint(_graphics, _MovingWidgetRect);
-
-            // if Moving mode - draw unpin and settings icons
-            if (MoveMode)
-            {
-                _graphics.DrawIcon(Properties.Resources.unpin,
-                    _MovingWidgetRect.Right - Properties.Resources.unpin.Width + 2,
-                    _MovingWidgetRect.Top - 2);
-            }
+            _graphics.DrawImage(_MovingWidgetImg, _MovingWidgetRect, 
+                new Rectangle(0, 0, _MovingWidgetImg.Width, _MovingWidgetImg.Height), GraphicsUnit.Pixel); 
 
             _WidgetsImage.Invalidate(OutRect);
+        }
 
-            Application.DoEvents();
+        private void ClickAtMoveMode(WidgetWrapper TargetWidget, Point Location)
+        {
+            if (TargetWidget == MovingWidget)
+                MovingWidget = null;
+            else
+            {
+                MoveWidgetTo(Location);
+                RepaintMovingWidget();
+            }
         }
 
         #endregion

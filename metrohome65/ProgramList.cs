@@ -5,6 +5,7 @@ using System.Drawing;
 using System.Windows.Forms;
 using System.IO;
 using System.Runtime.InteropServices;
+using MetroHome65.Routines;
 
 namespace MetroHome65.Pages
 {
@@ -92,7 +93,7 @@ namespace MetroHome65.Pages
         private void FillListView()
         {
             String fname;
-            Routines.structa refa = new Routines.structa();
+            FileRoutines.structa refa = new FileRoutines.structa();
             IntPtr ptr;
 
             Brush bgBrush = new System.Drawing.SolidBrush(_BGColor);
@@ -105,7 +106,7 @@ namespace MetroHome65.Pages
             {
                 // get icon from file
                 fname = FileDescr.Path;
-                ptr = Routines.SHGetFileInfo(ref fname, 0, ref refa, Marshal.SizeOf(refa), 0x100);
+                ptr = FileRoutines.SHGetFileInfo(ref fname, 0, ref refa, Marshal.SizeOf(refa), 0x100);
                 Icon icon = Icon.FromHandle(refa.a);
 
                 Bitmap image = new Bitmap(Rect.Width + _BlankSize*2, Rect.Height + _BlankSize*2);
@@ -145,7 +146,7 @@ namespace MetroHome65.Pages
                 String FileName = _FileList[lvApps.SelectedIndices[0]].Path;
                 lvApps.Items[lvApps.SelectedIndices[0]].Selected = false;
 
-                MetroHome65.Routines.StartProcess(FileName);
+                FileRoutines.StartProcess(FileName);
             }
         }
 

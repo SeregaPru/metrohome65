@@ -2,11 +2,12 @@
 using System.Drawing;
 using System.Windows.Forms;
 using System.ComponentModel;
+using System.Collections.Generic;
 
 namespace MetroHome65.Widgets
 {
 
-    public abstract class BaseWidget : IWidget
+    public abstract class BaseWidget : IWidget, INotifyPropertyChanged
     {
         private EventHandlerList _Events = new EventHandlerList();
         private static readonly object _EventWidgetUpdate = new object();
@@ -22,17 +23,12 @@ namespace MetroHome65.Widgets
         
         public virtual void Paint(Graphics g, Rectangle Rect) { }
 
-        public virtual void OnClick(Point Location)
-        {
-            MessageBox.Show(String.Format("click at widget at {0}:{1}", 
-                Location.X, Location.Y));
-        }
+        public virtual void OnClick(Point Location) { }
 
-        public virtual void OnDblClick(Point Location)
-        {
-        }
+        public virtual void OnDblClick(Point Location) { }
 
         public virtual void OnMenuItemClick(String ItemName) { }
+
 
         /// <summary>
         /// Event raised when Widget needs to be updated (repainted)
@@ -53,16 +49,20 @@ namespace MetroHome65.Widgets
             }
         }
 
-        public virtual Control[] EditControls { get { return null; } }
-    }
+
+        public virtual List<Control> EditControls { get { return new List<Control>(); } }
 
 
-    /// <summary>
-    /// Base class for abstract transparent widget.
-    /// </summary>
-    public abstract class TransparentWidget : BaseWidget
-    {
-        protected override Boolean GetTransparent() { return true; }
+        #region INotifyPropertyChanged
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        protected void NotifyPropertyChanged(String info)
+        {
+            if (PropertyChanged != null)
+               PropertyChanged(this, new PropertyChangedEventArgs(info));
+        }
+        #endregion
+
     }
 
 }
