@@ -64,6 +64,7 @@
             this.buttonNextPage.Location = new System.Drawing.Point(0, 0);
             this.buttonNextPage.Name = "buttonNextPage";
             this.buttonNextPage.Size = new System.Drawing.Size(48, 48);
+            this.buttonNextPage.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.buttonNextPage.Click += new System.EventHandler(this.buttonNextPage_Click);
             // 
             // gestureRecognizer
@@ -99,6 +100,7 @@
             this.buttonUnpin.Location = new System.Drawing.Point(0, 114);
             this.buttonUnpin.Name = "buttonUnpin";
             this.buttonUnpin.Size = new System.Drawing.Size(48, 48);
+            this.buttonUnpin.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.buttonUnpin.Visible = false;
             this.buttonUnpin.Click += new System.EventHandler(this.buttonUnpin_Click);
             // 
@@ -108,6 +110,7 @@
             this.buttonSettings.Location = new System.Drawing.Point(0, 179);
             this.buttonSettings.Name = "buttonSettings";
             this.buttonSettings.Size = new System.Drawing.Size(48, 48);
+            this.buttonSettings.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.buttonSettings.Visible = false;
             this.buttonSettings.Click += new System.EventHandler(this.buttonSettings_Click);
             // 
@@ -123,7 +126,8 @@
             // 
             // WidgetGrid
             // 
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Inherit;
+            this.AutoScaleDimensions = new System.Drawing.SizeF(192F, 192F);
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
             this.BackColor = System.Drawing.Color.Black;
             this.Controls.Add(this.panelButtons);
             this.Controls.Add(this._WidgetsContainer);

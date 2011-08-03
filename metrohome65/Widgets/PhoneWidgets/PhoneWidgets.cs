@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Drawing;
+using MetroHome65.Routines;
 
 namespace MetroHome65.Widgets
 {
@@ -9,8 +10,8 @@ namespace MetroHome65.Widgets
         private System.Windows.Forms.Timer _Timer;
         private int _MissedCount = 0;
 
-        private static int PaddingRightCnt = 50; //todo comment
-        private static int PaddingRightIco = 160; //todo comment
+        private static int PaddingRightCnt = ScreenRoutines.Scale(50); //todo comment
+        private static int PaddingRightIco = ScreenRoutines.Scale(160); //todo comment
 
         protected override Size[] GetSizes()
         {
@@ -38,11 +39,13 @@ namespace MetroHome65.Widgets
         {
             String MissedCountStr = _MissedCount.ToString();
 
+            int CaptionHeight = (Caption == "") ? 0 : (CaptionSize /*+ CaptionBottomOffset*/);
+
             Font captionFont = new System.Drawing.Font("Helvetica", 24, FontStyle.Regular);
             Brush captionBrush = new System.Drawing.SolidBrush(System.Drawing.Color.White);
             g.DrawString(MissedCountStr, captionFont, captionBrush,
                 Rect.Right - PaddingRightCnt,
-                (Rect.Bottom + Rect.Top - g.MeasureString(MissedCountStr, captionFont).Height) / 2 - 9);
+                Rect.Top + (Rect.Height - g.MeasureString("0", captionFont).Height - CaptionHeight) / 2);
         }
 
         public void StartUpdate()
@@ -86,6 +89,17 @@ namespace MetroHome65.Widgets
         protected override int GetMissedCount()
         {
             return Microsoft.WindowsMobile.Status.SystemState.MessagingSmsUnread;
+        }
+    }
+
+
+
+    [WidgetInfo("E-mail")]
+    public class EMailWidget : PhoneWidget, IWidgetUpdatable
+    {
+        protected override int GetMissedCount()
+        {
+            return Microsoft.WindowsMobile.Status.SystemState.MessagingTotalEmailUnread;
         }
     }
 

@@ -4,6 +4,7 @@ using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
 using MetroHome65.Widgets;
+using MetroHome65.Routines;
 using Microsoft.WindowsMobile.Gestures;
 
 namespace MetroHome65.Pages
@@ -37,7 +38,9 @@ namespace MetroHome65.Pages
             ReadSettings();
         }
 
+
         public virtual Control GetControl() { return this; }
+
 
         private Boolean _Active = false;
         public Boolean Active { set { SetActive(value); } }
@@ -544,28 +547,31 @@ namespace MetroHome65.Pages
         {
             Widgets.Clear();
 
+            String IconsDir = _CoreDir + "\\icons\\" + 
+                ((ScreenRoutines.IsQVGA) ? "small\\small-" : ""); 
+
             AddWidget(new Point(0, 0), new Size(2, 2), "MetroHome65.Widgets.SMSWidget", false).
                 SetParameter("CommandLine", @"\Windows\tmail.exe").
                 SetParameter("Caption", "SMS").
-                SetParameter("IconPath", _CoreDir + "\\icons\\mail.png").
+                SetParameter("IconPath", IconsDir + "message.png").
                 SetParameter("TileColor", Color.Orange.ToArgb());
 
             AddWidget(new Point(0, 2), new Size(2, 2), "MetroHome65.Widgets.PhoneWidget", false).
                 SetParameter("CommandLine", @"\Windows\cprog.exe").
                 SetParameter("Caption", "Phone").
-                SetParameter("IconPath", _CoreDir + "\\icons\\phone.png").
+                SetParameter("IconPath", IconsDir + "phone.png").
                 SetParameter("TileImage", _CoreDir + "\\buttons\\button gray.png");
 
             AddWidget(new Point(2, 0), new Size(2, 2), "MetroHome65.Widgets.ShortcutWidget", false).
                 SetParameter("CommandLine", @"\Windows\addrbook.lnk").
                 SetParameter("Caption", "Contacts").
-                SetParameter("IconPath", _CoreDir + "\\icons\\contacts.png").
+                SetParameter("IconPath", IconsDir + "contacts.png").
                 SetParameter("TileImage", _CoreDir + "\\buttons\\button darkgray.png");
 
             AddWidget(new Point(2, 2), new Size(2, 2), "MetroHome65.Widgets.ShortcutWidget", false).
                 SetParameter("CommandLine", @"\Windows\iexplore.exe").
                 SetParameter("Caption", "Internet Explorer").
-                SetParameter("IconPath", _CoreDir + "\\icons\\iexplore.png").
+                SetParameter("IconPath", IconsDir + "iexplore.png").
                 SetParameter("TileImage", _CoreDir + "\\buttons\\button blue.png");
 
             AddWidget(new Point(0, 4), new Size(4, 2), "MetroHome65.Widgets.DigitalClockWidget", false).
@@ -602,17 +608,22 @@ namespace MetroHome65.Pages
             AddWidget(new Point(0, 9), new Size(2, 2), "MetroHome65.Widgets.ShortcutWidget", false).
                 SetParameter("CommandLine", @"\Windows\MobileCalculator.exe").
                 SetParameter("Caption", "Calculator").
-                SetParameter("IconPath", _CoreDir + "\\icons\\calc.png");
+                SetParameter("IconPath", IconsDir + "calc.png");
 
             AddWidget(new Point(2, 9), new Size(2, 2), "MetroHome65.Widgets.ShortcutWidget", false).
                 SetParameter("CommandLine", @"\Windows\wmplayer.exe").
                 SetParameter("Caption", "Media player").
-                SetParameter("IconPath", _CoreDir + "\\icons\\media.png");
+                SetParameter("IconPath", IconsDir + "media.png");
 
             AddWidget(new Point(0, 11), new Size(2, 2), "MetroHome65.Widgets.ShortcutWidget", false).
                 SetParameter("CommandLine", @"\Windows\fexplore.exe").
                 SetParameter("Caption", "Explorer").
-                SetParameter("IconPath", _CoreDir + "\\icons\\fexplore.png");
+                SetParameter("IconPath", IconsDir + "folder.png");
+
+            AddWidget(new Point(2, 11), new Size(2, 2), "MetroHome65.Widgets.EMailWidget", false).
+                SetParameter("CommandLine", @"\Windows\tmail.exe").
+                SetParameter("Caption", "E-mail").
+                SetParameter("IconPath", IconsDir + "message.png");
         }
 
 

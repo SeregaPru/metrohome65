@@ -6,37 +6,31 @@ using System.Windows.Forms;
 
 namespace MetroHome65.Settings.Controls
 {
-    public partial class Settings_string : UserControl, INotifyPropertyChanged
+    public partial class Settings_flag : UserControl, INotifyPropertyChanged
     {
-        public String Caption { set { lblCaption.Text = value; } }
+        public String Caption { set { cbFlag.Text = value; } }
 
-        public String Value {
-            get { return textValue.Text; } 
+        public Boolean Value {
+            get { return cbFlag.Checked; } 
             set {
-                if (textValue.Text != value)
+                if (cbFlag.Checked != value)
                 {
-                    textValue.Text = value;
+                    cbFlag.Checked = value;
                     NotifyPropertyChanged("Value");
                 }
             } 
         }
 
 
-        public Settings_string()
+        public Settings_flag()
         {
             InitializeComponent();
         }
 
-        private void buttonClear_Click(object sender, EventArgs e)
-        {
-            Value = "";
-        }
-
-        private void textValue_TextChanged(object sender, EventArgs e)
+        private void cbFlag_CheckStateChanged(object sender, EventArgs e)
         {
             NotifyPropertyChanged("Value");
         }
-
 
         #region INotifyPropertyChanged
         public event PropertyChangedEventHandler PropertyChanged;

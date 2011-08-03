@@ -158,39 +158,23 @@
     </Content>
     <Content Include="icons\acrobat.png" />
     <Content Include="icons\bluetooth.png" />
-    <Content Include="icons\calc.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
+    <Content Include="icons\calc.png" />
     <Content Include="icons\clock.png" />
-    <Content Include="icons\contacts.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
+    <Content Include="icons\contacts.png" />
     <Content Include="icons\facebook.png" />
-    <Content Include="icons\fexplore.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
     <Content Include="icons\flag.png" />
     <Content Include="icons\flash.png" />
+    <Content Include="icons\folder.png" />
     <Content Include="icons\games.png" />
-    <Content Include="icons\iexplore.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
+    <Content Include="icons\iexplore.png" />
     <Content Include="icons\java.png" />
     <Content Include="icons\list.png" />
-    <Content Include="icons\mail.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="icons\media.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="icons\messagges.png" />
+    <Content Include="icons\mail.png" />
+    <Content Include="icons\media.png" />
+    <Content Include="icons\message.png" />
     <Content Include="icons\Opera.png" />
-    <Content Include="icons\people.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="icons\phone.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
+    <Content Include="icons\people.png" />
+    <Content Include="icons\phone.png" />
     <Content Include="icons\photo.png" />
     <Content Include="icons\radio.png" />
     <Content Include="icons\skype.png" />

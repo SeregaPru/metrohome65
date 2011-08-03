@@ -57,6 +57,14 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\MetroHome65.Routines\MetroHome65.Routines.csproj">
+      <Project>{18D428A8-6722-4A69-B39D-F652AFA34D90}</Project>
+      <Name>MetroHome65.Routines</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Metrohome65.Settings.Controls\Metrohome65.Settings.Controls.csproj">
+      <Project>{A6BFA5B1-E501-4588-BCF0-F07356F120E3}</Project>
+      <Name>Metrohome65.Settings.Controls</Name>
+    </ProjectReference>
     <ProjectReference Include="..\BaseWidgets\BaseWidgets.csproj">
       <Project>{B23D069D-4ED9-4F45-BE07-DA271A2106D4}</Project>
       <Name>BaseWidgets</Name>

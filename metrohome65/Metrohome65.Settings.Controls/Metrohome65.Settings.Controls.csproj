@@ -85,6 +85,12 @@
     <Compile Include="Settings_file.designer.cs">
       <DependentUpon>Settings_file.cs</DependentUpon>
     </Compile>
+    <Compile Include="Settings_flag.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Settings_flag.designer.cs">
+      <DependentUpon>Settings_flag.cs</DependentUpon>
+    </Compile>
     <Compile Include="Settings_image.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -110,6 +116,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Settings_file.resx">
       <DependentUpon>Settings_file.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Settings_flag.resx">
+      <DependentUpon>Settings_flag.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Settings_image.resx">
       <DependentUpon>Settings_image.cs</DependentUpon>

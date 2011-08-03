@@ -21,6 +21,9 @@ namespace MetroHome65.Widgets
         private String _Caption = "";
         private String _IconPath = "";
 
+        protected static int CaptionLeftOffset = ScreenRoutines.Scale(10);
+        protected static int CaptionBottomOffset = ScreenRoutines.Scale(4);
+        protected static int CaptionSize = ScreenRoutines.Scale(28); // approx caption height in px. 
 
         /// <summary>
         /// user defined caption for widget
@@ -93,9 +96,9 @@ namespace MetroHome65.Widgets
             if (String.IsNullOrEmpty(_IconPath))
                 return;
 
-            int CaptionHeight = (Caption == "") ? 0 : Rect.Height / 20;
+            int CaptionHeight = (Caption == "") ? 0 : (CaptionSize /* + CaptionBottomOffset */);
 
-            // draw icon from file
+            // draw icon from external image file
             if (_img != null)
             {
                 try
@@ -106,7 +109,7 @@ namespace MetroHome65.Widgets
                     IntPtr hdc = g.GetHdc();
                     OpenNETCF.Drawing.Imaging.RECT ImgRect = OpenNETCF.Drawing.Imaging.RECT.FromXYWH(
                         (Rect.Left + Rect.Right - (int)ImageInfo.Width) / 2,
-                        (Rect.Top + Rect.Bottom - (int)ImageInfo.Height) / 2 - CaptionHeight,
+                        Rect.Top + (Rect.Height - (int)ImageInfo.Height - CaptionHeight) / 2,
                         (int)ImageInfo.Width, (int)ImageInfo.Height);
                     _img.Draw(hdc, ImgRect, null);
                     g.ReleaseHdc(hdc);
@@ -118,28 +121,35 @@ namespace MetroHome65.Widgets
                 return;
             }
 
+            // draw main icon from executable file
             if (IsExecutableIcon())
             {
                 FileRoutines.structa refa = new FileRoutines.structa();
                 IntPtr ptr = FileRoutines.SHGetFileInfo(ref _IconPath, 0, ref refa, Marshal.SizeOf(refa), 0x100);
                 Icon icon = Icon.FromHandle(refa.a);
 
-                g.DrawIcon(icon, (Rect.Left + Rect.Right - icon.Width) / 2, (Rect.Top + Rect.Bottom - icon.Height) / 2 - CaptionHeight);
+                g.DrawIcon(icon, (Rect.Left + Rect.Right - icon.Width) / 2,
+                    Rect.Top + (Rect.Height - icon.Height - CaptionHeight) / 2);
 
                 icon.Dispose();
                 icon = null;
             }
         }
 
+        /// <summary>
+        /// Draw caption
+        /// </summary>
+        /// <param name="g"></param>
+        /// <param name="Rect"></param>
         protected virtual void PaintCaption(Graphics g, Rectangle Rect)
         {
-            // draw caption
             if (Caption != "")
             {
                 Font captionFont = new System.Drawing.Font("Segoe UI Light", 8, FontStyle.Bold);
                 Brush captionBrush = new System.Drawing.SolidBrush(System.Drawing.Color.White);
                 g.DrawString(Caption, captionFont, captionBrush,
-                    Rect.Left + 10, Rect.Bottom - 6 - g.MeasureString(Caption, captionFont).Height);
+                    Rect.Left + CaptionLeftOffset, 
+                    Rect.Bottom - CaptionBottomOffset - CaptionSize);
             }
         }
 

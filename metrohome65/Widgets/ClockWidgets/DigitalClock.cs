@@ -1,5 +1,10 @@
 ﻿using System;
 using System.Drawing;
+using System.Collections.Generic;
+using System.Windows.Forms;
+using System.ComponentModel;
+using MetroHome65.Routines;
+using MetroHome65.Settings.Controls;
 
 namespace MetroHome65.Widgets
 {
@@ -11,9 +16,10 @@ namespace MetroHome65.Widgets
         private Font _fntTime;
         private Font _fntDate;
         private Boolean _ShowPoints = true;
+        private Boolean _Is24Hour = true;
 
-        private int PaddingRight = 20;
-        private int DotWidth = 30; 
+        private int PaddingRight = ScreenRoutines.Scale(20);
+        private int DotWidth = ScreenRoutines.Scale(30); 
 
         public DigitalClockWidget() : base()
         {
@@ -32,32 +38,50 @@ namespace MetroHome65.Widgets
         }
 
 
+        /// <summary>
+        /// Digital clock style - 12/24 hour
+        /// </summary>
+        [WidgetParameter]
+        public Boolean Is24Hour
+        {
+            get { return _Is24Hour; }
+            set
+            {
+                if (_Is24Hour != value)
+                {
+                    _Is24Hour = value;
+                    NotifyPropertyChanged("Is24Hour");
+                }
+            }
+        }
+
+
         public override void Paint(Graphics g, Rectangle Rect)
         {
             base.Paint(g, Rect);
 
-            String sTime1 = DateTime.Now.ToString("hh");
-            String sTime2 = DateTime.Now.ToString("mm");
+            String sTimeHour = (Is24Hour) ? DateTime.Now.ToString("HH") : DateTime.Now.ToString("hh");
+            String sTimeMins = DateTime.Now.ToString("mm");
             String sDate = DateTime.Now.ToString("dddd, MMMM d");
 
-            SizeF TimeBox1 = g.MeasureString(sTime1, _fntTime);
-            SizeF TimeBox2 = g.MeasureString(sTime2, _fntTime);
+            SizeF TimeBoxHour = g.MeasureString(sTimeHour, _fntTime);
+            SizeF TimeBoxMins = g.MeasureString(sTimeMins, _fntTime);
             SizeF DateBox = g.MeasureString(sDate, _fntDate);
 
-            g.DrawString(sTime2, _fntTime, _brushCaption,
-                Rect.Right - TimeBox1.Width - PaddingRight,
-                Rect.Top + (Rect.Height - TimeBox1.Height - DateBox.Height) / 2);
+            g.DrawString(sTimeMins, _fntTime, _brushCaption,
+                Rect.Right - TimeBoxMins.Width - PaddingRight,
+                Rect.Top + (Rect.Height - TimeBoxMins.Height - DateBox.Height) / 2);
             if (_ShowPoints)
                 g.DrawString(":", _fntTime, _brushCaption,
-                    Rect.Right - TimeBox1.Width - PaddingRight - DotWidth,
-                    Rect.Top + (Rect.Height - TimeBox1.Height - DateBox.Height) / 2 - 5);
-            g.DrawString(sTime1, _fntTime, _brushCaption,
-                Rect.Right - TimeBox1.Width - PaddingRight - DotWidth - TimeBox2.Width,
-                Rect.Top + (Rect.Height - TimeBox1.Height - DateBox.Height) / 2);
+                    Rect.Right - TimeBoxHour.Width - PaddingRight - DotWidth,
+                    Rect.Top + (Rect.Height - TimeBoxMins.Height - DateBox.Height) / 2 - ScreenRoutines.Scale(5));
+            g.DrawString(sTimeHour, _fntTime, _brushCaption,
+                Rect.Right - TimeBoxMins.Width - PaddingRight - DotWidth - TimeBoxHour.Width,
+                Rect.Top + (Rect.Height - TimeBoxMins.Height - DateBox.Height) / 2);
 
             g.DrawString(sDate, _fntDate, _brushCaption,
                 Rect.Right - DateBox.Width - PaddingRight,
-                Rect.Bottom - (Rect.Height - TimeBox2.Height - DateBox.Height) / 2 - DateBox.Height);
+                Rect.Bottom - (Rect.Height - TimeBoxMins.Height - DateBox.Height) / 2 - DateBox.Height);
         }
 
         public void StartUpdate()
@@ -84,6 +108,25 @@ namespace MetroHome65.Widgets
         {
             _ShowPoints = !_ShowPoints;
             OnWidgetUpdate();
+        }
+
+
+        public override List<Control> EditControls
+        {
+            get
+            {
+                List<Control> Controls = base.EditControls;
+
+                Settings_flag FlagControl = new Settings_flag();
+                FlagControl.Caption = "24-Hours";
+                FlagControl.Value = Is24Hour;
+                Controls.Add(FlagControl);
+
+                BindingManager BindingManager = new BindingManager();
+                BindingManager.Bind(this, "Is24Hour", FlagControl, "Value");
+
+                return Controls;
+            }
         }
 
     }
