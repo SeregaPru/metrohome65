@@ -44,6 +44,7 @@
             this.buttonBack.Location = new System.Drawing.Point(18, 6);
             this.buttonBack.Name = "buttonBack";
             this.buttonBack.Size = new System.Drawing.Size(48, 48);
+            this.buttonBack.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.buttonBack.Click += new System.EventHandler(this.buttonBack_Click);
             // 
             // lvApps

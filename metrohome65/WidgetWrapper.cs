@@ -7,6 +7,7 @@ using System.Reflection;
 using System.Runtime.Serialization;
 using System.Windows.Forms;
 using MetroHome65.Widgets;
+using MetroHome65.Routines;
 
 namespace MetroHome65.Pages
 {
@@ -35,10 +36,10 @@ namespace MetroHome65.Pages
     [Serializable]
     public class WidgetWrapper
     {
-        public static int CellWidth = 81;
-        public static int CellHeight = 81;
-        public static int CellSpacingHor = 12;
-        public static int CellSpacingVer = 12;
+        public static int CellWidth = ScreenRoutines.Scale(81);
+        public static int CellHeight = CellWidth;
+        public static int CellSpacingHor = ScreenRoutines.Scale(12);
+        public static int CellSpacingVer = CellSpacingHor;
 
         private IWidget _Widget = null;
         private Point _Location = new Point(0, 0);

@@ -63,6 +63,7 @@
     <Compile Include="ContactWidget.cs" />
     <Compile Include="PhoneWidgets.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="StatusWidgets.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\MetroHome65.Routines\MetroHome65.Routines.csproj">

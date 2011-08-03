@@ -18,10 +18,11 @@ namespace MetroHome65.Pages
 
     public partial class ProgramList : UserControl, IPageControl
     {
-        private static int PaddingHor = 30; 
-        private Size _IconSize = new Size(64, 64);
-        private int _BorderSize = 7;
-        private int _BlankSize = 5;
+        private int _IconSize = ScreenRoutines.Scale(64);
+        private static int PaddingHor = ScreenRoutines.Scale(30);
+        private int _BorderSize = ScreenRoutines.Scale(7);
+        private int _BlankSize = ScreenRoutines.Scale(5);
+
         private Color _BGColor = Color.Green;
         private List<FileDescr> _FileList = new List<FileDescr>();
         private WidgetGrid _WidgetGrid;
@@ -31,6 +32,13 @@ namespace MetroHome65.Pages
         public ProgramList(WidgetGrid WidgetGrid)
         {
             InitializeComponent();
+
+            // change sizes and position for QVGA display
+            if (ScreenRoutines.IsQVGA)
+            {
+                int ImgSize = _IconSize + _BorderSize * 2 + _BlankSize * 2;
+                ilAppIcons.ImageSize = new Size(ImgSize, ImgSize);
+            }
 
             this._WidgetGrid = WidgetGrid;
 
@@ -97,7 +105,7 @@ namespace MetroHome65.Pages
             IntPtr ptr;
 
             Brush bgBrush = new System.Drawing.SolidBrush(_BGColor);
-            Rectangle Rect = new Rectangle(0, _BlankSize, _IconSize.Width + _BorderSize * 2, _IconSize.Height + _BorderSize * 2);
+            Rectangle Rect = new Rectangle(0, _BlankSize, _IconSize + _BorderSize * 2, _IconSize + _BorderSize * 2);
 
             lvApps.Items.Clear();
             ilAppIcons.Images.Clear();
@@ -109,7 +117,7 @@ namespace MetroHome65.Pages
                 ptr = FileRoutines.SHGetFileInfo(ref fname, 0, ref refa, Marshal.SizeOf(refa), 0x100);
                 Icon icon = Icon.FromHandle(refa.a);
 
-                Bitmap image = new Bitmap(Rect.Width + _BlankSize*2, Rect.Height + _BlankSize*2);
+                Bitmap image = new Bitmap(Rect.Width + _BlankSize * 2, Rect.Height + _BlankSize * 2);
                 Graphics graphics = Graphics.FromImage(image);
                 graphics.Clear(Color.Black);
                 graphics.FillRectangle(bgBrush, Rect);
