@@ -37,10 +37,11 @@ namespace MetroHome65.Widgets
 
         private void PaintStatus(Graphics g, Rectangle Rect)
         {
-            Font captionFont = new System.Drawing.Font("Segoe UI Light", 20, FontStyle.Bold);
+            int FontSize = 12 * this._Size.Width;
+            Font captionFont = new System.Drawing.Font("Segoe UI Light", FontSize, FontStyle.Bold);
             Brush captionBrush = new System.Drawing.SolidBrush(System.Drawing.Color.White);
             g.DrawString(_BatteryStatus, captionFont, captionBrush,
-                Rect.Left + 10, Rect.Top + 10);
+                Rect.Left + 5, Rect.Top + 5);
         }
 
         public void StartUpdate()

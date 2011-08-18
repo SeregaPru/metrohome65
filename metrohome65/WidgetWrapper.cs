@@ -121,6 +121,8 @@ namespace MetroHome65.Pages
                     //!! write to log
                 }
 
+            _Widget.Size = _Size;
+
             CalcScreenPosition();
             return this;
         }

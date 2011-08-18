@@ -15,6 +15,10 @@ namespace MetroHome65.Widgets
         protected virtual Size[] GetSizes() { return null; }
         public Size[] Sizes { get { return GetSizes(); } }
 
+        protected Size _Size;
+        protected virtual void SetSize(Size value) { _Size = value; }
+        public Size Size { set { SetSize(value); } }
+
         protected virtual String[] GetMenuItems() { return null; } 
         public String[] MenuItems { get { return GetMenuItems(); } }
         
