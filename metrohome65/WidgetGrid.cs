@@ -623,7 +623,7 @@ namespace MetroHome65.Pages
             AddWidget(new Point(2, 11), new Size(2, 2), "MetroHome65.Widgets.EMailWidget", false).
                 SetParameter("CommandLine", @"\Windows\tmail.exe").
                 SetParameter("Caption", "E-mail").
-                SetParameter("IconPath", IconsDir + "message.png");
+                SetParameter("IconPath", IconsDir + "mail.png");
         }
 
 

@@ -18,6 +18,8 @@
     <NativePlatformName>Windows Mobile 6.5.3 Professional DTK</NativePlatformName>
     <FormFactorID>
     </FormFactorID>
+    <ApplicationIcon>home.ico</ApplicationIcon>
+    <StartupObject>MetroHome65.Program</StartupObject>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -156,6 +158,7 @@
     <Content Include="buttons\button sky.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="home.ico" />
     <Content Include="icons\acrobat.png" />
     <Content Include="icons\bluetooth.png" />
     <Content Include="icons\calc.png" />

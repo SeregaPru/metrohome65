@@ -49,6 +49,11 @@ namespace MetroHome65.Widgets
         Size[] Sizes { get; }
 
         /// <summary>
+        /// Current widget size
+        /// </summary>
+        Size Size { set; }
+
+        /// <summary>
         /// Additional popup menu items for widget.
         /// They will be shown in widget popup menu, above standart items.
         /// </summary>

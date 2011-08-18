@@ -114,7 +114,6 @@ Global
 		{6A342D7F-A61B-4835-A4BE-B0679AAD6D72}.Debug|Any CPU.ActiveCfg = Debug
 		{6A342D7F-A61B-4835-A4BE-B0679AAD6D72}.Debug|Mixed Platforms.ActiveCfg = Debug
 		{6A342D7F-A61B-4835-A4BE-B0679AAD6D72}.Debug|Windows Mobile 6.5.3 Professional DTK (ARMV4I).ActiveCfg = Debug
-		{6A342D7F-A61B-4835-A4BE-B0679AAD6D72}.Debug|Windows Mobile 6.5.3 Professional DTK (ARMV4I).Build.0 = Debug
 		{6A342D7F-A61B-4835-A4BE-B0679AAD6D72}.Release|Any CPU.ActiveCfg = Release
 		{6A342D7F-A61B-4835-A4BE-B0679AAD6D72}.Release|Mixed Platforms.ActiveCfg = Release
 		{6A342D7F-A61B-4835-A4BE-B0679AAD6D72}.Release|Windows Mobile 6.5.3 Professional DTK (ARMV4I).ActiveCfg = Release
