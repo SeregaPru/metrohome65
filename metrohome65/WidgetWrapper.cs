@@ -46,13 +46,23 @@ namespace MetroHome65.Pages
         private Size _Size = new Size(1, 1);
         private bool _Moving = false;
 
+        // double buffer
+        private Bitmap _DoubleBuffer = null;
+        private Graphics _graphics = null;
+        private bool _needRepaint = true;
 
-        [XmlIgnore]
-        public WidgetGrid WidgetGrid = null;
+
+        //[XmlIgnore]
+        //public WidgetGrid WidgetGrid = null;
 
 
         public WidgetWrapper()
         {
+        }
+
+        ~WidgetWrapper()
+        {
+            ClearBuffer();
         }
 
         public WidgetWrapper(Size Size, Point Location, String WidgetName)
@@ -232,23 +242,52 @@ namespace MetroHome65.Pages
             return this;
         }
 
-        public void Paint(Graphics g, Rectangle Rect)
+        private void ClearBuffer()
         {
-            Region prevRegion = g.Clip;
-            g.Clip = new Region(Rect);
+            if (_graphics != null)
+            {
+                _graphics.Dispose();
+                _graphics = null;
+            }
+            if (_DoubleBuffer != null)
+            {
+                _DoubleBuffer.Dispose();
+                _DoubleBuffer = null;
+            }
+        }
+
+        private void PaintBuffer()
+        {
+            ClearBuffer();
+            _DoubleBuffer = new Bitmap(ScreenRect.Width, ScreenRect.Height);
+            _graphics = Graphics.FromImage(_DoubleBuffer);
+            Rectangle Rect = new Rectangle(0, 0, _DoubleBuffer.Width, _DoubleBuffer.Height);
 
             if (Widget != null)
             {
-                Widget.Paint(g, Rect);
+                Widget.Paint(_graphics, Rect);
             }
             else
             {
                 Pen Pen = new Pen(Color.Gray, 1);
                 Pen.DashStyle = System.Drawing.Drawing2D.DashStyle.Dash;
-                g.DrawRectangle(Pen, Rect);
-                g.DrawString("Widget\nnot\nfound", new System.Drawing.Font("Verdana", 8, FontStyle.Regular),
+                _graphics.DrawRectangle(Pen, Rect);
+                _graphics.DrawString("Widget\nnot\nfound", new System.Drawing.Font("Verdana", 8, FontStyle.Regular),
                     new SolidBrush(Color.Yellow), Rect.X + 5, Rect.Y + 5);
             }
+        }
+
+        public void Paint(Graphics g, bool needRepaint)
+        {
+            Region prevRegion = g.Clip;
+            g.Clip = new Region(ScreenRect);
+
+            if (_needRepaint || needRepaint)
+            {
+                PaintBuffer();
+                _needRepaint = false;
+            }
+            g.DrawImage(_DoubleBuffer, ScreenRect.X, ScreenRect.Y);
             g.Clip = prevRegion;
         }
 

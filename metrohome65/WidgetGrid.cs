@@ -94,7 +94,7 @@ namespace MetroHome65.Pages
             WidgetWrapper Wrapper = new WidgetWrapper(Size, Position, WidgetName);
 
             Widgets.Add(Wrapper);
-            Wrapper.WidgetGrid = this;
+            //!!Wrapper.WidgetGrid = this;
 
             if (Wrapper.Widget is IWidgetUpdatable)
                 (Wrapper.Widget as IWidgetUpdatable).WidgetUpdate += new WidgetUpdateEventHandler(OnWidgetUpdate);
@@ -123,12 +123,15 @@ namespace MetroHome65.Pages
             // repaint only updated widget
             foreach (WidgetWrapper wsInfo in Widgets)
                 if (e.Widget == wsInfo.Widget)
+                {
                     RepaintWidget(wsInfo);
+                    break;
+                }
         }
 
         private void RepaintWidget(WidgetWrapper Widget)
         {
-            Widget.Paint(_graphics, Widget.ScreenRect);
+            Widget.Paint(_graphics, true);
 
             Rectangle Rect = new Rectangle(
                 Widget.ScreenRect.X, Widget.ScreenRect.Y, Widget.ScreenRect.Width, Widget.ScreenRect.Height);
@@ -143,7 +146,7 @@ namespace MetroHome65.Pages
 
             // paint widgets
             foreach (WidgetWrapper wsInfo in Widgets)
-                wsInfo.Paint(_graphics, wsInfo.ScreenRect);
+                wsInfo.Paint(_graphics, false);
 
             if (!BufferOnly)
                 _WidgetsImage.Invalidate();
@@ -282,7 +285,7 @@ namespace MetroHome65.Pages
 
                 foreach (WidgetWrapper Wrapper in Widgets)
                 {
-                    Wrapper.WidgetGrid = this;
+                    //!!Wrapper.WidgetGrid = this;
                     if (Wrapper.Widget is IWidgetUpdatable)
                         (Wrapper.Widget as IWidgetUpdatable).WidgetUpdate += new WidgetUpdateEventHandler(OnWidgetUpdate);
                     Wrapper.AfterDeserialize();
@@ -491,15 +494,18 @@ namespace MetroHome65.Pages
         {
             FrmWidgetSettings WidgetSettingsForm = new FrmWidgetSettings();
             WidgetSettingsForm.Widget = Widget;
-            WidgetSettingsForm.Owner = (Form)this.Parent;
+            WidgetSettingsForm.Owner = null;
 
             // when show setting dialog, stop selected widget animation
             WidgetWrapper prevMovingWidget = MovingWidget;
             MovingWidget = null;
+            Size PrevSize = Widget.Size;
 
             if (WidgetSettingsForm.ShowDialog() == DialogResult.OK)
             {
-                RealignWidgets();
+                Widget.Paint(_graphics, true); // repaint widget with new style
+                if (! PrevSize.Equals(Widget.Size))
+                    RealignWidgets(); // if widget size changed - realign widgets
                 WriteSettings();
             }
             else

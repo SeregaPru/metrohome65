@@ -119,7 +119,8 @@
     <Compile Include="WidgetGrid.Designer.cs">
       <DependentUpon>WidgetGrid.cs</DependentUpon>
     </Compile>
-    <Compile Include="WidgetWrapper.cs" />
+    <Compile Include="WidgetWrapper.cs">
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <Content Include="buttons\bg1.png">

@@ -28,7 +28,17 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.tcPages = new System.Windows.Forms.TabControl();
             this.SuspendLayout();
+            // 
+            // tcPages
+            // 
+            this.tcPages.Location = new System.Drawing.Point(0, 0);
+            this.tcPages.Name = "tcPages";
+            this.tcPages.SelectedIndex = 0;
+            this.tcPages.Size = new System.Drawing.Size(240, 303);
+            this.tcPages.TabIndex = 0;
+            this.tcPages.SelectedIndexChanged += new System.EventHandler(this.tcPages_SelectedIndexChanged);
             // 
             // MainForm
             // 
@@ -37,6 +47,7 @@
             this.BackColor = System.Drawing.Color.Black;
             this.ClientSize = new System.Drawing.Size(240, 306);
             this.ControlBox = false;
+            this.Controls.Add(this.tcPages);
             this.ForeColor = System.Drawing.Color.Black;
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.KeyPreview = true;
@@ -51,6 +62,8 @@
         }
 
         #endregion
+
+        private System.Windows.Forms.TabControl tcPages;
 
 
     }

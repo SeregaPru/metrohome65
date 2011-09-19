@@ -11,7 +11,7 @@ namespace MetroHome65.Main
     public partial class MainForm : Form, IHost
       {
 
-        private IPageControl _PageControl = null;
+        private IPageControl _ActivePage = null;
         private List<IPageControl> _Pages = new List<IPageControl>();
 
         public MainForm()
@@ -20,6 +20,9 @@ namespace MetroHome65.Main
 
             this.Height = System.Windows.Forms.Screen.PrimaryScreen.Bounds.Height - this.Top;
             this.Width = System.Windows.Forms.Screen.PrimaryScreen.Bounds.Width;
+
+            tcPages.Width = this.Width;
+            tcPages.Height = this.Height + 50;
         }
 
         private void MainForm_Load(object sender, EventArgs e)
@@ -28,11 +31,19 @@ namespace MetroHome65.Main
             AddPage(WidgetGrid);
             AddPage(new MetroHome65.Pages.ProgramList(WidgetGrid));
 
-            SetPageControl(_Pages[0]);
+            tcPages.SelectedIndex = 0;
         }
 
         private void AddPage(IPageControl Page)
         {
+            TabPage newPage = new TabPage()
+            {
+                BackColor = Color.Black
+            };
+
+            newPage.Controls.Add(Page.GetControl());
+            tcPages.TabPages.Add(newPage);
+
             _Pages.Add(Page);
         }
 
@@ -45,38 +56,14 @@ namespace MetroHome65.Main
         /// <param name="e"></param>
         private void MainForm_Activated(object sender, EventArgs e)
         {
-            if (this._PageControl != null)
-                this._PageControl.Active = true;
+            if (this._ActivePage != null)
+                this._ActivePage.Active = true;
         }
 
         private void MainForm_Deactivate(object sender, EventArgs e)
         {
-            if (this._PageControl != null)
-                this._PageControl.Active = false;
-        }
-
-        private void SetPageControl(IPageControl APageControl)
-        {
-            // unlink previous control
-            if (this._PageControl != null)
-            {
-                this._PageControl.Active = false;
-                this.Controls.Remove(this._PageControl.GetControl());
-            }
-
-            this._PageControl = APageControl;
-
-            if (this._PageControl != null)
-            {
-                this._PageControl.GetControl().Location = new Point(0, 0);
-                this._PageControl.GetControl().Size = new Size(this.Width, this.Height);
-                this._PageControl.SetHost(this);
-                this._PageControl.SetBackColor(this.BackColor);
-
-                this.Controls.Add(this._PageControl.GetControl());
-
-                this._PageControl.Active = true;
-            }
+            if (this._ActivePage != null)
+                this._ActivePage.Active = false;
         }
 
         /// <summary>
@@ -85,7 +72,7 @@ namespace MetroHome65.Main
         /// <param name="Next">if True change to Next page, else to previous</param>
         public void ChangePage(bool Next)
         {
-            int CurIndex = _Pages.IndexOf(this._PageControl);
+            int CurIndex = tcPages.SelectedIndex;
 
             if (Next)
                 CurIndex++;
@@ -96,7 +83,28 @@ namespace MetroHome65.Main
             if (CurIndex > _Pages.Count - 1)
                 CurIndex = _Pages.Count - 1;
 
-            SetPageControl(_Pages[CurIndex]);
+            tcPages.SelectedIndex = CurIndex;
+        }
+
+        private void tcPages_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            // unlink previous control
+            if (this._ActivePage != null)
+            {
+                this._ActivePage.Active = false;
+            }
+
+            this._ActivePage = _Pages[tcPages.SelectedIndex];
+
+            if (this._ActivePage != null)
+            {
+                this._ActivePage.GetControl().Location = new Point(0, 0);
+                this._ActivePage.GetControl().Size = new Size(this.Width, this.Height);
+                this._ActivePage.SetHost(this);
+                this._ActivePage.SetBackColor(this.BackColor);
+
+                this._ActivePage.Active = true;
+            }
         }
 
     }
