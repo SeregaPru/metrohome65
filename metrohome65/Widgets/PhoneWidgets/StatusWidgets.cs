@@ -1,25 +1,31 @@
 ﻿using System;
 using System.Drawing;
 using MetroHome65.Routines;
+using MetroHome65.Widgets.StatusWidget;
+using System.Windows.Forms;
 
-namespace MetroHome65.Widgets
+namespace MetroHome65.Widgets.StatusWidget
 {
-    [WidgetInfo("Battery status")]
-    public class BatteryStatusWidget : ShortcutWidget, IWidgetUpdatable
+    [WidgetInfo("Statuses")]
+    public class StatusWidget : ShortcutWidget, IWidgetUpdatable
     {
         private System.Windows.Forms.Timer _Timer;
-        private string _BatteryStatus = "";
 
-        public BatteryStatusWidget() : base()
+        BatteryStatus _BatteryStatus = null;
+        BluetoothStatus _BluetoothStatus = null;
+        WiFiStatus _WiFiStatus = null;
+
+        public StatusWidget() : base()
         {
-            _BatteryStatus = GetBatteryStatus();
+            _BatteryStatus = new BatteryStatus();
+            _BluetoothStatus = new BluetoothStatus();
+            _WiFiStatus = new WiFiStatus();
         }
 
         protected override Size[] GetSizes()
         {
             Size[] sizes = new Size[] { 
-                new Size(1, 1),
-                new Size(2, 2) 
+                new Size(4, 1) 
             };
             return sizes;
         }
@@ -27,21 +33,43 @@ namespace MetroHome65.Widgets
         public override void Paint(Graphics g, Rectangle Rect)
         {
             base.Paint(g, Rect);
-            PaintStatus(g, Rect);
+            PaintStatuses(g, Rect);
         }
 
-        protected override void PaintIcon(Graphics g, Rectangle Rect)
+        protected override void PaintIcon(Graphics g, Rectangle Rect) {}
+
+        private enum StatusType {
+            stBattery,
+            stWiFi,
+            stBluetooth
+        };
+
+        private Rectangle GetStatusRect(StatusType AStatusType)
         {
-            //
+            Rectangle Rect;
+            switch (AStatusType)
+            {
+                case StatusType.stWiFi:
+                        Rect = new Rectangle(ScreenRoutines.Scale(81) + 1, 0,
+                            ScreenRoutines.Scale(81), ScreenRoutines.Scale(81));
+                        break;
+                case StatusType.stBluetooth:
+                        Rect = new Rectangle(ScreenRoutines.Scale(81) * 2 + 1, 0,
+                            ScreenRoutines.Scale(81), ScreenRoutines.Scale(81));
+                        break;
+                default:
+                        Rect = new Rectangle(0, 0, 
+                            ScreenRoutines.Scale(81), ScreenRoutines.Scale(81));
+                        break;
+            }
+            return Rect;
         }
 
-        private void PaintStatus(Graphics g, Rectangle Rect)
+        private void PaintStatuses(Graphics g, Rectangle Rect)
         {
-            int FontSize = 12 * this._Size.Width;
-            Font captionFont = new System.Drawing.Font("Segoe UI Light", FontSize, FontStyle.Bold);
-            Brush captionBrush = new System.Drawing.SolidBrush(System.Drawing.Color.White);
-            g.DrawString(_BatteryStatus, captionFont, captionBrush,
-                Rect.Left + 5, Rect.Top + 5);
+            _BatteryStatus.PaintStatus(g, GetStatusRect(StatusType.stBattery));
+            _WiFiStatus.PaintStatus(g, GetStatusRect(StatusType.stWiFi));
+            _BluetoothStatus.PaintStatus(g, GetStatusRect(StatusType.stBluetooth));
         }
 
         public void StartUpdate()
@@ -63,28 +91,34 @@ namespace MetroHome65.Widgets
 
         private void OnTimer(object sender, EventArgs e)
         {
-            string CurrentStatus = GetBatteryStatus();
-            if (CurrentStatus != _BatteryStatus)
+            if (UpdateStatuses())
             {
-                _BatteryStatus = CurrentStatus;
                 OnWidgetUpdate();
             }
         }
 
-        private string GetBatteryStatus()
+        private bool UpdateStatuses()
         {
-            switch (Microsoft.WindowsMobile.Status.SystemState.PowerBatteryStrength)
-            {
-                case Microsoft.WindowsMobile.Status.BatteryLevel.VeryHigh: return "100%"; break;
-                case Microsoft.WindowsMobile.Status.BatteryLevel.High: return "80%"; break;
-                case Microsoft.WindowsMobile.Status.BatteryLevel.Medium: return "60%"; break;
-                case Microsoft.WindowsMobile.Status.BatteryLevel.Low: return "40%"; break;
-                case Microsoft.WindowsMobile.Status.BatteryLevel.VeryLow: return "20%"; break;
-                default: return "";
-            }
+            return _BatteryStatus.UpdateStatus() || 
+                   _WiFiStatus.UpdateStatus() ||
+                   _BluetoothStatus.UpdateStatus();
+        }
+
+        public override void OnClick(Point Location)
+        {
+
+            if (GetStatusRect(StatusType.stBattery).Contains(Location))
+                MessageBox.Show("Click Battery");
+            else
+                if (GetStatusRect(StatusType.stWiFi).Contains(Location))
+                    _WiFiStatus.ChangeStatus();
+                else
+                    if (GetStatusRect(StatusType.stBluetooth).Contains(Location))
+                        _BluetoothStatus.ChangeStatus();
+
+            OnWidgetUpdate();
         }
 
     }
-
 
 }

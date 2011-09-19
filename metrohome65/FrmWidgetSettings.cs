@@ -28,9 +28,13 @@ namespace MetroHome65.Pages
         {
             _Widget = value;
 
+            this.SuspendLayout();
+
             SetWidgetType(_Widget.Widget);
 
             FillWidgetTypes();
+
+            this.ResumeLayout(false);
         }
 
         private void SetWidgetType(IWidget value)
