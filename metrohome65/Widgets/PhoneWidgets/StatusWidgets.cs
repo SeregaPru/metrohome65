@@ -15,6 +15,14 @@ namespace MetroHome65.Widgets.StatusWidget
         BluetoothStatus _BluetoothStatus = null;
         WiFiStatus _WiFiStatus = null;
 
+        /// <summary>
+        /// minimal width for single status indicator for auto-layout
+        /// </summary>
+        private int _MinWidth = ScreenRoutines.Scale(70);
+
+        private Size _WidgetSize;
+
+
         public StatusWidget() : base()
         {
             _BatteryStatus = new BatteryStatus();
@@ -32,6 +40,8 @@ namespace MetroHome65.Widgets.StatusWidget
         
         public override void Paint(Graphics g, Rectangle Rect)
         {
+            _WidgetSize = Rect.Size;
+
             base.Paint(g, Rect);
             PaintStatuses(g, Rect);
         }
@@ -44,32 +54,46 @@ namespace MetroHome65.Widgets.StatusWidget
             stBluetooth
         };
 
-        private Rectangle GetStatusRect(StatusType AStatusType)
-        {
-            Rectangle Rect;
-            switch (AStatusType)
-            {
-                case StatusType.stWiFi:
-                        Rect = new Rectangle(ScreenRoutines.Scale(81) + 1, 0,
-                            ScreenRoutines.Scale(81), ScreenRoutines.Scale(81));
-                        break;
-                case StatusType.stBluetooth:
-                        Rect = new Rectangle(ScreenRoutines.Scale(81) * 2 + 1, 0,
-                            ScreenRoutines.Scale(81), ScreenRoutines.Scale(81));
-                        break;
-                default:
-                        Rect = new Rectangle(0, 0, 
-                            ScreenRoutines.Scale(81), ScreenRoutines.Scale(81));
-                        break;
-            }
-            return Rect;
-        }
-
         private void PaintStatuses(Graphics g, Rectangle Rect)
         {
-            _BatteryStatus.PaintStatus(g, GetStatusRect(StatusType.stBattery));
-            _WiFiStatus.PaintStatus(g, GetStatusRect(StatusType.stWiFi));
-            _BluetoothStatus.PaintStatus(g, GetStatusRect(StatusType.stBluetooth));
+            Pen pen = new Pen(Color.LightGray);
+            Rectangle StatusRect;
+
+            StatusRect = GetStatusRect(0);
+            _BatteryStatus.PaintStatus(g, StatusRect);
+            g.DrawLine(pen, StatusRect.Right, StatusRect.Top + 1, StatusRect.Right, StatusRect.Bottom - 9);
+
+            StatusRect = GetStatusRect(1);
+            _WiFiStatus.PaintStatus(g, StatusRect);
+            g.DrawLine(pen, StatusRect.Right, StatusRect.Top + 1, StatusRect.Right, StatusRect.Bottom - 9);
+
+            StatusRect = GetStatusRect(2);
+            _BluetoothStatus.PaintStatus(g, StatusRect);
+        }
+
+        private Rectangle GetStatusRect(int Position)
+        {
+            int StatusWidth = 0;
+            int StatusCount = StatusesCount();
+            while (StatusWidth < _MinWidth)
+            {
+                StatusWidth = _WidgetSize.Width / StatusCount;
+                StatusCount--;
+            }
+
+            Rectangle StatusRect = new Rectangle(
+                StatusWidth * Position + Position, 0, 
+                StatusWidth, _WidgetSize.Height);
+            return StatusRect;
+        }
+
+        /// <summary>
+        /// count of displayed statuses
+        /// </summary>
+        /// <returns></returns>
+        private int StatusesCount()
+        {
+            return 3;
         }
 
         public void StartUpdate()
@@ -107,13 +131,13 @@ namespace MetroHome65.Widgets.StatusWidget
         public override void OnClick(Point Location)
         {
 
-            if (GetStatusRect(StatusType.stBattery).Contains(Location))
+            if (GetStatusRect(0).Contains(Location))
                 MessageBox.Show("Click Battery");
             else
-                if (GetStatusRect(StatusType.stWiFi).Contains(Location))
+                if (GetStatusRect(1).Contains(Location))
                     _WiFiStatus.ChangeStatus();
                 else
-                    if (GetStatusRect(StatusType.stBluetooth).Contains(Location))
+                    if (GetStatusRect(2).Contains(Location))
                         _BluetoothStatus.ChangeStatus();
 
             OnWidgetUpdate();

@@ -5,13 +5,12 @@ using Microsoft.Win32;
 
 namespace MetroHome65.Widgets.StatusWidget
 {
-    public class WiFiStatus
+    public class WiFiStatus : CustomStatus
     {
         private bool _WiFiPowerOn = false;
         private bool _WiFiConnected = false;
 
-        public WiFiStatus()
-            : base()
+        public WiFiStatus() : base()
         {
             UpdateStatus();
         }
@@ -19,24 +18,25 @@ namespace MetroHome65.Widgets.StatusWidget
         /// <summary>
         /// Paint curreent WiFi status
         /// </summary>
-        public void PaintStatus(Graphics g, Rectangle Rect)
+        public override void PaintStatus(Graphics g, Rectangle Rect)
         {
-            SolidBrush captionBrush = new System.Drawing.SolidBrush(System.Drawing.Color.White);
+            DrawStatus DrawStatus;
+            if (_WiFiConnected && _WiFiPowerOn)
+                DrawStatus = DrawStatus.dsOn;
+            else
+                if (!_WiFiConnected && !_WiFiPowerOn)
+                    DrawStatus = DrawStatus.dsOff;
+                else
+                    DrawStatus = DrawStatus.dsError;
 
-            Font captionFont = new System.Drawing.Font("Segoe UI Light", 11, FontStyle.Bold);
-            captionBrush.Color = (_WiFiPowerOn) ? System.Drawing.Color.LightGreen : System.Drawing.Color.DarkGray;
-            g.DrawString("WiFi", captionFont, captionBrush, Rect.Left + 5, Rect.Top + 10);
-
-            captionFont = new System.Drawing.Font("Segoe UI Light", 9, FontStyle.Bold);
-            captionBrush.Color = (_WiFiConnected) ? System.Drawing.Color.LightGreen : System.Drawing.Color.DarkGray;
-            g.DrawString("conn", captionFont, captionBrush, Rect.Left + 5, Rect.Top + 40);
+            PaintStatus(g, Rect, DrawStatus, "WiFi", "");
         }
 
         /// <summary>
         /// Check if WiFi status was changed since last check
         /// </summary>
         /// <returns>True if status was changed</returns>
-        public bool UpdateStatus()
+        public override bool UpdateStatus()
         {
             bool CurrentPowerOn = Microsoft.WindowsMobile.Status.SystemState.WiFiStatePowerOn;
             bool CurrentConnected = Microsoft.WindowsMobile.Status.SystemState.WiFiStateConnected;
@@ -55,7 +55,7 @@ namespace MetroHome65.Widgets.StatusWidget
         /// <summary>
         /// Switch WiFi status to another - on <--> off
         /// </summary>
-        public void ChangeStatus()
+        public override void ChangeStatus()
         {
             if (_WiFiPowerOn)
             {
