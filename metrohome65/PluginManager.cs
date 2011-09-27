@@ -44,7 +44,8 @@ namespace MetroHome65.Pages
 
             foreach (FileInfo file in files)
             {
-                if (file.Extension == ".dll")
+                if ((! file.Name.ToLower().Contains("opennetcf")) && 
+                    (file.Extension == ".dll"))
                     LoadPlugin(file.FullName);
             }
         }
