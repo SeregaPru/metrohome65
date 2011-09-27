@@ -26,10 +26,10 @@ namespace MetroHome65.Widgets.StatusWidget
             else
                 if (!_WiFiConnected && !_WiFiPowerOn)
                     DrawStatus = DrawStatus.dsOff;
-                else
+                else 
                     DrawStatus = DrawStatus.dsError;
 
-            PaintStatus(g, Rect, DrawStatus, "WiFi", "");
+            PaintStatus(g, Rect, DrawStatus, "wifi", "");
         }
 
         /// <summary>

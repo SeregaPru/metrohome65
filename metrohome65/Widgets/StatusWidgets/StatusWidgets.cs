@@ -18,7 +18,7 @@ namespace MetroHome65.Widgets.StatusWidget
         /// <summary>
         /// minimal width for single status indicator for auto-layout
         /// </summary>
-        private int _MinWidth = ScreenRoutines.Scale(70);
+        private static int _MinWidth = ScreenRoutines.Scale(49);
 
         private Size _WidgetSize;
 
@@ -56,16 +56,16 @@ namespace MetroHome65.Widgets.StatusWidget
 
         private void PaintStatuses(Graphics g, Rectangle Rect)
         {
-            Pen pen = new Pen(Color.LightGray);
+            Pen pen = new Pen(Color.Gray);
             Rectangle StatusRect;
 
             StatusRect = GetStatusRect(0);
             _BatteryStatus.PaintStatus(g, StatusRect);
-            g.DrawLine(pen, StatusRect.Right, StatusRect.Top + 1, StatusRect.Right, StatusRect.Bottom - 9);
+            g.DrawLine(pen, StatusRect.Right, StatusRect.Top + 1, StatusRect.Right, StatusRect.Bottom - 1);
 
             StatusRect = GetStatusRect(1);
             _WiFiStatus.PaintStatus(g, StatusRect);
-            g.DrawLine(pen, StatusRect.Right, StatusRect.Top + 1, StatusRect.Right, StatusRect.Bottom - 9);
+            g.DrawLine(pen, StatusRect.Right, StatusRect.Top + 1, StatusRect.Right, StatusRect.Bottom - 1);
 
             StatusRect = GetStatusRect(2);
             _BluetoothStatus.PaintStatus(g, StatusRect);

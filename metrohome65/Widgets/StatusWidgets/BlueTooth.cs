@@ -25,7 +25,7 @@ namespace MetroHome65.Widgets.StatusWidget
             else
                 DrawStatus = DrawStatus.dsError;
 
-            PaintStatus(g, Rect, DrawStatus, "BT", "");
+            PaintStatus(g, Rect, DrawStatus, "bluetooth", "");
         }
 
         /// <summary>
