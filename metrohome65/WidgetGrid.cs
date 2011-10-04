@@ -842,13 +842,21 @@ namespace MetroHome65.Pages
 
         private void ClickAtMoveMode(WidgetWrapper TargetWidget, Point Location)
         {
+            // if click at moving widget - exit from moving mode
             if (TargetWidget == MovingWidget)
                 MovingWidget = null;
             else
-            {
-                MoveWidgetTo(Location);
-                RepaintMovingWidget();
-            }
+                // if click at blank place - move widget to this place
+                if (TargetWidget == null)
+                {
+                    MoveWidgetTo(Location);
+                    RepaintMovingWidget();
+                }
+                // if click at another widget - change moving widget
+                else
+                {
+                    MovingWidget = TargetWidget;
+                }
         }
 
         #endregion

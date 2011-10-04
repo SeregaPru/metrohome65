@@ -3,6 +3,7 @@ using System.ComponentModel;
 using System.Drawing;
 using System.Collections.Generic;
 using System.Windows.Forms;
+using Microsoft.WindowsMobile.Status;
 using Microsoft.WindowsMobile.Gestures;
 using MetroHome65.Pages;
 
@@ -14,6 +15,9 @@ namespace MetroHome65.Main
         private IPageControl _ActivePage = null;
         private List<IPageControl> _Pages = new List<IPageControl>();
 
+        // system state for receiving notifications about system events
+        private SystemState _SystemState = new SystemState(0);
+
         public MainForm()
         {
             InitializeComponent();
@@ -23,6 +27,8 @@ namespace MetroHome65.Main
 
             tcPages.Width = this.Width;
             tcPages.Height = this.Height + 50;
+
+            _SystemState.Changed += new ChangeEventHandler(OnSystemStateChanged);
         }
 
         private void MainForm_Load(object sender, EventArgs e)
@@ -105,6 +111,16 @@ namespace MetroHome65.Main
 
                 this._ActivePage.Active = true;
             }
+        }
+
+        // handler for system state change event
+        private void OnSystemStateChanged(object sender, ChangeEventArgs EventArgs)
+        {
+            string str = SystemState.ActiveApplication;
+            if (str.Length > 6)
+                str = str.Substring(str.Length - 7, 7);
+            if (str.ToLower() == "desktop")
+                this.Activate();
         }
 
     }

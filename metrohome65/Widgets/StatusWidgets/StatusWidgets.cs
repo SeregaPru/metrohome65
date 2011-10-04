@@ -27,7 +27,7 @@ namespace MetroHome65.Widgets.StatusWidget
             _Statuses.Add(new BatteryStatus());
             _Statuses.Add(new BluetoothStatus());
             _Statuses.Add(new WiFiStatus());
-            _Statuses.Add(new RotationStatus());
+//!!            _Statuses.Add(new RotationStatus());
         }
 
         protected override Size[] GetSizes()
@@ -47,12 +47,6 @@ namespace MetroHome65.Widgets.StatusWidget
         }
 
         protected override void PaintIcon(Graphics g, Rectangle Rect) {}
-
-        private enum StatusType {
-            stBattery,
-            stWiFi,
-            stBluetooth
-        };
 
         private void PaintStatuses(Graphics g, Rectangle Rect)
         {
