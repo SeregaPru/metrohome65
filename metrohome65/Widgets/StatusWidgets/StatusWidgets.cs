@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Drawing;
 using MetroHome65.Routines;
 using MetroHome65.Widgets.StatusWidget;
@@ -11,9 +12,7 @@ namespace MetroHome65.Widgets.StatusWidget
     {
         private System.Windows.Forms.Timer _Timer;
 
-        BatteryStatus _BatteryStatus = null;
-        BluetoothStatus _BluetoothStatus = null;
-        WiFiStatus _WiFiStatus = null;
+        List<CustomStatus> _Statuses = new List<CustomStatus>();
 
         /// <summary>
         /// minimal width for single status indicator for auto-layout
@@ -25,9 +24,10 @@ namespace MetroHome65.Widgets.StatusWidget
 
         public StatusWidget() : base()
         {
-            _BatteryStatus = new BatteryStatus();
-            _BluetoothStatus = new BluetoothStatus();
-            _WiFiStatus = new WiFiStatus();
+            _Statuses.Add(new BatteryStatus());
+            _Statuses.Add(new BluetoothStatus());
+            _Statuses.Add(new WiFiStatus());
+            _Statuses.Add(new RotationStatus());
         }
 
         protected override Size[] GetSizes()
@@ -59,16 +59,13 @@ namespace MetroHome65.Widgets.StatusWidget
             Pen pen = new Pen(Color.Gray);
             Rectangle StatusRect;
 
-            StatusRect = GetStatusRect(0);
-            _BatteryStatus.PaintStatus(g, StatusRect);
-            g.DrawLine(pen, StatusRect.Right, StatusRect.Top + 1, StatusRect.Right, StatusRect.Bottom - 1);
-
-            StatusRect = GetStatusRect(1);
-            _WiFiStatus.PaintStatus(g, StatusRect);
-            g.DrawLine(pen, StatusRect.Right, StatusRect.Top + 1, StatusRect.Right, StatusRect.Bottom - 1);
-
-            StatusRect = GetStatusRect(2);
-            _BluetoothStatus.PaintStatus(g, StatusRect);
+            for (int i = 0; i < _Statuses.Count; i++)
+            {
+                StatusRect = GetStatusRect(i);
+                _Statuses[i].PaintStatus(g, StatusRect);
+                if (i < _Statuses.Count - 1)
+                    g.DrawLine(pen, StatusRect.Right, StatusRect.Top + 1, StatusRect.Right, StatusRect.Bottom - 1);
+            }
         }
 
         private Rectangle GetStatusRect(int Position)
@@ -88,12 +85,12 @@ namespace MetroHome65.Widgets.StatusWidget
         }
 
         /// <summary>
-        /// count of displayed statuses
+        /// Get count of registered statuses
         /// </summary>
         /// <returns></returns>
         private int StatusesCount()
         {
-            return 3;
+            return _Statuses.Count;
         }
 
         public void StartUpdate()
@@ -123,25 +120,28 @@ namespace MetroHome65.Widgets.StatusWidget
 
         private bool UpdateStatuses()
         {
-            return _BatteryStatus.UpdateStatus() || 
-                   _WiFiStatus.UpdateStatus() ||
-                   _BluetoothStatus.UpdateStatus();
+            Boolean Result = false;
+            foreach(CustomStatus Status in _Statuses)
+            {
+                Result = Result || Status.UpdateStatus();
+                if (Result) break;
+            }
+            return Result;
         }
 
         public override void OnClick(Point Location)
         {
-
-            if (GetStatusRect(0).Contains(Location))
-                MessageBox.Show("Click Battery");
-            else
-                if (GetStatusRect(1).Contains(Location))
-                    _WiFiStatus.ChangeStatus();
-                else
-                    if (GetStatusRect(2).Contains(Location))
-                        _BluetoothStatus.ChangeStatus();
-
-            OnWidgetUpdate();
+            for (int i = 0; i < _Statuses.Count; i++)
+            {
+                if (GetStatusRect(i).Contains(Location))
+                {
+                    _Statuses[i].ChangeStatus();
+                    OnWidgetUpdate();
+                    break;
+                }
+            }
         }
+
 
     }
 
