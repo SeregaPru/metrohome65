@@ -116,6 +116,33 @@
     <EmbeddedResource Include="icons\big\autorotate_off.png" />
     <EmbeddedResource Include="icons\big\autorotate_on.png" />
   </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="icons\small\autorotate_off.png" />
+    <EmbeddedResource Include="icons\small\autorotate_on.png" />
+    <EmbeddedResource Include="icons\small\battery_100_on.png" />
+    <EmbeddedResource Include="icons\small\battery_10_on.png" />
+    <EmbeddedResource Include="icons\small\battery_20_on.png" />
+    <EmbeddedResource Include="icons\small\battery_40_on.png" />
+    <EmbeddedResource Include="icons\small\battery_60_on.png" />
+    <EmbeddedResource Include="icons\small\battery_80_on.png" />
+    <EmbeddedResource Include="icons\small\bluetooth_off.png" />
+    <EmbeddedResource Include="icons\small\bluetooth_on.png" />
+    <EmbeddedResource Include="icons\small\wifi_off.png" />
+    <EmbeddedResource Include="icons\small\wifi_on.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="icons\small\battery_100_charge_on.png" />
+    <EmbeddedResource Include="icons\small\battery_10_charge_on.png" />
+    <EmbeddedResource Include="icons\small\battery_20_charge_on.png" />
+    <EmbeddedResource Include="icons\small\battery_40_charge_on.png" />
+    <EmbeddedResource Include="icons\small\battery_60_charge_on.png" />
+    <EmbeddedResource Include="icons\small\battery_80_charge_on.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="icons\small\bar_error.png" />
+    <EmbeddedResource Include="icons\small\bar_off.png" />
+    <EmbeddedResource Include="icons\small\bar_on.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CompactFramework.CSharp.targets" />
   <ProjectExtensions>
     <VisualStudio>
