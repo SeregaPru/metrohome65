@@ -9,7 +9,7 @@ using MetroHome65.Settings.Controls;
 namespace MetroHome65.Widgets
 {
     [WidgetInfo("Digital clock")]
-    public class DigitalClockWidget : TransparentWidget, IWidgetUpdatable
+    public class DigitalClockWidget : ShortcutWidget, IWidgetUpdatable
     {
         private System.Windows.Forms.Timer _Timer;
         private Brush _brushCaption;
@@ -110,6 +110,13 @@ namespace MetroHome65.Widgets
             OnWidgetUpdate();
         }
 
+        // overriding paint icon method - don't paint icon
+        protected override void PaintIcon(Graphics g, Rectangle Rect)
+        { }
+
+        // overriding paint caption method - don't paint caption
+        protected override void PaintCaption(Graphics g, Rectangle Rect)
+        { }
 
         public override List<Control> EditControls
         {
@@ -125,6 +132,13 @@ namespace MetroHome65.Widgets
                 BindingManager BindingManager = new BindingManager();
                 BindingManager.Bind(this, "Is24Hour", FlagControl, "Value");
 
+                // hide control for icon / caption selection
+                foreach (Control control in Controls)
+                {
+                    if (control.Name.Contains("Icon") || control.Name.Contains("Caption"))
+                      control.Height = 0;
+                }
+               
                 return Controls;
             }
         }

@@ -182,11 +182,13 @@ namespace MetroHome65.Widgets
                 List<Control> Controls = base.EditControls;
 
                 Settings_string CaptionControl = new Settings_string();
+                CaptionControl.Name = "CaptionControl";
                 CaptionControl.Caption = "Caption";
                 CaptionControl.Value = Caption;
                 Controls.Add(CaptionControl);
 
                 Settings_image ImgControl = new Settings_image();
+                ImgControl.Name = "IconControl";
                 ImgControl.Caption = "Icon image";
                 ImgControl.Value = IconPath;
                 Controls.Add(ImgControl);
