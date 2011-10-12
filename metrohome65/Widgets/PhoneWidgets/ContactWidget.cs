@@ -3,6 +3,7 @@ using System.Drawing;
 using System.Windows.Forms;
 using System.Collections.Generic;
 using Microsoft.WindowsMobile.PocketOutlook;
+using OpenNETCF.Drawing;
 using MetroHome65.Settings.Controls;
 using MetroHome65.Routines;
 
@@ -11,21 +12,12 @@ namespace MetroHome65.Widgets
     [WidgetInfo("Contact")]
     public class ContactWidget : BaseWidget
     {
+        //Эти переменные понядобятся для загрузки изображений при запуске приложения.
+        private OpenNETCF.Drawing.Imaging.ImagingFactoryClass _factory = new OpenNETCF.Drawing.Imaging.ImagingFactoryClass();
+        private OpenNETCF.Drawing.Imaging.IImage _img = null;
+
         private int _ContactId = -1;
-
-        [WidgetParameter]
-        public int ContactId
-        {
-            get { return _ContactId; }
-            set {
-                if (_ContactId != value)
-                {
-                    _ContactId = value;
-                    NotifyPropertyChanged("ContactId");
-                }
-            }
-        }
-
+        private String _AlternatePicturePath = "";
 
         protected override Size[] GetSizes()
         {
@@ -40,6 +32,53 @@ namespace MetroHome65.Widgets
         {
             String[] Items = { "Call", "Send SMS" };
             return Items;
+        }
+
+        [WidgetParameter]
+        public int ContactId
+        {
+            get { return _ContactId; }
+            set {
+                if (_ContactId != value)
+                {
+                    _ContactId = value;
+                    NotifyPropertyChanged("ContactId");
+                }
+            }
+        }
+
+        /// <summary>
+        /// relative or absolute path to alternate contact picture file.
+        /// picture format must be transparent PNG
+        /// </summary>
+        [WidgetParameter]
+        public String AlternatePicturePath
+        {
+            get { return _AlternatePicturePath; }
+            set
+            {
+                if (_AlternatePicturePath != value)
+                {
+                    _AlternatePicturePath = value;
+                    UpdateAlternatePicture();
+                    NotifyPropertyChanged("AlternatePicturePath");
+                }
+            }
+        }
+
+        protected virtual void UpdateAlternatePicture()
+        {
+            try
+            {
+                if (_AlternatePicturePath != "")
+                    _factory.CreateImageFromFile(_AlternatePicturePath, out _img);
+                else
+                    _img = null;
+            }
+            catch (Exception e)
+            {
+                //!! write to log  (e.StackTrace, "SetIconPath")
+            }
         }
 
         Contact FindContact(int ItemIdKey)
@@ -79,6 +118,24 @@ namespace MetroHome65.Widgets
                 return;
             }
 
+            // if assigned alternate picture - use it
+            if (_img != null)
+            {
+                try
+                {
+                    IntPtr hdc = g.GetHdc();
+                    OpenNETCF.Drawing.Imaging.RECT ImgRect = OpenNETCF.Drawing.Imaging.RECT.FromXYWH(
+                        Rect.Left, Rect.Top, Rect.Width, Rect.Height);
+                    _img.Draw(hdc, ImgRect, null);
+                    g.ReleaseHdc(hdc);
+                }
+                catch (Exception e)
+                {
+                    //!! write to log  (e.StackTrace, "PaintBackground")
+                }
+            }
+            else
+            // use picture from contact, if present
             if (contact.Picture != null)
                 g.DrawImage(contact.Picture,
                     new Rectangle(Rect.Left + 1, Rect.Top + 1, Rect.Width - 3, Rect.Height - 3),
@@ -113,8 +170,14 @@ namespace MetroHome65.Widgets
                 EditControl.Value = ContactId;
                 Controls.Add(EditControl);
 
+                Settings_image ImgControl = new Settings_image();
+                ImgControl.Caption = "Alternate picture";
+                ImgControl.Value = AlternatePicturePath;
+                Controls.Add(ImgControl);
+
                 BindingManager BindingManager = new BindingManager();
                 BindingManager.Bind(this, "ContactId", EditControl, "Value");
+                BindingManager.Bind(this, "AlternatePicturePath", ImgControl, "Value");
 
                 return Controls;
             }

@@ -492,14 +492,14 @@ namespace MetroHome65.Pages
         /// <param name="e"></param>
         private void ShowWidgetSettings(WidgetWrapper Widget)
         {
-            FrmWidgetSettings WidgetSettingsForm = new FrmWidgetSettings();
-            WidgetSettingsForm.Widget = Widget;
-            WidgetSettingsForm.Owner = null;
-
             // when show setting dialog, stop selected widget animation
             WidgetWrapper prevMovingWidget = MovingWidget;
             MovingWidget = null;
             Size PrevSize = Widget.Size;
+
+            FrmWidgetSettings WidgetSettingsForm = new FrmWidgetSettings();
+            WidgetSettingsForm.Widget = Widget;
+            WidgetSettingsForm.Owner = null;
 
             if (WidgetSettingsForm.ShowDialog() == DialogResult.OK)
             {
@@ -740,6 +740,7 @@ namespace MetroHome65.Pages
 
                     if (value == null)
                     {
+                        _ResizeTimer.Dispose();
                         _ResizeTimer = null;
 
                         _MovingWidget.Moving = false;

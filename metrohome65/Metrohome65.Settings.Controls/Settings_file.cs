@@ -17,7 +17,7 @@ namespace MetroHome65.Settings.Controls
                 if (_ExeFile != value)
                 {
                     _ExeFile = value;
-                    labelAppName.Text = _ExeFile;
+                    txtCommandLine.Text = _ExeFile;
                     NotifyPropertyChanged("Value");
                 }
             } 
@@ -29,7 +29,7 @@ namespace MetroHome65.Settings.Controls
             InitializeComponent();
         }
 
-        private void buttonClear_Click(object sender, EventArgs e)
+        private void buttonBrowse_Click(object sender, EventArgs e)
         {
             OpenFileDialogEx dialog = new OpenFileDialogEx();
             dialog.Filter = "*.exe;*.lnk";
@@ -38,6 +38,15 @@ namespace MetroHome65.Settings.Controls
                 Value = dialog.FileName;
         }
 
+        private void buttonClear_Click(object sender, EventArgs e)
+        {
+            Value = "";
+        }
+
+        private void txtCommandLine_TextChanged(object sender, EventArgs e)
+        {
+            NotifyPropertyChanged("Value");
+        }
 
         #region INotifyPropertyChanged
         public event PropertyChangedEventHandler PropertyChanged;
