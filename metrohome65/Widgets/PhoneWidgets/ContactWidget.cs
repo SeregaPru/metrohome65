@@ -3,7 +3,6 @@ using System.Drawing;
 using System.Windows.Forms;
 using System.Collections.Generic;
 using Microsoft.WindowsMobile.PocketOutlook;
-using OpenNETCF.Drawing;
 using MetroHome65.Settings.Controls;
 using MetroHome65.Routines;
 
@@ -12,12 +11,9 @@ namespace MetroHome65.Widgets
     [WidgetInfo("Contact")]
     public class ContactWidget : BaseWidget
     {
-        //Эти переменные понядобятся для загрузки изображений при запуске приложения.
-        private OpenNETCF.Drawing.Imaging.ImagingFactoryClass _factory = new OpenNETCF.Drawing.Imaging.ImagingFactoryClass();
-        private OpenNETCF.Drawing.Imaging.IImage _img = null;
-
         private int _ContactId = -1;
         private String _AlternatePicturePath = "";
+        private AlphaImage _ContactImage = null;
 
         protected override Size[] GetSizes()
         {
@@ -68,17 +64,10 @@ namespace MetroHome65.Widgets
 
         protected virtual void UpdateAlternatePicture()
         {
-            try
-            {
-                if (_AlternatePicturePath != "")
-                    _factory.CreateImageFromFile(_AlternatePicturePath, out _img);
-                else
-                    _img = null;
-            }
-            catch (Exception e)
-            {
-                //!! write to log  (e.StackTrace, "SetIconPath")
-            }
+            if (_AlternatePicturePath != "")
+                _ContactImage = new AlphaImage(_AlternatePicturePath);
+            else
+                _ContactImage = null;
         }
 
         Contact FindContact(int ItemIdKey)
@@ -119,22 +108,12 @@ namespace MetroHome65.Widgets
             }
 
             // if assigned alternate picture - use it
-            if (_img != null)
+            if (_ContactImage != null)
             {
-                try
-                {
-                    IntPtr hdc = g.GetHdc();
-                    OpenNETCF.Drawing.Imaging.RECT ImgRect = OpenNETCF.Drawing.Imaging.RECT.FromXYWH(
-                        Rect.Left, Rect.Top, Rect.Width, Rect.Height);
-                    _img.Draw(hdc, ImgRect, null);
-                    g.ReleaseHdc(hdc);
-                }
-                catch (Exception e)
-                {
-                    //!! write to log  (e.StackTrace, "PaintBackground")
-                }
+                _ContactImage.PaintBackground(g, Rect);
             }
             else
+
             // use picture from contact, if present
             if (contact.Picture != null)
                 g.DrawImage(contact.Picture,

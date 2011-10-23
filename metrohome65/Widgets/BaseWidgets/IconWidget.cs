@@ -4,7 +4,6 @@ using System.Windows.Forms;
 using System.ComponentModel;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
-using OpenNETCF.Drawing;
 using MetroHome65.Routines;
 using MetroHome65.Settings.Controls;
 
@@ -16,10 +15,9 @@ namespace MetroHome65.Widgets
     public abstract class IconWidget : TransparentWidget
     {
         //Эти переменные понядобятся для загрузки изображений при запуске приложения.
-        private OpenNETCF.Drawing.Imaging.ImagingFactoryClass _factory = new OpenNETCF.Drawing.Imaging.ImagingFactoryClass();
-        private OpenNETCF.Drawing.Imaging.IImage _img = null;
         private String _Caption = "";
         private String _IconPath = "";
+        private AlphaImage _BgImage = null;
 
         protected static int CaptionLeftOffset = ScreenRoutines.Scale(10);
         protected static int CaptionBottomOffset = ScreenRoutines.Scale(4);
@@ -72,17 +70,10 @@ namespace MetroHome65.Widgets
 
         protected virtual void UpdateIconImage()
         {
-            try
-            {
-                if ((_IconPath != "") && (!IsExecutableIcon()))
-                    _factory.CreateImageFromFile(_IconPath, out _img);
-                else
-                    _img = null;
-            }
-            catch (Exception e)
-            {
-                //!! write to log  (e.StackTrace, "SetIconPath")
-            }
+            if ((! String.IsNullOrEmpty(_IconPath)) && (!IsExecutableIcon()))
+                _BgImage = new AlphaImage(_IconPath);
+            else
+                _BgImage = null;
         }
 
         private bool IsExecutableIcon()
@@ -99,25 +90,9 @@ namespace MetroHome65.Widgets
             int CaptionHeight = (Caption == "") ? 0 : (CaptionSize /* + CaptionBottomOffset */);
 
             // draw icon from external image file
-            if (_img != null)
+            if (_BgImage != null)
             {
-                try
-                {
-                    OpenNETCF.Drawing.Imaging.ImageInfo ImageInfo;
-                    int tmp = _img.GetImageInfo(out ImageInfo);
-
-                    IntPtr hdc = g.GetHdc();
-                    OpenNETCF.Drawing.Imaging.RECT ImgRect = OpenNETCF.Drawing.Imaging.RECT.FromXYWH(
-                        (Rect.Left + Rect.Right - (int)ImageInfo.Width) / 2,
-                        Rect.Top + (Rect.Height - (int)ImageInfo.Height - CaptionHeight) / 2,
-                        (int)ImageInfo.Width, (int)ImageInfo.Height);
-                    _img.Draw(hdc, ImgRect, null);
-                    g.ReleaseHdc(hdc);
-                }
-                catch (Exception e)
-                {
-                    //!! write to log  (e.StackTrace, "PaintIcon")
-                }
+                _BgImage.PaintIcon(g, new Rectangle(Rect.Left, Rect.Top, Rect.Width, Rect.Height - CaptionHeight/2));
                 return;
             }
 

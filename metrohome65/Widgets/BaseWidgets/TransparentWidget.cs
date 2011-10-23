@@ -13,10 +13,9 @@ namespace MetroHome65.Widgets
     /// </summary>
     public abstract class TransparentWidget : BaseWidget
     {
-        private OpenNETCF.Drawing.Imaging.ImagingFactoryClass _factory = new OpenNETCF.Drawing.Imaging.ImagingFactoryClass();
-        private OpenNETCF.Drawing.Imaging.IImage _img = null;
         private int _TileColor = System.Drawing.Color.DeepSkyBlue.ToArgb();
         private String _TileImage = "";
+        private AlphaImage _BgImage = null;
 
         protected override Boolean GetTransparent() { return true; }
 
@@ -53,26 +52,13 @@ namespace MetroHome65.Widgets
             if (_TileImage != ImagePath)
             {
                 _TileImage = ImagePath;
-                try
-                {
-                    if ((ImagePath != "") && (ImagePath != null))
-                        _factory.CreateImageFromFile(ImagePath, out _img);
-                    else
-                        _img = null;
-                }
-                catch (Exception e)
-                {
-                    //!! write to log  (e.StackTrace, "SetBtnImg")
-                }
+                if (! String.IsNullOrEmpty(ImagePath))
+                    _BgImage = new AlphaImage(ImagePath);
+                else
+                    _BgImage = null;
 
                 NotifyPropertyChanged("TileImage");
             }
-        }
-
-
-        public override void Paint(Graphics g, Rectangle Rect)
-        {
-            PaintBackground(g, Rect);
         }
 
 
@@ -82,28 +68,19 @@ namespace MetroHome65.Widgets
         /// </summary>
         /// <param name="g"></param>
         /// <param name="Rect"></param>
-        private void PaintBackground(Graphics g, Rectangle Rect)
+        public override void Paint(Graphics g, Rectangle Rect)
         {
             // if button image is set, draw button image
-            if (_img != null)
+            if (_BgImage != null)
             {
-                try
-                {
-                    IntPtr hdc = g.GetHdc();
-                    OpenNETCF.Drawing.Imaging.RECT ImgRect = OpenNETCF.Drawing.Imaging.RECT.FromXYWH(Rect.Left, Rect.Top, Rect.Width, Rect.Height);
-                    _img.Draw(hdc, ImgRect, null);
-                    g.ReleaseHdc(hdc);
-                    return;
-                }
-                catch (Exception e)
-                {
-                    //!! write to log  (e.StackTrace, "PaintBackground")
-                }
+                _BgImage.PaintBackground(g, Rect);
             }
-
-            // if image is not set, draw solid box with specified color
-            Brush bgBrush = new System.Drawing.SolidBrush(Color.FromArgb(_TileColor));
-            g.FillRectangle(bgBrush, Rect.Left, Rect.Top, Rect.Width, Rect.Height);
+            else
+            {
+                // if image is not set, draw solid box with specified color
+                Brush bgBrush = new System.Drawing.SolidBrush(Color.FromArgb(_TileColor));
+                g.FillRectangle(bgBrush, Rect.Left, Rect.Top, Rect.Width, Rect.Height);
+            }
         }
 
 

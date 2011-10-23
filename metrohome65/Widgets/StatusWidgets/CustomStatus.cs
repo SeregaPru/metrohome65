@@ -3,7 +3,6 @@ using System.Drawing;
 using System.Resources;
 using System.IO;
 using MetroHome65.Routines;
-using OpenNETCF.Drawing;
 
 namespace MetroHome65.Widgets.StatusWidget
 {
@@ -35,9 +34,6 @@ namespace MetroHome65.Widgets.StatusWidget
             dsOn,
             dsError
         }
-
-        private OpenNETCF.Drawing.Imaging.ImagingFactory _factory = new OpenNETCF.Drawing.Imaging.ImagingFactoryClass();
-        private OpenNETCF.Drawing.Imaging.IImage _img;
 
         private static int _IconSize = (ScreenRoutines.IsQVGA) ? 32 : 48;
         private static string _IconPrefix = (ScreenRoutines.IsQVGA) ? "small." : "big.";
@@ -98,23 +94,7 @@ namespace MetroHome65.Widgets.StatusWidget
         private void DrawResourceImage(Graphics g, int x, int y, int Width, int Height, string IconName)
         {
             String IconPath = "StatusWidgets.icons." + _IconPrefix + IconName + ".png";
-            try
-            {
-                OpenNETCF.Drawing.Imaging.StreamOnFile IconStream = new OpenNETCF.Drawing.Imaging.StreamOnFile(this.GetType().Assembly.GetManifestResourceStream(IconPath));
-                _factory.CreateImageFromStream(IconStream, out _img);
-
-                OpenNETCF.Drawing.Imaging.ImageInfo ImageInfo;
-                int tmp = _img.GetImageInfo(out ImageInfo);
-                OpenNETCF.Drawing.Imaging.RECT ImgRect = OpenNETCF.Drawing.Imaging.RECT.FromXYWH(
-                    x, y, Width, Height);
-
-                IntPtr hdc = g.GetHdc();
-                _img.Draw(hdc, ImgRect, null);
-                g.ReleaseHdc(hdc);
-            }
-            catch (Exception e)
-            {
-            }
+            AlphaImage.FromResource(IconPath).PaintIcon(g, new Rectangle(x, y, Width, Height));
         }
 
     }
