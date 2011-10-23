@@ -19,17 +19,11 @@ namespace MetroHome65.Routines
             this.ImagePath = ImagePath;
         }
 
-        private AlphaImage(OpenNETCF.Drawing.Imaging.IImage img)
+        public AlphaImage(System.IO.Stream Stream)
         {
-            this._img = img;
-        }
-
-        public static AlphaImage FromResource(String ResourcePath)
-        {
-            OpenNETCF.Drawing.Imaging.IImage img;
+            OpenNETCF.Drawing.Imaging.StreamOnFile IconStream = new OpenNETCF.Drawing.Imaging.StreamOnFile(Stream);
             OpenNETCF.Drawing.Imaging.ImagingFactoryClass _factory = new OpenNETCF.Drawing.Imaging.ImagingFactoryClass();
-            _factory.CreateImageFromStream(new OpenNETCF.Drawing.Imaging.StreamOnFile(ResourcePath), out img);
-            return new AlphaImage(img);
+            _factory.CreateImageFromStream(IconStream, out _img);
         }
 
         public String ImagePath
