@@ -30,7 +30,7 @@
         {
             this.lblPageTitle = new System.Windows.Forms.Label();
             this.mainMenu1 = new System.Windows.Forms.MainMenu();
-            this.mnuApply = new System.Windows.Forms.MenuItem();
+            this.menuApply = new System.Windows.Forms.MenuItem();
             this.menuCancel = new System.Windows.Forms.MenuItem();
             this.panelSize = new System.Windows.Forms.Panel();
             this.cbSize = new System.Windows.Forms.ComboBox();
@@ -53,13 +53,13 @@
             // 
             // mainMenu1
             // 
-            this.mainMenu1.MenuItems.Add(this.mnuApply);
+            this.mainMenu1.MenuItems.Add(this.menuApply);
             this.mainMenu1.MenuItems.Add(this.menuCancel);
             // 
-            // mnuApply
+            // menuApply
             // 
-            this.mnuApply.Text = "Apply";
-            this.mnuApply.Click += new System.EventHandler(this.mnuApply_Click);
+            this.menuApply.Text = "Apply";
+            this.menuApply.Click += new System.EventHandler(this.mnuApply_Click);
             // 
             // menuCancel
             // 
@@ -137,7 +137,7 @@
             this.Menu = this.mainMenu1;
             this.MinimizeBox = false;
             this.Name = "FrmWidgetSettings";
-            this.Text = "Form1";
+            this.Text = "WidgetSettings";
             this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
             this.panelSize.ResumeLayout(false);
             this.panelType.ResumeLayout(false);
@@ -149,7 +149,7 @@
 
         private System.Windows.Forms.Label lblPageTitle;
         private System.Windows.Forms.MainMenu mainMenu1;
-        private System.Windows.Forms.MenuItem mnuApply;
+        private System.Windows.Forms.MenuItem menuApply;
         private System.Windows.Forms.MenuItem menuCancel;
         private System.Windows.Forms.Panel panelSize;
         private System.Windows.Forms.ComboBox cbSize;
