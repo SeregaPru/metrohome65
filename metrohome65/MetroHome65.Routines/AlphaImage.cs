@@ -21,9 +21,16 @@ namespace MetroHome65.Routines
 
         public AlphaImage(System.IO.Stream Stream)
         {
-            OpenNETCF.Drawing.Imaging.StreamOnFile IconStream = new OpenNETCF.Drawing.Imaging.StreamOnFile(Stream);
-            OpenNETCF.Drawing.Imaging.ImagingFactoryClass _factory = new OpenNETCF.Drawing.Imaging.ImagingFactoryClass();
-            _factory.CreateImageFromStream(IconStream, out _img);
+            try
+            {
+                OpenNETCF.Drawing.Imaging.StreamOnFile IconStream = new OpenNETCF.Drawing.Imaging.StreamOnFile(Stream);
+                OpenNETCF.Drawing.Imaging.ImagingFactoryClass _factory = new OpenNETCF.Drawing.Imaging.ImagingFactoryClass();
+                _factory.CreateImageFromStream(IconStream, out _img);
+            }
+            catch (Exception e)
+            {
+                //!! write to log  (e.StackTrace, "SetBtnImg")
+            }
         }
 
         public String ImagePath

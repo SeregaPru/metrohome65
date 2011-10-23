@@ -895,7 +895,7 @@ namespace MetroHome65.Pages
         private void RepaintBackground()
         {
             _background = new Bitmap(Width, Height);
-            Bitmap _tmp = new Bitmap(_CoreDir + @"\buttons\button gray.png");
+            Bitmap _tmp = new Bitmap(@"\My Documents\My Pictures\leaf.jpg");
             Graphics.FromImage(_background).DrawImage(_tmp, 
                 new Rectangle(0, 0, Width, Height),
                 new Rectangle(0, 0, _tmp.Width, _tmp.Height), 
@@ -925,11 +925,30 @@ namespace MetroHome65.Pages
 
     class TransparentPictureBox : System.Windows.Forms.PictureBox
     {
+        private String _ResourcePath = "";
+        public String ResourcePath
+        {
+            get { return _ResourcePath; }
+            set
+            {
+                if (_ResourcePath != value)
+                {
+                    _ResourcePath = value;
+                    _AlphaImage = new AlphaImage(this.GetType().Assembly.GetManifestResourceStream(value));
+                }
+            }
+        }
+
+        private AlphaImage _AlphaImage = null;
+
         protected override void OnPaintBackground(PaintEventArgs e)
         {
             Control _Parent = this;
+            Rectangle ParentBounds = Bounds;
+
             while (_Parent != null)
             {
+                ParentBounds.Offset(_Parent.Location.X, _Parent.Location.Y);
                 _Parent = _Parent.Parent;
                 if (_Parent is WidgetGrid)
                     break;
@@ -937,7 +956,13 @@ namespace MetroHome65.Pages
             WidgetGrid ParentForm = _Parent as WidgetGrid;
 
             if (ParentForm != null)
-                e.Graphics.DrawImage(ParentForm.BackgroundImage, 0, 0, Bounds, GraphicsUnit.Pixel);
+                e.Graphics.DrawImage(ParentForm.BackgroundImage, 0, 0, ParentBounds, GraphicsUnit.Pixel);
+        }
+
+        protected override void OnPaint(PaintEventArgs e)
+        {
+            if (_AlphaImage != null)
+                _AlphaImage.PaintBackground(e.Graphics, e.ClipRectangle);
         }
     }
 
