@@ -190,6 +190,7 @@
     <Content Include="icons\skype.png" />
     <Content Include="icons\tuner.png" />
     <Content Include="icons\world.png" />
+    <EmbeddedResource Include="next.png" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="MetroHome65.Routines\MetroHome65.Routines.csproj">

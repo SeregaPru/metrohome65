@@ -62,7 +62,7 @@
             // buttonNextPage
             // 
             this.buttonNextPage.BackColor = System.Drawing.Color.Maroon;
-            this.buttonNextPage.Image = ((System.Drawing.Image)(resources.GetObject("buttonNextPage.Image")));
+            this.buttonNextPage.ResourcePath = "MetroHome65.next.png";
             this.buttonNextPage.Location = new System.Drawing.Point(0, 0);
             this.buttonNextPage.Name = "buttonNextPage";
             this.buttonNextPage.Size = new System.Drawing.Size(48, 48);

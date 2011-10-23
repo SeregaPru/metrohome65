@@ -259,8 +259,10 @@ namespace MetroHome65.Pages
         private void PaintBuffer()
         {
             ClearBuffer();
+
             _DoubleBuffer = new Bitmap(ScreenRect.Width, ScreenRect.Height);
             _graphics = Graphics.FromImage(_DoubleBuffer);
+
             Rectangle Rect = new Rectangle(0, 0, _DoubleBuffer.Width, _DoubleBuffer.Height);
 
             if (Widget != null)
