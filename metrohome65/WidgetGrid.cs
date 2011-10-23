@@ -23,7 +23,7 @@ namespace MetroHome65.Pages
         private Bitmap _DoubleBuffer = null;
         private Graphics _graphics = null;
 
-        public WidgetGrid()
+        public WidgetGrid() : base()
         {
             //!! read widget settings and place user widgets
             Widgets = new List<WidgetWrapper>();
@@ -140,9 +140,10 @@ namespace MetroHome65.Pages
 
         private void RepaintGrid(bool BufferOnly)
         {
+            _graphics.Clear(Color.Transparent);
             // paing background
-            Brush bgBrush = new System.Drawing.SolidBrush(this.BackColor);
-            _graphics.FillRectangle(bgBrush, 0, 0, _DoubleBuffer.Width, _DoubleBuffer.Height);
+            //!!Brush bgBrush = new System.Drawing.SolidBrush(this.BackColor);
+            //!!_graphics.FillRectangle(bgBrush, 0, 0, _DoubleBuffer.Width, _DoubleBuffer.Height);
 
             // paint widgets
             foreach (WidgetWrapper wsInfo in Widgets)
@@ -406,6 +407,16 @@ namespace MetroHome65.Pages
             Separator.Text = "-";
             MainMenu.MenuItems.Add(Separator);
 
+            MenuItem menuMainSettings = new System.Windows.Forms.MenuItem();
+            menuMainSettings.Text = "Settings";
+            menuMainSettings.Click += MainSettings_Click;
+            MainMenu.MenuItems.Add(menuMainSettings);
+
+            // add separator
+            MenuItem Separator2 = new System.Windows.Forms.MenuItem();
+            Separator2.Text = "-";
+            MainMenu.MenuItems.Add(Separator2);
+
             MenuItem menuExit = new System.Windows.Forms.MenuItem();
             menuExit.Text = "Exit";
             menuExit.Click += Exit_Click;
@@ -543,6 +554,8 @@ namespace MetroHome65.Pages
 
             panelButtons.Location = new Point(
                 this.Width - (this.Width - _WidgetsContainer.Left - _WidgetsContainer.Width) / 2 - panelButtons.Width / 2, _WidgetsContainer.Top);
+
+            RepaintBackground();
 
             UpdateGridSize();
         }
@@ -862,5 +875,70 @@ namespace MetroHome65.Pages
 
         #endregion
 
+        private void MainSettings_Click(object sender, EventArgs e)
+        {
+            FrmMainSettings MainSettingsForm = new FrmMainSettings();
+            MainSettingsForm.Owner = null;
+
+            if (MainSettingsForm.ShowDialog() == DialogResult.OK)
+            {
+                //
+            }
+        }
+
+        protected override void OnPaintBackground(PaintEventArgs e)
+        {
+            if (_background != null)
+                e.Graphics.DrawImage(_background, 0, 0);
+        }
+
+        private void RepaintBackground()
+        {
+            _background = new Bitmap(Width, Height);
+            Bitmap _tmp = new Bitmap(_CoreDir + @"\buttons\button gray.png");
+            Graphics.FromImage(_background).DrawImage(_tmp, 
+                new Rectangle(0, 0, Width, Height),
+                new Rectangle(0, 0, _tmp.Width, _tmp.Height), 
+                GraphicsUnit.Pixel);
+        }
+
+        private Image _background;
+
+        public Image BackgroundImage
+        {
+            get { return _background; }
+        }
+
     }
+
+
+    class TransparentPanel: System.Windows.Forms.Panel
+    {
+        protected override void OnPaintBackground(PaintEventArgs e)
+        {
+            WidgetGrid ParentForm = this.Parent as WidgetGrid;
+
+            if (ParentForm != null)
+                e.Graphics.DrawImage(ParentForm.BackgroundImage, 0, 0, Bounds, GraphicsUnit.Pixel);
+        }
+    }
+
+    class TransparentPictureBox : System.Windows.Forms.PictureBox
+    {
+        protected override void OnPaintBackground(PaintEventArgs e)
+        {
+            Control _Parent = this;
+            while (_Parent != null)
+            {
+                _Parent = _Parent.Parent;
+                if (_Parent is WidgetGrid)
+                    break;
+            }
+            WidgetGrid ParentForm = _Parent as WidgetGrid;
+
+            if (ParentForm != null)
+                e.Graphics.DrawImage(ParentForm.BackgroundImage, 0, 0, Bounds, GraphicsUnit.Pixel);
+        }
+    }
+
 }

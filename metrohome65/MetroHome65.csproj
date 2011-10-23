@@ -62,11 +62,18 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="FrmMainSettings.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FrmMainSettings.Designer.cs">
+      <DependentUpon>FrmMainSettings.cs</DependentUpon>
+    </Compile>
     <Compile Include="FrmWidgetSettings.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -91,6 +98,9 @@
       <DependentUpon>ProgramList.cs</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="FrmMainSettings.resx">
+      <DependentUpon>FrmMainSettings.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="FrmWidgetSettings.resx">
       <DependentUpon>FrmWidgetSettings.cs</DependentUpon>
     </EmbeddedResource>
