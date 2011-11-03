@@ -10,7 +10,7 @@ using Microsoft.WindowsMobile.Gestures;
 namespace MetroHome65.Pages
 {
 
-    public partial class WidgetGrid : UserControl, IPageControl
+    public partial class WidgetGrid : UserControl, IPageControl, IBackgroundForm
     {
         private int TopOffset = 0;
         private MetroHome65.Main.IHost _Host;
@@ -20,16 +20,13 @@ namespace MetroHome65.Pages
 
         private List<WidgetWrapper> Widgets;
         private WidgetWrapper _mnuWidgetSender;
-        private Bitmap _DoubleBuffer = null;
-        private Graphics _graphics = null;
 
         public WidgetGrid() : base()
         {
             //!! read widget settings and place user widgets
             Widgets = new List<WidgetWrapper>();
 
-            _DoubleBuffer = new Bitmap(1, 1);
-            _graphics = Graphics.FromImage(_DoubleBuffer);
+            CreateBuffer(1, 1);
 
             PluginManager.GetInstance();
 
@@ -37,7 +34,6 @@ namespace MetroHome65.Pages
 
             ReadSettings();
         }
-
 
         public virtual Control GetControl() { return this; }
 
@@ -62,17 +58,6 @@ namespace MetroHome65.Pages
         {
             _Host = Host;
         }
-
-        public void SetBackColor(Color value) 
-        {
-            if (this.BackColor != value)
-            {
-                this.BackColor = value;
-                _WidgetsContainer.BackColor = value;
-                RepaintGrid(false);
-            }
-        }
-
 
         private void AddWidget_Click(object sender, EventArgs e)
         {
@@ -129,30 +114,6 @@ namespace MetroHome65.Pages
                 }
         }
 
-        private void RepaintWidget(WidgetWrapper Widget)
-        {
-            Widget.Paint(_graphics, true);
-
-            Rectangle Rect = new Rectangle(
-                Widget.ScreenRect.X, Widget.ScreenRect.Y, Widget.ScreenRect.Width, Widget.ScreenRect.Height);
-            _WidgetsImage.Invalidate(Rect);
-        }
-
-        private void RepaintGrid(bool BufferOnly)
-        {
-            _graphics.Clear(Color.Transparent);
-            // paing background
-            //!!Brush bgBrush = new System.Drawing.SolidBrush(this.BackColor);
-            //!!_graphics.FillRectangle(bgBrush, 0, 0, _DoubleBuffer.Width, _DoubleBuffer.Height);
-
-            // paint widgets
-            foreach (WidgetWrapper wsInfo in Widgets)
-                wsInfo.Paint(_graphics, false);
-
-            if (!BufferOnly)
-                _WidgetsImage.Invalidate();
-        }
-
 
         /// <summary>
         /// Update may be change widgets screen positions
@@ -197,20 +158,9 @@ namespace MetroHome65.Pages
 
 
                 // change size of internal bitmap and repaint it
-                _graphics.Dispose();
-                _graphics = null;
-                _DoubleBuffer.Dispose();
-                _DoubleBuffer = null;
+                CreateBuffer(WidgetsWidth, WidgetsHeight); 
 
-                _DoubleBuffer = new Bitmap(WidgetsWidth, WidgetsHeight);
-                _graphics = Graphics.FromImage(_DoubleBuffer);
-
-                RepaintGrid(true);
-
-                if (_WidgetsImage.Image != null)
-                    _WidgetsImage.Image.Dispose();
-                _WidgetsImage.Image = _DoubleBuffer;
-                _WidgetsImage.Size = _DoubleBuffer.Size;
+                RepaintGrid();
             }
             catch (Exception e)
             {
@@ -546,21 +496,6 @@ namespace MetroHome65.Pages
         }
 
 
-        private void WidgetGrid_Resize(object sender, EventArgs e)
-        {
-            _WidgetsContainer.Size = new Size(
-                WidgetWrapper.CellWidth * 4 + WidgetWrapper.CellSpacingHor * 3, 
-                this.Height - _WidgetsContainer.Top);
-
-            panelButtons.Location = new Point(
-                this.Width - (this.Width - _WidgetsContainer.Left - _WidgetsContainer.Width) / 2 - panelButtons.Width / 2, _WidgetsContainer.Top);
-
-            RepaintBackground();
-
-            UpdateGridSize();
-        }
-
-
         // fill grid with debug values
         private void DebugFill()
         {
@@ -788,18 +723,6 @@ namespace MetroHome65.Pages
             }
         }
 
-        private Bitmap CropImage(Bitmap source, Rectangle section)
-        {
-            // An empty bitmap which will hold the cropped image
-            Bitmap bmp = new Bitmap(section.Width, section.Height);
-            Graphics g = Graphics.FromImage(bmp);
-
-            // Draw the given area (section) of the source image
-            // at location 0,0 on the empty bitmap (bmp)
-            g.DrawImage(source, 0, 0, section, GraphicsUnit.Pixel);
-
-            return bmp;
-        }
  
         Bitmap _MovingWidgetImg = null;
         //!!private System.Windows.Forms.Timer _ResizeTimer;
@@ -886,84 +809,8 @@ namespace MetroHome65.Pages
             }
         }
 
-        protected override void OnPaintBackground(PaintEventArgs e)
-        {
-            if (_background != null)
-                e.Graphics.DrawImage(_background, 0, 0);
-        }
-
-        private void RepaintBackground()
-        {
-            _background = new Bitmap(Width, Height);
-            Bitmap _tmp = new Bitmap(@"\My Documents\My Pictures\leaf.jpg");
-            Graphics.FromImage(_background).DrawImage(_tmp, 
-                new Rectangle(0, 0, Width, Height),
-                new Rectangle(0, 0, _tmp.Width, _tmp.Height), 
-                GraphicsUnit.Pixel);
-        }
-
-        private Image _background;
-
-        public Image BackgroundImage
-        {
-            get { return _background; }
-        }
-
     }
 
 
-    class TransparentPanel: System.Windows.Forms.Panel
-    {
-        protected override void OnPaintBackground(PaintEventArgs e)
-        {
-            WidgetGrid ParentForm = this.Parent as WidgetGrid;
-
-            if (ParentForm != null)
-                e.Graphics.DrawImage(ParentForm.BackgroundImage, 0, 0, Bounds, GraphicsUnit.Pixel);
-        }
-    }
-
-    class TransparentPictureBox : System.Windows.Forms.PictureBox
-    {
-        private String _ResourcePath = "";
-        public String ResourcePath
-        {
-            get { return _ResourcePath; }
-            set
-            {
-                if (_ResourcePath != value)
-                {
-                    _ResourcePath = value;
-                    _AlphaImage = new AlphaImage(this.GetType().Assembly.GetManifestResourceStream(value));
-                }
-            }
-        }
-
-        private AlphaImage _AlphaImage = null;
-
-        protected override void OnPaintBackground(PaintEventArgs e)
-        {
-            Control _Parent = this;
-            Rectangle ParentBounds = Bounds;
-
-            while (_Parent != null)
-            {
-                ParentBounds.Offset(_Parent.Location.X, _Parent.Location.Y);
-                _Parent = _Parent.Parent;
-                if (_Parent is WidgetGrid)
-                    break;
-            }
-            WidgetGrid ParentForm = _Parent as WidgetGrid;
-
-            if (ParentForm != null)
-                e.Graphics.DrawImage(ParentForm.BackgroundImage, 0, 0, ParentBounds, GraphicsUnit.Pixel);
-        }
-
-        protected override void OnPaint(PaintEventArgs e)
-        {
-            if (_AlphaImage != null)
-                _AlphaImage.PaintBackground(e.Graphics, e.ClipRectangle);
-        }
-    }
 
 }

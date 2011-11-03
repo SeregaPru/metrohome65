@@ -8,8 +8,6 @@ namespace MetroHome65.Pages
     {     
         Boolean Active { set; }
 
-        void SetBackColor(Color value);
-
         void SetHost(MetroHome65.Main.IHost Host);
 
         Control GetControl();

@@ -65,6 +65,9 @@
     <Reference Include="System.XML" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AlphaControls.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="AlphaImage.cs" />
     <Compile Include="BindingManager.cs" />
     <Compile Include="Routines.cs" />
