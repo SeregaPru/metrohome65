@@ -47,18 +47,13 @@ namespace MetroHome65.Pages
         private bool _Moving = false;
 
         // double buffer
-        private Bitmap _DoubleBuffer = null;
-        private Graphics _graphics = null;
+        private Bitmap _BufferImg = null;
+        private Graphics _BufferGr = null;
         private bool _needRepaint = true;
 
 
-        //[XmlIgnore]
-        //public WidgetGrid WidgetGrid = null;
 
-
-        public WidgetWrapper()
-        {
-        }
+        public WidgetWrapper()  { }
 
         ~WidgetWrapper()
         {
@@ -244,52 +239,70 @@ namespace MetroHome65.Pages
 
         private void ClearBuffer()
         {
-            if (_graphics != null)
+            if (_BufferGr != null)
             {
-                _graphics.Dispose();
-                _graphics = null;
+                _BufferGr.Dispose();
+                _BufferGr = null;
             }
-            if (_DoubleBuffer != null)
+            if (_BufferImg != null)
             {
-                _DoubleBuffer.Dispose();
-                _DoubleBuffer = null;
+                _BufferImg.Dispose();
+                _BufferImg = null;
             }
         }
+
+        byte _Alpha = 200;
 
         private void PaintBuffer()
         {
             ClearBuffer();
 
-            _DoubleBuffer = new Bitmap(ScreenRect.Width, ScreenRect.Height);
-            _graphics = Graphics.FromImage(_DoubleBuffer);
+            // create buffer bitmap with alpha channel
+            _BufferImg = new Bitmap(ScreenRect.Width, ScreenRect.Height, 
+                System.Drawing.Imaging.PixelFormat.Format32bppRgb);
+            _BufferGr = Graphics.FromImage(_BufferImg);
+            _BufferGr.Clear(Color.Transparent);
 
-            Rectangle Rect = new Rectangle(0, 0, _DoubleBuffer.Width, _DoubleBuffer.Height);
+            Rectangle Rect = new Rectangle(0, 0, ScreenRect.Width, ScreenRect.Height);
 
+            // create temp bitmap with alpha channel
+            Bitmap _TempImg = new Bitmap(ScreenRect.Width, ScreenRect.Height,
+                System.Drawing.Imaging.PixelFormat.Format32bppRgb);
+            Graphics _TempGr = Graphics.FromImage(_TempImg);
+            _TempGr.Clear(Color.Transparent);
+
+            // draw widget to temp bitmap
             if (Widget != null)
             {
-                Widget.Paint(_graphics, Rect);
+                Widget.Paint(_TempGr, Rect);
             }
             else
             {
                 Pen Pen = new Pen(Color.Gray, 1);
                 Pen.DashStyle = System.Drawing.Drawing2D.DashStyle.Dash;
-                _graphics.DrawRectangle(Pen, Rect);
-                _graphics.DrawString("Widget\nnot\nfound", new System.Drawing.Font("Verdana", 8, FontStyle.Regular),
+                _TempGr.DrawRectangle(Pen, Rect);
+                _TempGr.DrawString("Widget\nnot\nfound", new System.Drawing.Font("Verdana", 8, FontStyle.Regular),
                     new SolidBrush(Color.Yellow), Rect.X + 5, Rect.Y + 5);
             }
+
+            // write temp bitmap to buffer with semi-transparent
+            AlphaImage.DrawAlphaImage(_BufferGr, _TempImg, Rect, _Alpha);
+            //!!_BufferGr.DrawImage(_TempImg, 0, 0);
         }
 
-        public void Paint(Graphics g, bool needRepaint)
+        public void Paint(Graphics g, bool ANeedRepaint)
         {
             Region prevRegion = g.Clip;
             g.Clip = new Region(ScreenRect);
 
-            if (_needRepaint || needRepaint)
+            if (_needRepaint || ANeedRepaint)
             {
                 PaintBuffer();
                 _needRepaint = false;
             }
-            g.DrawImage(_DoubleBuffer, ScreenRect.X, ScreenRect.Y);
+
+            AlphaImage.DrawAlphaImage(g, _BufferImg, ScreenRect, 255);
+            //!!g.DrawImage(_BufferImg, ScreenRect.X, ScreenRect.Y);
             g.Clip = prevRegion;
         }
 
