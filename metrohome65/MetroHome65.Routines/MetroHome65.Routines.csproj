@@ -55,7 +55,7 @@
     </Reference>
     <Reference Include="OpenNETCF.Drawing, Version=2.3.0.39, Culture=neutral, PublicKeyToken=e60dbea84bb431b7, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\TestControls\TestControls\TestControls\OpenNETCF.Drawing.dll</HintPath>
+      <HintPath>..\OpenNETCF.Drawing.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />

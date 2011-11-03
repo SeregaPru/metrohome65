@@ -73,7 +73,7 @@ namespace MetroHome65.Widgets.StatusWidget
 
             // draw additional caption
             int CaptionHeigth = 0;
-            if (!Caption.Equals(String.Empty))
+            if (!String.IsNullOrEmpty(Caption))
             {
                 Font captionFont = new System.Drawing.Font("Segoe UI Light", 7, FontStyle.Bold);
                 captionBrush.Color = CaptionColor;
@@ -94,7 +94,9 @@ namespace MetroHome65.Widgets.StatusWidget
         private void DrawResourceImage(Graphics g, int x, int y, int Width, int Height, string IconName)
         {
             String IconPath = "StatusWidgets.icons." + _IconPrefix + IconName + ".png";
-            AlphaImage.FromResource(IconPath).PaintIcon(g, new Rectangle(x, y, Width, Height));
+            (new AlphaImage(
+                this.GetType().Assembly.GetManifestResourceStream(IconPath))).
+                PaintBackground(g, new Rectangle(x, y, Width, Height));
         }
 
     }
