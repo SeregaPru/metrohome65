@@ -3,10 +3,9 @@ using System.Collections;
 using System.Reflection;
 using System.Linq;
 using System.IO;
-
 using MetroHome65.Widgets;
 
-namespace MetroHome65.Pages
+namespace MetroHome65.HomeScreen
 {
     /// <summary>
     /// Class for managing plugins assemblies:

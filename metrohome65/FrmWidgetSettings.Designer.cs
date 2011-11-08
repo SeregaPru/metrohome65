@@ -1,4 +1,4 @@
-﻿namespace MetroHome65.Pages
+﻿namespace MetroHome65.HomeScreen
 {
     partial class FrmWidgetSettings
     {

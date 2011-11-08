@@ -1,0 +1,10 @@
+D:\Работа\wm\metrohome65\metrohome65\Fleux\bin\Debug\Fleux.dll
+D:\Работа\wm\metrohome65\metrohome65\Fleux\bin\Debug\Fleux.pdb
+D:\Работа\wm\metrohome65\metrohome65\Fleux\obj\Debug\ResolveAssemblyReference.cache
+D:\Работа\wm\metrohome65\metrohome65\Fleux\obj\Debug\Fleux.dll
+D:\Работа\wm\metrohome65\metrohome65\Fleux\obj\Debug\Fleux.pdb
+D:\Work\WM\metrohome65\metrohome65\Fleux\bin\Debug\Fleux.dll
+D:\Work\WM\metrohome65\metrohome65\Fleux\bin\Debug\Fleux.pdb
+D:\Work\WM\metrohome65\metrohome65\Fleux\obj\Debug\ResolveAssemblyReference.cache
+D:\Work\WM\metrohome65\metrohome65\Fleux\obj\Debug\Fleux.dll
+D:\Work\WM\metrohome65\metrohome65\Fleux\obj\Debug\Fleux.pdb

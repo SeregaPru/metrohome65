@@ -167,29 +167,30 @@ namespace MetroHome65.Widgets
         /// on click open contact
         /// </summary>
         /// <param name="Location"></param>
-        public override void OnClick(Point Location)
+        public override bool OnClick(Point Location)
         {
-            OpenContact();
+            return OpenContact();
         }
         
         /// <summary>
         /// on double click make a call
         /// </summary>
         /// <param name="Location"></param>
-        public override void OnDblClick(Point Location)
+        public override bool OnDblClick(Point Location)
         {
-            MakeCall();
+            return MakeCall();
         }
 
 
-        private void MakeCall()
+        private bool MakeCall()
         {
             Contact contact = FindContact(this.ContactId);
             if (contact == null)
-                return;
+                return false;
 
             Microsoft.WindowsMobile.Telephony.Phone myPhone = new Microsoft.WindowsMobile.Telephony.Phone();
             myPhone.Talk(contact.MobileTelephoneNumber, false);
+            return true;
         }
 
         private void SendSMS()
@@ -200,11 +201,15 @@ namespace MetroHome65.Widgets
             Microsoft.WindowsMobile.PocketOutlook.MessagingApplication.DisplayComposeForm(message);
         }
 
-        private void OpenContact()
+        private bool OpenContact()
         {
             Contact contact = FindContact(this.ContactId);
             if (contact != null)
+            {
                 contact.ShowDialog();
+                return true;
+            }
+            return false;
         }
 
     }

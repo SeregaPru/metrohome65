@@ -86,9 +86,9 @@ namespace MetroHome65.Widgets
         ///   Coordinates of click event, 
         ///   relative to widget's left upper corner
         /// </param>
-        void OnClick(Point Location);
+        bool OnClick(Point Location);
 
-        void OnDblClick(Point Location);
+        bool OnDblClick(Point Location);
 
         List<Control> EditControls { get; }
     }

@@ -45,10 +45,12 @@ namespace MetroHome65.Widgets
             return sizes;
         }
 
-        public override void OnClick(Point Location)
+        public override bool OnClick(Point Location)
         {
             if (CommandLine != "")
-                FileRoutines.StartProcess(CommandLine);
+                return FileRoutines.StartProcess(CommandLine);
+            else
+                return false;
         }
 
         public override List<Control> EditControls

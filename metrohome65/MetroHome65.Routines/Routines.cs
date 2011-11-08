@@ -10,7 +10,7 @@ namespace MetroHome65.Routines
     public static class FileRoutines
     {
 
-        public static void StartProcess(string FileName)
+        public static bool StartProcess(string FileName)
         {
             try
             {
@@ -18,10 +18,12 @@ namespace MetroHome65.Routines
                 myProcess.StartInfo.UseShellExecute = true;
                 myProcess.StartInfo.FileName = FileName;
                 myProcess.Start();
+                return true;
             }
             catch (Exception ex)
             {
                 //!! write to log  (e.StackTrace, "StartProcess")
+                return false;
             }
         }
 

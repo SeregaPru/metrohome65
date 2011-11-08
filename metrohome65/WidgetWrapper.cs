@@ -6,10 +6,15 @@ using System.Collections.Generic;
 using System.Reflection;
 using System.Runtime.Serialization;
 using System.Windows.Forms;
+using Fleux.Controls;
+using Fleux.UIElements;
+using Fleux.Core;
+using Fleux.Animations;
+using Fleux.Core.GraphicsHelpers;
 using MetroHome65.Widgets;
 using MetroHome65.Routines;
 
-namespace MetroHome65.Pages
+namespace MetroHome65.HomeScreen
 {
     [XmlType("param")]
     public class StoredParameter
@@ -34,7 +39,7 @@ namespace MetroHome65.Pages
     /// Container for widget, middle layer between widget grid and widget plugin.
     /// </summary>
     [Serializable]
-    public class WidgetWrapper
+    public class WidgetWrapper : UIElement
     {
         public static int CellWidth = ScreenRoutines.Scale(81);
         public static int CellHeight = CellWidth;
@@ -42,8 +47,8 @@ namespace MetroHome65.Pages
         public static int CellSpacingVer = CellSpacingHor;
 
         private IWidget _Widget = null;
-        private Point _Location = new Point(0, 0);
-        private Size _Size = new Size(1, 1);
+        private Point _GridPosition = new Point(0, 0);
+        private Size _GridSize = new Size(1, 1);
         private bool _Moving = false;
 
         // double buffer
@@ -56,8 +61,24 @@ namespace MetroHome65.Pages
         //public WidgetGrid WidgetGrid = null;
 
 
-        public WidgetWrapper()
+        public WidgetWrapper() : base()
         {
+            //
+        }
+
+        public WidgetWrapper(Size AGridSize, Point AGridPosition, String AWidgetName)
+            : base()
+        {
+            this.WidgetClass = AWidgetName;
+            this.GridSize = AGridSize;
+            this.GridPosition = AGridPosition;
+
+            if (Widget is IWidgetUpdatable)
+                (Widget as IWidgetUpdatable).WidgetUpdate += OnWidgetUpdate;
+
+            this.TapHandler += p => { OnClick(p); return true; };
+            this.DoubleTapHandler += p => { OnDblClick(p); return true; };
+
         }
 
         ~WidgetWrapper()
@@ -65,21 +86,14 @@ namespace MetroHome65.Pages
             ClearBuffer();
         }
 
-        public WidgetWrapper(Size Size, Point Location, String WidgetName)
-        {
-            this.WidgetClass = WidgetName;
-            this.Size = Size;
-            this.Location = Location;
-        }
-
         /// <summary>
         /// Widget location in grid
         /// </summary>
-        public Point Location { get { return _Location; } set { SetLocation(value); } }
+        public Point GridPosition { get { return _GridPosition; } set { SetGridPosition(value); } }
 
-        public WidgetWrapper SetLocation(Point Location)
+        public WidgetWrapper SetGridPosition(Point value)
         {
-            _Location = Location;
+            _GridPosition = value;
             CalcScreenPosition();
             return this;
         }
@@ -88,10 +102,7 @@ namespace MetroHome65.Pages
         /// <summary>
         /// Widget size in cells
         /// </summary>
-        public Size Size { 
-            get { return _Size; } 
-            set { SetSize(value); } 
-        }
+        public Size GridSize { get { return _GridSize; } set { SetGridSize(value); } }
 
         /// <summary>
         /// Sets widget size in grid cells.
@@ -100,7 +111,7 @@ namespace MetroHome65.Pages
         /// </summary>
         /// <param name="Size"></param>
         /// <returns></returns>
-        public WidgetWrapper SetSize(Size Size)
+        public WidgetWrapper SetGridSize(Size value)
         {
             if (_Widget == null) 
                 return this;
@@ -108,11 +119,11 @@ namespace MetroHome65.Pages
             Boolean SizeOk = false;
             if ((_Widget.Sizes != null) && (_Widget.Sizes.Length > 0))
             {
-                foreach (Size size in _Widget.Sizes)
+                foreach (Size PossibleSize in _Widget.Sizes)
                 {
-                    if (size.Equals(Size))
+                    if (PossibleSize.Equals(value))
                     {
-                        _Size = Size;
+                        _GridSize = value;
                         SizeOk = true;
                         break;
                     }
@@ -122,16 +133,16 @@ namespace MetroHome65.Pages
             if (!SizeOk) 
                 if ((_Widget.Sizes != null) && (_Widget.Sizes.Length > 0))
                 {
-                    _Size = _Widget.Sizes[0];
+                    _GridSize = _Widget.Sizes[0];
                     //!! write to log
                 }
                 else
                 {
-                    _Size = new Size(2, 2);
+                    _GridSize = new Size(2, 2);
                     //!! write to log
                 }
 
-            _Widget.Size = _Size;
+            _Widget.Size = _GridSize;
 
             CalcScreenPosition();
             return this;
@@ -139,10 +150,12 @@ namespace MetroHome65.Pages
 
         public void CalcScreenPosition()
         {
-            ScreenRect.X = _Location.X * (CellWidth + CellSpacingHor);
-            ScreenRect.Y = _Location.Y * (CellHeight + CellSpacingVer);
-            ScreenRect.Width = _Size.Width * (CellWidth + CellSpacingHor) - CellSpacingHor;
-            ScreenRect.Height = _Size.Height * (CellHeight + CellSpacingVer) - CellSpacingVer;
+            Location = new Point(
+                _GridPosition.X * (CellWidth + CellSpacingHor) + 30,
+                _GridPosition.Y * (CellHeight + CellSpacingVer) + 5);
+            Size = new Size(
+                _GridSize.Width * (CellWidth + CellSpacingHor) - CellSpacingHor,
+                _GridSize.Height * (CellHeight + CellSpacingVer) - CellSpacingVer );
         }
 
 
@@ -189,13 +202,6 @@ namespace MetroHome65.Pages
         }
 
 
-        /// <summary>
-        /// Widget absolute position on screen and size (in pixels) 
-        /// </summary>
-        [XmlIgnore]
-        public Rectangle ScreenRect = new Rectangle(0, 0, 0, 0);
-
-        
         private List<PropertyInfo> _propertyInfos = new List<PropertyInfo>();
 
         private void FillWidgetProperties()
@@ -259,7 +265,8 @@ namespace MetroHome65.Pages
         private void PaintBuffer()
         {
             ClearBuffer();
-            _DoubleBuffer = new Bitmap(ScreenRect.Width, ScreenRect.Height);
+
+            _DoubleBuffer = new Bitmap(Size.Width, Size.Height);
             _graphics = Graphics.FromImage(_DoubleBuffer);
             Rectangle Rect = new Rectangle(0, 0, _DoubleBuffer.Width, _DoubleBuffer.Height);
 
@@ -277,30 +284,42 @@ namespace MetroHome65.Pages
             }
         }
 
-        public void Paint(Graphics g, bool needRepaint)
+        public override void Draw(IDrawingGraphics drawingGraphics)
         {
-            Region prevRegion = g.Clip;
-            g.Clip = new Region(ScreenRect);
-
-            if (_needRepaint || needRepaint)
+            if (_needRepaint)
             {
                 PaintBuffer();
                 _needRepaint = false;
             }
-            g.DrawImage(_DoubleBuffer, ScreenRect.X, ScreenRect.Y);
-            g.Clip = prevRegion;
+
+            drawingGraphics.DrawImage(_DoubleBuffer, 0, 0, Bounds.Width, Bounds.Height);
         }
 
-        public void OnClick(Point Location)
+
+        public bool OnClick(Point ClickLocation)
         {
             if (Widget != null)
-                Widget.OnClick(Location);
+                return Widget.OnClick(ClickLocation);
+            else
+                return false;
         }
 
-        public void OnDblClick(Point Location)
+        public bool OnDblClick(Point ClickLocation)
         {
             if (Widget != null)
-                Widget.OnClick(Location);
+                return Widget.OnClick(ClickLocation);
+            else
+                return false;
+        }
+
+        /// <summary>
+        /// Handler for event, triggered by widget, when it needs to be repainted
+        /// </summary>
+        /// <param name="sender"></param>
+        private void OnWidgetUpdate(object sender, WidgetUpdateEventArgs e)
+        {
+            this._needRepaint = true;
+            this.Update();
         }
 
 
@@ -310,8 +329,7 @@ namespace MetroHome65.Pages
         [XmlIgnore]
         public bool Moving {
             get { return _Moving; }
-            set
-            {
+            set {
                 if (_Moving != value)
                 {
                     _Moving = value;
