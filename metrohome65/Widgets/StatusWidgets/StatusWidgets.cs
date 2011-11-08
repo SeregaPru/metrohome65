@@ -123,7 +123,7 @@ namespace MetroHome65.Widgets.StatusWidget
             return Result;
         }
 
-        public override void OnClick(Point Location)
+        public override bool OnClick(Point Location)
         {
             for (int i = 0; i < _Statuses.Count; i++)
             {
@@ -134,6 +134,7 @@ namespace MetroHome65.Widgets.StatusWidget
                     break;
                 }
             }
+            return true;
         }
 
 

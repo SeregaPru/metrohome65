@@ -143,10 +143,11 @@ namespace MetroHome65.Widgets
         }
 
 
-        public override void OnClick(Point Location)
+        public override bool OnClick(Point Location)
         {
             MessageBox.Show(String.Format("Icon widget {0} at pos {1}:{2}",
                 this.Caption, Location.X, Location.Y));
+            return true;
         }
 
 

@@ -27,9 +27,9 @@ namespace MetroHome65.Widgets
         
         public virtual void Paint(Graphics g, Rectangle Rect) { }
 
-        public virtual void OnClick(Point Location) { }
+        public virtual bool OnClick(Point Location) { return false; }
 
-        public virtual void OnDblClick(Point Location) { }
+        public virtual bool OnDblClick(Point Location) { return false; }
 
         public virtual void OnMenuItemClick(String ItemName) { }
 

@@ -7,7 +7,7 @@ using System.Windows.Forms;
 using System.Reflection;
 using MetroHome65.Widgets;
 
-namespace MetroHome65.Pages
+namespace MetroHome65.HomeScreen
 {
     public partial class FrmWidgetSettings : Form
     {
