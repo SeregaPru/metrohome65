@@ -25,7 +25,7 @@ namespace MetroHome65.Widgets
         {
             _brushCaption = new System.Drawing.SolidBrush(System.Drawing.Color.White);
             _fntTime = new System.Drawing.Font("Verdana", 36, FontStyle.Regular);
-            _fntDate = new System.Drawing.Font("Helvetica", 11, FontStyle.Regular);
+            _fntDate = new System.Drawing.Font("Helvetica", 12, FontStyle.Regular);
         }
 
 

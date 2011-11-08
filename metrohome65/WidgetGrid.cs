@@ -10,7 +10,7 @@ using Microsoft.WindowsMobile.Gestures;
 namespace MetroHome65.Pages
 {
 
-    public partial class WidgetGrid : UserControl, IPageControl, IBackgroundForm
+    public partial class WidgetGrid : UserControl, IPageControl
     {
         private int TopOffset = 0;
         private MetroHome65.Main.IHost _Host;
@@ -20,13 +20,16 @@ namespace MetroHome65.Pages
 
         private List<WidgetWrapper> Widgets;
         private WidgetWrapper _mnuWidgetSender;
+        private Bitmap _DoubleBuffer = null;
+        private Graphics _graphics = null;
 
-        public WidgetGrid() : base()
+        public WidgetGrid()
         {
             //!! read widget settings and place user widgets
             Widgets = new List<WidgetWrapper>();
 
-            CreateBuffer(1, 1);
+            _DoubleBuffer = new Bitmap(1, 1);
+            _graphics = Graphics.FromImage(_DoubleBuffer);
 
             PluginManager.GetInstance();
 
@@ -34,6 +37,7 @@ namespace MetroHome65.Pages
 
             ReadSettings();
         }
+
 
         public virtual Control GetControl() { return this; }
 
@@ -58,6 +62,17 @@ namespace MetroHome65.Pages
         {
             _Host = Host;
         }
+
+        public void SetBackColor(Color value) 
+        {
+            if (this.BackColor != value)
+            {
+                this.BackColor = value;
+                _WidgetsContainer.BackColor = value;
+                RepaintGrid(false);
+            }
+        }
+
 
         private void AddWidget_Click(object sender, EventArgs e)
         {
@@ -114,6 +129,29 @@ namespace MetroHome65.Pages
                 }
         }
 
+        private void RepaintWidget(WidgetWrapper Widget)
+        {
+            Widget.Paint(_graphics, true);
+
+            Rectangle Rect = new Rectangle(
+                Widget.ScreenRect.X, Widget.ScreenRect.Y, Widget.ScreenRect.Width, Widget.ScreenRect.Height);
+            _WidgetsImage.Invalidate(Rect);
+        }
+
+        private void RepaintGrid(bool BufferOnly)
+        {
+            // paing background
+            Brush bgBrush = new System.Drawing.SolidBrush(this.BackColor);
+            _graphics.FillRectangle(bgBrush, 0, 0, _DoubleBuffer.Width, _DoubleBuffer.Height);
+
+            // paint widgets
+            foreach (WidgetWrapper wsInfo in Widgets)
+                wsInfo.Paint(_graphics, false);
+
+            if (!BufferOnly)
+                _WidgetsImage.Invalidate();
+        }
+
 
         /// <summary>
         /// Update may be change widgets screen positions
@@ -158,9 +196,20 @@ namespace MetroHome65.Pages
 
 
                 // change size of internal bitmap and repaint it
-                CreateBuffer(WidgetsWidth, WidgetsHeight); 
+                _graphics.Dispose();
+                _graphics = null;
+                _DoubleBuffer.Dispose();
+                _DoubleBuffer = null;
 
-                RepaintGrid();
+                _DoubleBuffer = new Bitmap(WidgetsWidth, WidgetsHeight);
+                _graphics = Graphics.FromImage(_DoubleBuffer);
+
+                RepaintGrid(true);
+
+                if (_WidgetsImage.Image != null)
+                    _WidgetsImage.Image.Dispose();
+                _WidgetsImage.Image = _DoubleBuffer;
+                _WidgetsImage.Size = _DoubleBuffer.Size;
             }
             catch (Exception e)
             {
@@ -357,16 +406,6 @@ namespace MetroHome65.Pages
             Separator.Text = "-";
             MainMenu.MenuItems.Add(Separator);
 
-            MenuItem menuMainSettings = new System.Windows.Forms.MenuItem();
-            menuMainSettings.Text = "Settings";
-            menuMainSettings.Click += MainSettings_Click;
-            MainMenu.MenuItems.Add(menuMainSettings);
-
-            // add separator
-            MenuItem Separator2 = new System.Windows.Forms.MenuItem();
-            Separator2.Text = "-";
-            MainMenu.MenuItems.Add(Separator2);
-
             MenuItem menuExit = new System.Windows.Forms.MenuItem();
             menuExit.Text = "Exit";
             menuExit.Click += Exit_Click;
@@ -493,6 +532,19 @@ namespace MetroHome65.Pages
         private void Exit_Click(object sender, EventArgs e)
         {
             Application.Exit();
+        }
+
+
+        private void WidgetGrid_Resize(object sender, EventArgs e)
+        {
+            _WidgetsContainer.Size = new Size(
+                WidgetWrapper.CellWidth * 4 + WidgetWrapper.CellSpacingHor * 3, 
+                this.Height - _WidgetsContainer.Top);
+
+            panelButtons.Location = new Point(
+                this.Width - (this.Width - _WidgetsContainer.Left - _WidgetsContainer.Width) / 2 - panelButtons.Width / 2, _WidgetsContainer.Top);
+
+            UpdateGridSize();
         }
 
 
@@ -723,6 +775,18 @@ namespace MetroHome65.Pages
             }
         }
 
+        private Bitmap CropImage(Bitmap source, Rectangle section)
+        {
+            // An empty bitmap which will hold the cropped image
+            Bitmap bmp = new Bitmap(section.Width, section.Height);
+            Graphics g = Graphics.FromImage(bmp);
+
+            // Draw the given area (section) of the source image
+            // at location 0,0 on the empty bitmap (bmp)
+            g.DrawImage(source, 0, 0, section, GraphicsUnit.Pixel);
+
+            return bmp;
+        }
  
         Bitmap _MovingWidgetImg = null;
         //!!private System.Windows.Forms.Timer _ResizeTimer;
@@ -798,13 +862,5 @@ namespace MetroHome65.Pages
 
         #endregion
 
-        private void MainSettings_Click(object sender, EventArgs e)
-        {
-            //
-        }
-
     }
-
-
-
 }

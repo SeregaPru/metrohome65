@@ -1,4 +1,4 @@
-﻿    namespace MetroHome65.Pages
+﻿namespace MetroHome65.Pages
 {
     partial class WidgetGrid
     {
@@ -29,18 +29,17 @@
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(WidgetGrid));
-            this._WidgetsContainer = new MetroHome65.Routines.TransparentPanel();
-            this._WidgetsImage = new MetroHome65.Routines.TransparentPictureBox();
-            this.buttonNextPage = new MetroHome65.Routines.TransparentPictureBox("MetroHome65.next.png", this.GetType().Assembly);
+            this._WidgetsContainer = new System.Windows.Forms.Panel();
+            this._WidgetsImage = new System.Windows.Forms.PictureBox();
+            this.buttonNextPage = new System.Windows.Forms.PictureBox();
             this.gestureRecognizer = new Microsoft.WindowsMobile.Gestures.GestureRecognizer();
             this.physics = new Microsoft.WindowsMobile.Gestures.PhysicsEngine();
             this._mnuWidgetActions = new System.Windows.Forms.ContextMenu();
-            this.menuItem1 = new System.Windows.Forms.MenuItem();
             this.mnuMain = new System.Windows.Forms.ContextMenu();
             this.mnuExit = new System.Windows.Forms.MenuItem();
             this.buttonUnpin = new System.Windows.Forms.PictureBox();
             this.buttonSettings = new System.Windows.Forms.PictureBox();
-            this.panelButtons = new MetroHome65.Routines.TransparentPanel();
+            this.panelButtons = new System.Windows.Forms.Panel();
             this._WidgetsContainer.SuspendLayout();
             this.panelButtons.SuspendLayout();
             this.SuspendLayout();
@@ -61,7 +60,7 @@
             // 
             // buttonNextPage
             // 
-            this.buttonNextPage.BackColor = System.Drawing.Color.Maroon;
+            this.buttonNextPage.Image = ((System.Drawing.Image)(resources.GetObject("buttonNextPage.Image")));
             this.buttonNextPage.Location = new System.Drawing.Point(0, 0);
             this.buttonNextPage.Name = "buttonNextPage";
             this.buttonNextPage.Size = new System.Drawing.Size(48, 48);
@@ -85,14 +84,6 @@
             this.physics.ExtentControl = null;
             this.physics.ViewportControl = null;
             this.physics.AnimateFrame += new System.EventHandler<Microsoft.WindowsMobile.Gestures.PhysicsAnimationFrameEventArgs>(this.physics_AnimateFrame);
-            // 
-            // _mnuWidgetActions
-            // 
-            this._mnuWidgetActions.MenuItems.Add(this.menuItem1);
-            // 
-            // menuItem1
-            // 
-            this.menuItem1.Text = "";
             // 
             // mnuMain
             // 
@@ -152,9 +143,9 @@
 
         #endregion
 
-        private MetroHome65.Routines.TransparentPanel _WidgetsContainer;
-        private MetroHome65.Routines.TransparentPictureBox _WidgetsImage;
-        private MetroHome65.Routines.TransparentPictureBox buttonNextPage;
+        private System.Windows.Forms.Panel _WidgetsContainer;
+        private System.Windows.Forms.PictureBox _WidgetsImage;
+        private System.Windows.Forms.PictureBox buttonNextPage;
         private Microsoft.WindowsMobile.Gestures.GestureRecognizer gestureRecognizer;
         private Microsoft.WindowsMobile.Gestures.PhysicsEngine physics;
         private System.Windows.Forms.ContextMenu _mnuWidgetActions;
@@ -162,7 +153,6 @@
         private System.Windows.Forms.MenuItem mnuExit;
         private System.Windows.Forms.PictureBox buttonSettings;
         private System.Windows.Forms.PictureBox buttonUnpin;
-        private MetroHome65.Routines.TransparentPanel panelButtons;
-        private System.Windows.Forms.MenuItem menuItem1;
+        private System.Windows.Forms.Panel panelButtons;
     }
 }
