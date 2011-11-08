@@ -800,13 +800,7 @@ namespace MetroHome65.Pages
 
         private void MainSettings_Click(object sender, EventArgs e)
         {
-            FrmMainSettings MainSettingsForm = new FrmMainSettings();
-            MainSettingsForm.Owner = null;
-
-            if (MainSettingsForm.ShowDialog() == DialogResult.OK)
-            {
-                //
-            }
+            //
         }
 
     }
