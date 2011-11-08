@@ -107,6 +107,7 @@ namespace MetroHome65.Main
                 this._ActivePage.GetControl().Location = new Point(0, 0);
                 this._ActivePage.GetControl().Size = new Size(this.Width, this.Height);
                 this._ActivePage.SetHost(this);
+                this._ActivePage.SetBackColor(this.BackColor);
 
                 this._ActivePage.Active = true;
             }

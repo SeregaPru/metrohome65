@@ -161,6 +161,7 @@ namespace MetroHome65.Pages
 
         // IPageControl
         public Boolean Active { set { } }
+        public void SetBackColor(Color value) { }
         public Control GetControl() { return this; }
 
         public void SetHost(MetroHome65.Main.IHost Host)
