@@ -28,12 +28,7 @@ namespace MetroHome65.HomeScreen
             {
                 if (_MovingWidget != value)
                 {
-                    this.Active = (value == null);
-
-                    /*!!
-                    buttonSettings.Visible = (value != null);
-                    buttonUnpin.Visible = (value != null);
-                     */ 
+                    RealignSettingsButtons(value != null);
 
                     if (value == null)
                     {
@@ -68,6 +63,20 @@ namespace MetroHome65.HomeScreen
             }
         }
 
+        private void RealignSettingsButtons(bool MoveMode)
+        {
+            if (MoveMode)
+            {
+                buttonSettings.Location = new Point(410, 170);
+                buttonUnpin.Location = new Point(410, 100);
+            }
+            else
+            {
+                buttonSettings.Location = new Point(-100, -100);
+                buttonUnpin.Location = new Point(-100, -100);
+            }
+        }
+
         private System.Threading.Timer _ResizeTimer;
         
         private int _deltaX = 0;
@@ -97,8 +106,21 @@ namespace MetroHome65.HomeScreen
             MovingWidget.Update();
         }
 
+        /// <summary>
+        /// click handler for tiles grid - enter to moving mode
+        /// </summary>
+        /// <param name="ALocation"></param>
+        private void GridClickAt(Point ALocation)
+        {
+            if (MoveMode)
+                MoveTileTo(ALocation);
+        }
 
-        private void MoveWidgetTo(Point ALocation)
+        /// <summary>
+        /// move selected tile to new location
+        /// </summary>
+        /// <param name="ALocation"></param>
+        private void MoveTileTo(Point ALocation)
         {
             Point TargetCell = new Point(
                 (ALocation.X - tilesCanvas.Location.X + WidgetWrapper.CellSpacingHor) / (WidgetWrapper.CellWidth + WidgetWrapper.CellSpacingHor),
@@ -140,10 +162,63 @@ namespace MetroHome65.HomeScreen
             }
 
             MovingWidget.GridPosition = TargetCell;
+            _MovingWidgetBounds = MovingWidget.Bounds;
 
             RealignWidgets();
         }
 
+
+        /// <summary>
+        /// Update may be change widgets screen positions
+        /// </summary>
+        private void RealignWidgets()
+        {
+            try
+            {
+                int MaxRow = 0;
+                foreach (WidgetWrapper wsInfo in _tiles)
+                    MaxRow = Math.Max(MaxRow, wsInfo.GridPosition.Y + wsInfo.GridSize.Height);
+
+                object[,] cells = new object[MaxRow + 1, 4];
+                foreach (WidgetWrapper wsInfo in _tiles)
+                {
+                    for (int y = 0; y < wsInfo.GridSize.Height; y++)
+                        for (int x = 0; x < wsInfo.GridSize.Width; x++)
+                            cells[wsInfo.GridPosition.Y + y, Math.Min(3, wsInfo.GridPosition.X + x)] = wsInfo;
+                }
+
+                // looking for empty rows and delete them - shift widgets 1 row top
+                for (int row = MaxRow; row >= 0; row--)
+                {
+                    if ((cells[row, 0] == null) && (cells[row, 1] == null) &&
+                        (cells[row, 2] == null) && (cells[row, 3] == null))
+                    {
+                        foreach (WidgetWrapper wsInfo in _tiles)
+                            if (wsInfo.GridPosition.Y > row)
+                                wsInfo.GridPosition = new Point(wsInfo.GridPosition.X, wsInfo.GridPosition.Y - 1);
+                    }
+                }
+
+
+                // calc max image dimensions for widgets grid
+                int WidgetsHeight = 0;
+                int WidgetsWidth = 0;
+                foreach (WidgetWrapper wsInfo in _tiles)
+                {
+                    WidgetsHeight = Math.Max(WidgetsHeight, wsInfo.Bounds.Bottom);
+                    WidgetsWidth = Math.Max(WidgetsWidth, wsInfo.Bounds.Right);
+                    wsInfo.Update();
+                }
+                WidgetsHeight += 50; // add padding at bottom and blank spaces at top and bottom
+
+                tilesCanvas.Size = new Size(tilesCanvas.Size.Width, WidgetsHeight);
+                tilesCanvas.Update();
+            }
+            catch (Exception e)
+            {
+                //!! write to log  (e.StackTrace, "ReadSettings")
+            }
+        }
 
     }
 }

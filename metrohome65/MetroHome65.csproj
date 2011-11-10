@@ -146,6 +146,7 @@
     <Content Include="buttons\button sky.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <EmbeddedResource Include="cancel.png" />
     <Content Include="home.ico" />
     <Content Include="icons\acrobat.png" />
     <Content Include="icons\bluetooth.png" />
@@ -171,6 +172,7 @@
     <Content Include="icons\skype.png" />
     <Content Include="icons\tuner.png" />
     <Content Include="icons\world.png" />
+    <EmbeddedResource Include="settings.png" />
     <EmbeddedResource Include="next.png" />
   </ItemGroup>
   <ItemGroup>
