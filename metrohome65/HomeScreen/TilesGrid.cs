@@ -20,6 +20,8 @@ namespace MetroHome65.HomeScreen
         private FleuxControl _HomeScreenControl = null;
         private List<WidgetWrapper> _tiles = new List<WidgetWrapper>();
         Canvas tilesCanvas;
+        TransparentImageElement buttonSettings;
+        TransparentImageElement buttonUnpin;
 
         private String _CoreDir = System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().GetName().CodeBase);
 
@@ -27,6 +29,23 @@ namespace MetroHome65.HomeScreen
         public TilesGrid(FleuxControl HomeScreenControl) : base()
         {
             _HomeScreenControl = HomeScreenControl;
+
+            // кнопка настроек            
+            buttonSettings = new TransparentImageElement(
+                ResourceManager.Instance.GetIImageFromEmbeddedResource("settings.png")) {
+                Size = new Size(48, 48),
+                TapHandler = buttonSettingsClick,
+            };
+            // кнопка удаления плитки
+            buttonUnpin = new TransparentImageElement(
+                  ResourceManager.Instance.GetIImageFromEmbeddedResource("cancel.png"))
+                  {
+                      Size = new Size(48, 48),
+                      TapHandler = buttonUnpinClick,
+                  };
+            RealignSettingsButtons(false);
+            HomeScreenControl.AddElement(buttonUnpin);
+            HomeScreenControl.AddElement(buttonSettings);
 
             // холст контейнер плиток
             tilesCanvas = new Canvas() { Size = new Size(400, 100) };
@@ -179,57 +198,6 @@ namespace MetroHome65.HomeScreen
         }
 
         /// <summary>
-        /// Update may be change widgets screen positions
-        /// </summary>
-        private void RealignWidgets()
-        {
-            try
-            {
-                int MaxRow = 0;
-                foreach (WidgetWrapper wsInfo in _tiles)
-                    MaxRow = Math.Max(MaxRow, wsInfo.GridPosition.Y + wsInfo.GridSize.Height);
-
-                object[,] cells = new object[MaxRow + 1, 4];
-                foreach (WidgetWrapper wsInfo in _tiles)
-                {
-                    for (int y = 0; y < wsInfo.GridSize.Height; y++)
-                        for (int x = 0; x < wsInfo.GridSize.Width; x++)
-                            cells[wsInfo.GridPosition.Y + y, Math.Min(3, wsInfo.GridPosition.X + x)] = wsInfo;
-                }
-
-                // looking for empty rows and delete them - shift widgets 1 row top
-                for (int row = MaxRow; row >= 0; row--)
-                {
-                    if ((cells[row, 0] == null) && (cells[row, 1] == null) && 
-                        (cells[row, 2] == null) && (cells[row, 3] == null))
-                    {
-                        foreach (WidgetWrapper wsInfo in _tiles)
-                            if (wsInfo.GridPosition.Y > row)
-                                wsInfo.GridPosition = new Point(wsInfo.GridPosition.X, wsInfo.GridPosition.Y - 1);
-                    }
-                }
-
-
-                // calc max image dimensions for widgets grid
-                int WidgetsHeight = 0;
-                int WidgetsWidth = 0;
-                foreach (WidgetWrapper wsInfo in _tiles)
-                {
-                    WidgetsHeight = Math.Max(WidgetsHeight, wsInfo.Bounds.Bottom);
-                    WidgetsWidth = Math.Max(WidgetsWidth, wsInfo.Bounds.Right);
-                }
-                WidgetsHeight += 50; // add padding at bottom and blank spaces at top and bottom
-
-                tilesCanvas.Size = new Size(tilesCanvas.Size.Width, WidgetsHeight);
-            }
-            catch (Exception e)
-            {
-                MessageBox.Show(e.StackTrace);
-                //!! write to log  (e.StackTrace, "ReadSettings")
-            }
-        }
-
-        /// <summary>
         /// Read widgets settings from XML file
         /// </summary>
         private void ReadSettings()
@@ -271,13 +239,7 @@ namespace MetroHome65.HomeScreen
             MainMenu.Show(_HomeScreenControl, ALocation);
         }
 
-        private void GridClickAt(Point ALocation)
-        {
-            if (MoveMode)
-                MoveWidgetTo(ALocation);
-        }
-
-            /// <summary>
+        /// <summary>
         /// Click at tile handler
         /// </summary>
         /// <param name="ALocation"></param>
@@ -324,6 +286,58 @@ namespace MetroHome65.HomeScreen
             }
         }
 
+        private bool buttonSettingsClick(Point ALocation)
+        {
+            if (MoveMode)
+                ShowTileSettings(_MovingWidget);
+            return true;
+        }
+
+        private bool buttonUnpinClick(Point ALocation)
+        {
+            if (MoveMode)
+                DeleteTile();
+            return true;
+        }
+
+        /// <summary>
+        /// Shows widget settings dialog and applies changes in widget settings.
+        /// </summary>
+        private void ShowTileSettings(WidgetWrapper Widget)
+        {
+            // when show setting dialog, stop selected widget animation
+            WidgetWrapper prevMovingWidget = MovingWidget;
+            MovingWidget = null;
+            Size PrevGridSize = Widget.GridSize;
+
+            FrmWidgetSettings WidgetSettingsForm = new FrmWidgetSettings();
+            WidgetSettingsForm.Widget = Widget;
+            WidgetSettingsForm.Owner = null;
+
+            if (WidgetSettingsForm.ShowDialog() == DialogResult.OK)
+            {
+                Widget.Update(); // repaint widget with new style
+                if (!PrevGridSize.Equals(Widget.GridSize))
+                    RealignWidgets(); // if widget size changed - realign widgets
+                WriteSettings();
+            }
+            else
+                MovingWidget = prevMovingWidget;
+        }
+
+        /// <summary>
+        /// Delete current widget from grid.
+        /// Then widgets are realigned, if deleted widget was alone on its row.
+        /// </summary>
+        private void DeleteTile()
+        {
+            WidgetWrapper DeletingWidget = MovingWidget;
+            MovingWidget = null;
+            _tiles.Remove(DeletingWidget);
+            DeletingWidget.Parent = null;
+            RealignWidgets();
+            WriteSettings();
+        }
 
     }
 }

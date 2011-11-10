@@ -80,11 +80,11 @@ namespace MetroHome65.HomeScreen
 
             String SizeStr = "";
             int CurIndex;
-            foreach (Size Size in _SelectedWidget.Sizes)
+            foreach (Size GridSize in _SelectedWidget.Sizes)
             {
-                SizeStr = Size.Width + " x " + Size.Height;
+                SizeStr = GridSize.Width + " x " + GridSize.Height;
                 CurIndex = cbSize.Items.Add(SizeStr);
-                if (Size.Equals(_Widget.Size))
+                if (GridSize.Equals(_Widget.GridSize))
                     cbSize.SelectedIndex = CurIndex;
             }
             if (cbSize.SelectedIndex == -1)
@@ -146,7 +146,7 @@ namespace MetroHome65.HomeScreen
             try
             {
                 _Widget.WidgetClass = ((object)_SelectedWidget).GetType().ToString();
-                _Widget.Size = _SelectedWidget.Sizes[cbSize.SelectedIndex];
+                _Widget.GridSize = _SelectedWidget.Sizes[cbSize.SelectedIndex];
 
                 // apply custom widget parameters
                 foreach (PropertyInfo propertyInfo in ((object)_SelectedWidget).GetType().GetProperties())
