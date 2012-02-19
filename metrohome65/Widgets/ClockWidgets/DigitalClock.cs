@@ -2,7 +2,7 @@
 using System.Drawing;
 using System.Collections.Generic;
 using System.Windows.Forms;
-using System.ComponentModel;
+using System.Threading;
 using MetroHome65.Routines;
 using MetroHome65.Settings.Controls;
 
@@ -11,27 +11,27 @@ namespace MetroHome65.Widgets
     [WidgetInfo("Digital clock")]
     public class DigitalClockWidget : ShortcutWidget, IWidgetUpdatable
     {
-        private System.Windows.Forms.Timer _Timer;
+        private Thread _timer;
         private Brush _brushCaption;
         private Font _fntTime;
         private Font _fntDate;
-        private Boolean _ShowPoints = true;
-        private Boolean _Is24Hour = true;
+        private Boolean _showPoints = true;
+        private Boolean _is24Hour = true;
 
         private int PaddingRight = ScreenRoutines.Scale(20);
         private int DotWidth = ScreenRoutines.Scale(30); 
 
         public DigitalClockWidget() : base()
         {
-            _brushCaption = new System.Drawing.SolidBrush(System.Drawing.Color.White);
-            _fntTime = new System.Drawing.Font("Verdana", 36, FontStyle.Regular);
-            _fntDate = new System.Drawing.Font("Helvetica", 12, FontStyle.Regular);
+            _brushCaption = new SolidBrush(Color.White);
+            _fntTime = new Font("Verdana", 36, FontStyle.Regular);
+            _fntDate = new Font("Helvetica", 12, FontStyle.Regular);
         }
 
 
         protected override Size[] GetSizes()
         {
-            Size[] sizes = new Size[] { 
+            var sizes = new Size[] { 
                 new Size(4, 2) 
             };
             return sizes;
@@ -44,44 +44,44 @@ namespace MetroHome65.Widgets
         [WidgetParameter]
         public Boolean Is24Hour
         {
-            get { return _Is24Hour; }
+            get { return _is24Hour; }
             set
             {
-                if (_Is24Hour != value)
+                if (_is24Hour != value)
                 {
-                    _Is24Hour = value;
+                    _is24Hour = value;
                     NotifyPropertyChanged("Is24Hour");
                 }
             }
         }
 
 
-        public override void Paint(Graphics g, Rectangle Rect)
+        public override void Paint(Graphics g, Rectangle rect)
         {
-            base.Paint(g, Rect);
+            base.Paint(g, rect);
 
-            String sTimeHour = (Is24Hour) ? DateTime.Now.ToString("HH") : DateTime.Now.ToString("hh");
-            String sTimeMins = DateTime.Now.ToString("mm");
-            String sDate = DateTime.Now.ToString("dddd, MMMM d");
+            var sTimeHour = (Is24Hour) ? DateTime.Now.ToString("HH") : DateTime.Now.ToString("hh");
+            var sTimeMins = DateTime.Now.ToString("mm");
+            var sDate = DateTime.Now.ToString("dddd, MMMM d");
 
-            SizeF TimeBoxHour = g.MeasureString(sTimeHour, _fntTime);
-            SizeF TimeBoxMins = g.MeasureString(sTimeMins, _fntTime);
-            SizeF DateBox = g.MeasureString(sDate, _fntDate);
+            var timeBoxHour = g.MeasureString(sTimeHour, _fntTime);
+            var timeBoxMins = g.MeasureString(sTimeMins, _fntTime);
+            var dateBox = g.MeasureString(sDate, _fntDate);
 
             g.DrawString(sTimeMins, _fntTime, _brushCaption,
-                Rect.Right - TimeBoxMins.Width - PaddingRight,
-                Rect.Top + (Rect.Height - TimeBoxMins.Height - DateBox.Height) / 2);
-            if (_ShowPoints)
+                rect.Right - timeBoxMins.Width - PaddingRight,
+                rect.Top + (rect.Height - timeBoxMins.Height - dateBox.Height) / 2);
+            if (_showPoints)
                 g.DrawString(":", _fntTime, _brushCaption,
-                    Rect.Right - TimeBoxHour.Width - PaddingRight - DotWidth,
-                    Rect.Top + (Rect.Height - TimeBoxMins.Height - DateBox.Height) / 2 - ScreenRoutines.Scale(5));
+                    rect.Right - timeBoxHour.Width - PaddingRight - DotWidth,
+                    rect.Top + (rect.Height - timeBoxMins.Height - dateBox.Height) / 2 - ScreenRoutines.Scale(5));
             g.DrawString(sTimeHour, _fntTime, _brushCaption,
-                Rect.Right - TimeBoxMins.Width - PaddingRight - DotWidth - TimeBoxHour.Width,
-                Rect.Top + (Rect.Height - TimeBoxMins.Height - DateBox.Height) / 2);
+                rect.Right - timeBoxMins.Width - PaddingRight - DotWidth - timeBoxHour.Width,
+                rect.Top + (rect.Height - timeBoxMins.Height - dateBox.Height) / 2);
 
             g.DrawString(sDate, _fntDate, _brushCaption,
-                Rect.Right - DateBox.Width - PaddingRight,
-                Rect.Bottom - (Rect.Height - TimeBoxMins.Height - DateBox.Height) / 2 - DateBox.Height);
+                rect.Right - dateBox.Width - PaddingRight,
+                rect.Bottom - (rect.Height - timeBoxMins.Height - dateBox.Height) / 2 - dateBox.Height);
         }
 
         public void StartUpdate()
@@ -89,57 +89,65 @@ namespace MetroHome65.Widgets
             // update widget just now
             OnWidgetUpdate();
 
-            if (_Timer == null)
+            if (_timer == null)
             {
-                _Timer = new System.Windows.Forms.Timer();
-                _Timer.Tick += new EventHandler(OnTimer);
+                _timer = new Thread(() =>
+                {
+                    _showPoints = !_showPoints;
+                    OnWidgetUpdate();
+                    Thread.Sleep(2000);
+                }
+                );
+                _timer.Start();
+                //_timer.Tick += OnTimer;
             }
-            _Timer.Interval = 2000;
-            _Timer.Enabled = true;
+            //_timer.Interval = 2000;
+            //_timer.Enabled = true;
         }
 
         public void StopUpdate()
         {
-            if (_Timer != null)
-                _Timer.Enabled = false;
+            if (_timer != null)
+            {
+                _timer.Abort();
+                _timer = null;
+            }
         }
 
         private void OnTimer(object sender, EventArgs e)
         {
-            _ShowPoints = !_ShowPoints;
+            _showPoints = !_showPoints;
             OnWidgetUpdate();
         }
 
         // overriding paint icon method - don't paint icon
-        protected override void PaintIcon(Graphics g, Rectangle Rect)
+        protected override void PaintIcon(Graphics g, Rectangle rect)
         { }
 
         // overriding paint caption method - don't paint caption
-        protected override void PaintCaption(Graphics g, Rectangle Rect)
+        protected override void PaintCaption(Graphics g, Rectangle rect)
         { }
 
         public override List<Control> EditControls
         {
             get
             {
-                List<Control> Controls = base.EditControls;
+                var controls = base.EditControls;
 
-                Settings_flag FlagControl = new Settings_flag();
-                FlagControl.Caption = "24-Hours";
-                FlagControl.Value = Is24Hour;
-                Controls.Add(FlagControl);
+                var flagControl = new Settings_flag { Caption = "24-Hours", Value = Is24Hour };
+                controls.Add(flagControl);
 
-                BindingManager BindingManager = new BindingManager();
-                BindingManager.Bind(this, "Is24Hour", FlagControl, "Value");
+                var bindingManager = new BindingManager();
+                bindingManager.Bind(this, "Is24Hour", flagControl, "Value");
 
                 // hide control for icon / caption selection
-                foreach (Control control in Controls)
+                foreach (var control in controls)
                 {
                     if (control.Name.Contains("Icon") || control.Name.Contains("Caption"))
                       control.Height = 0;
                 }
                
-                return Controls;
+                return controls;
             }
         }
 

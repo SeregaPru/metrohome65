@@ -10,8 +10,8 @@ namespace MetroHome65.Settings.Controls
 {
     public partial class Settings_image : UserControl, INotifyPropertyChanged
     {
-        private OpenNETCF.Drawing.Imaging.ImagingFactoryClass _factory = new OpenNETCF.Drawing.Imaging.ImagingFactoryClass();
         private String _TileImage = null;
+        private OpenNETCF.Drawing.Imaging.ImagingFactoryClass _factory = new OpenNETCF.Drawing.Imaging.ImagingFactoryClass();
 
         public Settings_image()
         {
@@ -71,7 +71,8 @@ namespace MetroHome65.Settings.Controls
                                 System.Drawing.Imaging.PixelFormat.Format24bppRgb,
                                 OpenNETCF.Drawing.Imaging.InterpolationHint.InterpolationHintDefault, out _bmp);
 
-                            pictureBoxBG.Image = OpenNETCF.Drawing.Imaging.ImageUtils.IBitmapImageToBitmap(_bmp);
+                            pictureBoxBG.Image = 
+                                OpenNETCF.Drawing.Imaging.ImageUtils.IBitmapImageToBitmap(_bmp);
                         }
 
                 }

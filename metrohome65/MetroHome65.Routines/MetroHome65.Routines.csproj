@@ -67,8 +67,15 @@
   <ItemGroup>
     <Compile Include="AlphaImage.cs" />
     <Compile Include="BindingManager.cs" />
+    <Compile Include="Logger.cs" />
     <Compile Include="Routines.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Fleux\Fleux.csproj">
+      <Project>{8526293A-9C66-48F6-A90D-FB2B7128BF08}</Project>
+      <Name>Fleux</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CompactFramework.CSharp.targets" />
   <ProjectExtensions>

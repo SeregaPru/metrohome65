@@ -9,7 +9,7 @@ namespace MetroHome65.Widgets
 
     public abstract class BaseWidget : IWidget, INotifyPropertyChanged
     {
-        private EventHandlerList _Events = new EventHandlerList();
+        private readonly EventHandlerList _events = new EventHandlerList();
         private static readonly object _EventWidgetUpdate = new object();
 
         protected virtual Size[] GetSizes() { return null; }
@@ -25,13 +25,13 @@ namespace MetroHome65.Widgets
         protected virtual Boolean GetTransparent() { return false; }
         public Boolean Transparent { get { return GetTransparent(); } }
         
-        public virtual void Paint(Graphics g, Rectangle Rect) { }
+        public virtual void Paint(Graphics g, Rectangle rect) { }
 
-        public virtual bool OnClick(Point Location) { return false; }
+        public virtual bool OnClick(Point location) { return false; }
 
-        public virtual bool OnDblClick(Point Location) { return false; }
+        public virtual bool OnDblClick(Point location) { return false; }
 
-        public virtual void OnMenuItemClick(String ItemName) { }
+        public virtual void OnMenuItemClick(String itemName) { }
 
 
         /// <summary>
@@ -39,20 +39,18 @@ namespace MetroHome65.Widgets
         /// </summary>
         public event WidgetUpdateEventHandler WidgetUpdate
         {
-            add { _Events.AddHandler(_EventWidgetUpdate, value); }
-            remove { _Events.RemoveHandler(_EventWidgetUpdate, value); }       
+            add { _events.AddHandler(_EventWidgetUpdate, value); }
+            remove { _events.RemoveHandler(_EventWidgetUpdate, value); }       
         }
 
         protected void OnWidgetUpdate()
         {
-            var handler = _Events[_EventWidgetUpdate] as WidgetUpdateEventHandler;
+            var handler = _events[_EventWidgetUpdate] as WidgetUpdateEventHandler;
             if (handler != null)
-            {
-                WidgetUpdateEventArgs e = new WidgetUpdateEventArgs(this);
-                handler(this, e);
-            }
+                handler();
         }
 
+        public virtual bool AnimateExit { get { return false; } }
 
         public virtual List<Control> EditControls { get { return new List<Control>(); } }
 

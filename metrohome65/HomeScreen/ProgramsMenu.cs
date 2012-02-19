@@ -1,20 +1,13 @@
 ﻿using System;
 using System.Linq;
 using System.Collections.Generic;
-using System.Text;
 using System.Drawing;
 using System.IO;
 using System.Runtime.InteropServices;
 using System.ComponentModel;
 using MetroHome65.Routines;
-using Fleux.Controls;
 using Fleux.UIElements;
-using Fleux.Core;
-using Fleux.Animations;
-using Fleux.UIElements.Panorama;
-using Fleux.Templates;
 using Fleux.Styles;
-using WindowsPhone7Sample.Elements;
 
 namespace MetroHome65.HomeScreen
 {
@@ -24,13 +17,33 @@ namespace MetroHome65.HomeScreen
         public String Path;
     }
 
-
-    class ProgramsMenu : ListElement
+    // container for programs shortcurs
+    class ProgramsList : BindingList<object>
     {
-       
-        public ProgramsMenu()
-            : base()
+        protected override void ApplySortCore(PropertyDescriptor property, ListSortDirection direction)
         {
+            var items = Items as List<object>;
+            if (items != null)
+                items.Sort((f1, f2) => String.CompareOrdinal(((FileDescr)f1).Name, ((FileDescr)f2).Name));
+        }
+
+        public void SortByName()
+        {
+            var propDescriptors = TypeDescriptor.GetProperties(typeof(FileDescr));
+            ApplySortCore(propDescriptors["Name"], ListSortDirection.Ascending);
+        }
+    }
+
+
+    sealed class ProgramsMenu : ListElement
+    {       
+        public ProgramsMenu()
+            //: base()
+        {
+            _refa = new FileRoutines.structa();
+            EntranceAnimation = null;
+            ExitAnimation = null;
+
             VerticalScroll = true;
 
             DataTemplateSelector = item => BuildItem;
@@ -38,82 +51,79 @@ namespace MetroHome65.HomeScreen
         }
 
 
-        private BindingList<object> _FileList = new BindingList<object>();
+        private readonly ProgramsList _fileList = new ProgramsList();
 
         /// <summary>
         /// Fill list with applications
         /// </summary>
         private BindingList<object> GetProgramList()
         {
-            DirectoryInfo FolderInfo = new DirectoryInfo(Environment.GetFolderPath(
+            var folderInfo = new DirectoryInfo(Environment.GetFolderPath(
                 Environment.SpecialFolder.StartMenu));
-            FillProgramsFromFolder(FolderInfo);
+            FillProgramsFromFolder(folderInfo);
 
-            //!! sort file list 
-            //!!_FileList.Sort( (f1, f2) => { return f1.Name.CompareTo(f2.Name); });
+            _fileList.SortByName();
 
-            return _FileList;
+            return _fileList;
         }
 
 
         /// <summary>
         /// Add to the program list shortcuts for application from current folder
         /// </summary>
-        /// <param name="FolderInfo"></param>
-        private void FillProgramsFromFolder(DirectoryInfo FolderInfo)
+        /// <param name="folderInfo"></param>
+        private void FillProgramsFromFolder(DirectoryInfo folderInfo)
         {
-            if (Enumerable.Count<DirectoryInfo>(FolderInfo.GetDirectories()) > 0)
+            if (folderInfo.GetDirectories().Any())
             {
-                foreach (DirectoryInfo CurFolderInfo in FolderInfo.GetDirectories())
+                foreach (DirectoryInfo curFolderInfo in folderInfo.GetDirectories())
                 {
-                    FileInfo[] files = CurFolderInfo.GetFiles();
-                    for (int i = 0; i < files.Length; i++)
+                    FileInfo[] files = curFolderInfo.GetFiles();
+                    foreach (FileInfo t in files)
                     {
-                        if (files[i].Name != "icon.lnk")
+                        if (t.Name != "icon.lnk")
                         {
-                            _FileList.Add(new FileDescr()
-                            {
-                                Name = files[i].Name.Substring(0, files[i].Name.Length - 4),
-                                Path = files[i].FullName
-                            });
+                            _fileList.Add(new FileDescr {
+                                                            Name = t.Name.Substring(0, t.Name.Length - 4),
+                                                            Path = t.FullName
+                                                        });
                         }
                     }
 
                     // recursive fill subfolder content
-                    FillProgramsFromFolder(CurFolderInfo);
+                    FillProgramsFromFolder(curFolderInfo);
                 }
             }
         }
 
 
-        private static int _IconSize = ScreenRoutines.Scale(64);
-        private static int _PaddingHor = ScreenRoutines.Scale(20);
-        private static int _BorderSize = ScreenRoutines.Scale(7);
-        private static int _BlankSize = ScreenRoutines.Scale(5);
-        private static Color _BGColor = Color.Green;
+        private static readonly int IconSize = ScreenRoutines.Scale(64);
+        private static readonly int PaddingHor = ScreenRoutines.Scale(7);
+        private static readonly int BorderSize = ScreenRoutines.Scale(7);
+        private static readonly int BlankSize = ScreenRoutines.Scale(5);
+        private static readonly Color BgColor = Color.Green;
 
-        private FileRoutines.structa refa = new FileRoutines.structa();
-        private IntPtr ptr;
-        private Rectangle Rect = new Rectangle(0, _BlankSize, _IconSize + _BorderSize * 2, _IconSize + _BorderSize * 2);
-        private Brush bgBrush = new System.Drawing.SolidBrush(_BGColor);
+        private FileRoutines.structa _refa;
+        private Rectangle _rect = new Rectangle(0, BlankSize, IconSize + BorderSize * 2, IconSize + BorderSize * 2);
+        private readonly Brush _bgBrush = new SolidBrush(BgColor);
 
-        private UIElement BuildItem(object AFileDescr)
+        private UIElement BuildItem(object aFileDescr)
         {
-            var FileDescr = (FileDescr)AFileDescr;
+            var fileDescr = (FileDescr)aFileDescr;
 
-            var canvas = new Canvas() { 
-                    Size = new Size(480, _IconSize + _BlankSize) 
-                };
+            var canvas = new Canvas { 
+                Size = new Size(ScreenRoutines.Scale(480), IconSize + BlankSize) 
+            };
 
             // draw icon with border
-            ptr = FileRoutines.SHGetFileInfo(ref FileDescr.Path, 0, ref refa, Marshal.SizeOf(refa), 0x100);
-            Icon icon = Icon.FromHandle(refa.a);
+            FileRoutines.SHGetFileInfo(ref fileDescr.Path, 0, ref _refa, Marshal.SizeOf(_refa), 0x100);
+            var icon = Icon.FromHandle(_refa.a);
 
-            Bitmap image = new Bitmap(Rect.Width + _BlankSize * 2, Rect.Height + _BlankSize * 2);
-            Graphics graphics = Graphics.FromImage(image);
+            var image = new Bitmap(_rect.Width + BlankSize * 2, _rect.Height + BlankSize * 2);
+            var graphics = Graphics.FromImage(image);
             graphics.Clear(Color.Black);
-            graphics.FillRectangle(bgBrush, Rect);
-            graphics.DrawIcon(icon, _BorderSize, _BorderSize + _BlankSize);
+            graphics.FillRectangle(_bgBrush, _rect);
+            graphics.DrawIcon(icon, BorderSize, BorderSize + BlankSize);
 
             canvas.AddElement(new ImageElement(image) {
                 Size = image.Size,
@@ -121,15 +131,19 @@ namespace MetroHome65.HomeScreen
             } );
 
             // draw program name
-            canvas.AddElement(new TextElement(FileDescr.Name) {
-                Style = MetroTheme.PhoneTextSmallStyle,
-                Location = new Point(image.Width + _PaddingHor, 0),
-                Size = new Size(480 - Location.X, image.Height)
+            var textHeight = ScreenRoutines.Scale(15);
+            canvas.AddElement(new TextElement(fileDescr.Name) {
+                Style = new TextStyle(
+                    MetroTheme.PhoneFontFamilyNormal,
+                    MetroTheme.PhoneFontSizeNormal,
+                    MetroTheme.PhoneForegroundBrush),
+                Location = new Point(image.Width + PaddingHor, textHeight),
+                Size = new Size(ScreenRoutines.Scale(480) - image.Width + PaddingHor, image.Height - textHeight)
             });
 
             // onclick handler = launch program
             canvas.TapHandler = point => { 
-                FileRoutines.StartProcess(FileDescr.Path); return true; 
+                FileRoutines.StartProcess(fileDescr.Path); return true; 
             };
 
             return canvas;

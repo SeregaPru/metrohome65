@@ -23,16 +23,16 @@ namespace MetroHome65.Widgets
         }
 
 
-        public override void Paint(Graphics g, Rectangle Rect)
+        public override void Paint(Graphics g, Rectangle rect)
         {
-            base.Paint(g, Rect);
-            PaintCount(g, Rect);
+            base.Paint(g, rect);
+            PaintCount(g, rect);
         }
 
-        protected override void PaintIcon(Graphics g, Rectangle Rect)
+        protected override void PaintIcon(Graphics g, Rectangle rect)
         {
             base.PaintIcon(g, new Rectangle(
-                Rect.Right - PaddingRightIco, Rect.Top, PaddingRightIco - PaddingRightCnt, Rect.Height));
+                rect.Right - PaddingRightIco, rect.Top, PaddingRightIco - PaddingRightCnt, rect.Height));
         }
 
         private void PaintCount(Graphics g, Rectangle Rect)

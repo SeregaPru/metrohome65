@@ -27,7 +27,6 @@ namespace MetroHome65.Widgets.StatusWidget
             _Statuses.Add(new BatteryStatus());
             _Statuses.Add(new BluetoothStatus());
             _Statuses.Add(new WiFiStatus());
-//!!            _Statuses.Add(new RotationStatus());
         }
 
         protected override Size[] GetSizes()
@@ -38,15 +37,15 @@ namespace MetroHome65.Widgets.StatusWidget
             return sizes;
         }
         
-        public override void Paint(Graphics g, Rectangle Rect)
+        public override void Paint(Graphics g, Rectangle rect)
         {
-            _WidgetSize = Rect.Size;
+            _WidgetSize = rect.Size;
 
-            base.Paint(g, Rect);
-            PaintStatuses(g, Rect);
+            base.Paint(g, rect);
+            PaintStatuses(g, rect);
         }
 
-        protected override void PaintIcon(Graphics g, Rectangle Rect) {}
+        protected override void PaintIcon(Graphics g, Rectangle rect) {}
 
         private void PaintStatuses(Graphics g, Rectangle Rect)
         {
@@ -123,11 +122,11 @@ namespace MetroHome65.Widgets.StatusWidget
             return Result;
         }
 
-        public override bool OnClick(Point Location)
+        public override bool OnClick(Point location)
         {
             for (int i = 0; i < _Statuses.Count; i++)
             {
-                if (GetStatusRect(i).Contains(Location))
+                if (GetStatusRect(i).Contains(location))
                 {
                     _Statuses[i].ChangeStatus();
                     OnWidgetUpdate();
@@ -137,6 +136,8 @@ namespace MetroHome65.Widgets.StatusWidget
             return true;
         }
 
+        // no external action - no animation
+        public override bool AnimateExit { get { return false; } }
 
     }
 

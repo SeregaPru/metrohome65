@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Drawing;
-using System.Resources;
-using System.IO;
 using MetroHome65.Routines;
 
 namespace MetroHome65.Widgets.StatusWidget
@@ -94,9 +92,8 @@ namespace MetroHome65.Widgets.StatusWidget
         private void DrawResourceImage(Graphics g, int x, int y, int Width, int Height, string IconName)
         {
             String IconPath = "StatusWidgets.icons." + _IconPrefix + IconName + ".png";
-            (new AlphaImage(
-                this.GetType().Assembly.GetManifestResourceStream(IconPath))).
-                PaintBackground(g, new Rectangle(x, y, Width, Height));
+            (new AlphaImage(IconPath, this.GetType().Assembly)).
+              PaintBackground(g, new Rectangle(x, y, Width, Height));
         }
 
     }

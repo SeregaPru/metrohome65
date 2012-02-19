@@ -1,84 +1,57 @@
 ﻿using System;
-using System.Text;
 using System.Drawing;
-using System.Xml.Serialization;
+using System.Linq;
+using System.Windows.Forms;
 using System.Collections.Generic;
 using System.Reflection;
-using System.Runtime.Serialization;
-using System.Windows.Forms;
-using Fleux.Controls;
 using Fleux.UIElements;
-using Fleux.Core;
-using Fleux.Animations;
 using Fleux.Core.GraphicsHelpers;
 using MetroHome65.Widgets;
 using MetroHome65.Routines;
 
 namespace MetroHome65.HomeScreen
 {
-    [XmlType("param")]
-    public class StoredParameter
-    {
-        [XmlAttribute]
-        public String Name;
-
-        [XmlAttribute]
-        public String Value;
-
-        public StoredParameter() { }
-
-        public StoredParameter(String Name, String Value)
-        {
-            this.Name = Name;
-            this.Value = Value;
-        }
-    }
-
   
     /// <summary>
     /// Container for widget, middle layer between widget grid and widget plugin.
     /// </summary>
-    [Serializable]
     public class WidgetWrapper : UIElement
     {
+        #region Fields
+
         public static int CellWidth = ScreenRoutines.Scale(81);
         public static int CellHeight = CellWidth;
         public static int CellSpacingHor = ScreenRoutines.Scale(12);
         public static int CellSpacingVer = CellSpacingHor;
 
-        private IWidget _Widget = null;
-        private Point _GridPosition = new Point(0, 0);
-        private Size _GridSize = new Size(1, 1);
-        private bool _Moving = false;
+        private IWidget _widget;
+        private Point _gridPosition = new Point(0, 0);
+        private Size _gridSize = new Size(1, 1);
+        private bool _moving = false;
 
         // double buffer
-        private Bitmap _DoubleBuffer = null;
-        private Graphics _graphics = null;
+        private Bitmap _doubleBuffer;
+        private Graphics _graphics;
         private bool _needRepaint = true;
 
+        private readonly List<PropertyInfo> _propertyInfos = new List<PropertyInfo>();
 
-        //[XmlIgnore]
-        //public WidgetGrid WidgetGrid = null;
+        private System.Threading.Timer _resizeTimer;
+
+        #endregion
 
 
-        public WidgetWrapper() : base()
-        {
-            //
-        }
+        #region Methods
 
-        public WidgetWrapper(Size AGridSize, Point AGridPosition, String AWidgetName)
+        // empty constructor for deserialize
+        public WidgetWrapper() : base() {}
+
+        public WidgetWrapper(Size aGridSize, Point aGridPosition, String aWidgetName)
             : base()
         {
-            this.WidgetClass = AWidgetName;
-            this.GridSize = AGridSize;
-            this.GridPosition = AGridPosition;
-
-            if (Widget is IWidgetUpdatable)
-                (Widget as IWidgetUpdatable).WidgetUpdate += OnWidgetUpdate;
-
-            this.TapHandler += p => { OnClick(p); return true; };
-            this.DoubleTapHandler += p => { OnDblClick(p); return true; };
-
+            WidgetClass = aWidgetName;
+            GridSize = aGridSize;
+            GridPosition = aGridPosition;
         }
 
         ~WidgetWrapper()
@@ -89,98 +62,124 @@ namespace MetroHome65.HomeScreen
         /// <summary>
         /// Widget location in grid
         /// </summary>
-        public Point GridPosition { get { return _GridPosition; } set { SetGridPosition(value); } }
+        public Point GridPosition { 
+            get { return _gridPosition; } 
+            set {
+                if (_gridPosition == value) return;
 
-        public WidgetWrapper SetGridPosition(Point value)
-        {
-            _GridPosition = value;
-            CalcScreenPosition();
-            return this;
+                _gridPosition = value;
+                CalcScreenPosition();
+            }
         }
 
 
         /// <summary>
         /// Widget size in cells
         /// </summary>
-        public Size GridSize { get { return _GridSize; } set { SetGridSize(value); } }
+        public Size GridSize { get { return _gridSize; } set { SetGridSize(value); } }
 
         /// <summary>
         /// Sets widget size in grid cells.
         /// Checks if specified size contain in widget's possible sizes.
         /// If not, size will be first available widget size.
         /// </summary>
-        /// <param name="Size"></param>
+        /// <param name="value"> </param>
         /// <returns></returns>
-        public WidgetWrapper SetGridSize(Size value)
+        private void SetGridSize(Size value)
         {
-            if (_Widget == null) 
-                return this;
+            if (_widget == null)
+                return;
 
-            Boolean SizeOk = false;
-            if ((_Widget.Sizes != null) && (_Widget.Sizes.Length > 0))
+            var sizeOk = false;
+            if ((_widget.Sizes != null) && (_widget.Sizes.Length > 0))
             {
-                foreach (Size PossibleSize in _Widget.Sizes)
+                foreach (var possibleSize in _widget.Sizes)
                 {
-                    if (PossibleSize.Equals(value))
+                    if (possibleSize.Equals(value))
                     {
-                        _GridSize = value;
-                        SizeOk = true;
+                        _gridSize = value;
+                        sizeOk = true;
                         break;
                     }
                 }
             }
 
-            if (!SizeOk) 
-                if ((_Widget.Sizes != null) && (_Widget.Sizes.Length > 0))
+            if (!sizeOk) 
+                if ((_widget.Sizes != null) && (_widget.Sizes.Length > 0))
                 {
-                    _GridSize = _Widget.Sizes[0];
-                    //!! write to log
+                    _gridSize = _widget.Sizes[0];
                 }
                 else
                 {
-                    _GridSize = new Size(2, 2);
-                    //!! write to log
+                    _gridSize = new Size(2, 2);
                 }
 
-            _Widget.Size = _GridSize;
+            _widget.Size = _gridSize;
 
             CalcScreenPosition();
-            return this;
         }
 
-        public void CalcScreenPosition()
+        private void CalcScreenPosition()
         {
-            Location = new Point(
-                _GridPosition.X * (CellWidth + CellSpacingHor) + 30,
-                _GridPosition.Y * (CellHeight + CellSpacingVer) + 5);
-            Size = new Size(
-                _GridSize.Width * (CellWidth + CellSpacingHor) - CellSpacingHor,
-                _GridSize.Height * (CellHeight + CellSpacingVer) - CellSpacingVer );
+            var screenRect = GetScreenRect();
+            Location = screenRect.Location;
+            Size = screenRect.Size;
         }
 
+        public Rectangle GetScreenRect()
+        {
+            return new Rectangle(
+                _gridPosition.X * (CellWidth + CellSpacingHor) + 30,
+                _gridPosition.Y * (CellHeight + CellSpacingVer) + 5,
+                _gridSize.Width * (CellWidth + CellSpacingHor) - CellSpacingHor,
+                _gridSize.Height * (CellHeight + CellSpacingVer) - CellSpacingVer);
+        }
 
-        [XmlIgnore]
-        public IWidget Widget { get { return _Widget; } }
+        private void FillWidgetProperties()
+        {
+            _propertyInfos.Clear();
+
+            if (_widget == null) return;
+
+            // get widget properties
+            foreach (var propertyInfo in (_widget).GetType().GetProperties())
+                if (propertyInfo.GetCustomAttributes(typeof(WidgetParameterAttribute), true).Length > 0)
+                {
+                    _propertyInfos.Add(propertyInfo);
+                }
+        }
+
+        #endregion
+
+
+        #region Properties
+
+        public IWidget Widget { get { return _widget; } }
 
         /// <summary>
         /// Property for serialize widget class name.
         /// When deserialized Widget will be created
         /// </summary>
-        [XmlAttribute]
         public String WidgetClass
         {
             // return Widget's class name
-            get { return (_Widget != null) ? ((object)Widget).GetType().ToString() : ""; }
+            get { return (_widget != null) ? (Widget).GetType().ToString() : ""; }
 
             // create new widget instance by class name
             set
             {
-                if (WidgetClass != value)
-                {
-                    _Widget = PluginManager.GetInstance().CreateWidget(value);
-                    FillWidgetProperties();
-                    this.Active = true;
-                }
+                if (WidgetClass == value) return;
+
+                _widget = PluginManager.GetInstance().CreateWidget(value);
+                FillWidgetProperties();
+
+                if (Widget is IWidgetUpdatable)
+                    (Widget as IWidgetUpdatable).WidgetUpdate += OnWidgetUpdate;
+
+                TapHandler += p => { OnClick(p); return true; };
+                DoubleTapHandler += p => { OnDblClick(p); return true; };
+
+                Active = true;
             }
         }
 
@@ -188,62 +187,61 @@ namespace MetroHome65.HomeScreen
         /// <summary>
         /// Swithes off widget activity when application goes to background
         /// </summary>
-        [XmlIgnore]
         public Boolean Active { 
             set {
-                if (_Widget is IWidgetUpdatable)
+                if (_widget is IWidgetUpdatable)
                 {
                     if (value)
-                        (_Widget as IWidgetUpdatable).StartUpdate();
+                        (_widget as IWidgetUpdatable).StartUpdate();
                     else
-                        (_Widget as IWidgetUpdatable).StopUpdate();
+                        (_widget as IWidgetUpdatable).StopUpdate();
                 }
             }
         }
 
+        #endregion
 
-        private List<PropertyInfo> _propertyInfos = new List<PropertyInfo>();
-
-        private void FillWidgetProperties()
+        /// <summary>
+        /// prepare struct for serialization and store settings
+        /// </summary>
+        /// <returns></returns>
+        public WidgetWrapperSettings SerializeSettings()
         {
-            _propertyInfos.Clear();
+            var settings = new WidgetWrapperSettings
+                               {
+                                   Size = GridSize,
+                                   Location = GridPosition,
+                                   WidgetClass = WidgetClass,
+                                   Parameters = new List<StoredParameter>()
+                               };
 
-            if (_Widget == null) return;
+            foreach (var prop in _propertyInfos)
+                settings.Parameters.Add(new StoredParameter(prop.Name, prop.GetValue(Widget, null).ToString()));
 
-            // get widget properties
-            foreach (PropertyInfo propertyInfo in ((object)_Widget).GetType().GetProperties())
-                if (propertyInfo.GetCustomAttributes(typeof(WidgetParameterAttribute), true).Length > 0)
-                {
-                    _propertyInfos.Add(propertyInfo);
-                }
+            return settings;
         }
 
-
-        public List<StoredParameter> Parameters = null;
-
-        public void BeforeSerialize()
+        /// <summary>
+        /// parse settings struct read from settings file and apply these settings to widget
+        /// </summary>
+        /// <param name="settings"></param>
+        public void DeserializeSettings(WidgetWrapperSettings settings)
         {
-            Parameters = new List<StoredParameter>();
-            foreach (PropertyInfo prop in _propertyInfos)
-                Parameters.Add(new StoredParameter(prop.Name, prop.GetValue((object)Widget, null).ToString()));
-        }
+            this.WidgetClass = settings.WidgetClass;
+            this.GridSize = settings.Size;
+            this.GridPosition = settings.Location;
 
-        public void AfterDeserialize()
-        {
-            foreach (StoredParameter param in Parameters)
+            foreach (var param in settings.Parameters)
                 SetParameter(param.Name, param.Value);
         }
 
-        public WidgetWrapper SetParameter(String Name, object Value)
+        public WidgetWrapper SetParameter(String name, object value)
         {
-            foreach (PropertyInfo propertyInfo in _propertyInfos)
+            foreach (var propertyInfo in _propertyInfos.Where(propertyInfo => propertyInfo.Name == name))
             {
-                if (propertyInfo.Name == Name)
-                {
-                    propertyInfo.SetValue((object)Widget, Convert.ChangeType(Value, propertyInfo.PropertyType, null), null);
-                    //propertyInfo.SetValue((object)Widget, Value, null);
-                    break;
-                }
+                propertyInfo.SetValue((object)Widget, Convert.ChangeType(value, propertyInfo.PropertyType, null), null);
+                //propertyInfo.SetValue((object)Widget, Value, null);
+                break;
             }
             return this;
         }
@@ -255,10 +253,10 @@ namespace MetroHome65.HomeScreen
                 _graphics.Dispose();
                 _graphics = null;
             }
-            if (_DoubleBuffer != null)
+            if (_doubleBuffer != null)
             {
-                _DoubleBuffer.Dispose();
-                _DoubleBuffer = null;
+                _doubleBuffer.Dispose();
+                _doubleBuffer = null;
             }
         }
 
@@ -266,21 +264,21 @@ namespace MetroHome65.HomeScreen
         {
             ClearBuffer();
 
-            _DoubleBuffer = new Bitmap(Size.Width, Size.Height);
-            _graphics = Graphics.FromImage(_DoubleBuffer);
-            Rectangle Rect = new Rectangle(0, 0, _DoubleBuffer.Width, _DoubleBuffer.Height);
+            _doubleBuffer = new Bitmap(Size.Width, Size.Height);
+            _graphics = Graphics.FromImage(_doubleBuffer);
+            var paintRect = new Rectangle(0, 0, _doubleBuffer.Width, _doubleBuffer.Height);
 
             if (Widget != null)
             {
-                Widget.Paint(_graphics, Rect);
+                Widget.Paint(_graphics, paintRect);
             }
             else
             {
-                Pen Pen = new Pen(Color.Gray, 1);
-                Pen.DashStyle = System.Drawing.Drawing2D.DashStyle.Dash;
-                _graphics.DrawRectangle(Pen, Rect);
+                var pen = new Pen(Color.Gray, 1);
+                pen.DashStyle = System.Drawing.Drawing2D.DashStyle.Dash;
+                _graphics.DrawRectangle(pen, paintRect);
                 _graphics.DrawString("Widget\nnot\nfound", new System.Drawing.Font("Verdana", 8, FontStyle.Regular),
-                    new SolidBrush(Color.Yellow), Rect.X + 5, Rect.Y + 5);
+                    new SolidBrush(Color.Yellow), paintRect.X + 5, paintRect.Y + 5);
             }
         }
 
@@ -292,51 +290,87 @@ namespace MetroHome65.HomeScreen
                 _needRepaint = false;
             }
 
-            drawingGraphics.DrawImage(_DoubleBuffer, 0, 0, Bounds.Width, Bounds.Height);
+            // for moving mode - change size
+            var paintRect = new Rectangle(0, 0, Bounds.Width, Bounds.Height);
+            if (_moving)
+                paintRect.Inflate(_deltaX, _deltaY);
+
+            if (drawingGraphics != null)
+                drawingGraphics.DrawImage(_doubleBuffer, paintRect);
         }
 
-
-        public bool OnClick(Point ClickLocation)
+        public void ForceUpdate()
         {
-            if (Widget != null)
-                return Widget.OnClick(ClickLocation);
-            else
-                return false;
-        }
-
-        public bool OnDblClick(Point ClickLocation)
-        {
-            if (Widget != null)
-                return Widget.OnClick(ClickLocation);
-            else
-                return false;
+            _needRepaint = true;
+            Update();
         }
 
         /// <summary>
         /// Handler for event, triggered by widget, when it needs to be repainted
         /// </summary>
-        /// <param name="sender"></param>
-        private void OnWidgetUpdate(object sender, WidgetUpdateEventArgs e)
+        private void OnWidgetUpdate()
         {
-            this._needRepaint = true;
-            this.Update();
+            ForceUpdate();
         }
 
+        public bool OnClick(Point clickLocation)
+        {
+            return (Widget != null) && Widget.OnClick(clickLocation);
+        }
+
+        public bool OnDblClick(Point clickLocation)
+        {
+            return (Widget != null) && Widget.OnClick(clickLocation);
+        }
 
         /// <summary>
         /// Flag when widget is in moving mode
         /// </summary>
-        [XmlIgnore]
         public bool Moving {
-            get { return _Moving; }
+            get { return _moving; }
             set {
-                if (_Moving != value)
+                if (_moving != value)
                 {
-                    _Moving = value;
-                    Active = !_Moving;
+                    _moving = value;
+
+                    if (value)
+                    {
+                        _resizeTimer = new System.Threading.Timer(s => RepaintMovingWidget(), null, 0, 300);
+                    }
+                    else
+                    {
+                        _resizeTimer.Dispose();
+                        _resizeTimer = null;
+                        Update();
+                    }
                 }
             }
         }
+
+        private int _deltaX = 0;
+        private int _deltaY = -2;
+        private int _deltaXInc = 2;
+        private int _deltaYInc = -2;
+
+
+        private void RepaintMovingWidget()
+        {
+            if (!_moving)
+                return;
+
+            if ((_deltaX >= 0) || (_deltaX <= -5))
+                _deltaXInc = -_deltaXInc;
+            _deltaX += _deltaXInc;
+            if ((_deltaY >= 0) || (_deltaY <= -5))
+                _deltaYInc = -_deltaYInc;
+            _deltaY += _deltaYInc;
+
+            // paint widget
+            Update();
+
+            //System.Windows.Forms.Application.DoEvents();
+        }
+
 
     }
 }
