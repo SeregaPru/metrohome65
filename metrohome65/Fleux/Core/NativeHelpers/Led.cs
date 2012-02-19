@@ -72,18 +72,18 @@
 
         private class LedSettingsInfo
         {
-            public uint LedNum;
-            public uint OffOnBlink;
-            public int TotalCycleTime;
-            public int OnTime;
-            public int OffTime;
-            public int MetaCycleOn;
-            public int MetaCycleOff;
+            public uint LedNum = 0;
+            public uint OffOnBlink = 0;
+            public int TotalCycleTime = 0;
+            public int OnTime = 0;
+            public int OffTime = 0;
+            public int MetaCycleOn = 0;
+            public int MetaCycleOff = 0;
         }
 
         private class LedCountInfo
         {
-            public int LedsCount;
+            public int LedsCount = 0 ;
         }
     }
 }

@@ -81,13 +81,25 @@
 
         // Images
         IDrawingGraphics DrawImage(Image image, int x, int y);
+
+        // GIANNI, added
+        IDrawingGraphics DrawImage(Image image, int x, int y, Color transparentKeyColor);
         
         IDrawingGraphics DrawImage(Image image, int x1, int y1, int width, int height);
         
+        // GIANNI, added
+        IDrawingGraphics DrawImage(Image image, int x1, int y1, int width, int height, Color transparentKeyColor);
+
         IDrawingGraphics DrawImage(Image image, Rectangle r);
-        
+
+        // GIANNI, added
+        IDrawingGraphics DrawImage(Image image, Rectangle r, Color transparentKeyColor);
+
         IDrawingGraphics DrawImage(Image image, Rectangle destRect, Rectangle sourceRect);
-        
+
+        // GIANNI, added
+        IDrawingGraphics DrawImage(Image image, Rectangle destRect, Rectangle sourceRect, Color transparentKeyColor);
+
         IDrawingGraphics DrawImage(string resourceName, int x, int y);
         
         IDrawingGraphics DrawImage(string resourceName, int x1, int y1, int width, int height);
@@ -143,6 +155,9 @@
         IDrawingGraphics DrawCenterText(string text, int width); // Between currentX and currentX + width
         
         IDrawingGraphics DrawRightText(string text); // Aligned to currentX
+
+        // GIANNI added
+        int CalculateTextWidth(string text);
 
         int CalculateMultilineTextHeight(string text, int width);
 

@@ -39,6 +39,12 @@
             get { return Color.White; }
         }
 
+        // GIANNI added
+        public static Color PhoneTextBoxBorderBrush
+        {
+            get { return Color.Gray; }
+        }
+        
         public static Color PhoneSubtleBrush
         {
             get { return Color.FromArgb(153, 153, 153); }
@@ -89,42 +95,74 @@
 
         public static int PhoneFontSizeSmall
         {
+#if WindowsCE
+            get { return 16; }
+#else
             get { return 8; }
+#endif
         }
 
         public static int PhoneFontSizeNormal
         {
+#if WindowsCE
+            get { return 24; }
+#else
             get { return 12; }
+#endif
         }
 
         public static int PhoneFontSizeMedium
         {
+#if WindowsCE
+            get { return 26; }
+#else
             get { return 13; }
+#endif
         }
 
         public static int PhoneFontSizeMediumLarge
         {
+#if WindowsCE
+            get { return 32; }
+#else
             get { return 16; }
+#endif
         }
 
         public static int PhoneFontSizeLarge
         {
+#if WindowsCE
+            get { return 38; }
+#else
             get { return 19; }
+#endif
         }
 
         public static int PhoneFontSizeExtraLarge
         {
+#if WindowsCE
+            get { return 50; }
+#else
             get { return 25; }
+#endif
         }
 
         public static int PhoneFontSizeExtraExtraLarge
         {
+#if WindowsCE
+            get { return 62; }
+#else
             get { return 31; }
+#endif
         }
 
         public static int PhoneFontSizeHuge
         {
+#if WindowsCE
+            get { return 186; }
+#else
             get { return 93; }
+#endif
         }
 
         #endregion
@@ -133,37 +171,65 @@
 
         public static ThicknessStyle PhoneHorizontalMargin
         {
+#if WindowsCE
+            get { return new ThicknessStyle(24, 0, 0); }
+#else
             get { return new ThicknessStyle(12, 0, 0); }
+#endif
         }
 
         public static ThicknessStyle PhoneVerticalMargin
         {
+#if WindowsCE
+            get { return new ThicknessStyle(0, 24, 0); }
+#else
             get { return new ThicknessStyle(0, 12, 0); }
+#endif
         }
 
         public static ThicknessStyle PhoneMargin
         {
+#if WindowsCE
+            get { return new ThicknessStyle(24, 0, 0); }
+#else
             get { return new ThicknessStyle(12, 0, 0); }
+#endif
         }
 
         public static ThicknessStyle PhoneTouchTargetOverhang
         {
+#if WindowsCE
+            get { return new ThicknessStyle(24, 0, 0); }
+#else
             get { return new ThicknessStyle(12, 0, 0); }
+#endif
         }
 
         public static ThicknessStyle PhoneTouchTargetLargeOverhang
         {
+#if WindowsCE
+            get { return new ThicknessStyle(24, 40, 0); }
+#else
             get { return new ThicknessStyle(12, 20, 0); }
+#endif
         }
 
         public static ThicknessStyle PhoneBorderThickness
         {
+#if WindowsCE
+            get { return new ThicknessStyle(6, 0, 0); }
+#else
             get { return new ThicknessStyle(3, 0, 0); }
+#endif
         }
 
         public static ThicknessStyle PhoneStrokeThickness
         {
+#if WindowsCE
+            get { return new ThicknessStyle(6, 0, 0); }
+#else
             get { return new ThicknessStyle(3, 0, 0); }
+#endif
         }
 
         #endregion
@@ -298,26 +364,53 @@
 
         public static TextStyle PhoneTextPageTitle1Style
         {
+#if WindowsCE
+            get
+            {
+                var r = new TextStyle(MetroTheme.PhoneFontFamilySemiBold, 16, MetroTheme.PhoneForegroundBrush);
+                r.Thickness = new ThicknessStyle(0, 40, 0);
+                return r;
+            }
+#else
             get
             {
                 var r = new TextStyle(MetroTheme.PhoneFontFamilySemiBold, 8, MetroTheme.PhoneForegroundBrush);
                 r.Thickness = new ThicknessStyle(0, 20, 0);
                 return r;
             }
+#endif
         }
 
         public static TextStyle PhoneTextPageTitle2Style
         {
+#if WindowsCE
+            get
+            {
+                var r = new TextStyle(MetroTheme.PhoneFontFamilySemiLight, 50, MetroTheme.PhoneForegroundBrush);
+                r.Thickness = new ThicknessStyle(0, 40, 0);
+                return r;
+            }
+#else
             get
             {
                 var r = new TextStyle(MetroTheme.PhoneFontFamilySemiLight, 25, MetroTheme.PhoneForegroundBrush);
                 r.Thickness = new ThicknessStyle(0, 20, 0);
                 return r;
             }
+#endif
         }
 
         public static TextStyle TileTextStyle
         {
+#if WindowsCE
+            get
+            {
+                return new TextStyle(
+                    MetroTheme.PhoneFontFamilySemiBold,
+                    14,
+                    MetroTheme.PhoneForegroundBrush);
+            }
+#else
             get
             {
                 return new TextStyle(
@@ -325,6 +418,7 @@
                     7,
                     MetroTheme.PhoneForegroundBrush);
             }
+#endif
         }
 
         #endregion

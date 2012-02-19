@@ -5,9 +5,21 @@
     using System.Drawing;
     using System.Linq;
     using Animations;
+    using Fleux.UIElements.Events;
 
     public class PivotItem
     {
+        #region Gianni - Events
+        public event EventHandler<NavigateRequestEventArgs> NavigateRequest;
+
+        protected void OnNavigateRequest(Fleux.Core.FleuxPage destinationPage)
+        {
+            EventHandler<NavigateRequestEventArgs> localHandler = NavigateRequest;
+            if (localHandler != null)
+                localHandler(this, new NavigateRequestEventArgs(destinationPage));
+        }
+        #endregion
+
         public PivotItem()
         {
             this.DelayInTransitions = new List<UIElement>();

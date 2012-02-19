@@ -80,6 +80,10 @@
         public void AnimateSync()
         {
             this.animations.ForEach(a => a.Reset());
+
+            this.animations.ForEach(a => a.OnStart());
+            System.Windows.Forms.Application.DoEvents();
+
             var keepAnimating = true;
             while (!this.stopAnimation && keepAnimating)
             {
@@ -89,6 +93,10 @@
                 }
                 System.Windows.Forms.Application.DoEvents();
             }
+
+            this.animations.ForEach(a => a.OnFinish());
+            System.Windows.Forms.Application.DoEvents();
+
             this.stopAnimation = false;
         }
 
