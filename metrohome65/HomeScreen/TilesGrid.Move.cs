@@ -1,14 +1,9 @@
 ﻿using System;
-using System.Linq;
-using System.Collections.Generic;
-using System.Text;
 using System.Drawing;
-using Fleux.Controls;
+using System.Linq;
 using Fleux.UIElements;
-using Fleux.Core;
 using Fleux.Animations;
-using Fleux.UIElements.Panorama;
-using WindowsPhone7Sample.Elements;
+using MetroHome65.Routines;
 
 namespace MetroHome65.HomeScreen
 {
@@ -16,120 +11,124 @@ namespace MetroHome65.HomeScreen
     public partial class TilesGrid : ScrollViewer
     {
 
-        private WidgetWrapper _MovingWidget = null;
-        private Rectangle _MovingWidgetBounds;
+        private WidgetWrapper _movingTile;
 
-        private bool MoveMode { get { return _MovingWidget != null; } }
+        private bool MoveMode { get { return _movingTile != null; } }
 
-        private WidgetWrapper MovingWidget
+        private WidgetWrapper MovingTile
         {
-            get { return _MovingWidget; }
+            get { return _movingTile; }
             set
             {
-                if (_MovingWidget != value)
+                if (_movingTile != value)
                 {
                     RealignSettingsButtons(value != null);
 
-                    if (value == null)
+                    // всегда при смене пермещаемого виджета, выключаем текущий перемещаемый виджет
+                    if (_movingTile != null)
                     {
-                        _ResizeTimer.Dispose();
-                        _ResizeTimer = null;
+                        _movingTile.Moving = false;
+                        _movingTile = null;
+                    }
 
-                        _MovingWidget.Moving = false;
-                        // restore previous moving widget size
-                        _MovingWidget.Location = _MovingWidgetBounds.Location;
-                        _MovingWidget.Size = _MovingWidgetBounds.Size;
-                        _MovingWidget.Update();
+                    if (value != null)
+                    {
+                        // отключаем живые плитки
+                        Active = false;
 
-                        WriteSettings();
+                        _movingTile = value;
+                        _movingTile.Moving = true;
                     }
                     else
                     {
-                        // restore previous movin widget size
-                        if (_MovingWidget != null)
-                        {
-                            _MovingWidget.Location = _MovingWidgetBounds.Location;
-                            _MovingWidget.Size = _MovingWidgetBounds.Size;
-                        }
-
-                        _MovingWidget = value;
-                        _MovingWidgetBounds = _MovingWidget.Bounds;
-                        _MovingWidget.Moving = true;
-
-                        _ResizeTimer = new System.Threading.Timer(s => RepaintMovingWidget(), null, 0, 300);
+                        WriteSettings();
+                        // включаем живые плитки
+                        Active = true;
                     }
-
                 }
             }
         }
 
-        private void RealignSettingsButtons(bool MoveMode)
+        private void RealignSettingsButtons(bool moveMode)
         {
-            if (MoveMode)
+            if (moveMode)
             {
-                buttonSettings.Location = new Point(410, 170);
-                buttonUnpin.Location = new Point(410, 100);
+                _buttonSettings.Location = new Point(410, 170);
+                _buttonUnpin.Location = new Point(410, 100);
             }
             else
             {
-                buttonSettings.Location = new Point(-100, -100);
-                buttonUnpin.Location = new Point(-100, -100);
+                _buttonSettings.Location = new Point(-100, -100);
+                _buttonUnpin.Location = new Point(-100, -100);
             }
-        }
-
-        private System.Threading.Timer _ResizeTimer;
-        
-        private int _deltaX = 0;
-        private int _deltaY = -2;
-        private int _deltaXInc = 2;
-        private int _deltaYInc = -2;
-
-
-        private void RepaintMovingWidget()
-        {
-            if (MovingWidget == null)
-                return;
-
-            Rectangle _MovingWidgetRect = _MovingWidgetBounds;
-            _MovingWidgetRect.Inflate(_deltaX, _deltaY);
-
-            if ((_deltaX >= 0) || (_deltaX <= -5))
-                _deltaXInc = -_deltaXInc;
-            _deltaX += _deltaXInc;
-            if ((_deltaY >= 0) || (_deltaY <= -5))
-                _deltaYInc = -_deltaYInc;
-            _deltaY += _deltaYInc;
-
-            // paint widget
-            MovingWidget.Location = _MovingWidgetRect.Location;
-            MovingWidget.Size = _MovingWidgetRect.Size;
-            MovingWidget.Update();
         }
 
         /// <summary>
         /// click handler for tiles grid - enter to moving mode
         /// </summary>
-        /// <param name="ALocation"></param>
-        private void GridClickAt(Point ALocation)
+        private bool GridClickHandler(Point location)
         {
-            if (MoveMode)
-                MoveTileTo(ALocation);
+            if (MoveMode && _tilesCanvas.Bounds.Contains(location))
+            {
+                MoveTileTo(MovingTile, location);
+                return true;
+            }
+            else
+                return false;
+        }
+
+        /// <summary>
+        /// pan handler for tiles grid - in moving mode move tile to selected position
+        /// </summary>
+        public override bool Pan(Point from, Point to, bool done, Point startPoint)
+        {
+            var result = false;
+            var prevActive = _active;
+            Active = false;
+
+            if (MoveMode && _tilesCanvas.Bounds.Contains(to))
+            {
+                if (Math.Pow(from.X - to.X, 2) + Math.Pow(from.Y - to.Y, 2) < 10)
+                    result = false;
+                else
+                {
+                    MoveTileTo(MovingTile, to);
+                    result = true;
+                }
+            }
+            else
+            {
+                result = base.Pan(from, to, done, startPoint);
+            }
+
+            Active = prevActive;
+            return result;
+        }
+
+        /// <summary>
+        /// return tile grid position for selected screen position
+        /// </summary>
+        private Point GetTileCell(Point location)
+        {
+            return new Point(
+                (location.X - _tilesCanvas.Location.X) / (WidgetWrapper.CellWidth + WidgetWrapper.CellSpacingHor),
+                (location.Y - _tilesCanvas.Location.X - VerticalOffset) / (WidgetWrapper.CellHeight + WidgetWrapper.CellSpacingVer)
+                );
         }
 
         /// <summary>
         /// move selected tile to new location
         /// </summary>
-        /// <param name="ALocation"></param>
-        private void MoveTileTo(Point ALocation)
+        /// <param name="movingTile"> </param>
+        /// <param name="location"> </param>
+        private void MoveTileTo(WidgetWrapper movingTile, Point location)
         {
-            Point TargetCell = new Point(
-                (ALocation.X - tilesCanvas.Location.X + WidgetWrapper.CellSpacingHor) / (WidgetWrapper.CellWidth + WidgetWrapper.CellSpacingHor),
-                (ALocation.Y - tilesCanvas.Location.X + WidgetWrapper.CellSpacingVer - this.VerticalOffset) / (WidgetWrapper.CellHeight + WidgetWrapper.CellSpacingVer)
-                );
+            Point TargetCell = GetTileCell(location);
 
             // if widget doesn't fit to new position by width, do not do anything
-            if (TargetCell.X + MovingWidget.GridSize.Width > 4)
-                return;
+            if (TargetCell.X + movingTile.GridSize.Width > 4)
+                TargetCell.X = 4 - movingTile.GridSize.Width;
+                //return;
 
             bool TargetCellIsEmpty = false;
             while (!TargetCellIsEmpty)
@@ -137,15 +136,16 @@ namespace MetroHome65.HomeScreen
                 object[,] cells = new object[100, 4];
                 foreach (WidgetWrapper wsInfo in _tiles)
                 {
-                    for (int y = 0; y < wsInfo.GridSize.Height; y++)
-                        for (int x = 0; x < wsInfo.GridSize.Width; x++)
-                            cells[wsInfo.GridPosition.Y + y, wsInfo.GridPosition.X + x] = wsInfo;
+                    if (wsInfo != movingTile)
+                        for (int y = 0; y < wsInfo.GridSize.Height; y++)
+                            for (int x = 0; x < wsInfo.GridSize.Width; x++)
+                                cells[wsInfo.GridPosition.Y + y, wsInfo.GridPosition.X + x] = wsInfo;
                 }
 
                 TargetCellIsEmpty = true;
-                for (int y = TargetCell.Y; y < Math.Min(TargetCell.Y + MovingWidget.GridSize.Height, 100); y++)
-                    for (int x = TargetCell.X; x < Math.Min(TargetCell.X + MovingWidget.GridSize.Width, 4); x++)
-                        if ((cells[y, x] != null) && (!cells[y, x].Equals(MovingWidget)))
+                for (int y = TargetCell.Y; y < Math.Min(TargetCell.Y + movingTile.GridSize.Height, 100); y++)
+                    for (int x = TargetCell.X; x < Math.Min(TargetCell.X + movingTile.GridSize.Width, 4); x++)
+                        if ((cells[y, x] != null) && (!cells[y, x].Equals(movingTile)))
                         {
                             TargetCellIsEmpty = false;
                             break;
@@ -161,64 +161,105 @@ namespace MetroHome65.HomeScreen
                 }
             }
 
-            MovingWidget.GridPosition = TargetCell;
-            _MovingWidgetBounds = MovingWidget.Bounds;
+            movingTile.GridPosition = TargetCell;
 
-            RealignWidgets();
+            RealignTiles();
         }
 
 
-        /// <summary>
+        private int GetWidgetMaxRow()
+        {
+            var maxRow = 0;
+            foreach (WidgetWrapper wsInfo in _tiles)
+                maxRow = Math.Max(maxRow, wsInfo.GridPosition.Y + wsInfo.GridSize.Height);
+            return maxRow;
+        }
+
+            /// <summary>
         /// Update may be change widgets screen positions
         /// </summary>
-        private void RealignWidgets()
+        private void RealignTiles()
         {
             try
             {
-                int MaxRow = 0;
-                foreach (WidgetWrapper wsInfo in _tiles)
-                    MaxRow = Math.Max(MaxRow, wsInfo.GridPosition.Y + wsInfo.GridSize.Height);
+                var maxRow = GetWidgetMaxRow();
 
-                object[,] cells = new object[MaxRow + 1, 4];
-                foreach (WidgetWrapper wsInfo in _tiles)
+                var cells = new object[maxRow + 1, 4];
+                foreach (var wsInfo in _tiles)
                 {
-                    for (int y = 0; y < wsInfo.GridSize.Height; y++)
-                        for (int x = 0; x < wsInfo.GridSize.Width; x++)
+                    for (var y = 0; y < wsInfo.GridSize.Height; y++)
+                        for (var x = 0; x < wsInfo.GridSize.Width; x++)
                             cells[wsInfo.GridPosition.Y + y, Math.Min(3, wsInfo.GridPosition.X + x)] = wsInfo;
                 }
 
                 // looking for empty rows and delete them - shift widgets 1 row top
-                for (int row = MaxRow; row >= 0; row--)
+                for (var row = maxRow; row >= 0; row--)
                 {
                     if ((cells[row, 0] == null) && (cells[row, 1] == null) &&
                         (cells[row, 2] == null) && (cells[row, 3] == null))
                     {
-                        foreach (WidgetWrapper wsInfo in _tiles)
-                            if (wsInfo.GridPosition.Y > row)
-                                wsInfo.GridPosition = new Point(wsInfo.GridPosition.X, wsInfo.GridPosition.Y - 1);
+                        foreach (var wsInfo in _tiles.Where(wsInfo => wsInfo.GridPosition.Y > row))
+                            wsInfo.GridPosition = new Point(wsInfo.GridPosition.X, wsInfo.GridPosition.Y - 1);
                     }
                 }
 
 
                 // calc max image dimensions for widgets grid
-                int WidgetsHeight = 0;
-                int WidgetsWidth = 0;
-                foreach (WidgetWrapper wsInfo in _tiles)
+                var widgetsHeight = 0;
+                var widgetsWidth = 0;
+                foreach (var wsInfo in _tiles)
                 {
-                    WidgetsHeight = Math.Max(WidgetsHeight, wsInfo.Bounds.Bottom);
-                    WidgetsWidth = Math.Max(WidgetsWidth, wsInfo.Bounds.Right);
-                    wsInfo.Update();
+                    widgetsHeight = Math.Max(widgetsHeight, wsInfo.Bounds.Bottom);
+                    widgetsWidth = Math.Max(widgetsWidth, wsInfo.Bounds.Right);
+                    //wsInfo.Update();
                 }
-                WidgetsHeight += 50; // add padding at bottom and blank spaces at top and bottom
+                widgetsHeight += 50; // add padding at bottom and blank spaces at top and bottom
 
-                tilesCanvas.Size = new Size(tilesCanvas.Size.Width, WidgetsHeight);
-                tilesCanvas.Update();
+                _tilesCanvas.Size = new Size(_tilesCanvas.Size.Width, widgetsHeight);
+                Update();
             }
             catch (Exception e)
             {
-                //!! write to log  (e.StackTrace, "ReadSettings")
+                Logger.WriteLog(e.StackTrace, "RealignTiles error");
             }
         }
+
+
+        #region Animation
+
+        private bool _launching = false;
+
+        private void SetEntranceAnimation(WidgetWrapper target)
+        {
+            var random = new Random();
+            var x = target.GetScreenRect().Left;
+            target.EntranceAnimation = new FunctionBasedAnimation(FunctionBasedAnimation.Functions.BounceEntranceSin)
+            {
+                From = x - 1000 + random.Next(1000 - x - 173),
+                To = x,
+                EaseFunction = v => Math.Pow(v, 15),
+                OnAnimation = v => target.Location = new Point(v, target.Location.Y),
+                OnAnimationStart = () => { target.Active = false; },
+                OnAnimationStop = () => { target.Active = true; }
+            };
+        }
+
+        private void SetExitAnimation(WidgetWrapper target)
+        {
+            var random = new Random();
+            target.ExitAnimation = new FunctionBasedAnimation(FunctionBasedAnimation.Functions.BounceExitSin)
+            {
+                To = -target.Size.Width - random.Next(1000),
+                From = target.GetScreenRect().Left,
+                EaseFunction = v => Math.Pow(v, 15),
+                OnAnimation = v => target.Location = new Point(v, target.Location.Y),
+                OnAnimationStart = () => { target.Active = false; },
+                OnAnimationStop = () => { target.Active = true; }
+            };
+        }
+
+        #endregion
+
 
     }
 }

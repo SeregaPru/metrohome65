@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Drawing;
 using System.Windows.Forms;
-using System.ComponentModel;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using MetroHome65.Routines;
@@ -15,9 +14,9 @@ namespace MetroHome65.Widgets
     public abstract class IconWidget : TransparentWidget
     {
         //Эти переменные понядобятся для загрузки изображений при запуске приложения.
-        private String _Caption = "";
-        private String _IconPath = "";
-        private AlphaImage _BgImage = null;
+        private String _caption = "";
+        private String _iconPath = "";
+        private AlphaImage _bgImage = null;
 
         protected static int CaptionLeftOffset = ScreenRoutines.Scale(10);
         protected static int CaptionBottomOffset = ScreenRoutines.Scale(4);
@@ -28,11 +27,11 @@ namespace MetroHome65.Widgets
         /// </summary>
         [WidgetParameter]
         public String Caption { 
-            get { return _Caption; } 
+            get { return _caption; } 
             set {
-                if (_Caption != value)
+                if (_caption != value)
                 {
-                    _Caption = value;
+                    _caption = value;
                     NotifyPropertyChanged("Caption");
                 }
             } 
@@ -46,12 +45,12 @@ namespace MetroHome65.Widgets
         [WidgetParameter]
         public String IconPath
         {
-            get { return _IconPath; }
+            get { return _iconPath; }
             set
             {
-                if (_IconPath != value)
+                if (_iconPath != value)
                 {
-                    _IconPath = value;
+                    _iconPath = value;
                     UpdateIconImage();
                     NotifyPropertyChanged("IconPath");
                 }
@@ -70,29 +69,29 @@ namespace MetroHome65.Widgets
 
         protected virtual void UpdateIconImage()
         {
-            if ((! String.IsNullOrEmpty(_IconPath)) && (!IsExecutableIcon()))
-                _BgImage = new AlphaImage(_IconPath);
+            if ((! String.IsNullOrEmpty(_iconPath)) && (!IsExecutableIcon()))
+                _bgImage = new AlphaImage(_iconPath);
             else
-                _BgImage = null;
+                _bgImage = null;
         }
 
         private bool IsExecutableIcon()
         {
-            return ((_IconPath.EndsWith(".exe")) || (_IconPath.EndsWith(".lnk")));
+            return ((_iconPath.EndsWith(".exe")) || (_iconPath.EndsWith(".lnk")));
         }
 
-        protected virtual void PaintIcon(Graphics g, Rectangle Rect)
+        protected virtual void PaintIcon(Graphics g, Rectangle rect)
         {
             // get icon from file
-            if (String.IsNullOrEmpty(_IconPath))
+            if (String.IsNullOrEmpty(_iconPath))
                 return;
 
-            int CaptionHeight = (Caption == "") ? 0 : (CaptionSize /* + CaptionBottomOffset */);
+            int captionHeight = (Caption == "") ? 0 : (CaptionSize /* + CaptionBottomOffset */);
 
             // draw icon from external image file
-            if (_BgImage != null)
+            if (_bgImage != null)
             {
-                _BgImage.PaintIcon(g, new Rectangle(Rect.Left, Rect.Top, Rect.Width, Rect.Height - CaptionHeight/2));
+                _bgImage.PaintIcon(g, new Rectangle(rect.Left, rect.Top, rect.Width, rect.Height - captionHeight/2));
                 return;
             }
 
@@ -100,11 +99,11 @@ namespace MetroHome65.Widgets
             if (IsExecutableIcon())
             {
                 FileRoutines.structa refa = new FileRoutines.structa();
-                IntPtr ptr = FileRoutines.SHGetFileInfo(ref _IconPath, 0, ref refa, Marshal.SizeOf(refa), 0x100);
+                IntPtr ptr = FileRoutines.SHGetFileInfo(ref _iconPath, 0, ref refa, Marshal.SizeOf(refa), 0x100);
                 Icon icon = Icon.FromHandle(refa.a);
 
-                g.DrawIcon(icon, (Rect.Left + Rect.Right - icon.Width) / 2,
-                    Rect.Top + (Rect.Height - icon.Height - CaptionHeight) / 2);
+                g.DrawIcon(icon, (rect.Left + rect.Right - icon.Width) / 2,
+                    rect.Top + (rect.Height - icon.Height - captionHeight) / 2);
 
                 icon.Dispose();
                 icon = null;
@@ -115,16 +114,16 @@ namespace MetroHome65.Widgets
         /// Draw caption
         /// </summary>
         /// <param name="g"></param>
-        /// <param name="Rect"></param>
-        protected virtual void PaintCaption(Graphics g, Rectangle Rect)
+        /// <param name="rect"></param>
+        protected virtual void PaintCaption(Graphics g, Rectangle rect)
         {
             if (Caption != "")
             {
                 Font captionFont = new System.Drawing.Font("Segoe UI Light", 8, FontStyle.Bold);
                 Brush captionBrush = new System.Drawing.SolidBrush(System.Drawing.Color.White);
                 g.DrawString(Caption, captionFont, captionBrush,
-                    Rect.Left + CaptionLeftOffset, 
-                    Rect.Bottom - CaptionBottomOffset - CaptionSize);
+                    rect.Left + CaptionLeftOffset, 
+                    rect.Bottom - CaptionBottomOffset - CaptionSize);
             }
         }
 
@@ -133,20 +132,20 @@ namespace MetroHome65.Widgets
         /// Paints icon and caption over standart backround (user defined button)
         /// </summary>
         /// <param name="g"></param>
-        /// <param name="Rect"></param>
-        public override void Paint(Graphics g, Rectangle Rect)
+        /// <param name="rect"></param>
+        public override void Paint(Graphics g, Rectangle rect)
         {
-            base.Paint(g, Rect);
+            base.Paint(g, rect);
 
-            PaintIcon(g, Rect);
-            PaintCaption(g, Rect);
+            PaintIcon(g, rect);
+            PaintCaption(g, rect);
         }
 
 
-        public override bool OnClick(Point Location)
+        public override bool OnClick(Point location)
         {
             MessageBox.Show(String.Format("Icon widget {0} at pos {1}:{2}",
-                this.Caption, Location.X, Location.Y));
+                this.Caption, location.X, location.Y));
             return true;
         }
 

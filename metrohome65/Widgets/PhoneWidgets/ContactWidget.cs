@@ -88,10 +88,10 @@ namespace MetroHome65.Widgets
             return FindedContact;
         }
 
-        public override void Paint(Graphics g, Rectangle Rect)
+        public override void Paint(Graphics g, Rectangle rect)
         {
             Pen BorderPen = new System.Drawing.Pen(Color.Gray, 2);
-            g.DrawRectangle(BorderPen, Rect.Left, Rect.Top, Rect.Width - 2, Rect.Height - 2);
+            g.DrawRectangle(BorderPen, rect.Left, rect.Top, rect.Width - 2, rect.Height - 2);
 
             Font captionFont = new System.Drawing.Font("Helvetica", 9, FontStyle.Regular);
             Brush captionBrush = new System.Drawing.SolidBrush(System.Drawing.Color.White);
@@ -101,41 +101,41 @@ namespace MetroHome65.Widgets
             if (contact == null)
             {
                 g.FillRectangle(new System.Drawing.SolidBrush(Color.DarkBlue),
-                    new Rectangle(Rect.Left + 1, Rect.Top + 1, Rect.Width - 3, Rect.Height - 3));
+                    new Rectangle(rect.Left + 1, rect.Top + 1, rect.Width - 3, rect.Height - 3));
                 g.DrawString("Contact \n not \n found", captionFont, captionBrush,
-                    Rect.Left + 10, Rect.Top + 10);
+                    rect.Left + 10, rect.Top + 10);
                 return;
             }
 
             // if assigned alternate picture - use it
             if (_ContactImage != null)
             {
-                _ContactImage.PaintBackground(g, Rect);
+                _ContactImage.PaintBackground(g, rect);
             }
             else
 
             // use picture from contact, if present
             if (contact.Picture != null)
                 g.DrawImage(contact.Picture,
-                    new Rectangle(Rect.Left + 1, Rect.Top + 1, Rect.Width - 3, Rect.Height - 3),
+                    new Rectangle(rect.Left + 1, rect.Top + 1, rect.Width - 3, rect.Height - 3),
                     0, 0, contact.Picture.Width, contact.Picture.Height, GraphicsUnit.Pixel,
                     new System.Drawing.Imaging.ImageAttributes());
             else
                 g.FillRectangle(new System.Drawing.SolidBrush(Color.DarkBlue), 
-                    new Rectangle(Rect.Left + 1, Rect.Top + 1, Rect.Width - 3, Rect.Height - 3));
+                    new Rectangle(rect.Left + 1, rect.Top + 1, rect.Width - 3, rect.Height - 3));
 
             String ContactName = contact.FileAs;
             g.DrawString(ContactName, captionFont, captionBrush,
-                Rect.Left + 10, Rect.Bottom - 5 - g.MeasureString(ContactName, captionFont).Height);
+                rect.Left + 10, rect.Bottom - 5 - g.MeasureString(ContactName, captionFont).Height);
         }
 
 
-        public override void OnMenuItemClick(String ItemName)
+        public override void OnMenuItemClick(String itemName)
         {
-            if (ItemName == "Call")
+            if (itemName == "Call")
                 MakeCall();
             else
-            if (ItemName == "Send SMS")
+            if (itemName == "Send SMS")
                 SendSMS();
         }
 
@@ -166,8 +166,8 @@ namespace MetroHome65.Widgets
         /// <summary>
         /// on click open contact
         /// </summary>
-        /// <param name="Location"></param>
-        public override bool OnClick(Point Location)
+        /// <param name="location"></param>
+        public override bool OnClick(Point location)
         {
             return OpenContact();
         }
@@ -175,8 +175,8 @@ namespace MetroHome65.Widgets
         /// <summary>
         /// on double click make a call
         /// </summary>
-        /// <param name="Location"></param>
-        public override bool OnDblClick(Point Location)
+        /// <param name="location"></param>
+        public override bool OnDblClick(Point location)
         {
             return MakeCall();
         }

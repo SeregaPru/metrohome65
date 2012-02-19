@@ -2,7 +2,6 @@
 using System.IO;
 using System.Drawing;
 using System.Windows.Forms;
-using System.Runtime.InteropServices;
 using System.Collections.Generic;
 using MetroHome65.Routines;
 using MetroHome65.Settings.Controls;
@@ -45,13 +44,16 @@ namespace MetroHome65.Widgets
             return sizes;
         }
 
-        public override bool OnClick(Point Location)
+        public override bool OnClick(Point location)
         {
             if (CommandLine != "")
                 return FileRoutines.StartProcess(CommandLine);
             else
                 return false;
         }
+
+        // launch external application - play exit animation
+        public override bool AnimateExit { get { return true; } }
 
         public override List<Control> EditControls
         {

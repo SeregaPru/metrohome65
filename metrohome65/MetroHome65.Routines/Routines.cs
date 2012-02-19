@@ -9,6 +9,7 @@ namespace MetroHome65.Routines
     /// </summary>
     public static class FileRoutines
     {
+        public static String CoreDir = System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().GetName().CodeBase);
 
         public static bool StartProcess(string FileName)
         {
@@ -20,9 +21,9 @@ namespace MetroHome65.Routines
                 myProcess.Start();
                 return true;
             }
-            catch (Exception ex)
+            catch (Exception e)
             {
-                //!! write to log  (e.StackTrace, "StartProcess")
+                Logger.WriteLog(e.StackTrace, "StartProcess error");
                 return false;
             }
         }
@@ -53,8 +54,7 @@ namespace MetroHome65.Routines
     {
         private static Boolean _IsQVGA = true;
         private static Boolean _IsQVGACalculated = false;
-
-        /// <summary>
+                /// <summary>
         /// Flag, indicates when screen resolution is QVGA - 320*240
         /// </summary>
         public static Boolean IsQVGA
@@ -79,7 +79,8 @@ namespace MetroHome65.Routines
 
         public static int Scale(int Size)
         {
-            return (IsQVGA) ? (Size / 2) : Size;
+            //return (IsQVGA) ? (Size / 2) : Size;
+            return Size;
         }
     }
 

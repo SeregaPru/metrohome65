@@ -71,7 +71,7 @@ namespace MetroHome65.Widgets
         /// </summary>
         /// <param name="g">Graphics context</param>
         /// <param name="rect">Drawing area</param>
-        void Paint(Graphics g, Rectangle Rect);
+        void Paint(Graphics g, Rectangle rect);
 
         /// <summary>
         /// Hanler for custom menu item click
@@ -82,32 +82,21 @@ namespace MetroHome65.Widgets
         /// <summary>
         /// Handler for click event
         /// </summary>
-        /// <param name="Location">
+        /// <param name="location">
         ///   Coordinates of click event, 
         ///   relative to widget's left upper corner
         /// </param>
-        bool OnClick(Point Location);
+        bool OnClick(Point location);
 
-        bool OnDblClick(Point Location);
+        bool OnDblClick(Point location);
+
+        bool AnimateExit { get; } 
 
         List<Control> EditControls { get; }
     }
 
 
-    /// <summary>
-    /// Event triggered when widget should be updated
-    /// </summary>
-    public class WidgetUpdateEventArgs : EventArgs
-    {
-        public IWidget Widget { get; private set; }
-
-        public WidgetUpdateEventArgs(IWidget Widget)
-        {
-            this.Widget = Widget;
-        }
-    }
-
-    public delegate void WidgetUpdateEventHandler(object sender, WidgetUpdateEventArgs e);
+    public delegate void WidgetUpdateEventHandler();
 
 
     /// <summary>

@@ -75,8 +75,9 @@
     <Compile Include="HomeScreen\HomeScreen.cs" />
     <Compile Include="HomeScreen\ProgramsMenu.cs" />
     <Compile Include="HomeScreen\TilesGrid.cs" />
-    <Compile Include="HomeScreen\TilesGrid.Draw.cs" />
+    <Compile Include="HomeScreen\TilesGrid.Tiles.cs" />
     <Compile Include="HomeScreen\TilesGrid.Move.cs" />
+    <Compile Include="HomeScreen\WidgetSettings.cs" />
     <Compile Include="PluginManager.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
