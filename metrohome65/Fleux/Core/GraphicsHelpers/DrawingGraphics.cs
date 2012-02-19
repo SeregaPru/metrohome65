@@ -106,7 +106,12 @@
 
         public Rectangle VisibleRect
         {
+            // GIANNI edited for CE Device
+#if WindowsCE
+            get { return new Rectangle(-this.Location.X.ToLogic(), -this.Location.Y.ToLogic(), 800, 600); }
+#else
             get { return new Rectangle(-this.Location.X.ToLogic(), -this.Location.Y.ToLogic(), 480, 800); }
+#endif
         }
 
         public static DrawingGraphics FromGraphicsAndRect(Graphics gr, Image canvasImage, Rectangle rect)
@@ -350,14 +355,32 @@
             return this.DrawImage(image, new Rectangle(x, y, image.Width, image.Height), new Rectangle(0, 0, image.Width, image.Height));
         }
 
+        // GIANNI added
+        public IDrawingGraphics DrawImage(System.Drawing.Image image, int x, int y, Color transparentKeyColor)
+        {
+            return this.DrawImage(image, new Rectangle(x, y, image.Width, image.Height), new Rectangle(0, 0, image.Width, image.Height), transparentKeyColor);
+        }
+
         public IDrawingGraphics DrawImage(System.Drawing.Image image, int x, int y, int width, int height)
         {
             return this.DrawImage(image, new Rectangle(x, y, width, height), new Rectangle(0, 0, image.Width, image.Height));
         }
 
+        // GIANNI added
+        public IDrawingGraphics DrawImage(System.Drawing.Image image, int x, int y, int width, int height, Color transparentKeyColor)
+        {
+            return this.DrawImage(image, new Rectangle(x, y, width, height), new Rectangle(0, 0, image.Width, image.Height), transparentKeyColor);
+        }
+
         public IDrawingGraphics DrawImage(System.Drawing.Image image, System.Drawing.Rectangle r)
         {
             return this.DrawImage(image, r, new Rectangle(0, 0, image.Width, image.Height));
+        }
+
+        // GIANNI, added
+        public IDrawingGraphics DrawImage(System.Drawing.Image image, System.Drawing.Rectangle r, Color transparentKeyColor)
+        {
+            return this.DrawImage(image, r, new Rectangle(0, 0, image.Width, image.Height), transparentKeyColor);
         }
 
         public IDrawingGraphics DrawImage(System.Drawing.Image image, System.Drawing.Rectangle destRect, System.Drawing.Rectangle sourceRect)
@@ -370,9 +393,32 @@
             return this;
         }
 
+        // GIANNI, added
+        public IDrawingGraphics DrawImage(System.Drawing.Image image, System.Drawing.Rectangle destRect, System.Drawing.Rectangle sourceRect, Color transparentKeyColor)
+        {
+            System.Drawing.Imaging.ImageAttributes imageAttr = new System.Drawing.Imaging.ImageAttributes();
+            
+            // Make a transparent key            
+            imageAttr.SetColorKey(transparentKeyColor, transparentKeyColor);
+            
+            //Use the key when drawing         
+            var destScaledRect = this.CalculateRect(destRect);
+            this.Graphics.DrawImage(image, destScaledRect, sourceRect.X, sourceRect.Y, sourceRect.Width, sourceRect.Height, GraphicsUnit.Pixel, imageAttr);
+
+            this.state.CurrentX = destRect.Right;
+            this.ValidateExtends(0, destScaledRect.Bottom);
+            return this;
+        }
+
         public IDrawingGraphics DrawImage(string resourceName, int x, int y)
         {
             return this.DrawImage(ResourceManager.Instance.GetBitmapFromEmbeddedResource(resourceName, Assembly.GetCallingAssembly()), x, y);
+        }
+
+        // GIANNI, added
+        public IDrawingGraphics DrawImage(string resourceName, int x, int y, Color transparentKeyColor)
+        {
+            return this.DrawImage(ResourceManager.Instance.GetBitmapFromEmbeddedResource(resourceName, Assembly.GetCallingAssembly()), x, y, transparentKeyColor);
         }
 
         public IDrawingGraphics DrawImage(string resourceName, int x, int y, int width, int height)
@@ -525,6 +571,12 @@
                                                                       this.state.CurrenFont,
                                                                       text,
                                                                       width).Height.ToLogic();
+        }
+
+        // GIANNI added
+        public int CalculateTextWidth(string text)
+        {
+            return StringHelpers.MeasureString(this.Graphics, this.state.CurrenFont, text, 0).Width.ToLogic();
         }
 
         public IDrawingGraphics DrawMultiLineText(string text, int width, int height)

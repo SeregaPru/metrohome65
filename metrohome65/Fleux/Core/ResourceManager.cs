@@ -169,6 +169,19 @@
                                     });
         }
 
+        // GIANNI added
+        public Bitmap GetBitmapFromFile(string filePath)
+        {
+            return this.CreateOrGet(this.bitmapMap,
+                                    filePath,
+                                    () =>
+                                    {
+                                        var fullpath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().GetName().CodeBase);
+                                        fullpath = Path.Combine(fullpath, filePath);
+                                        return new Bitmap(fullpath);
+                                    });
+        }
+
         public IImageWrapper GetIImage(string imagePath)
         {
             return this.CreateOrGet(this.iimagesMap,

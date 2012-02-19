@@ -12,7 +12,7 @@
         protected TextElement title1;
         protected TextElement title2;
 
-        public WindowsPhone7Page(string title1, string title2)
+        public WindowsPhone7Page(string title1, string title2) : base(true)
         {
             this.Control.EntranceDuration = 300;
 

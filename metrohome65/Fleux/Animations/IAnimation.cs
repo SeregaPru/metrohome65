@@ -9,5 +9,9 @@
         bool Animate();
 
         void Cancel();
+
+        void OnStart();
+
+        void OnFinish();
     }
 }

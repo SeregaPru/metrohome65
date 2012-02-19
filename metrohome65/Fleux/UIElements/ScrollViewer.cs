@@ -46,9 +46,18 @@
                 this.content.Updated = this.Update;
                 this.content.Parent = this;
                 this.Children.Add(this.content);
+
+                this.content.SizeChanged += (v, e) => OnContentSizeChanged();
             }
         }
 
+		private void OnContentSizeChanged()
+        {
+            if (this.verticalInertia != null)
+                this.verticalInertia.Min = -Math.Max(0, this.content.Size.Height - this.Size.Height);
+            if (this.horizontalInertia != null)
+                this.horizontalInertia.Min = -Math.Max(0, this.content.Size.Width - this.Size.Width);
+        }
         public bool DrawShadows { get; set; }
 
         public int HorizontalOffset { get; set; }
@@ -113,6 +122,8 @@
 
         public override bool Pan(Point from, Point to, bool done, Point startPoint)
         {
+            // Gianni, removed because on Click is mapped to MouseMove, with a strange behavior
+#if !WindowsCE
             var directionDelta = Math.Abs(to.X - from.X) - Math.Abs(to.Y - from.Y);
             var isHorizontal = directionDelta == 0 ? this.lastGestureWasHorizontal : directionDelta > 0;
             if (this.horizontalInertia != null && this.HorizontalScroll && !isHorizontal)
@@ -143,6 +154,7 @@
                 this.verticalInertia.Pan(from.Y, to.Y, done);
                 to.Y = from.Y;
             }
+#endif
             return true;
         }
 

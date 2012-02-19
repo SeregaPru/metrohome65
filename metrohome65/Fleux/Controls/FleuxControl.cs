@@ -23,10 +23,17 @@
 
         private bool invalidating = false;
         private bool active;
+        private System.ComponentModel.IContainer components;
         private UIElement pressedHandledBy;
+
+        // GIANNI added
+        //private Microsoft.WindowsCE.Forms.InputPanel inputPanel1;
 
         public FleuxControl()
         {
+            // GIANNI added
+            //inputPanel1 = new Microsoft.WindowsCE.Forms.InputPanel();
+
             this.EntranceDuration = 600;
             this.gestures.Tap = this.Tap;
             this.gestures.DoubleTap = this.DoubleTap;
@@ -44,6 +51,9 @@
             FromLeft,
             FromRight,
         }
+        
+        // GIANNI added
+        //public Microsoft.WindowsCE.Forms.InputPanel VirtualKeyboard { get { return inputPanel1; } }
 
         public ShadowedAnimationOptions ShadowedAnimationMode { get; set; }
 
@@ -303,6 +313,16 @@
             {
                 this.DoubleTapHandler(p);
             }
+        }
+
+		// Gianni added
+        private void InitializeComponent()
+        {
+            //this.components = new System.ComponentModel.Container();
+            //this.inputPanel1 = new Microsoft.WindowsCE.Forms.InputPanel(this.components);
+            //this.SuspendLayout();
+            //this.ResumeLayout(false);
+
         }
     }
 }

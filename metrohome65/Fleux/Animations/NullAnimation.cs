@@ -18,5 +18,10 @@
         public void Cancel()
         {
         }
+
+        public void OnFinish() { }
+
+        public void OnStart() { }
+
     }
 }

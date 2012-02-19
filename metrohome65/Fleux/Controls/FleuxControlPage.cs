@@ -41,7 +41,8 @@
             this.Control.BackColor = System.Drawing.Color.Black;
             this.Control.Location = new Point(4, 4);
             this.Control.Name = "control1";
-            this.Control.Size = new Size(233, 261);
+            //!!this.Control.Size = new Size(theForm.Width, theForm.Height);
+			this.Control.Size = new Size(233, 261);
             this.Control.TabIndex = 0;
             this.Control.Text = string.Empty;
 

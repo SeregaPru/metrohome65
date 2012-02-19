@@ -15,6 +15,10 @@
         protected Form theForm;
         protected bool fullscreen;
 
+        // GIANNI added
+        protected int m_ApplicationBarHeight = 65;
+        protected int m_ApplicationBarPadding = 5;
+
         public FleuxPage()
             : this(false)
         {
@@ -128,7 +132,13 @@
             this.theForm.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
             this.theForm.AutoScroll = true;
             this.theForm.BackColor = System.Drawing.Color.Black;
-            this.theForm.ClientSize = new System.Drawing.Size(240, 268);
+#if WindowsCE
+            this.theForm.ClientSize = new System.Drawing.Size(800, 600);
+            this.theForm.FormBorderStyle = FormBorderStyle.None;
+            this.theForm.ControlBox = false;
+#else
+            this.theForm.ClientSize = new System.Drawing.Size(240, 268);			
+#endif
 
             // DpiHelper Set
             if (!FleuxApplication.Initialized)

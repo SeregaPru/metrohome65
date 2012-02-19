@@ -23,7 +23,7 @@
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
+    <OutputPath>..\Binaries\Debug\</OutputPath>
     <DefineConstants>DEBUG;TRACE;$(PlatformFamilyName)</DefineConstants>
     <NoStdLib>true</NoStdLib>
     <NoConfig>true</NoConfig>
@@ -35,7 +35,7 @@
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
-    <OutputPath>bin\Release\</OutputPath>
+    <OutputPath>..\Binaries\Release\</OutputPath>
     <DefineConstants>TRACE;$(PlatformFamilyName)</DefineConstants>
     <NoStdLib>true</NoStdLib>
     <NoConfig>true</NoConfig>
@@ -84,9 +84,17 @@
     <Compile Include="Core\Scaling\RectExtensions.cs" />
     <Compile Include="Templates\TitledGroup.cs" />
     <Compile Include="Templates\WindowsPhone7Page.cs" />
+    <Compile Include="UIElements\ApplicationBar.cs" />
     <Compile Include="UIElements\Canvas.cs" />
     <Compile Include="Core\GraphicsHelpers\ClipBuffer.cs" />
+    <Compile Include="UIElements\Button.cs" />
+    <Compile Include="UIElements\CheckBox.cs" />
+    <Compile Include="UIElements\WrapPanel.cs" />
+    <Compile Include="UIElements\Events\ButtonTapEventArgs.cs" />
+    <Compile Include="UIElements\TextBox.cs" />
+    <Compile Include="UIElements\ImageButton.cs" />
     <Compile Include="UIElements\DelegateUIElement.cs" />
+    <Compile Include="UIElements\Events\NavigateRequestEventArgs.cs" />
     <Compile Include="UIElements\Pivot\FleuxSettingsPivotItem.cs" />
     <Compile Include="UIElements\StackPanel.cs" />
     <Compile Include="UIElements\Events\SizeChangedEventArgs.cs" />
@@ -133,6 +141,7 @@
     <Compile Include="Styles\MetroTheme.cs" />
     <Compile Include="Styles\TextStyle.cs" />
     <Compile Include="Styles\ThicknessStyle.cs" />
+    <Compile Include="UIElements\Tile.cs" />
     <Compile Include="UIElements\TransparentImageElement.cs" />
     <Compile Include="UIElements\UIElement.cs" />
   </ItemGroup>
@@ -146,6 +155,9 @@
     <EmbeddedResource Include="Images\verticalscrollbar.png" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="Controls\FleuxControl.resx">
+      <DependentUpon>FleuxControl.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Images\righttransition.png" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CompactFramework.CSharp.targets" />

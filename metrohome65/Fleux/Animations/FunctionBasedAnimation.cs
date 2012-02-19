@@ -7,6 +7,8 @@
         public int From;
         public int To;
         public Action<int> OnAnimation;
+        public Action OnAnimationStop;
+        public Action OnAnimationStart;
 
         private bool keepAnimating;
         private int initialTicks;
@@ -66,6 +68,18 @@
         public void Cancel()
         {
             this.keepAnimating = false;
+        }
+
+        public void OnFinish()
+        {
+            if (OnAnimationStop != null)
+                OnAnimationStop();
+        }
+
+        public void OnStart()
+        {
+            if (OnAnimationStart != null)
+                OnAnimationStart();
         }
 
         public static class Functions

@@ -87,6 +87,8 @@
 
         public override bool Pan(Point from, Point to, bool done, Point startPoint)
         {
+            // Gianni, removed because on Click is mapped to MouseMove, with a strange behavior
+#if !WindowsCE
             this.offsetForHeaders = 0;
             this.offsetForBody = 0;
             if (done && this.offsetForPanning != 0)
@@ -101,6 +103,9 @@
             }
 
             return base.Pan(from, to, done, startPoint);
+#else
+            return true;
+#endif
         }
 
         public override bool Flick(Point from, Point to, int millisecs, Point startPoint)
@@ -204,14 +209,20 @@
                 this.headers.AddElement(h);
                 x += h.Size.Width + this.headerPadding;
             }
+
             this.headersWidth = x;
-            foreach (var i in this.pivotItems)
+            // GIANNI added, to avoid headers repetition on wide screen
+            if (this.headersWidth > this.Size.Width)
             {
-                var h = this.CreateHeader(i, null);
-                h.Location = new Point(x, 0);
-                this.headers.AddElement(h);
-                x += h.Size.Width + this.headerPadding;
+                foreach (var i in this.pivotItems)
+                {
+                    var h = this.CreateHeader(i, null);
+                    h.Location = new Point(x, 0);
+                    this.headers.AddElement(h);
+                    x += h.Size.Width + this.headerPadding;
+                }
             }
+
             this.headers.Size = new Size(this.headersWidth, 80);
         }
 

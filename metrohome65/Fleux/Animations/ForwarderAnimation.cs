@@ -59,5 +59,10 @@
                 animation.Cancel();
             }
         }
+
+        public void OnFinish() { }
+
+        public void OnStart() { }
+
     }
 }

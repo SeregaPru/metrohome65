@@ -46,5 +46,10 @@
         {
             this.cancelled = true;
         }
+
+        public void OnFinish() { }
+
+        public void OnStart() { }
+
     }
 }

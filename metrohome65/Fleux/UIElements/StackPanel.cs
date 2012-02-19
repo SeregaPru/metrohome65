@@ -19,9 +19,10 @@
             this.Relayout();
         }
 
-        public void Clear()
+        public override void AddElementAt(int index, UIElement element)
         {
-            this.Children.Clear();
+            base.AddElementAt(index, element);
+            this.Relayout();
         }
 
         private void Relayout()
@@ -31,7 +32,7 @@
             {
                 i.Location = new Point(0, y);
                 i.ResizeForWidth(this.Size.Width);
-                y += i.Size.Height;
+                y += i.Size.Height;                
             }
         }
     }

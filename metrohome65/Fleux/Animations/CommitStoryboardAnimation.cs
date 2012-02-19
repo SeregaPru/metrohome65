@@ -26,6 +26,10 @@
             this.lastKeepAnimating = false;
         }
 
+        public void OnFinish() { }
+
+        public void OnStart() { }
+
         public bool Animate()
         {
             if (!this.lastKeepAnimating)
