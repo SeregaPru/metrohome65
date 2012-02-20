@@ -13,10 +13,10 @@ namespace MetroHome65.Widgets.StatusWidget
             UpdateStatus();
         }
 
-        public override void PaintStatus(Graphics g, Rectangle Rect)
+        public override void PaintStatus(Graphics g, Rectangle rect)
         {
             DrawStatus DrawStatus = (_PowerState == Microsoft.WindowsMobile.Status.BatteryState.Critical) ? DrawStatus.dsError : DrawStatus.dsOn; 
-            PaintStatus(g, Rect, DrawStatus, "battery_" + _BatteryStatus, GetBatteryPercent() + "%");
+            PaintStatus(g, rect, DrawStatus, "battery_" + _BatteryStatus, GetBatteryPercent() + "%");
         }
 
         public override bool UpdateStatus()

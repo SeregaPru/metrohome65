@@ -11,7 +11,7 @@ namespace MetroHome65.Widgets.StatusWidget
             UpdateStatus();
         }
 
-        public virtual void PaintStatus(Graphics g, Rectangle Rect) { }
+        public virtual void PaintStatus(Graphics g, Rectangle rect) { }
 
         /// <summary>
         /// Check if status was changed since last check
@@ -38,62 +38,62 @@ namespace MetroHome65.Widgets.StatusWidget
         private static int _BarSize = (ScreenRoutines.IsQVGA) ? 4 : 10;
         private static int _CaptionPosY = (ScreenRoutines.IsQVGA) ? 25 : 44;
 
-        protected virtual void PaintStatus(Graphics g, Rectangle Rect,
-            DrawStatus DrawStatus, string IconName, string Caption)
+        protected void PaintStatus(Graphics g, Rectangle rect,
+            DrawStatus drawStatus, string iconName, string caption)
         {
-            SolidBrush captionBrush = new System.Drawing.SolidBrush(System.Drawing.Color.White);
+            var captionBrush = new SolidBrush(Color.White);
 
-            System.Drawing.Color CaptionColor;
-            String IconPostfix;
-            String BarPostfix;
+            Color captionColor;
+            String iconPostfix;
+            String barPostfix;
 
-            switch (DrawStatus) {
+            switch (drawStatus) {
                 case DrawStatus.dsOn :
-                    CaptionColor = System.Drawing.Color.White;
-                    IconPostfix = "_on";
-                    BarPostfix = "_on";
+                    captionColor = Color.White;
+                    iconPostfix = "_on";
+                    barPostfix = "_on";
                     break;
                 case DrawStatus.dsOff :
-                    CaptionColor = System.Drawing.Color.DarkGray;
-                    IconPostfix = "_off";
-                    BarPostfix = "_off";
+                    captionColor = Color.DarkGray;
+                    iconPostfix = "_off";
+                    barPostfix = "_off";
                     break;
                 default:
-                    CaptionColor = System.Drawing.Color.White;
-                    IconPostfix = "_on";
-                    BarPostfix = "_error";
+                    captionColor = Color.White;
+                    iconPostfix = "_on";
+                    barPostfix = "_error";
                     break;
             }
 
             // draw status indicator
             DrawResourceImage(g,
-                Rect.Left, Rect.Bottom - _BarSize, Rect.Width, _BarSize, "bar" + BarPostfix);
+                rect.Left, rect.Bottom - _BarSize, rect.Width, _BarSize, "bar" + barPostfix);
 
             // draw additional caption
-            int CaptionHeigth = 0;
-            if (!String.IsNullOrEmpty(Caption))
+            var captionHeigth = 0;
+            if (!String.IsNullOrEmpty(caption))
             {
-                Font captionFont = new System.Drawing.Font("Segoe UI Light", 7, FontStyle.Bold);
-                captionBrush.Color = CaptionColor;
-                SizeF CaptionSize = g.MeasureString(Caption, captionFont);
-                g.DrawString(Caption, captionFont, captionBrush,
-                    Rect.Left + (Rect.Width - CaptionSize.Width) / 2, Rect.Top + _CaptionPosY);
-                CaptionHeigth = ScreenRoutines.Scale(16);
+                var captionFont = new Font("Segoe UI Light", 7, FontStyle.Bold);
+                captionBrush.Color = captionColor;
+                var captionSize = g.MeasureString(caption, captionFont);
+                g.DrawString(caption, captionFont, captionBrush,
+                    rect.Left + (rect.Width - captionSize.Width) / 2, rect.Top + _CaptionPosY);
+                captionHeigth = ScreenRoutines.Scale(16);
             }
 
             // draw main status icon
             DrawResourceImage(g, 
-              (Rect.Left + Rect.Right - _IconSize) / 2,
-              Rect.Top + (Rect.Height - _IconSize - _BarSize - CaptionHeigth) / 2,
+              (rect.Left + rect.Right - _IconSize) / 2,
+              rect.Top + (rect.Height - _IconSize - _BarSize - captionHeigth) / 2,
               _IconSize, _IconSize,
-              IconName + IconPostfix);
+              iconName + iconPostfix);
         }
 
-        private void DrawResourceImage(Graphics g, int x, int y, int Width, int Height, string IconName)
+        private void DrawResourceImage(Graphics g, int x, int y, int width, int height, string iconName)
         {
-            String IconPath = "StatusWidgets.icons." + _IconPrefix + IconName + ".png";
-            (new AlphaImage(IconPath, this.GetType().Assembly)).
-              PaintBackground(g, new Rectangle(x, y, Width, Height));
+            var iconPath = "StatusWidgets.icons." + _IconPrefix + iconName + ".png";
+            (new AlphaImage(iconPath, this.GetType().Assembly)).
+                PaintBackground(g, new Rectangle(x, y, width, height));
         }
 
     }

@@ -114,11 +114,13 @@ namespace MetroHome65.Widgets
             }
         }
 
+        /*
         private void OnTimer(object sender, EventArgs e)
         {
             _showPoints = !_showPoints;
             OnWidgetUpdate();
         }
+        */ 
 
         // overriding paint icon method - don't paint icon
         protected override void PaintIcon(Graphics g, Rectangle rect)

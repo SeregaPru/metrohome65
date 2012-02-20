@@ -18,7 +18,7 @@ namespace MetroHome65.Widgets.StatusWidget
         /// <summary>
         /// Paint curreent WiFi status
         /// </summary>
-        public override void PaintStatus(Graphics g, Rectangle Rect)
+        public override void PaintStatus(Graphics g, Rectangle rect)
         {
             DrawStatus DrawStatus;
             if (_WiFiConnected && _WiFiPowerOn)
@@ -29,7 +29,7 @@ namespace MetroHome65.Widgets.StatusWidget
                 else 
                     DrawStatus = DrawStatus.dsError;
 
-            PaintStatus(g, Rect, DrawStatus, "wifi", "");
+            PaintStatus(g, rect, DrawStatus, "wifi", "");
         }
 
         /// <summary>
