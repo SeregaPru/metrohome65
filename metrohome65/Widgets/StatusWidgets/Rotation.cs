@@ -12,10 +12,10 @@ namespace MetroHome65.Widgets.StatusWidget
             UpdateStatus();
         }
 
-        public override void PaintStatus(Graphics g, Rectangle Rect)
+        public override void PaintStatus(Graphics g, Rectangle rect)
         {
             DrawStatus DrawStatus = (_RotationStatus) ? DrawStatus.dsOn : DrawStatus.dsOff;
-            PaintStatus(g, Rect, DrawStatus, "autorotate", "");
+            PaintStatus(g, rect, DrawStatus, "autorotate", "");
         }
 
         public override bool UpdateStatus()

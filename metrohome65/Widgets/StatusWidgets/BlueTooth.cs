@@ -14,7 +14,7 @@ namespace MetroHome65.Widgets.StatusWidget
             UpdateStatus();
         }
 
-        public override void PaintStatus(Graphics g, Rectangle Rect)
+        public override void PaintStatus(Graphics g, Rectangle rect)
         {
             DrawStatus DrawStatus;
             if (_BluetoothConnected && _BluetoothPowerOn)
@@ -25,7 +25,7 @@ namespace MetroHome65.Widgets.StatusWidget
             else
                 DrawStatus = DrawStatus.dsError;
 
-            PaintStatus(g, Rect, DrawStatus, "bluetooth", "");
+            PaintStatus(g, rect, DrawStatus, "bluetooth", "");
         }
 
         /// <summary>
