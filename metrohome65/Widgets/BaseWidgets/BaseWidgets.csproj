@@ -2,7 +2,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProductVersion>9.0.30729</ProductVersion>
+    <ProductVersion>9.0.21022</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{B23D069D-4ED9-4F45-BE07-DA271A2106D4}</ProjectGuid>
     <OutputType>Library</OutputType>
@@ -49,16 +49,19 @@
     <Reference Include="mscorlib" />
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.XML" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="IconWidget.cs" />
+    <Compile Include="IUpdatable_Intf.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ShortcutWidget.cs" />
     <Compile Include="TransparentWidget.cs" />
     <Compile Include="WidgetBase.cs" />
-    <Compile Include="Widget_Intf.cs" />
+    <Compile Include="IWidget_Intf.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\MetroHome65.Routines\MetroHome65.Routines.csproj">

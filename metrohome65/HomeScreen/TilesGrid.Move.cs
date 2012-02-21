@@ -20,7 +20,6 @@ namespace MetroHome65.HomeScreen
             get { return _movingTile; }
             set
             {
-                /*
                 if (_movingTile != value)
                 {
                     RealignSettingsButtons(value != null);
@@ -47,7 +46,6 @@ namespace MetroHome65.HomeScreen
                         Active = true;
                     }
                 }
-                */
             }
         }
 
@@ -85,8 +83,8 @@ namespace MetroHome65.HomeScreen
         public override bool Pan(Point from, Point to, bool done, Point startPoint)
         {
             var result = false;
-            var prevActive = _active;
-            Active = false;
+            //var prevActive = _active;
+            //Active = false;
 
             if (MoveMode && _tilesCanvas.Bounds.Contains(to))
             {
@@ -103,7 +101,7 @@ namespace MetroHome65.HomeScreen
                 result = base.Pan(from, to, done, startPoint);
             }
 
-            Active = prevActive;
+            //Active = prevActive;
             return result;
         }
 

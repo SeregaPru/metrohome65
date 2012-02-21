@@ -3,20 +3,19 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Windows.Forms;
 using Fleux.Controls;
-using Fleux.Core.GraphicsHelpers;
-using Fleux.Core.Scaling;
 using Fleux.UIElements;
-using Fleux.Core;
+using MetroHome65.Widgets;
 
 namespace MetroHome65.HomeScreen
 {
-    public partial class TilesGrid : ScrollViewer
+    public partial class TilesGrid : ScrollViewer, IActive
     {
         private readonly FleuxControl _homeScreenControl;
         private readonly List<WidgetWrapper> _tiles = new List<WidgetWrapper>();
         private readonly Canvas _tilesCanvas;
-        private readonly TransparentImageElement _buttonSettings;
-        private readonly TransparentImageElement _buttonUnpin;
+        private readonly UIElement _buttonSettings;
+        private readonly UIElement _buttonUnpin;
+        private Boolean _active = true;
 
         public TilesGrid(FleuxControl homeScreenControl)
             : base()
@@ -24,15 +23,13 @@ namespace MetroHome65.HomeScreen
             _homeScreenControl = homeScreenControl;
 
             // кнопка настроек            
-            _buttonSettings = new TransparentImageElement(
-                ResourceManager.Instance.GetIImageFromEmbeddedResource("settings.png"))
+            _buttonSettings = new FlatButton("settings.png")
                                   {
                                       Size = new Size(48, 48),
                                       TapHandler = ButtonSettingsClick,
                                   };
             // кнопка удаления плитки
-            _buttonUnpin = new TransparentImageElement(
-                ResourceManager.Instance.GetIImageFromEmbeddedResource("cancel.png"))
+            _buttonUnpin = new FlatButton("cancel.png")
                                {
                                    Size = new Size(48, 48),
                                    TapHandler = ButtonUnpinClick,
@@ -58,10 +55,10 @@ namespace MetroHome65.HomeScreen
             ReadSettings();
         }
 
-        private Boolean _active = true;
-
+        // IActive
         public Boolean Active
         {
+            get { return _active; }
             set
             {
                 if (_active == value) return;
@@ -81,6 +78,7 @@ namespace MetroHome65.HomeScreen
                     wsInfo.Active = _active;
             }
         }
+
 
         /// <summary>
         /// Fill popup menu for widget grid with grid settings

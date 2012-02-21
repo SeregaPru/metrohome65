@@ -4,6 +4,7 @@ using System.Drawing;
 using Fleux.UIElements;
 using MetroHome65.Routines;
 using System.Xml.Serialization;
+using MetroHome65.Widgets;
 
 namespace MetroHome65.HomeScreen
 {

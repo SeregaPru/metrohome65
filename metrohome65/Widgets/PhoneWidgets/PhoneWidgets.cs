@@ -5,10 +5,10 @@ using MetroHome65.Routines;
 namespace MetroHome65.Widgets
 {
     [WidgetInfo("Phone")]
-    public class PhoneWidget : ShortcutWidget, IWidgetUpdatable
+    public class PhoneWidget : ShortcutWidget, IUpdatable
     {
-        private System.Windows.Forms.Timer _Timer;
-        private int _MissedCount = 0;
+        private System.Windows.Forms.Timer _timer;
+        private int _missedCount = 0;
 
         private static int PaddingRightCnt = ScreenRoutines.Scale(50); //todo comment
         private static int PaddingRightIco = ScreenRoutines.Scale(160); //todo comment
@@ -37,7 +37,7 @@ namespace MetroHome65.Widgets
 
         private void PaintCount(Graphics g, Rectangle Rect)
         {
-            String MissedCountStr = _MissedCount.ToString();
+            var MissedCountStr = _missedCount.ToString();
 
             int CaptionHeight = (Caption == "") ? 0 : (CaptionSize /*+ CaptionBottomOffset*/);
 
@@ -48,29 +48,45 @@ namespace MetroHome65.Widgets
                 Rect.Top + (Rect.Height - g.MeasureString("0", captionFont).Height - CaptionHeight) / 2);
         }
 
+        public bool Active
+        {
+            get { return (_timer != null); }
+            set
+            {
+                if (value)
+                {
+                    StartUpdate();
+                }
+                else
+                {
+                    StopUpdate();
+                }
+            }
+        }
+
         public void StartUpdate()
         {
-            if (_Timer == null)
+            if (_timer == null)
             {
-                _Timer = new System.Windows.Forms.Timer();
-                _Timer.Tick += new EventHandler(OnTimer);
+                _timer = new System.Windows.Forms.Timer();
+                _timer.Tick += new EventHandler(OnTimer);
             }
-            _Timer.Interval = 2000;
-            _Timer.Enabled = true;
+            _timer.Interval = 2000;
+            _timer.Enabled = true;
         }
 
         public void StopUpdate()
         {
-            if (_Timer != null)
-                _Timer.Enabled = false;
+            if (_timer != null)
+                _timer.Enabled = false;
         }
 
         private void OnTimer(object sender, EventArgs e)
         {
             int CurrentMissedCount = GetMissedCount();
-            if (CurrentMissedCount != _MissedCount)
+            if (CurrentMissedCount != _missedCount)
             {
-                _MissedCount = CurrentMissedCount;
+                _missedCount = CurrentMissedCount;
                 OnWidgetUpdate();
             }
         }
@@ -84,7 +100,7 @@ namespace MetroHome65.Widgets
 
 
     [WidgetInfo("SMS")]
-    public class SMSWidget : PhoneWidget, IWidgetUpdatable
+    public class SMSWidget : PhoneWidget, IUpdatable
     {
         protected override int GetMissedCount()
         {
@@ -95,7 +111,7 @@ namespace MetroHome65.Widgets
 
 
     [WidgetInfo("E-mail")]
-    public class EMailWidget : PhoneWidget, IWidgetUpdatable
+    public class EMailWidget : PhoneWidget, IUpdatable
     {
         protected override int GetMissedCount()
         {

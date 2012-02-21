@@ -9,7 +9,7 @@ using MetroHome65.Settings.Controls;
 namespace MetroHome65.Widgets
 {
     [WidgetInfo("Digital clock")]
-    public class DigitalClockWidget : ShortcutWidget, IWidgetUpdatable
+    public class DigitalClockWidget : ShortcutWidget, IUpdatable
     {
         private Thread _timer;
         private Brush _brushCaption;
@@ -82,6 +82,22 @@ namespace MetroHome65.Widgets
             g.DrawString(sDate, _fntDate, _brushCaption,
                 rect.Right - dateBox.Width - PaddingRight,
                 rect.Bottom - (rect.Height - timeBoxMins.Height - dateBox.Height) / 2 - dateBox.Height);
+        }
+
+        public bool Active
+        {
+            get { return (_timer != null); }
+            set
+            {
+                if (value)
+                {
+                    StartUpdate();
+                }
+                else
+                {
+                    StopUpdate();
+                }
+            }
         }
 
         public void StartUpdate()

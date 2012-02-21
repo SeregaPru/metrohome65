@@ -2,7 +2,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProductVersion>9.0.30729</ProductVersion>
+    <ProductVersion>9.0.21022</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{A6BFA5B1-E501-4588-BCF0-F07356F120E3}</ProjectGuid>
     <OutputType>Library</OutputType>
@@ -111,24 +111,31 @@
   <ItemGroup>
     <EmbeddedResource Include="OpenFileDialogEx.resx">
       <DependentUpon>OpenFileDialogEx.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Settings_color.resx">
       <DependentUpon>Settings_color.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Settings_contact.resx">
       <DependentUpon>Settings_contact.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Settings_file.resx">
       <DependentUpon>Settings_file.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Settings_flag.resx">
       <DependentUpon>Settings_flag.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Settings_image.resx">
       <DependentUpon>Settings_image.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Settings_string.resx">
       <DependentUpon>Settings_string.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

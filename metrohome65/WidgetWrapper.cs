@@ -172,8 +172,8 @@ namespace MetroHome65.HomeScreen
                 _widget = PluginManager.GetInstance().CreateWidget(value);
                 FillWidgetProperties();
 
-                if (Widget is IWidgetUpdatable)
-                    (Widget as IWidgetUpdatable).WidgetUpdate += OnWidgetUpdate;
+                if (Widget is IUpdatable)
+                    (Widget as IUpdatable).OnUpdate += OnWidgetUpdate;
 
                 TapHandler += p => { OnClick(p); return true; };
                 DoubleTapHandler += p => { OnDblClick(p); return true; };
@@ -188,14 +188,9 @@ namespace MetroHome65.HomeScreen
         /// </summary>
         public Boolean Active { 
             set {
-                if (_widget is IWidgetUpdatable)
+                if (_widget is IUpdatable)
                 {
-                    /*!!
-                    if (value)
-                        (_widget as IWidgetUpdatable).StartUpdate();
-                    else
-                        (_widget as IWidgetUpdatable).StopUpdate();
-                     */
+                    (_widget as IUpdatable).Active = value;
                 }
             }
         }
@@ -310,6 +305,7 @@ namespace MetroHome65.HomeScreen
         {
             _needRepaint = true;
             Update();
+            System.Windows.Forms.Application.DoEvents();
         }
 
         /// <summary>
@@ -336,7 +332,6 @@ namespace MetroHome65.HomeScreen
         public bool Moving {
             get { return _moving; }
             set {
-                /*
                 if (_moving != value)
                 {
                     _moving = value;
@@ -354,7 +349,6 @@ namespace MetroHome65.HomeScreen
                         Update();
                     }
                 }
-                */
             }
         }
 

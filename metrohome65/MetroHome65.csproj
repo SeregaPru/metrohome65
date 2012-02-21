@@ -2,7 +2,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProductVersion>9.0.30729</ProductVersion>
+    <ProductVersion>9.0.21022</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{55BF769B-A219-4FCF-8B3C-4B87D0D147AF}</ProjectGuid>
     <OutputType>WinExe</OutputType>
@@ -67,11 +67,7 @@
       <DependentUpon>FrmWidgetSettings.cs</DependentUpon>
     </Compile>
     <Compile Include="HomeScreen\Arrow.cs" />
-    <Compile Include="HomeScreen\Elements\BlockElement.cs" />
-    <Compile Include="HomeScreen\Elements\Clock.cs" />
-    <Compile Include="HomeScreen\Elements\PeopleTile.cs" />
-    <Compile Include="HomeScreen\Elements\SoftKeys.cs" />
-    <Compile Include="HomeScreen\Elements\Tile.cs" />
+    <Compile Include="HomeScreen\FlatButton.cs" />
     <Compile Include="HomeScreen\HomeScreen.cs" />
     <Compile Include="HomeScreen\ProgramsMenu.cs" />
     <Compile Include="HomeScreen\TilesGrid.cs" />
@@ -83,6 +79,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="FrmWidgetSettings.resx">
       <DependentUpon>FrmWidgetSettings.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -193,6 +190,9 @@
       <Project>{B23D069D-4ED9-4F45-BE07-DA271A2106D4}</Project>
       <Name>BaseWidgets</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Interfaces\" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CompactFramework.CSharp.targets" />
   <ProjectExtensions>

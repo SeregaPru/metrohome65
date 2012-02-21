@@ -37,7 +37,7 @@ namespace MetroHome65.Widgets
         /// <summary>
         /// Event raised when Widget needs to be updated (repainted)
         /// </summary>
-        public event WidgetUpdateEventHandler WidgetUpdate
+        public event UpdateEventHandler OnUpdate
         {
             add { _events.AddHandler(_EventWidgetUpdate, value); }
             remove { _events.RemoveHandler(_EventWidgetUpdate, value); }       
@@ -45,7 +45,7 @@ namespace MetroHome65.Widgets
 
         protected void OnWidgetUpdate()
         {
-            var handler = _events[_EventWidgetUpdate] as WidgetUpdateEventHandler;
+            var handler = _events[_EventWidgetUpdate] as UpdateEventHandler;
             if (handler != null)
                 handler();
         }
