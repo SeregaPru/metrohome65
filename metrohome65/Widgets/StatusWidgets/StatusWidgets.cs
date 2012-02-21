@@ -6,7 +6,7 @@ using System.Threading;
 namespace MetroHome65.Widgets.StatusWidget
 {
     [WidgetInfo("Statuses")]
-    public class StatusWidget : ShortcutWidget, IWidgetUpdatable
+    public class StatusWidget : ShortcutWidget, IUpdatable
     {
         private Thread _timer;
 
@@ -81,6 +81,22 @@ namespace MetroHome65.Widgets.StatusWidget
         private int StatusesCount()
         {
             return _statuses.Count;
+        }
+
+        public bool Active
+        {
+            get { return (_timer != null); }
+            set
+            {
+                if (value)
+                {
+                    StartUpdate();
+                }
+                else
+                {
+                    StopUpdate();
+                }
+            }
         }
 
         public void StartUpdate()

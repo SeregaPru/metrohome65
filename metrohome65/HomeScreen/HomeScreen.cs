@@ -1,4 +1,5 @@
-﻿using System.Drawing;
+﻿using System;
+using System.Drawing;
 using Microsoft.WindowsMobile.Status;
 using Fleux.Controls;
 using Fleux.UIElements;
@@ -76,8 +77,13 @@ namespace MetroHome65.HomeScreen
 
         private bool Flick(Point from, Point to, int millisecs, Point start)
         {
-            SwitchScreen(to.X - from.X > 0);
-            return true;
+            if (Math.Abs(from.X - to.X) > Math.Abs(from.Y - to.Y))
+            {
+                SwitchScreen(to.X - from.X > 0);
+                return true;
+            }
+            else
+                return false;
         }
 
         private void SwitchScreen(bool showTiles)
@@ -90,7 +96,7 @@ namespace MetroHome65.HomeScreen
 
             _animation = new FunctionBasedAnimation(FunctionBasedAnimation.Functions.Linear)
             {
-                Duration = 500,
+                Duration = 300,
                 From = homeScreenPosFrom,
                 To = homeScreenPosTo,
                 OnAnimation = v =>

@@ -1,13 +1,11 @@
-﻿using Fleux.UIElements;
-using Fleux.Core;
+﻿using Fleux.Core;
 using System.Drawing;
 
 namespace MetroHome65.HomeScreen
 {
-    public class Arrow : TransparentImageElement
+    public class Arrow : FlatButton
     {
-        public Arrow()
-            : base(ResourceManager.Instance.GetIImageFromEmbeddedResource("next.png"))
+        public Arrow() : base("next.png")
         {
             this.Size = new Size(48, 48);
         }
@@ -21,5 +19,6 @@ namespace MetroHome65.HomeScreen
         {
             Image = ResourceManager.Instance.GetIImageFromEmbeddedResource("back.png");
         }
+
     }
 }

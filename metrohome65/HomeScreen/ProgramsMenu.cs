@@ -8,6 +8,7 @@ using System.ComponentModel;
 using MetroHome65.Routines;
 using Fleux.UIElements;
 using Fleux.Styles;
+using MetroHome65.Widgets;
 
 namespace MetroHome65.HomeScreen
 {
@@ -35,10 +36,10 @@ namespace MetroHome65.HomeScreen
     }
 
 
-    sealed class ProgramsMenu : ListElement
-    {       
+    sealed class ProgramsMenu : ListElement, IActive
+    {
         public ProgramsMenu()
-            //: base()
+        //: base()
         {
             _refa = new FileRoutines.structa();
             EntranceAnimation = null;
@@ -83,10 +84,11 @@ namespace MetroHome65.HomeScreen
                     {
                         if (t.Name != "icon.lnk")
                         {
-                            _fileList.Add(new FileDescr {
-                                                            Name = t.Name.Substring(0, t.Name.Length - 4),
-                                                            Path = t.FullName
-                                                        });
+                            _fileList.Add(new FileDescr
+                            {
+                                Name = t.Name.Substring(0, t.Name.Length - 4),
+                                Path = t.FullName
+                            });
                         }
                     }
 
@@ -111,8 +113,9 @@ namespace MetroHome65.HomeScreen
         {
             var fileDescr = (FileDescr)aFileDescr;
 
-            var canvas = new Canvas { 
-                Size = new Size(ScreenRoutines.Scale(480), IconSize + BlankSize) 
+            var canvas = new Canvas
+            {
+                Size = new Size(ScreenRoutines.Scale(480), IconSize + BlankSize)
             };
 
             // draw icon with border
@@ -125,14 +128,16 @@ namespace MetroHome65.HomeScreen
             graphics.FillRectangle(_bgBrush, _rect);
             graphics.DrawIcon(icon, BorderSize, BorderSize + BlankSize);
 
-            canvas.AddElement(new ImageElement(image) {
+            canvas.AddElement(new ImageElement(image)
+            {
                 Size = image.Size,
                 Location = new Point(0, 0),
-            } );
+            });
 
             // draw program name
             var textHeight = ScreenRoutines.Scale(15);
-            canvas.AddElement(new TextElement(fileDescr.Name) {
+            canvas.AddElement(new TextElement(fileDescr.Name)
+            {
                 Style = new TextStyle(
                     MetroTheme.PhoneFontFamilyNormal,
                     MetroTheme.PhoneFontSizeNormal,
@@ -142,11 +147,19 @@ namespace MetroHome65.HomeScreen
             });
 
             // onclick handler = launch program
-            canvas.TapHandler = point => { 
-                FileRoutines.StartProcess(fileDescr.Path); return true; 
+            canvas.TapHandler = point =>
+            {
+                FileRoutines.StartProcess(fileDescr.Path); return true;
             };
 
             return canvas;
+        }
+
+        // IActive
+        public Boolean Active
+        {
+            get { return true; }
+            set { }
         }
 
     }
