@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Drawing;
 using System.Linq;
-using System.Windows.Forms;
 using System.Collections.Generic;
 using System.Reflection;
 using Fleux.UIElements;
@@ -191,10 +190,12 @@ namespace MetroHome65.HomeScreen
             set {
                 if (_widget is IWidgetUpdatable)
                 {
+                    /*!!
                     if (value)
                         (_widget as IWidgetUpdatable).StartUpdate();
                     else
                         (_widget as IWidgetUpdatable).StopUpdate();
+                     */
                 }
             }
         }
@@ -274,10 +275,9 @@ namespace MetroHome65.HomeScreen
             }
             else
             {
-                var pen = new Pen(Color.Gray, 1);
-                pen.DashStyle = System.Drawing.Drawing2D.DashStyle.Dash;
+                var pen = new Pen(Color.Gray, 1) { DashStyle = System.Drawing.Drawing2D.DashStyle.Dash };
                 _graphics.DrawRectangle(pen, paintRect);
-                _graphics.DrawString("Widget\nnot\nfound", new System.Drawing.Font("Verdana", 8, FontStyle.Regular),
+                _graphics.DrawString("Widget\nnot\nfound", new Font("Verdana", 8, FontStyle.Regular),
                     new SolidBrush(Color.Yellow), paintRect.X + 5, paintRect.Y + 5);
             }
         }
@@ -290,13 +290,20 @@ namespace MetroHome65.HomeScreen
                 _needRepaint = false;
             }
 
-            // for moving mode - change size
-            var paintRect = new Rectangle(0, 0, Bounds.Width, Bounds.Height);
-            if (_moving)
-                paintRect.Inflate(_deltaX, _deltaY);
+            if (drawingGraphics == null)
+                return;
 
-            if (drawingGraphics != null)
+            // for moving mode - change size
+            if (_moving)
+            {
+                var paintRect = new Rectangle(0, 0, Bounds.Width, Bounds.Height);
+                paintRect.Inflate(_deltaX, _deltaY);
                 drawingGraphics.DrawImage(_doubleBuffer, paintRect);
+            }
+            else
+            {
+                drawingGraphics.Graphics.DrawImage(_doubleBuffer, -drawingGraphics.VisibleRect.Left, -drawingGraphics.VisibleRect.Top);
+            }
         }
 
         public void ForceUpdate()
@@ -329,13 +336,16 @@ namespace MetroHome65.HomeScreen
         public bool Moving {
             get { return _moving; }
             set {
+                /*
                 if (_moving != value)
                 {
                     _moving = value;
 
                     if (value)
                     {
-                        _resizeTimer = new System.Threading.Timer(s => RepaintMovingWidget(), null, 0, 300);
+                        _resizeTimer = new System.Threading.Timer(
+                            s => RepaintMovingWidget(), null, 0, 300
+                        );
                     }
                     else
                     {
@@ -344,6 +354,7 @@ namespace MetroHome65.HomeScreen
                         Update();
                     }
                 }
+                */
             }
         }
 

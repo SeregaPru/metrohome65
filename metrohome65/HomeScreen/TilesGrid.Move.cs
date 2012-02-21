@@ -20,6 +20,7 @@ namespace MetroHome65.HomeScreen
             get { return _movingTile; }
             set
             {
+                /*
                 if (_movingTile != value)
                 {
                     RealignSettingsButtons(value != null);
@@ -46,6 +47,7 @@ namespace MetroHome65.HomeScreen
                         Active = true;
                     }
                 }
+                */
             }
         }
 
