@@ -1,11 +1,6 @@
-﻿using System;
-using System.Linq;
-using System.Collections.Generic;
-using System.Text;
-using Fleux.UIElements;
+﻿using Fleux.UIElements;
 using Fleux.Core;
 using System.Drawing;
-using Fleux.Animations;
 
 namespace MetroHome65.HomeScreen
 {

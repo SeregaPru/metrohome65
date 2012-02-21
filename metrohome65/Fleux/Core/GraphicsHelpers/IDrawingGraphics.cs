@@ -12,6 +12,8 @@
     /// </summary>
     public interface IDrawingGraphics
     {
+        Graphics Graphics { get; }
+
         // Getters
         // Bounds (may change while it's drawing)
         int Right { get; } // Based on actual drawing extends. Not Scaled

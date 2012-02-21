@@ -11,6 +11,8 @@ namespace MetroHome65.HomeScreen
         private readonly Canvas _homeScreenCanvas;
         private readonly Arrow _switchArrow;
         private readonly TilesGrid _tilesGrid;
+        private readonly UIElement _programsSv;
+        private IAnimation _animation;
         bool _showingTiles = true;
         // system state for receiving notifications about system events
         private readonly SystemState _systemState = new SystemState(0);
@@ -37,8 +39,8 @@ namespace MetroHome65.HomeScreen
             // прокрутчик холста плиток
             _tilesGrid = new TilesGrid(Control)
             {
-                Size = new Size(GridWidth, Size.Height),
                 Location = new Point(0, 0),
+                Size = new Size(GridWidth, Size.Height),
             };
             _homeScreenCanvas.AddElement(_tilesGrid);
 
@@ -49,14 +51,13 @@ namespace MetroHome65.HomeScreen
             };
             _homeScreenCanvas.AddElement(_switchArrow);
 
-
             // список программ
             var programsPosX = ArrowPos2 + _switchArrow.Size.Width + ArrowPadding;
-            var programsSv = new ProgramsMenu {
+            _programsSv = new ProgramsMenu {
                 Location = new Point(programsPosX, 5),
                 Size = new Size(2 * ScreenWidth - programsPosX, Size.Height - 5),
             };
-            _homeScreenCanvas.AddElement(programsSv);
+            _homeScreenCanvas.AddElement(_programsSv);
 
             Control.AddElement(_homeScreenCanvas);
 
@@ -87,7 +88,7 @@ namespace MetroHome65.HomeScreen
             var homeScreenPosTo = showTiles ? 0 : -ScreenWidth;
             var arrowPosTo = showTiles ? ArrowPos1 : ArrowPos2;
 
-            StoryBoard.BeginPlay(new FunctionBasedAnimation(FunctionBasedAnimation.Functions.Linear)
+            _animation = new FunctionBasedAnimation(FunctionBasedAnimation.Functions.Linear)
             {
                 Duration = 500,
                 From = homeScreenPosFrom,
@@ -115,7 +116,8 @@ namespace MetroHome65.HomeScreen
                                           if (showTiles)
                                               OnActivated();
                                       }
-            });
+            };
+            StoryBoard.BeginPlay(_animation);
 
             /*
             StoryBoard.BeginPlay(new FunctionBasedAnimation(FunctionBasedAnimation.Functions.SoftedFluid)
@@ -129,8 +131,22 @@ namespace MetroHome65.HomeScreen
                     _switchArrow.Update();
                 }
             });
-            */ 
-            
+            */
+
+        }
+
+        /// <summary>
+        /// cancel all current animations, including scroll in scrollviews.
+        /// to stop scrolling - emulate press on scrollview
+        /// </summary>
+        private void CancelAnimation()
+        {
+            if (_animation != null)
+            {
+                _animation.Cancel();
+            }
+            _tilesGrid.Pressed(new Point(-1, -1));
+            _programsSv.Pressed(new Point(-1, -1));
         }
 
         protected override void OnActivated()
@@ -141,6 +157,7 @@ namespace MetroHome65.HomeScreen
 
         private void OnDeactivate()
         {
+            CancelAnimation();
             _tilesGrid.Active = false;
         }
 
