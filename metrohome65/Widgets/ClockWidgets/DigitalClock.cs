@@ -2,7 +2,6 @@
 using System.Drawing;
 using System.Collections.Generic;
 using System.Windows.Forms;
-using System.Threading;
 using MetroHome65.Routines;
 using MetroHome65.Settings.Controls;
 
@@ -11,15 +10,15 @@ namespace MetroHome65.Widgets
     [WidgetInfo("Digital clock")]
     public class DigitalClockWidget : ShortcutWidget, IUpdatable
     {
-        private Thread _timer;
+        private Timer _updateTimer;
         private Brush _brushCaption;
         private Font _fntTime;
         private Font _fntDate;
         private Boolean _showPoints = true;
         private Boolean _is24Hour = true;
 
-        private int PaddingRight = ScreenRoutines.Scale(20);
-        private int DotWidth = ScreenRoutines.Scale(30); 
+        private readonly int _paddingRight = ScreenRoutines.Scale(20);
+        private readonly int _dotWidth = ScreenRoutines.Scale(30); 
 
         public DigitalClockWidget() : base()
         {
@@ -69,24 +68,24 @@ namespace MetroHome65.Widgets
             var dateBox = g.MeasureString(sDate, _fntDate);
 
             g.DrawString(sTimeMins, _fntTime, _brushCaption,
-                rect.Right - timeBoxMins.Width - PaddingRight,
+                rect.Right - timeBoxMins.Width - _paddingRight,
                 rect.Top + (rect.Height - timeBoxMins.Height - dateBox.Height) / 2);
             if (_showPoints)
                 g.DrawString(":", _fntTime, _brushCaption,
-                    rect.Right - timeBoxHour.Width - PaddingRight - DotWidth,
+                    rect.Right - timeBoxHour.Width - _paddingRight - _dotWidth,
                     rect.Top + (rect.Height - timeBoxMins.Height - dateBox.Height) / 2 - ScreenRoutines.Scale(5));
             g.DrawString(sTimeHour, _fntTime, _brushCaption,
-                rect.Right - timeBoxMins.Width - PaddingRight - DotWidth - timeBoxHour.Width,
+                rect.Right - timeBoxMins.Width - _paddingRight - _dotWidth - timeBoxHour.Width,
                 rect.Top + (rect.Height - timeBoxMins.Height - dateBox.Height) / 2);
 
             g.DrawString(sDate, _fntDate, _brushCaption,
-                rect.Right - dateBox.Width - PaddingRight,
+                rect.Right - dateBox.Width - _paddingRight,
                 rect.Bottom - (rect.Height - timeBoxMins.Height - dateBox.Height) / 2 - dateBox.Height);
         }
 
         public bool Active
         {
-            get { return (_timer != null); }
+            get { return (_updateTimer != null) && _updateTimer.Enabled; }
             set
             {
                 if (value)
@@ -102,41 +101,23 @@ namespace MetroHome65.Widgets
 
         public void StartUpdate()
         {
-            // update widget just now
-            OnWidgetUpdate();
-
-            if (_timer == null)
+            if (_updateTimer == null)
             {
-                _timer = new Thread(() =>
-                {
-                    _showPoints = !_showPoints;
-                    OnWidgetUpdate();
-                    Thread.Sleep(2000);
-                }
-                );
-                _timer.Start();
-                //_timer.Tick += OnTimer;
+                _updateTimer = new Timer() { Interval = 2000 };
+                _updateTimer.Tick += (s, e) =>
+                     {
+                        _showPoints = !_showPoints;
+                        OnWidgetUpdate();
+                     };
             }
-            //_timer.Interval = 2000;
-            //_timer.Enabled = true;
+            _updateTimer.Enabled = true;
         }
 
         public void StopUpdate()
         {
-            if (_timer != null)
-            {
-                _timer.Abort();
-                _timer = null;
-            }
+            if (_updateTimer != null)
+                _updateTimer.Enabled = false;
         }
-
-        /*
-        private void OnTimer(object sender, EventArgs e)
-        {
-            _showPoints = !_showPoints;
-            OnWidgetUpdate();
-        }
-        */ 
 
         // overriding paint icon method - don't paint icon
         protected override void PaintIcon(Graphics g, Rectangle rect)

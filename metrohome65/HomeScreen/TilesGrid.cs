@@ -65,6 +65,10 @@ namespace MetroHome65.HomeScreen
 
                 _active = value;
 
+                // stop scroll animation
+                Pressed(new Point(-1, -1));
+
+                // stop moving animation
                 MovingTile = null;
 
                 if ((_active) && (_launching))
@@ -73,7 +77,7 @@ namespace MetroHome65.HomeScreen
                     _homeScreenControl.AnimateEntrance();
                 }
 
-                // start updatable widgets
+                // start/stop updatable widgets
                 foreach (var wsInfo in _tiles)
                     wsInfo.Active = _active;
             }

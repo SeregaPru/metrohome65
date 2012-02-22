@@ -1,14 +1,14 @@
 ﻿using System.Collections.Generic;
 using System.Drawing;
+using System.Windows.Forms;
 using MetroHome65.Routines;
-using System.Threading;
 
-namespace MetroHome65.Widgets.StatusWidget
+namespace MetroHome65.Widgets.StatusWidgets
 {
     [WidgetInfo("Statuses")]
     public class StatusWidget : ShortcutWidget, IUpdatable
     {
-        private Thread _timer;
+        private Timer _updateTimer;
 
         readonly List<CustomStatus> _statuses = new List<CustomStatus>();
 
@@ -85,7 +85,7 @@ namespace MetroHome65.Widgets.StatusWidget
 
         public bool Active
         {
-            get { return (_timer != null); }
+            get { return _updateTimer.Enabled; }
             set
             {
                 if (value)
@@ -101,43 +101,25 @@ namespace MetroHome65.Widgets.StatusWidget
 
         public void StartUpdate()
         {
-            if (_timer == null)
+            if (_updateTimer == null)
             {
-                _timer = new Thread(() =>
+                _updateTimer = new Timer() { Interval = 2000 };
+                _updateTimer.Tick += (s, e) =>
                 {
                     if (UpdateStatuses())
                     {
                         OnWidgetUpdate();
                     }
-                    Thread.Sleep(3000);
-                }
-                );
-                _timer.Start();
-                //_Timer = new System.Windows.Forms.Timer();
-                //_Timer.Tick += new EventHandler(OnTimer);
+                };
             }
-            //_Timer.Interval = 3000;
-            //_Timer.Enabled = true;
+            _updateTimer.Enabled = true;
         }
 
         public void StopUpdate()
         {
-            if (_timer != null)
-            {
-                _timer.Abort();
-                _timer = null;
-            }
+            if (_updateTimer != null)
+                _updateTimer.Enabled = false;
         }
-
-        /*
-        private void OnTimer(object sender, EventArgs e)
-        {
-            if (UpdateStatuses())
-            {
-                OnWidgetUpdate();
-            }
-        }
-        */
 
         private bool UpdateStatuses()
         {

@@ -1,12 +1,11 @@
-﻿using System;
-using System.Drawing;
+﻿using System.Drawing;
 
-namespace MetroHome65.Widgets.StatusWidget
+namespace MetroHome65.Widgets.StatusWidgets
 {
     public class BatteryStatus : CustomStatus
     {
-        private string _BatteryStatus = "";
-        private Microsoft.WindowsMobile.Status.BatteryState _PowerState;
+        private string _batteryStatus = "";
+        private Microsoft.WindowsMobile.Status.BatteryState _powerState;
 
         public BatteryStatus() : base()
         {
@@ -15,16 +14,16 @@ namespace MetroHome65.Widgets.StatusWidget
 
         public override void PaintStatus(Graphics g, Rectangle rect)
         {
-            DrawStatus DrawStatus = (_PowerState == Microsoft.WindowsMobile.Status.BatteryState.Critical) ? DrawStatus.dsError : DrawStatus.dsOn; 
-            PaintStatus(g, rect, DrawStatus, "battery_" + _BatteryStatus, GetBatteryPercent() + "%");
+            DrawStatus drawStatus = (_powerState == Microsoft.WindowsMobile.Status.BatteryState.Critical) ? DrawStatus.Error : DrawStatus.On; 
+            PaintStatus(g, rect, drawStatus, "battery_" + _batteryStatus, GetBatteryPercent() + "%");
         }
 
         public override bool UpdateStatus()
         {
-            string CurrentStatus = GetBatteryStatus();
-            if (CurrentStatus != _BatteryStatus)
+            var currentStatus = GetBatteryStatus();
+            if (currentStatus != _batteryStatus)
             {
-                _BatteryStatus = CurrentStatus;
+                _batteryStatus = currentStatus;
                 return true;
             }
 
@@ -33,28 +32,28 @@ namespace MetroHome65.Widgets.StatusWidget
 
         private string GetBatteryPercent()
         {
-            String Status = "";            
+            var status = "";            
             switch (Microsoft.WindowsMobile.Status.SystemState.PowerBatteryStrength)
             {
-                case Microsoft.WindowsMobile.Status.BatteryLevel.VeryHigh: Status = "100"; break;
-                case Microsoft.WindowsMobile.Status.BatteryLevel.High: Status = "80"; break;
-                case Microsoft.WindowsMobile.Status.BatteryLevel.Medium: Status = "60"; break;
-                case Microsoft.WindowsMobile.Status.BatteryLevel.Low: Status = "40"; break;
-                case Microsoft.WindowsMobile.Status.BatteryLevel.VeryLow: Status = "20"; break;
-                default: Status = ""; break;
+                case Microsoft.WindowsMobile.Status.BatteryLevel.VeryHigh: status = "100"; break;
+                case Microsoft.WindowsMobile.Status.BatteryLevel.High: status = "80"; break;
+                case Microsoft.WindowsMobile.Status.BatteryLevel.Medium: status = "60"; break;
+                case Microsoft.WindowsMobile.Status.BatteryLevel.Low: status = "40"; break;
+                case Microsoft.WindowsMobile.Status.BatteryLevel.VeryLow: status = "20"; break;
+                default: status = ""; break;
             }
-            return Status;
+            return status;
         }
 
         private string GetBatteryStatus()
         {
-            String Status = GetBatteryPercent();
-            _PowerState = Microsoft.WindowsMobile.Status.SystemState.PowerBatteryState;
+            var status = GetBatteryPercent();
+            _powerState = Microsoft.WindowsMobile.Status.SystemState.PowerBatteryState;
 
-            if (_PowerState == Microsoft.WindowsMobile.Status.BatteryState.Charging)
-                Status += "_charge";
+            if (_powerState == Microsoft.WindowsMobile.Status.BatteryState.Charging)
+                status += "_charge";
 
-            return Status;
+            return status;
         }
 
     }
