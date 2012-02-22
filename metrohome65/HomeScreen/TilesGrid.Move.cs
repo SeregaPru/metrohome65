@@ -20,31 +20,30 @@ namespace MetroHome65.HomeScreen
             get { return _movingTile; }
             set
             {
-                if (_movingTile != value)
+                if (_movingTile == value) return;
+
+                RealignSettingsButtons(value != null);
+
+                // всегда при смене пермещаемого виджета, выключаем текущий перемещаемый виджет
+                if (_movingTile != null)
                 {
-                    RealignSettingsButtons(value != null);
+                    _movingTile.Moving = false;
+                    _movingTile = null;
+                }
 
-                    // всегда при смене пермещаемого виджета, выключаем текущий перемещаемый виджет
-                    if (_movingTile != null)
-                    {
-                        _movingTile.Moving = false;
-                        _movingTile = null;
-                    }
+                if (value != null)
+                {
+                    // отключаем живые плитки
+                    Active = false;
 
-                    if (value != null)
-                    {
-                        // отключаем живые плитки
-                        Active = false;
-
-                        _movingTile = value;
-                        _movingTile.Moving = true;
-                    }
-                    else
-                    {
-                        WriteSettings();
-                        // включаем живые плитки
-                        Active = true;
-                    }
+                    _movingTile = value;
+                    _movingTile.Moving = true;
+                }
+                else
+                {
+                    WriteSettings();
+                    // включаем живые плитки
+                    Active = true;
                 }
             }
         }

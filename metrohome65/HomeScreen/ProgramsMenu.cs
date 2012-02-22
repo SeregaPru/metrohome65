@@ -159,7 +159,14 @@ namespace MetroHome65.HomeScreen
         public Boolean Active
         {
             get { return true; }
-            set { }
+            set
+            {
+                if (! value)
+                {
+                    // stop scroll animation
+                    Pressed(new Point(-1, -1));
+                }
+            }
         }
 
     }

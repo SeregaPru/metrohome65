@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Drawing;
+using MetroHome65.Widgets;
 using Microsoft.WindowsMobile.Status;
 using Fleux.Controls;
 using Fleux.UIElements;
@@ -11,7 +12,7 @@ namespace MetroHome65.HomeScreen
     {
         private readonly Canvas _homeScreenCanvas;
         private readonly Arrow _switchArrow;
-        private readonly TilesGrid _tilesGrid;
+        private readonly UIElement _tilesGrid;
         private readonly UIElement _programsSv;
         private IAnimation _animation;
         bool _showingTiles = true;
@@ -27,6 +28,7 @@ namespace MetroHome65.HomeScreen
         public HomeScreen() : base(false)
         {
             theForm.Menu = null;
+            theForm.Text = "";
 
             Control.EntranceDuration = 500;
             
@@ -151,20 +153,20 @@ namespace MetroHome65.HomeScreen
             {
                 _animation.Cancel();
             }
-            _tilesGrid.Pressed(new Point(-1, -1));
-            _programsSv.Pressed(new Point(-1, -1));
+            (_tilesGrid as IActive).Active = false;
+            (_programsSv as IActive).Active = false;
         }
 
         protected override void OnActivated()
         {
-            _tilesGrid.Active = true;
+            (_tilesGrid as IActive).Active = true;
             base.OnActivated();
         }
 
         private void OnDeactivate()
         {
             CancelAnimation();
-            _tilesGrid.Active = false;
+            (_tilesGrid as IActive).Active = false;
         }
 
         // handler for system state change event

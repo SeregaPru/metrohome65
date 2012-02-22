@@ -38,7 +38,7 @@ namespace MetroHome65.Routines
             {
                 var iconStream = new OpenNETCF.Drawing.Imaging.StreamOnFile(assembly.GetManifestResourceStream(resourceName));
                 var factory = new OpenNETCF.Drawing.Imaging.ImagingFactoryClass();
-                //!!! factory.CreateImageFromStream(iconStream, out _img);
+                factory.CreateImageFromStream(iconStream, out _img);
             }
             catch (Exception e)
             {

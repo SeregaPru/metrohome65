@@ -10,8 +10,8 @@ namespace MetroHome65.Widgets
         private System.Windows.Forms.Timer _timer;
         private int _missedCount = 0;
 
-        private static int PaddingRightCnt = ScreenRoutines.Scale(50); //todo comment
-        private static int PaddingRightIco = ScreenRoutines.Scale(160); //todo comment
+        private static readonly int PaddingRightCnt = ScreenRoutines.Scale(50); //todo comment
+        private static readonly int PaddingRightIco = ScreenRoutines.Scale(160); //todo comment
 
         protected override Size[] GetSizes()
         {
@@ -37,15 +37,15 @@ namespace MetroHome65.Widgets
 
         private void PaintCount(Graphics g, Rectangle Rect)
         {
-            var MissedCountStr = _missedCount.ToString();
+            var missedCountStr = _missedCount.ToString();
 
-            int CaptionHeight = (Caption == "") ? 0 : (CaptionSize /*+ CaptionBottomOffset*/);
+            var captionHeight = (Caption == "") ? 0 : (CaptionSize /*+ CaptionBottomOffset*/);
 
-            Font captionFont = new System.Drawing.Font("Helvetica", 24, FontStyle.Regular);
-            Brush captionBrush = new System.Drawing.SolidBrush(System.Drawing.Color.White);
-            g.DrawString(MissedCountStr, captionFont, captionBrush,
+            Font captionFont = new Font("Helvetica", 24, FontStyle.Regular);
+            Brush captionBrush = new SolidBrush(Color.White);
+            g.DrawString(missedCountStr, captionFont, captionBrush,
                 Rect.Right - PaddingRightCnt,
-                Rect.Top + (Rect.Height - g.MeasureString("0", captionFont).Height - CaptionHeight) / 2);
+                Rect.Top + (Rect.Height - g.MeasureString("0", captionFont).Height - captionHeight) / 2);
         }
 
         public bool Active
@@ -68,10 +68,9 @@ namespace MetroHome65.Widgets
         {
             if (_timer == null)
             {
-                _timer = new System.Windows.Forms.Timer();
-                _timer.Tick += new EventHandler(OnTimer);
+                _timer = new System.Windows.Forms.Timer() { Interval = 2000 };
+                _timer.Tick += OnTimer;
             }
-            _timer.Interval = 2000;
             _timer.Enabled = true;
         }
 
@@ -83,7 +82,7 @@ namespace MetroHome65.Widgets
 
         private void OnTimer(object sender, EventArgs e)
         {
-            int CurrentMissedCount = GetMissedCount();
+            var CurrentMissedCount = GetMissedCount();
             if (CurrentMissedCount != _missedCount)
             {
                 _missedCount = CurrentMissedCount;

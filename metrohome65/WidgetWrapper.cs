@@ -3,6 +3,7 @@ using System.Drawing;
 using System.Linq;
 using System.Collections.Generic;
 using System.Reflection;
+using System.Windows.Forms;
 using Fleux.UIElements;
 using Fleux.Core.GraphicsHelpers;
 using MetroHome65.Widgets;
@@ -35,7 +36,7 @@ namespace MetroHome65.HomeScreen
 
         private readonly List<PropertyInfo> _propertyInfos = new List<PropertyInfo>();
 
-        private System.Threading.Timer _resizeTimer;
+        private Timer _movingTimer;
 
         #endregion
 
@@ -223,9 +224,9 @@ namespace MetroHome65.HomeScreen
         /// <param name="settings"></param>
         public void DeserializeSettings(WidgetWrapperSettings settings)
         {
-            this.WidgetClass = settings.WidgetClass;
-            this.GridSize = settings.Size;
-            this.GridPosition = settings.Location;
+            WidgetClass = settings.WidgetClass;
+            GridSize = settings.Size;
+            GridPosition = settings.Location;
 
             foreach (var param in settings.Parameters)
                 SetParameter(param.Name, param.Value);
@@ -235,7 +236,7 @@ namespace MetroHome65.HomeScreen
         {
             foreach (var propertyInfo in _propertyInfos.Where(propertyInfo => propertyInfo.Name == name))
             {
-                propertyInfo.SetValue((object)Widget, Convert.ChangeType(value, propertyInfo.PropertyType, null), null);
+                propertyInfo.SetValue(Widget, Convert.ChangeType(value, propertyInfo.PropertyType, null), null);
                 //propertyInfo.SetValue((object)Widget, Value, null);
                 break;
             }
@@ -338,14 +339,17 @@ namespace MetroHome65.HomeScreen
 
                     if (value)
                     {
-                        _resizeTimer = new System.Threading.Timer(
-                            s => RepaintMovingWidget(), null, 0, 300
-                        );
+                        if (_movingTimer == null)
+                        {
+                            _movingTimer = new Timer() { Interval = 300 };
+                            _movingTimer.Tick += (s, e) => RepaintMovingWidget();
+                        }
+                        _movingTimer.Enabled = true;
                     }
                     else
                     {
-                        _resizeTimer.Dispose();
-                        _resizeTimer = null;
+                        if (_movingTimer != null)
+                            _movingTimer.Enabled = false;
                         Update();
                     }
                 }

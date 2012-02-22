@@ -1,9 +1,8 @@
-﻿using System;
-using System.Drawing;
+﻿using System.Drawing;
 using System.Runtime.InteropServices;
 using Microsoft.Win32;
 
-namespace MetroHome65.Widgets.StatusWidget
+namespace MetroHome65.Widgets.StatusWidgets
 {
     public class WiFiStatus : CustomStatus
     {
@@ -22,12 +21,12 @@ namespace MetroHome65.Widgets.StatusWidget
         {
             DrawStatus DrawStatus;
             if (_WiFiConnected && _WiFiPowerOn)
-                DrawStatus = DrawStatus.dsOn;
+                DrawStatus = DrawStatus.On;
             else
                 if (!_WiFiConnected && !_WiFiPowerOn)
-                    DrawStatus = DrawStatus.dsOff;
+                    DrawStatus = DrawStatus.Off;
                 else 
-                    DrawStatus = DrawStatus.dsError;
+                    DrawStatus = DrawStatus.Error;
 
             PaintStatus(g, rect, DrawStatus, "wifi", "");
         }
