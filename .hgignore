@@ -1,0 +1,16 @@
+syntax: regexp
+\.orig$
+\.rej$
+\.bak$
+\.config$
+\.csproj.FileList.txt$
+\.pdb$
+\.csproj.FileListAbsolute.txt$
+\.cache$
+\.vspscc$
+\.user$
+\.suo$
+\.dsk$
+\.identcache$
+^.*_ReSharper.*
+.*/[dD]ebug/.*
