@@ -23,7 +23,7 @@ namespace MetroHome65.HomeScreen
         private const int ArrowPadding = 18;
         private const int ArrowPos1 = 410;
         private const int ArrowPos2 = ScreenWidth + ArrowPadding;
-        private const int GridWidth = 480;
+        private const int GridWidth = ScreenWidth;
 
         public HomeScreen() : base(false)
         {
@@ -31,13 +31,21 @@ namespace MetroHome65.HomeScreen
             theForm.Text = "";
 
             Control.EntranceDuration = 500;
-            
+
             // холст страницы с плитками
             _homeScreenCanvas = new Canvas 
-            { 
-                Size = new Size(875, Size.Height),
+            {
+                Size = new Size(ScreenWidth * 2, Size.Height),
                 Location = new Point(0, 0)
             };
+
+            // фон окна
+            var background = new HomeScreenBackground(Routines.FileRoutines.CoreDir + @"\buttons\bg1.png",
+                                                      ScreenWidth * 2, Size.Height)
+            {
+                Location = new Point(0, 0),
+            };
+            _homeScreenCanvas.AddElement(background);
 
             // прокрутчик холста плиток
             _tilesGrid = new TilesGrid(Control)

@@ -472,7 +472,7 @@
 
         public IDrawingGraphics DrawAlphaImage(IImageWrapper image, int x, int y)
         {
-            throw new NotImplementedException();
+            return this.DrawAlphaImage(image, new Rectangle(x, y, image.Size.Width, image.Size.Height));
         }
 
         public IDrawingGraphics DrawAlphaImage(IImageWrapper image, int x1, int y1, int width, int height)
@@ -496,12 +496,14 @@
 
         public IDrawingGraphics DrawAlphaImage(string resourceName, int x, int y)
         {
-            throw new NotImplementedException();
+            return this.DrawAlphaImage(ResourceManager.Instance.GetIImageFromEmbeddedResource(resourceName, Assembly.GetExecutingAssembly()),
+                                    x, y);
         }
 
         public IDrawingGraphics DrawAlphaImage(string resourceName, int x1, int y1, int width, int height)
         {
-            throw new NotImplementedException();
+            return this.DrawAlphaImage(ResourceManager.Instance.GetIImageFromEmbeddedResource(resourceName, Assembly.GetExecutingAssembly()),
+                                    new Rectangle(x1, y1, width, height));
         }
 
         public IDrawingGraphics DrawAlphaImage(string resourceName, System.Drawing.Rectangle r)
