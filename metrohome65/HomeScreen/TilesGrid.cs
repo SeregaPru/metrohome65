@@ -23,13 +23,13 @@ namespace MetroHome65.HomeScreen
             _homeScreenControl = homeScreenControl;
 
             // кнопка настроек            
-            _buttonSettings = new FlatButton("settings.png")
+            _buttonSettings = new FlatButton("MetroHome65.settings.png")
                                   {
                                       Size = new Size(48, 48),
                                       TapHandler = ButtonSettingsClick,
                                   };
             // кнопка удаления плитки
-            _buttonUnpin = new FlatButton("cancel.png")
+            _buttonUnpin = new FlatButton("MetroHome65.cancel.png")
                                {
                                    Size = new Size(48, 48),
                                    TapHandler = ButtonUnpinClick,
