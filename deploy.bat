@@ -12,6 +12,8 @@ mkdir %destfolder%\icons
 mkdir %destfolder%\icons\small
 copy %srcfolder%\metrohome65\icons\*.* %destfolder%\icons\
 copy %srcfolder%\metrohome65\icons\small\*.* %destfolder%\icons\small\
+mkdir %destfolder%\wallpapers
+copy %srcfolder%\metrohome65\wallpapers\*.* %destfolder%\wallpapers\
 
 copy %srcfolder%\metrohome65\Widgets\ClockWidgets\bin\Debug\*.dll %destfolder%
 copy %srcfolder%\metrohome65\Widgets\PhoneWidgets\bin\Debug\*.dll %destfolder%
