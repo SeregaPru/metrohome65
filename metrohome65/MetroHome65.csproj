@@ -171,6 +171,12 @@
     <Content Include="icons\skype.png" />
     <Content Include="icons\tuner.png" />
     <Content Include="icons\world.png" />
+    <Content Include="wallpapers\berry.jpg">
+    </Content>
+    <Content Include="wallpapers\bird.jpg">
+    </Content>
+    <Content Include="wallpapers\flower.jpg">
+    </Content>
     <EmbeddedResource Include="settings.png" />
     <EmbeddedResource Include="next.png" />
   </ItemGroup>

@@ -32,20 +32,20 @@ namespace MetroHome65.HomeScreen
 
             Control.EntranceDuration = 500;
 
+            // фон окна
+            var background = new HomeScreenBackground(Routines.FileRoutines.CoreDir + @"\wallpapers\bird.jpg")
+            {
+                Location = new Point(0, 0),
+            };
+            Control.AddElement(background);
+
+            
             // холст страницы с плитками
             _homeScreenCanvas = new Canvas 
             {
                 Size = new Size(ScreenWidth * 2, Size.Height),
                 Location = new Point(0, 0)
             };
-
-            // фон окна
-            var background = new HomeScreenBackground(Routines.FileRoutines.CoreDir + @"\buttons\bg1.png",
-                                                      ScreenWidth * 2, Size.Height)
-            {
-                Location = new Point(0, 0),
-            };
-            _homeScreenCanvas.AddElement(background);
 
             // прокрутчик холста плиток
             _tilesGrid = new TilesGrid(Control)
