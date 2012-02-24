@@ -72,8 +72,8 @@ namespace MetroHome65.HomeScreen
                 MoveTileTo(MovingTile, location);
                 return true;
             }
-            else
-                return false;
+
+            return false;
         }
 
         /// <summary>
@@ -81,27 +81,16 @@ namespace MetroHome65.HomeScreen
         /// </summary>
         public override bool Pan(Point from, Point to, bool done, Point startPoint)
         {
-            var result = false;
-            //var prevActive = _active;
-            //Active = false;
-
             if (MoveMode && _tilesCanvas.Bounds.Contains(to))
             {
                 if (Math.Pow(from.X - to.X, 2) + Math.Pow(from.Y - to.Y, 2) < 10)
-                    result = false;
-                else
-                {
-                    MoveTileTo(MovingTile, to);
-                    result = true;
-                }
-            }
-            else
-            {
-                result = base.Pan(from, to, done, startPoint);
+                    return false;
+
+                MoveTileTo(MovingTile, to);
+                return true;
             }
 
-            //Active = prevActive;
-            return result;
+            return base.Pan(from, to, done, startPoint);
         }
 
         /// <summary>
@@ -122,15 +111,15 @@ namespace MetroHome65.HomeScreen
         /// <param name="location"> </param>
         private void MoveTileTo(WidgetWrapper movingTile, Point location)
         {
-            Point TargetCell = GetTileCell(location);
+            var targetCell = GetTileCell(location);
 
             // if widget doesn't fit to new position by width, do not do anything
-            if (TargetCell.X + movingTile.GridSize.Width > 4)
-                TargetCell.X = 4 - movingTile.GridSize.Width;
+            if (targetCell.X + movingTile.GridSize.Width > 4)
+                targetCell.X = 4 - movingTile.GridSize.Width;
                 //return;
 
-            bool TargetCellIsEmpty = false;
-            while (!TargetCellIsEmpty)
+            var targetCellIsEmpty = false;
+            while (!targetCellIsEmpty)
             {
                 object[,] cells = new object[100, 4];
                 foreach (WidgetWrapper wsInfo in _tiles)
@@ -141,26 +130,26 @@ namespace MetroHome65.HomeScreen
                                 cells[wsInfo.GridPosition.Y + y, wsInfo.GridPosition.X + x] = wsInfo;
                 }
 
-                TargetCellIsEmpty = true;
-                for (int y = TargetCell.Y; y < Math.Min(TargetCell.Y + movingTile.GridSize.Height, 100); y++)
-                    for (int x = TargetCell.X; x < Math.Min(TargetCell.X + movingTile.GridSize.Width, 4); x++)
+                targetCellIsEmpty = true;
+                for (int y = targetCell.Y; y < Math.Min(targetCell.Y + movingTile.GridSize.Height, 100); y++)
+                    for (int x = targetCell.X; x < Math.Min(targetCell.X + movingTile.GridSize.Width, 4); x++)
                         if ((cells[y, x] != null) && (!cells[y, x].Equals(movingTile)))
                         {
-                            TargetCellIsEmpty = false;
+                            targetCellIsEmpty = false;
                             break;
                         }
 
-                if (!TargetCellIsEmpty)
+                if (!targetCellIsEmpty)
                 {
                     foreach (WidgetWrapper wsInfo in _tiles)
                     {
-                        if ((wsInfo.GridPosition.Y + wsInfo.GridSize.Height - 1) >= TargetCell.Y)
+                        if ((wsInfo.GridPosition.Y + wsInfo.GridSize.Height - 1) >= targetCell.Y)
                             wsInfo.GridPosition = new Point(wsInfo.GridPosition.X, wsInfo.GridPosition.Y + 1);
                     }
                 }
             }
 
-            movingTile.GridPosition = TargetCell;
+            movingTile.GridPosition = targetCell;
 
             RealignTiles();
         }
@@ -253,7 +242,7 @@ namespace MetroHome65.HomeScreen
                 EaseFunction = v => Math.Pow(v, 15),
                 OnAnimation = v => target.Location = new Point(v, target.Location.Y),
                 OnAnimationStart = () => { target.Active = false; },
-                OnAnimationStop = () => { target.Active = true; }
+                OnAnimationStop = () => { }
             };
         }
 

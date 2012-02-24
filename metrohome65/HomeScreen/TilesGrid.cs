@@ -114,6 +114,7 @@ namespace MetroHome65.HomeScreen
             MoveTileTo(
                 AddTile(cell, new Size(2, 2), "MetroHome65.Widgets.ShortcutWidget", true),
                 aLocation);
+            WriteSettings();
         }
 
         /// <summary>
@@ -133,6 +134,7 @@ namespace MetroHome65.HomeScreen
                 return;
             }
 
+            // if tile launches external program, start exit animation for visible tiles
             if (tile.Widget.AnimateExit)
             {
                 Active = false;
@@ -157,7 +159,7 @@ namespace MetroHome65.HomeScreen
                 _homeScreenControl.AnimateExit();
             }
 
-            bool clickResult = tile.OnClick(aLocation);
+            var clickResult = tile.OnClick(aLocation);
 
             if ((tile.Widget.AnimateExit) && (!clickResult))
             {

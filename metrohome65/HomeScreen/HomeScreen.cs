@@ -32,8 +32,10 @@ namespace MetroHome65.HomeScreen
 
             Control.EntranceDuration = 500;
 
+            var mainSettings = ReadMainSettings();
+
             // фон окна
-            var background = new HomeScreenBackground(Routines.FileRoutines.CoreDir + @"\wallpapers\flower.jpg")
+            var background = new HomeScreenBackground(mainSettings)
             {
                 Location = new Point(0, 0),
             };
@@ -58,13 +60,13 @@ namespace MetroHome65.HomeScreen
             // стрелка переключатель страниц
             _switchArrow = new Arrow {
                 Location = new Point(ArrowPos1, 10),
-                TapHandler = TapOnArrow,
+                TapHandler = (p) => { SwitchScreen(!_showingTiles); return true; },
             };
             _homeScreenCanvas.AddElement(_switchArrow);
 
             // список программ
             var programsPosX = ArrowPos2 + _switchArrow.Size.Width + ArrowPadding;
-            _programsSv = new ProgramsMenu {
+            _programsSv = new ProgramsMenu(mainSettings) {
                 Location = new Point(programsPosX, 5),
                 Size = new Size(2 * ScreenWidth - programsPosX, Size.Height - 5),
             };
@@ -79,10 +81,9 @@ namespace MetroHome65.HomeScreen
 
         }
 
-        public bool TapOnArrow(Point p)
+        private MainSettings ReadMainSettings()
         {
-            SwitchScreen(!_showingTiles);
-            return true;
+            return (new MainSettingsProvider()).Settings;
         }
 
         private bool Flick(Point from, Point to, int millisecs, Point start)
@@ -167,14 +168,14 @@ namespace MetroHome65.HomeScreen
 
         protected override void OnActivated()
         {
-            (_tilesGrid as IActive).Active = true;
+            if (_showingTiles)
+                (_tilesGrid as IActive).Active = true;
             base.OnActivated();
         }
 
         private void OnDeactivate()
         {
             CancelAnimation();
-            (_tilesGrid as IActive).Active = false;
         }
 
         // handler for system state change event
