@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Linq;
-using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
 using System.Runtime.InteropServices;
@@ -12,40 +11,29 @@ using MetroHome65.Widgets;
 
 namespace MetroHome65.HomeScreen
 {
-    struct FileDescr
-    {
-        public String Name;
-        public String Path;
-    }
-
-    // container for programs shortcurs
-    class ProgramsList : BindingList<object>
-    {
-        protected override void ApplySortCore(PropertyDescriptor property, ListSortDirection direction)
-        {
-            var items = Items as List<object>;
-            if (items != null)
-                items.Sort((f1, f2) => String.CompareOrdinal(((FileDescr)f1).Name, ((FileDescr)f2).Name));
-        }
-
-        public void SortByName()
-        {
-            var propDescriptors = TypeDescriptor.GetProperties(typeof(FileDescr));
-            ApplySortCore(propDescriptors["Name"], ListSortDirection.Ascending);
-        }
-    }
-
 
     sealed class ProgramsMenu : ListElement, IActive
     {
-        public ProgramsMenu()
-        //: base()
+
+        // color for item name font
+        private readonly Color _fontColor;
+
+        // color for item icon background
+        private readonly Color _bgColor;
+
+        private readonly Brush _bgBrush;
+
+        public ProgramsMenu(MainSettings mainSettings)
         {
-            _refa = new FileRoutines.structa();
             EntranceAnimation = null;
             ExitAnimation = null;
-
             VerticalScroll = true;
+
+            _refa = new FileRoutines.structa();
+
+            _bgColor = mainSettings.TileColor;
+            _fontColor = mainSettings.ListFontColor;
+            _bgBrush = new SolidBrush(_bgColor);
 
             DataTemplateSelector = item => BuildItem;
             SourceItems = GetProgramList();
@@ -103,11 +91,9 @@ namespace MetroHome65.HomeScreen
         private static readonly int PaddingHor = ScreenRoutines.Scale(7);
         private static readonly int BorderSize = ScreenRoutines.Scale(7);
         private static readonly int BlankSize = ScreenRoutines.Scale(5);
-        private static readonly Color BgColor = Color.Green;
 
         private FileRoutines.structa _refa;
-        private Rectangle _rect = new Rectangle(0, BlankSize, IconSize + BorderSize * 2, IconSize + BorderSize * 2);
-        private readonly Brush _bgBrush = new SolidBrush(BgColor);
+        private Rectangle _rect = new Rectangle(0, 0, IconSize + BorderSize * 2, IconSize + BorderSize * 2);
 
         private UIElement BuildItem(object aFileDescr)
         {
@@ -115,38 +101,34 @@ namespace MetroHome65.HomeScreen
 
             var canvas = new Canvas
             {
-                Size = new Size(ScreenRoutines.Scale(480), IconSize + BlankSize)
+                Size = new Size(ScreenRoutines.Scale(480), IconSize + BlankSize * 2)
             };
 
             // draw icon with border
             FileRoutines.SHGetFileInfo(ref fileDescr.Path, 0, ref _refa, Marshal.SizeOf(_refa), 0x100);
             var icon = Icon.FromHandle(_refa.a);
 
-            var image = new Bitmap(_rect.Width + BlankSize * 2, _rect.Height + BlankSize * 2);
+            var image = new Bitmap(_rect.Width, _rect.Height);
             var graphics = Graphics.FromImage(image);
-            graphics.Clear(Color.Black);
             graphics.FillRectangle(_bgBrush, _rect);
-            graphics.DrawIcon(icon, BorderSize, BorderSize + BlankSize);
+            graphics.DrawIcon(icon, BorderSize, BorderSize);
 
             canvas.AddElement(new ImageElement(image)
             {
                 Size = image.Size,
-                Location = new Point(0, 0),
+                Location = new Point(0, BlankSize),
             });
 
             // draw program name
             var textHeight = ScreenRoutines.Scale(15);
             canvas.AddElement(new TextElement(fileDescr.Name)
             {
-                Style = new TextStyle(
-                    MetroTheme.PhoneFontFamilyNormal,
-                    MetroTheme.PhoneFontSizeNormal,
-                    MetroTheme.PhoneForegroundBrush),
+                Style = new TextStyle(MetroTheme.PhoneFontFamilyNormal, MetroTheme.PhoneFontSizeNormal, _fontColor),
                 Location = new Point(image.Width + PaddingHor, textHeight),
                 Size = new Size(ScreenRoutines.Scale(480) - image.Width + PaddingHor, image.Height - textHeight)
             });
 
-            // onclick handler = launch program
+            // click handler = launch program
             canvas.TapHandler = point =>
             {
                 FileRoutines.StartProcess(fileDescr.Path); return true;
