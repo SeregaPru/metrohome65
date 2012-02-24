@@ -33,7 +33,7 @@ namespace MetroHome65.HomeScreen
             Control.EntranceDuration = 500;
 
             // фон окна
-            var background = new HomeScreenBackground(Routines.FileRoutines.CoreDir + @"\wallpapers\bird.jpg")
+            var background = new HomeScreenBackground(Routines.FileRoutines.CoreDir + @"\wallpapers\flower.jpg")
             {
                 Location = new Point(0, 0),
             };
