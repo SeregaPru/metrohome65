@@ -12,7 +12,7 @@ namespace MetroHome65.Widgets
     /// Widget for applications launch.
     /// Looks like icon widget - icon with caption. 
     /// </summary>
-    [WidgetInfo("Shortcut")]
+    [TileInfo("Shortcut")]
     public class ShortcutWidget : IconWidget
     {
         private String _CommandLine = "";
@@ -21,7 +21,7 @@ namespace MetroHome65.Widgets
         /// <summary>
         /// parameter "CommandLine" - relative or absolute path to application with parameters.
         /// </summary>
-        [WidgetParameter]
+        [TileParameter]
         public String CommandLine
         {
             get { return _CommandLine; }

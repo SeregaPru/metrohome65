@@ -7,7 +7,7 @@ using System.Collections.Generic;
 namespace MetroHome65.Widgets
 {
 
-    public abstract class BaseWidget : IWidget, INotifyPropertyChanged
+    public abstract class BaseWidget : ITile, INotifyPropertyChanged
     {
         private readonly EventHandlerList _events = new EventHandlerList();
         private static readonly object _EventWidgetUpdate = new object();
@@ -35,7 +35,7 @@ namespace MetroHome65.Widgets
 
 
         /// <summary>
-        /// Event raised when Widget needs to be updated (repainted)
+        /// Event raised when tile needs to be updated (repainted)
         /// </summary>
         public event UpdateEventHandler OnUpdate
         {

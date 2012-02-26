@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 
-namespace MetroHome65.HomeScreen
+namespace MetroHome65.HomeScreen.ProgramsMenu
 {
     struct FileDescr
     {

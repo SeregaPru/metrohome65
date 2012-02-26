@@ -13,9 +13,9 @@ namespace MetroHome65.HomeScreen
 {
   
     /// <summary>
-    /// Container for widget, middle layer between widget grid and widget plugin.
+    /// Container for tile view, middle layer between tiles grid and tile plugin.
     /// </summary>
-    public class WidgetWrapper : UIElement
+    public class TileWrapper : UIElement
     {
         #region Fields
 
@@ -24,7 +24,7 @@ namespace MetroHome65.HomeScreen
         public static int CellSpacingHor = ScreenRoutines.Scale(12);
         public static int CellSpacingVer = CellSpacingHor;
 
-        private IWidget _widget;
+        private ITile _tile;
         private Point _gridPosition = new Point(0, 0);
         private Size _gridSize = new Size(1, 1);
         private bool _moving = false;
@@ -44,23 +44,23 @@ namespace MetroHome65.HomeScreen
         #region Methods
 
         // empty constructor for deserialize
-        public WidgetWrapper() : base() {}
+        public TileWrapper() : base() {}
 
-        public WidgetWrapper(Size aGridSize, Point aGridPosition, String aWidgetName)
+        public TileWrapper(Size aGridSize, Point aGridPosition, String aTileName)
             : base()
         {
-            WidgetClass = aWidgetName;
+            TileClass = aTileName;
             GridSize = aGridSize;
             GridPosition = aGridPosition;
         }
 
-        ~WidgetWrapper()
+        ~TileWrapper()
         {
             ClearBuffer();
         }
 
         /// <summary>
-        /// Widget location in grid
+        /// Tile location in grid
         /// </summary>
         public Point GridPosition { 
             get { return _gridPosition; } 
@@ -74,26 +74,26 @@ namespace MetroHome65.HomeScreen
 
 
         /// <summary>
-        /// Widget size in cells
+        /// Tile size in cells
         /// </summary>
         public Size GridSize { get { return _gridSize; } set { SetGridSize(value); } }
 
         /// <summary>
-        /// Sets widget size in grid cells.
-        /// Checks if specified size contain in widget's possible sizes.
-        /// If not, size will be first available widget size.
+        /// Sets tile size in grid cells.
+        /// Checks if specified size contain in tile's possible sizes.
+        /// If not, size will be first available tile size.
         /// </summary>
         /// <param name="value"> </param>
         /// <returns></returns>
         private void SetGridSize(Size value)
         {
-            if (_widget == null)
+            if (_tile == null)
                 return;
 
             var sizeOk = false;
-            if ((_widget.Sizes != null) && (_widget.Sizes.Length > 0))
+            if ((_tile.Sizes != null) && (_tile.Sizes.Length > 0))
             {
-                foreach (var possibleSize in _widget.Sizes)
+                foreach (var possibleSize in _tile.Sizes)
                 {
                     if (possibleSize.Equals(value))
                     {
@@ -105,16 +105,16 @@ namespace MetroHome65.HomeScreen
             }
 
             if (!sizeOk) 
-                if ((_widget.Sizes != null) && (_widget.Sizes.Length > 0))
+                if ((_tile.Sizes != null) && (_tile.Sizes.Length > 0))
                 {
-                    _gridSize = _widget.Sizes[0];
+                    _gridSize = _tile.Sizes[0];
                 }
                 else
                 {
                     _gridSize = new Size(2, 2);
                 }
 
-            _widget.Size = _gridSize;
+            _tile.Size = _gridSize;
 
             CalcScreenPosition();
         }
@@ -135,15 +135,15 @@ namespace MetroHome65.HomeScreen
                 _gridSize.Height * (CellHeight + CellSpacingVer) - CellSpacingVer);
         }
 
-        private void FillWidgetProperties()
+        private void FillTileProperties()
         {
             _propertyInfos.Clear();
 
-            if (_widget == null) return;
+            if (_tile == null) return;
 
-            // get widget properties
-            foreach (var propertyInfo in (_widget).GetType().GetProperties())
-                if (propertyInfo.GetCustomAttributes(typeof(WidgetParameterAttribute), true).Length > 0)
+            // get tile properties
+            foreach (var propertyInfo in (_tile).GetType().GetProperties())
+                if (propertyInfo.GetCustomAttributes(typeof(TileParameterAttribute), true).Length > 0)
                 {
                     _propertyInfos.Add(propertyInfo);
                 }
@@ -154,27 +154,27 @@ namespace MetroHome65.HomeScreen
 
         #region Properties
 
-        public IWidget Widget { get { return _widget; } }
+        public ITile Tile { get { return _tile; } }
 
         /// <summary>
-        /// Property for serialize widget class name.
-        /// When deserialized Widget will be created
+        /// Property for serialize tile class name.
+        /// When deserialized Tile will be created
         /// </summary>
-        public String WidgetClass
+        public String TileClass
         {
-            // return Widget's class name
-            get { return (_widget != null) ? (Widget).GetType().ToString() : ""; }
+            // return Tile's class name
+            get { return (_tile != null) ? (Tile).GetType().ToString() : ""; }
 
-            // create new widget instance by class name
+            // create new tile instance by class name
             set
             {
-                if (WidgetClass == value) return;
+                if (TileClass == value) return;
 
-                _widget = PluginManager.GetInstance().CreateWidget(value);
-                FillWidgetProperties();
+                _tile = PluginManager.GetInstance().CreateTile(value);
+                FillTileProperties();
 
-                if (Widget is IUpdatable)
-                    (Widget as IUpdatable).OnUpdate += OnWidgetUpdate;
+                if (Tile is IUpdatable)
+                    (Tile as IUpdatable).OnUpdate += OnTileUpdate;
 
                 TapHandler += p => { OnClick(p); return true; };
                 DoubleTapHandler += p => { OnDblClick(p); return true; };
@@ -185,13 +185,13 @@ namespace MetroHome65.HomeScreen
 
 
         /// <summary>
-        /// Swithes off widget activity when application goes to background
+        /// Swithes off tile activity when application goes to background
         /// </summary>
         public Boolean Active { 
             set {
-                if (_widget is IUpdatable)
+                if (_tile is IUpdatable)
                 {
-                    (_widget as IUpdatable).Active = value;
+                    (_tile as IUpdatable).Active = value;
                 }
             }
         }
@@ -202,18 +202,18 @@ namespace MetroHome65.HomeScreen
         /// prepare struct for serialization and store settings
         /// </summary>
         /// <returns></returns>
-        public WidgetWrapperSettings SerializeSettings()
+        public TileWrapperSettings SerializeSettings()
         {
-            var settings = new WidgetWrapperSettings
+            var settings = new TileWrapperSettings
                                {
                                    Size = GridSize,
                                    Location = GridPosition,
-                                   WidgetClass = WidgetClass,
+                                   TileClassName = TileClass,
                                    Parameters = new List<StoredParameter>()
                                };
 
             foreach (var prop in _propertyInfos)
-                settings.Parameters.Add(new StoredParameter(prop.Name, prop.GetValue(Widget, null).ToString()));
+                settings.Parameters.Add(new StoredParameter(prop.Name, prop.GetValue(Tile, null).ToString()));
 
             return settings;
         }
@@ -222,9 +222,9 @@ namespace MetroHome65.HomeScreen
         /// parse settings struct read from settings file and apply these settings to widget
         /// </summary>
         /// <param name="settings"></param>
-        public void DeserializeSettings(WidgetWrapperSettings settings)
+        public void DeserializeSettings(TileWrapperSettings settings)
         {
-            WidgetClass = settings.WidgetClass;
+            TileClass = settings.TileClassName;
             GridSize = settings.Size;
             GridPosition = settings.Location;
 
@@ -232,12 +232,12 @@ namespace MetroHome65.HomeScreen
                 SetParameter(param.Name, param.Value);
         }
 
-        public WidgetWrapper SetParameter(String name, object value)
+        public TileWrapper SetParameter(String name, object value)
         {
             foreach (var propertyInfo in _propertyInfos.Where(propertyInfo => propertyInfo.Name == name))
             {
-                propertyInfo.SetValue(Widget, Convert.ChangeType(value, propertyInfo.PropertyType, null), null);
-                //propertyInfo.SetValue((object)Widget, Value, null);
+                propertyInfo.SetValue(Tile, Convert.ChangeType(value, propertyInfo.PropertyType, null), null);
+                //propertyInfo.SetValue((object)Tile, Value, null);
                 break;
             }
             return this;
@@ -265,15 +265,15 @@ namespace MetroHome65.HomeScreen
             _graphics = Graphics.FromImage(_doubleBuffer);
             var paintRect = new Rectangle(0, 0, _doubleBuffer.Width, _doubleBuffer.Height);
 
-            if (Widget != null)
+            if (Tile != null)
             {
-                Widget.Paint(_graphics, paintRect);
+                Tile.Paint(_graphics, paintRect);
             }
             else
             {
                 var pen = new Pen(Color.Gray, 1) { DashStyle = System.Drawing.Drawing2D.DashStyle.Dash };
                 _graphics.DrawRectangle(pen, paintRect);
-                _graphics.DrawString("Widget\nnot\nfound", new Font("Verdana", 8, FontStyle.Regular),
+                _graphics.DrawString("Tile\nnot\nfound", new Font("Verdana", 8, FontStyle.Regular),
                     new SolidBrush(Color.Yellow), paintRect.X + 5, paintRect.Y + 5);
             }
         }
@@ -310,25 +310,25 @@ namespace MetroHome65.HomeScreen
         }
 
         /// <summary>
-        /// Handler for event, triggered by widget, when it needs to be repainted
+        /// Handler for event, triggered by tile, when it needs to be repainted
         /// </summary>
-        private void OnWidgetUpdate()
+        private void OnTileUpdate()
         {
             ForceUpdate();
         }
 
         public bool OnClick(Point clickLocation)
         {
-            return (Widget != null) && Widget.OnClick(clickLocation);
+            return (Tile != null) && Tile.OnClick(clickLocation);
         }
 
         public bool OnDblClick(Point clickLocation)
         {
-            return (Widget != null) && Widget.OnClick(clickLocation);
+            return (Tile != null) && Tile.OnClick(clickLocation);
         }
 
         /// <summary>
-        /// Flag when widget is in moving mode
+        /// Flag when tile is in moving mode
         /// </summary>
         public bool Moving {
             get { return _moving; }
@@ -342,7 +342,7 @@ namespace MetroHome65.HomeScreen
                         if (_movingTimer == null)
                         {
                             _movingTimer = new Timer() { Interval = 300 };
-                            _movingTimer.Tick += (s, e) => RepaintMovingWidget();
+                            _movingTimer.Tick += (s, e) => RepaintMovingTile();
                         }
                         _movingTimer.Enabled = true;
                     }
@@ -362,7 +362,7 @@ namespace MetroHome65.HomeScreen
         private int _deltaYInc = -2;
 
 
-        private void RepaintMovingWidget()
+        private void RepaintMovingTile()
         {
             if (!_moving)
                 return;
@@ -374,7 +374,7 @@ namespace MetroHome65.HomeScreen
                 _deltaYInc = -_deltaYInc;
             _deltaY += _deltaYInc;
 
-            // paint widget
+            // paint tile
             Update();
 
             //System.Windows.Forms.Application.DoEvents();

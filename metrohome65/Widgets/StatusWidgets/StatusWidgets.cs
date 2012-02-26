@@ -5,7 +5,7 @@ using MetroHome65.Routines;
 
 namespace MetroHome65.Widgets.StatusWidgets
 {
-    [WidgetInfo("Statuses")]
+    [TileInfo("Statuses")]
     public class StatusWidget : ShortcutWidget, IUpdatable
     {
         private Timer _updateTimer;

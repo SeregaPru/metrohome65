@@ -11,11 +11,11 @@ namespace MetroHome65.HomeScreen
     public partial class TilesGrid : ScrollViewer
     {
 
-        private WidgetWrapper _movingTile;
+        private TileWrapper _movingTile;
 
         private bool MoveMode { get { return _movingTile != null; } }
 
-        private WidgetWrapper MovingTile
+        private TileWrapper MovingTile
         {
             get { return _movingTile; }
             set
@@ -99,8 +99,8 @@ namespace MetroHome65.HomeScreen
         private Point GetTileCell(Point location)
         {
             return new Point(
-                (location.X - _tilesCanvas.Location.X) / (WidgetWrapper.CellWidth + WidgetWrapper.CellSpacingHor),
-                (location.Y - _tilesCanvas.Location.X - VerticalOffset) / (WidgetWrapper.CellHeight + WidgetWrapper.CellSpacingVer)
+                (location.X - _tilesCanvas.Location.X) / (TileWrapper.CellWidth + TileWrapper.CellSpacingHor),
+                (location.Y - _tilesCanvas.Location.X - VerticalOffset) / (TileWrapper.CellHeight + TileWrapper.CellSpacingVer)
                 );
         }
 
@@ -109,7 +109,7 @@ namespace MetroHome65.HomeScreen
         /// </summary>
         /// <param name="movingTile"> </param>
         /// <param name="location"> </param>
-        private void MoveTileTo(WidgetWrapper movingTile, Point location)
+        private void MoveTileTo(TileWrapper movingTile, Point location)
         {
             var targetCell = GetTileCell(location);
 
@@ -122,7 +122,7 @@ namespace MetroHome65.HomeScreen
             while (!targetCellIsEmpty)
             {
                 object[,] cells = new object[100, 4];
-                foreach (WidgetWrapper wsInfo in _tiles)
+                foreach (TileWrapper wsInfo in _tiles)
                 {
                     if (wsInfo != movingTile)
                         for (int y = 0; y < wsInfo.GridSize.Height; y++)
@@ -141,7 +141,7 @@ namespace MetroHome65.HomeScreen
 
                 if (!targetCellIsEmpty)
                 {
-                    foreach (WidgetWrapper wsInfo in _tiles)
+                    foreach (TileWrapper wsInfo in _tiles)
                     {
                         if ((wsInfo.GridPosition.Y + wsInfo.GridSize.Height - 1) >= targetCell.Y)
                             wsInfo.GridPosition = new Point(wsInfo.GridPosition.X, wsInfo.GridPosition.Y + 1);
@@ -158,7 +158,7 @@ namespace MetroHome65.HomeScreen
         private int GetWidgetMaxRow()
         {
             var maxRow = 0;
-            foreach (WidgetWrapper wsInfo in _tiles)
+            foreach (TileWrapper wsInfo in _tiles)
                 maxRow = Math.Max(maxRow, wsInfo.GridPosition.Y + wsInfo.GridSize.Height);
             return maxRow;
         }
@@ -217,7 +217,7 @@ namespace MetroHome65.HomeScreen
 
         private bool _launching = false;
 
-        private void SetEntranceAnimation(WidgetWrapper target)
+        private void SetEntranceAnimation(TileWrapper target)
         {
             var random = new Random();
             var x = target.GetScreenRect().Left;
@@ -232,7 +232,7 @@ namespace MetroHome65.HomeScreen
             };
         }
 
-        private void SetExitAnimation(WidgetWrapper target)
+        private void SetExitAnimation(TileWrapper target)
         {
             var random = new Random();
             target.ExitAnimation = new FunctionBasedAnimation(FunctionBasedAnimation.Functions.BounceExitSin)

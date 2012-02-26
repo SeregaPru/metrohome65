@@ -1,7 +1,9 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Drawing;
-using MetroHome65.Widgets;
 using Microsoft.WindowsMobile.Status;
+using MetroHome65.HomeScreen.ProgramsMenu;
+using MetroHome65.Widgets;
 using Fleux.Controls;
 using Fleux.UIElements;
 using Fleux.Animations;
@@ -10,27 +12,28 @@ namespace MetroHome65.HomeScreen
 {
     public class HomeScreen : FleuxControlPage
     {
+        private readonly UIElement _lockScreen;
         private readonly Canvas _homeScreenCanvas;
         private readonly Arrow _switchArrow;
-        private readonly UIElement _tilesGrid;
-        private readonly UIElement _programsSv;
         private IAnimation _animation;
-        bool _showingTiles = true;
+
+        private readonly List<UIElement> _pages = new List<UIElement>();
+        private int _curPage;
+        
         // system state for receiving notifications about system events
         private readonly SystemState _systemState = new SystemState(0);
 
-        private const int ScreenWidth = 480;
         private const int ArrowPadding = 18;
-        private const int ArrowPos1 = 410;
-        private const int ArrowPos2 = ScreenWidth + ArrowPadding;
-        private const int GridWidth = ScreenWidth;
+        private const int ArrowPos1 = ScreenConsts.ScreenWidth + 410;
+        private const int ArrowPos2 = ScreenConsts.ScreenWidth * 2 + ArrowPadding;
+        
 
         public HomeScreen() : base(false)
         {
             theForm.Menu = null;
             theForm.Text = "";
 
-            Control.EntranceDuration = 500;
+            Control.EntranceDuration = 300;
 
             var mainSettings = ReadMainSettings();
 
@@ -42,35 +45,33 @@ namespace MetroHome65.HomeScreen
             Control.AddElement(background);
 
             
-            // холст страницы с плитками
+            // холст главной страницы
             _homeScreenCanvas = new Canvas 
-            {
-                Size = new Size(ScreenWidth * 2, Size.Height),
-                Location = new Point(0, 0)
-            };
+                                    {
+                                        Size = new Size(ScreenConsts.ScreenWidth * 2, Size.Height),
+                                        Location = new Point(0, 0),
+                                    };
+
+            // экран блокировки
+            _lockScreen = new LockScreen();
+            AddPage(_lockScreen, 0);
 
             // прокрутчик холста плиток
-            _tilesGrid = new TilesGrid(Control)
-            {
-                Location = new Point(0, 0),
-                Size = new Size(GridWidth, Size.Height),
-            };
-            _homeScreenCanvas.AddElement(_tilesGrid);
+            //!! todo - потом вместо контрола передавать холст _homeScreenCanvas
+            var tilesGrid = new TilesGrid(Control);
+            AddPage(tilesGrid, 1);
 
             // стрелка переключатель страниц
-            _switchArrow = new Arrow {
-                Location = new Point(ArrowPos1, 10),
-                TapHandler = (p) => { SwitchScreen(!_showingTiles); return true; },
-            };
+            _switchArrow = new Arrow 
+                               {
+                                   Location = new Point(ArrowPos1, 10),
+                                   TapHandler = p => { CurrentPage = (_curPage == 1) ? 2 : 1; return true; },
+                               };
             _homeScreenCanvas.AddElement(_switchArrow);
 
             // список программ
-            var programsPosX = ArrowPos2 + _switchArrow.Size.Width + ArrowPadding;
-            _programsSv = new ProgramsMenu(mainSettings) {
-                Location = new Point(programsPosX, 5),
-                Size = new Size(2 * ScreenWidth - programsPosX, Size.Height - 5),
-            };
-            _homeScreenCanvas.AddElement(_programsSv);
+            var programsSv = new ProgramsMenuPage(mainSettings);
+            AddPage(programsSv, 2);
 
             Control.AddElement(_homeScreenCanvas);
 
@@ -79,6 +80,16 @@ namespace MetroHome65.HomeScreen
             _systemState.Changed += OnSystemStateChanged;
             TheForm.Deactivate += (s, e) => OnDeactivate();
 
+            CurrentPage = 1;
+        }
+
+        private void AddPage(UIElement page, int position)
+        {
+            page.Size = new Size(ScreenConsts.ScreenWidth, ScreenConsts.ScreenHeight);
+            page.Location = new Point(position * ScreenConsts.ScreenWidth, 0);
+
+            _homeScreenCanvas.AddElement(page);
+            _pages.Insert(position, page);
         }
 
         private MainSettings ReadMainSettings()
@@ -90,48 +101,55 @@ namespace MetroHome65.HomeScreen
         {
             if (Math.Abs(from.X - to.X) > Math.Abs(from.Y - to.Y))
             {
-                SwitchScreen(to.X - from.X > 0);
+                CurrentPage = CurrentPage + ((to.X - from.X > 0) ? -1 : 1);
                 return true;
             }
-            else
-                return false;
+            return false;
         }
 
-        private void SwitchScreen(bool showTiles)
+        private int CurrentPage
+        {
+            get { return _curPage; }
+            set
+            {
+                if ((_curPage == value) || (value < 0) || (value >= _pages.Count))
+                    return;
+
+                var prevPage = _curPage;
+                _curPage = value;
+
+                SwitchScreen(prevPage, _curPage);
+            }
+        }
+        private void SwitchScreen(int fromPage, int toPage)
         {
             OnDeactivate();
-
-            var homeScreenPosFrom = _homeScreenCanvas.Location.X;
-            var homeScreenPosTo = showTiles ? 0 : -ScreenWidth;
-            var arrowPosTo = showTiles ? ArrowPos1 : ArrowPos2;
 
             _animation = new FunctionBasedAnimation(FunctionBasedAnimation.Functions.Linear)
             {
                 Duration = 300,
-                From = homeScreenPosFrom,
-                To = homeScreenPosTo,
+                From = _pages[fromPage].Location.X,
+                To = _pages[toPage].Location.X,
                 OnAnimation = v =>
                 {
-                    _homeScreenCanvas.Location = new Point(v, 0);
+                    _homeScreenCanvas.Location = new Point(-v, 0);
                     _homeScreenCanvas.Update();
                 },
                 OnAnimationStop = () =>
                                       {
-                                          if (showTiles)
+                                          if ((toPage == 1) || (toPage == 2))
                                           {
-                                              _switchArrow.Next();
-                                          }
-                                          else
-                                          {
-                                              _switchArrow.Prev();
-                                          }
-                                          _switchArrow.Location = new Point(arrowPosTo, _switchArrow.Location.Y);
-                                          _switchArrow.Update();
+                                              if (toPage == 1)
+                                                  _switchArrow.Next();
+                                              else
+                                                  _switchArrow.Prev();
 
-                                          _showingTiles = showTiles;
+                                              var arrowPosTo = (toPage == 1) ? ArrowPos1 : ArrowPos2;
+                                              _switchArrow.Location = new Point(arrowPosTo, _switchArrow.Location.Y);
+                                              _switchArrow.Update();
+                                          }
 
-                                          if (showTiles)
-                                              OnActivated();
+                                          OnActivated();
                                       }
             };
             StoryBoard.BeginPlay(_animation);
@@ -152,30 +170,32 @@ namespace MetroHome65.HomeScreen
 
         }
 
+        protected override void OnActivated()
+        {
+            if (_pages[_curPage] is IActive)
+            {
+                var active = _pages[_curPage] as IActive;
+                if (active != null) 
+                    active.Active = true;
+            }
+            base.OnActivated();
+        }
+
         /// <summary>
         /// cancel all current animations, including scroll in scrollviews.
         /// to stop scrolling - emulate press on scrollview
         /// </summary>
-        private void CancelAnimation()
+        private void OnDeactivate()
         {
             if (_animation != null)
             {
                 _animation.Cancel();
             }
-            (_tilesGrid as IActive).Active = false;
-            (_programsSv as IActive).Active = false;
-        }
-
-        protected override void OnActivated()
-        {
-            if (_showingTiles)
-                (_tilesGrid as IActive).Active = true;
-            base.OnActivated();
-        }
-
-        private void OnDeactivate()
-        {
-            CancelAnimation();
+            foreach (var page in _pages)
+            {
+                if (page is IActive)
+                    (page as IActive).Active = false;
+            }
         }
 
         // handler for system state change event

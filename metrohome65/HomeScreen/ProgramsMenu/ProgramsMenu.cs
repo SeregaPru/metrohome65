@@ -7,12 +7,11 @@ using System.ComponentModel;
 using MetroHome65.Routines;
 using Fleux.UIElements;
 using Fleux.Styles;
-using MetroHome65.Widgets;
 
-namespace MetroHome65.HomeScreen
+namespace MetroHome65.HomeScreen.ProgramsMenu
 {
 
-    sealed class ProgramsMenu : ListElement, IActive
+    sealed class ProgramsMenu : ListElement
     {
 
         // color for item name font
@@ -89,8 +88,8 @@ namespace MetroHome65.HomeScreen
 
         private static readonly int IconSize = ScreenRoutines.Scale(64);
         private static readonly int PaddingHor = ScreenRoutines.Scale(7);
-        private static readonly int BorderSize = ScreenRoutines.Scale(7);
-        private static readonly int BlankSize = ScreenRoutines.Scale(5);
+        private static readonly int BorderSize = ScreenRoutines.Scale(4);
+        private static readonly int BlankSize = ScreenRoutines.Scale(4);
 
         private FileRoutines.structa _refa;
         private Rectangle _rect = new Rectangle(0, 0, IconSize + BorderSize * 2, IconSize + BorderSize * 2);
@@ -101,7 +100,7 @@ namespace MetroHome65.HomeScreen
 
             var canvas = new Canvas
             {
-                Size = new Size(ScreenRoutines.Scale(480), IconSize + BlankSize * 2)
+                Size = new Size(ScreenRoutines.Scale(480), IconSize + BlankSize * 2 + BorderSize * 2)
             };
 
             // draw icon with border
@@ -123,7 +122,7 @@ namespace MetroHome65.HomeScreen
             var textHeight = ScreenRoutines.Scale(15);
             canvas.AddElement(new TextElement(fileDescr.Name)
             {
-                Style = new TextStyle(MetroTheme.PhoneFontFamilyNormal, MetroTheme.PhoneFontSizeNormal, _fontColor),
+                Style = new TextStyle(MetroTheme.PhoneFontFamilySemiBold, MetroTheme.PhoneFontSizeNormal, _fontColor),
                 Location = new Point(image.Width + PaddingHor, textHeight),
                 Size = new Size(ScreenRoutines.Scale(480) - image.Width + PaddingHor, image.Height - textHeight)
             });
@@ -135,20 +134,6 @@ namespace MetroHome65.HomeScreen
             };
 
             return canvas;
-        }
-
-        // IActive
-        public Boolean Active
-        {
-            get { return true; }
-            set
-            {
-                if (! value)
-                {
-                    // stop scroll animation
-                    Pressed(new Point(-1, -1));
-                }
-            }
         }
 
     }

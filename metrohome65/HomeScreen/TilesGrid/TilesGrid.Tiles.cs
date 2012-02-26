@@ -7,6 +7,16 @@ namespace MetroHome65.HomeScreen
 
     public partial class TilesGrid : ScrollViewer
     {
+        private void AddTileHandler(Point aLocation)
+        {
+            Point cell = GetTileCell(aLocation);
+            if (cell.X + 2 > 4)
+                cell.X = 2;
+            MoveTileTo(
+                AddTile(cell, new Size(2, 2), "MetroHome65.Widgets.ShortcutWidget", true),
+                aLocation);
+            WriteSettings();
+        }
 
         /// <summary>
         /// add widget to internal collection 
@@ -16,17 +26,17 @@ namespace MetroHome65.HomeScreen
         /// <param name="aGridSize"> </param>
         /// <param name="aWidgetName"> </param>
         /// <param name="doRealign"> </param>
-        private WidgetWrapper AddTile(Point aGridPosition, Size aGridSize, String aWidgetName, bool doRealign)
+        private TileWrapper AddTile(Point aGridPosition, Size aGridSize, String aWidgetName, bool doRealign)
         {
             return AddTile(
-                new WidgetWrapper(aGridSize, aGridPosition, aWidgetName), doRealign);
+                new TileWrapper(aGridSize, aGridPosition, aWidgetName), doRealign);
         }
 
         /// <summary>
         /// add widget to internal collection 
         /// and calc widget screen coordinates
         /// </summary>
-        private WidgetWrapper AddTile(WidgetWrapper tile, bool doRealign)
+        private TileWrapper AddTile(TileWrapper tile, bool doRealign)
         {
             // draw tile when adding
             tile.Draw(null);
