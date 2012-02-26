@@ -107,7 +107,8 @@ namespace MetroHome65.Widgets
         {
             if (_updateTimer == null)
             {
-                _updateTimer = new Thread(() =>
+                _updateTimer = new Thread(() => {
+                    while (_active)
                     {
                         _showPoints = !_showPoints;
                         OnWidgetUpdate();
@@ -117,7 +118,8 @@ namespace MetroHome65.Widgets
                             if (!_active) return;
                             Thread.Sleep(100);
                         }
-                    } );
+                    }
+                } );
                 _updateTimer.Start();
             }
         }
