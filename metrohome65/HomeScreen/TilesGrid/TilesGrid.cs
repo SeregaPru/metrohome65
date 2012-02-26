@@ -134,8 +134,7 @@ namespace MetroHome65.HomeScreen
             {
                 Active = false;
 
-                var scrollRect = Bounds;
-                scrollRect.Offset(0, -VerticalOffset);
+                var scrollRect = new Rectangle(0, -VerticalOffset, Bounds.Width, Bounds.Height);
 
                 foreach (var curTile in _tiles)
                 {

@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Drawing;
-using System.Windows.Forms;
+using System.Threading;
 using Fleux.Styles;
 using Fleux.UIElements;
 using MetroHome65.Widgets;
@@ -13,7 +13,8 @@ namespace MetroHome65.HomeScreen
 
         private string _dateFormat = "HH:mm\ndddd\nMMMM d";
 
-        private Timer _updateTimer;
+        private Thread _updateTimer;
+        private Boolean _active;
 
 
         public LockScreen()
@@ -21,7 +22,7 @@ namespace MetroHome65.HomeScreen
             _lblClock = new TextElement("00:00")
                             {
                                 Size = new Size(ScreenConsts.ScreenWidth - 20 - 10, ScreenConsts.ScreenHeight / 2),
-                                Location = new Point(20, ScreenConsts.ScreenHeight / 2),
+                                Location = new Point(20, ScreenConsts.ScreenHeight * 2 / 5),
                                 AutoSizeMode = TextElement.AutoSizeModeOptions.None,
                                 Style = new TextStyle(
                                     MetroTheme.PhoneFontFamilySemiBold,
@@ -33,15 +34,25 @@ namespace MetroHome65.HomeScreen
 
         private void UpdateTime()
         {
-            _lblClock.Text = DateTime.Now.ToString(_dateFormat);
-            _lblClock.Update();
+            while (_active)
+            {
+                _lblClock.Text = DateTime.Now.ToString(_dateFormat);
+                _lblClock.Update();
+
+                for (var i = 0; i < 2000; i += 100)
+                {
+                    if (!_active) return;
+                    Thread.Sleep(100);
+                }
+            }
         }
 
         public bool Active
         {
-            get { return (_updateTimer != null) && _updateTimer.Enabled; }
+            get { return _active; }
             set
             {
+                _active = value;
                 if (value)
                 {
                     StartUpdate();
@@ -57,16 +68,16 @@ namespace MetroHome65.HomeScreen
         {
             if (_updateTimer == null)
             {
-                _updateTimer = new Timer() { Interval = 2000 };
+                _updateTimer = new Thread( () => UpdateTime() );
+                _updateTimer.Start();
             }
-            _updateTimer.Tick += (s, e) => UpdateTime();
-            _updateTimer.Enabled = true;
         }
 
         public void StopUpdate()
         {
             if (_updateTimer != null)
-                _updateTimer.Enabled = false;
+                _updateTimer.Join();
+            _updateTimer = null;
         }
 
     }

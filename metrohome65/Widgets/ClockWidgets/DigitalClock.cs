@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Drawing;
 using System.Collections.Generic;
+using System.Threading;
 using System.Windows.Forms;
 using MetroHome65.Routines;
 using MetroHome65.Settings.Controls;
@@ -10,10 +11,12 @@ namespace MetroHome65.Widgets
     [TileInfo("Digital clock")]
     public class DigitalClockWidget : ShortcutWidget, IUpdatable
     {
-        private Timer _updateTimer;
-        private Brush _brushCaption;
-        private Font _fntTime;
-        private Font _fntDate;
+        private Thread _updateTimer;
+        private Boolean _active;
+
+        private readonly Brush _brushCaption;
+        private readonly Font _fntTime;
+        private readonly Font _fntDate;
         private Boolean _showPoints = true;
         private Boolean _is24Hour = true;
 
@@ -85,9 +88,10 @@ namespace MetroHome65.Widgets
 
         public bool Active
         {
-            get { return (_updateTimer != null) && _updateTimer.Enabled; }
+            get { return _active; }
             set
             {
+                _active = value;
                 if (value)
                 {
                     StartUpdate();
@@ -103,20 +107,26 @@ namespace MetroHome65.Widgets
         {
             if (_updateTimer == null)
             {
-                _updateTimer = new Timer() { Interval = 2000 };
+                _updateTimer = new Thread(() =>
+                    {
+                        _showPoints = !_showPoints;
+                        OnWidgetUpdate();
+
+                        for (var i = 0; i < 2000; i += 100)
+                        {
+                            if (!_active) return;
+                            Thread.Sleep(100);
+                        }
+                    } );
+                _updateTimer.Start();
             }
-            _updateTimer.Tick += (s, e) =>
-            {
-                _showPoints = !_showPoints;
-                OnWidgetUpdate();
-            };
-            _updateTimer.Enabled = true;
         }
 
         public void StopUpdate()
         {
             if (_updateTimer != null)
-                _updateTimer.Enabled = false;
+                _updateTimer.Join();
+            _updateTimer = null;
         }
 
         // overriding paint icon method - don't paint icon
