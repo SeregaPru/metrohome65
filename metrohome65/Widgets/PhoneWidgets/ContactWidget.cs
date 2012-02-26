@@ -8,12 +8,12 @@ using MetroHome65.Routines;
 
 namespace MetroHome65.Widgets
 {
-    [WidgetInfo("Contact")]
+    [TileInfo("Contact")]
     public class ContactWidget : BaseWidget
     {
-        private int _ContactId = -1;
-        private String _AlternatePicturePath = "";
-        private AlphaImage _ContactImage = null;
+        private int _contactId = -1;
+        private String _alternatePicturePath = "";
+        private AlphaImage _contactImage = null;
 
         protected override Size[] GetSizes()
         {
@@ -30,14 +30,14 @@ namespace MetroHome65.Widgets
             return Items;
         }
 
-        [WidgetParameter]
+        [TileParameter]
         public int ContactId
         {
-            get { return _ContactId; }
+            get { return _contactId; }
             set {
-                if (_ContactId != value)
+                if (_contactId != value)
                 {
-                    _ContactId = value;
+                    _contactId = value;
                     NotifyPropertyChanged("ContactId");
                 }
             }
@@ -47,15 +47,15 @@ namespace MetroHome65.Widgets
         /// relative or absolute path to alternate contact picture file.
         /// picture format must be transparent PNG
         /// </summary>
-        [WidgetParameter]
+        [TileParameter]
         public String AlternatePicturePath
         {
-            get { return _AlternatePicturePath; }
+            get { return _alternatePicturePath; }
             set
             {
-                if (_AlternatePicturePath != value)
+                if (_alternatePicturePath != value)
                 {
-                    _AlternatePicturePath = value;
+                    _alternatePicturePath = value;
                     UpdateAlternatePicture();
                     NotifyPropertyChanged("AlternatePicturePath");
                 }
@@ -64,13 +64,13 @@ namespace MetroHome65.Widgets
 
         protected virtual void UpdateAlternatePicture()
         {
-            if (_AlternatePicturePath != "")
-                _ContactImage = new AlphaImage(_AlternatePicturePath);
+            if (_alternatePicturePath != "")
+                _contactImage = new AlphaImage(_alternatePicturePath);
             else
-                _ContactImage = null;
+                _contactImage = null;
         }
 
-        Contact FindContact(int ItemIdKey)
+        Contact FindContact(int itemIdKey)
         {
             Contact FindedContact = null;
             OutlookSession mySession = new OutlookSession();
@@ -78,7 +78,7 @@ namespace MetroHome65.Widgets
             ContactCollection collection = mySession.Contacts.Items;
             foreach (Contact contact in collection)
             {
-                if (contact.ItemId.GetHashCode().Equals(ItemIdKey))
+                if (contact.ItemId.GetHashCode().Equals(itemIdKey))
                 {
                     FindedContact = contact;
                     break;
@@ -108,9 +108,9 @@ namespace MetroHome65.Widgets
             }
 
             // if assigned alternate picture - use it
-            if (_ContactImage != null)
+            if (_contactImage != null)
             {
-                _ContactImage.PaintBackground(g, rect);
+                _contactImage.PaintBackground(g, rect);
             }
             else
 

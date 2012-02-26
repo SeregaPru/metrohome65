@@ -8,66 +8,65 @@ namespace MetroHome65.Widgets
 {
 
     /// <summary>
-    /// Attribute - widget description, that will be diplayed in properties page
+    /// Attribute - tile description, that will be diplayed in properties page
     /// </summary>
     [AttributeUsage(AttributeTargets.Class)]
-    public class WidgetInfoAttribute : Attribute
+    public class TileInfoAttribute : Attribute
     {
-        private String _Caption = "";
+        private readonly String _caption = "";
 
-        public String Caption { get { return _Caption; } }
+        public String Caption { get { return _caption; } }
 
 
-        public WidgetInfoAttribute() { }
+        public TileInfoAttribute() { }
 
-        public WidgetInfoAttribute(String Caption)
+        public TileInfoAttribute(String caption)
         {
-            this._Caption = Caption;
+            _caption = caption;
         }
     }
 
 
     /// <summary>
-    /// Signs field or property of widget, that it is user defined parameter,
-    /// and it should be stored in widget's user settings
+    /// Signs field or property of tile, that it is user defined parameter,
+    /// and it should be stored in tile's user settings
     /// </summary>
     [AttributeUsage(AttributeTargets.Property | AttributeTargets.Field | AttributeTargets.Parameter | AttributeTargets.ReturnValue)]
-    public class WidgetParameterAttribute : Attribute {
-        public WidgetParameterAttribute() { }
+    public class TileParameterAttribute : Attribute {
     }
 
 
     /// <summary>
-    /// Widget base interface
+    /// Tile base interface
     /// </summary>
-    public interface IWidget
+    public interface ITile
     {
         /// <summary>
-        /// widget possible sizes, in cells
+        /// Tile possible sizes, in cells
         /// 1x1 1x2 2x2 etc. .. 4x4 is max
         /// </summary>
         Size[] Sizes { get; }
 
         /// <summary>
-        /// Current widget size
+        /// Current tile size
         /// </summary>
         Size Size { set; }
 
         /// <summary>
-        /// Additional popup menu items for widget.
-        /// They will be shown in widget popup menu, above standart items.
+        /// Additional popup menu items for tile.
+        /// They will be shown in tile popup menu, above standart items.
         /// </summary>
         String[] MenuItems { get; }
 
         /// <summary>
-        /// Widget transparency.
-        /// Transparent widget draws itself over grid background.
-        /// Not transparent widget should draw the whole area.
+        /// Tile transparency.
+        /// Transparent tile draws itself over grid background.
+        /// Not transparent tile should draw the whole area.
         /// </summary>
         Boolean Transparent { get; }
 
         /// <summary>
-        /// paint widget's internal area.
+        /// paint tile's internal area.
         /// </summary>
         /// <param name="g">Graphics context</param>
         /// <param name="rect">Drawing area</param>
@@ -76,15 +75,15 @@ namespace MetroHome65.Widgets
         /// <summary>
         /// Hanler for custom menu item click
         /// </summary>
-        /// <param name="ItemName"></param>
-        void OnMenuItemClick(String ItemName);
+        /// <param name="itemName"></param>
+        void OnMenuItemClick(String itemName);
 
         /// <summary>
         /// Handler for click event
         /// </summary>
         /// <param name="location">
         ///   Coordinates of click event, 
-        ///   relative to widget's left upper corner
+        ///   relative to tile's left upper corner
         /// </param>
         bool OnClick(Point location);
 

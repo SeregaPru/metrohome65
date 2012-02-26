@@ -12,8 +12,8 @@ namespace MetroHome65.HomeScreen
 {
     public partial class FrmWidgetSettings : Form
     {
-        private WidgetWrapper _Widget = null;
-        private IWidget _SelectedWidget = null;
+        private TileWrapper _tile = null;
+        private ITile _selectedTile = null;
         private List<Type> _WidgetTypes = new List<Type>();
 
         public FrmWidgetSettings()
@@ -21,27 +21,27 @@ namespace MetroHome65.HomeScreen
             InitializeComponent();
         }
 
-        public WidgetWrapper Widget { set { SetWidget(value); } }
+        public TileWrapper Tile { set { SetWidget(value); } }
 
-        private void SetWidget(WidgetWrapper value)
+        private void SetWidget(TileWrapper value)
         {
-            _Widget = value;
+            _tile = value;
 
             this.SuspendLayout();
 
-            SetWidgetType(_Widget.Widget);
+            SetWidgetType(_tile.Tile);
 
             FillWidgetTypes();
 
             this.ResumeLayout(false);
         }
 
-        private void SetWidgetType(IWidget value)
+        private void SetWidgetType(ITile value)
         {
-            if ((_SelectedWidget == null) ||
-                (((object)_SelectedWidget).GetType() != ((object)value).GetType()) )
+            if ((_selectedTile == null) ||
+                (((object)_selectedTile).GetType() != ((object)value).GetType()) )
             {
-                _SelectedWidget = value;
+                _selectedTile = value;
 
                 FillSizes();
                 FillWidgetProperties();
@@ -59,16 +59,16 @@ namespace MetroHome65.HomeScreen
             {
                 // get human readable widget name for display in list
                 WidgetName = "";
-                object[] Attributes = Plugin.GetCustomAttributes(typeof(WidgetInfoAttribute), true);
+                object[] Attributes = Plugin.GetCustomAttributes(typeof(TileInfoAttribute), true);
                 if (Attributes.Length > 0)
-                    WidgetName = (Attributes[0] as WidgetInfoAttribute).Caption;
+                    WidgetName = (Attributes[0] as TileInfoAttribute).Caption;
                 if (WidgetName == "")
                     WidgetName = Plugin.Name;
 
                 CurIndex = cbType.Items.Add(WidgetName);
                 _WidgetTypes.Add(Plugin);
 
-                if (Plugin.FullName == _Widget.Widget.GetType().FullName)
+                if (Plugin.FullName == _tile.Tile.GetType().FullName)
                     cbType.SelectedIndex = CurIndex;
             }
             if (cbType.SelectedIndex == -1)
@@ -81,11 +81,11 @@ namespace MetroHome65.HomeScreen
 
             String SizeStr = "";
             int CurIndex;
-            foreach (Size GridSize in _SelectedWidget.Sizes)
+            foreach (Size GridSize in _selectedTile.Sizes)
             {
                 SizeStr = GridSize.Width + " x " + GridSize.Height;
                 CurIndex = cbSize.Items.Add(SizeStr);
-                if (GridSize.Equals(_Widget.GridSize))
+                if (GridSize.Equals(_tile.GridSize))
                     cbSize.SelectedIndex = CurIndex;
             }
             if (cbSize.SelectedIndex == -1)
@@ -102,7 +102,7 @@ namespace MetroHome65.HomeScreen
                     this.Controls.Remove(Control);
             }
 
-            List<Control> Controls = _SelectedWidget.EditControls;
+            List<Control> Controls = _selectedTile.EditControls;
             if (Controls != null)
             {
                 foreach (Control UserControl in Controls)
@@ -133,7 +133,7 @@ namespace MetroHome65.HomeScreen
         private void cbType_SelectedValueChanged(object sender, EventArgs e)
         {
             String WidgetName = _WidgetTypes[(sender as ComboBox).SelectedIndex].FullName;
-            SetWidgetType(PluginManager.GetInstance().CreateWidget(WidgetName));
+            SetWidgetType(PluginManager.GetInstance().CreateTile(WidgetName));
         }
 
 
@@ -146,18 +146,18 @@ namespace MetroHome65.HomeScreen
         {
             try
             {
-                _Widget.WidgetClass = ((object)_SelectedWidget).GetType().ToString();
-                _Widget.GridSize = _SelectedWidget.Sizes[cbSize.SelectedIndex];
+                _tile.TileClass = ((object)_selectedTile).GetType().ToString();
+                _tile.GridSize = _selectedTile.Sizes[cbSize.SelectedIndex];
 
                 // apply custom widget parameters
-                foreach (PropertyInfo propertyInfo in ((object)_SelectedWidget).GetType().GetProperties())
+                foreach (PropertyInfo propertyInfo in ((object)_selectedTile).GetType().GetProperties())
                 {
-                    object[] Attributes = propertyInfo.GetCustomAttributes(typeof(WidgetParameterAttribute), true);
+                    object[] Attributes = propertyInfo.GetCustomAttributes(typeof(TileParameterAttribute), true);
                     if (Attributes.Length > 0)
                     {
                         foreach (object Attribute in Attributes)
                         {
-                            _Widget.SetParameter(propertyInfo.Name, propertyInfo.GetValue((object)_SelectedWidget, null));
+                            _tile.SetParameter(propertyInfo.Name, propertyInfo.GetValue((object)_selectedTile, null));
                         }
                     }
                 }

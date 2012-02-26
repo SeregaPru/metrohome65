@@ -7,7 +7,7 @@ using MetroHome65.Settings.Controls;
 
 namespace MetroHome65.Widgets
 {
-    [WidgetInfo("Digital clock")]
+    [TileInfo("Digital clock")]
     public class DigitalClockWidget : ShortcutWidget, IUpdatable
     {
         private Timer _updateTimer;
@@ -18,7 +18,7 @@ namespace MetroHome65.Widgets
         private Boolean _is24Hour = true;
 
         private readonly int _paddingRight = ScreenRoutines.Scale(20);
-        private readonly int _dotWidth = ScreenRoutines.Scale(30); 
+        private readonly int _dotWidth = ScreenRoutines.Scale(30);
 
         public DigitalClockWidget() : base()
         {
@@ -40,7 +40,7 @@ namespace MetroHome65.Widgets
         /// <summary>
         /// Digital clock style - 12/24 hour
         /// </summary>
-        [WidgetParameter]
+        [TileParameter]
         public Boolean Is24Hour
         {
             get { return _is24Hour; }
@@ -104,12 +104,12 @@ namespace MetroHome65.Widgets
             if (_updateTimer == null)
             {
                 _updateTimer = new Timer() { Interval = 2000 };
-                _updateTimer.Tick += (s, e) =>
-                     {
-                        _showPoints = !_showPoints;
-                        OnWidgetUpdate();
-                     };
             }
+            _updateTimer.Tick += (s, e) =>
+            {
+                _showPoints = !_showPoints;
+                OnWidgetUpdate();
+            };
             _updateTimer.Enabled = true;
         }
 

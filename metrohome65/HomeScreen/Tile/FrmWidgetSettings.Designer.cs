@@ -119,7 +119,7 @@
             this.lblWidgetType.Location = new System.Drawing.Point(8, 20);
             this.lblWidgetType.Name = "lblWidgetType";
             this.lblWidgetType.Size = new System.Drawing.Size(435, 52);
-            this.lblWidgetType.Text = "Widget type";
+            this.lblWidgetType.Text = "Tile type";
             // 
             // FrmWidgetSettings
             // 

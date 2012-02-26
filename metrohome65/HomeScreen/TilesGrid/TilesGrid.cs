@@ -11,14 +11,13 @@ namespace MetroHome65.HomeScreen
     public partial class TilesGrid : ScrollViewer, IActive
     {
         private readonly FleuxControl _homeScreenControl;
-        private readonly List<WidgetWrapper> _tiles = new List<WidgetWrapper>();
+        private readonly List<TileWrapper> _tiles = new List<TileWrapper>();
         private readonly Canvas _tilesCanvas;
         private readonly UIElement _buttonSettings;
         private readonly UIElement _buttonUnpin;
         private Boolean _active = true;
 
-        public TilesGrid(FleuxControl homeScreenControl)
-            : base()
+        public TilesGrid(FleuxControl homeScreenControl) : base()
         {
             _homeScreenControl = homeScreenControl;
 
@@ -93,11 +92,18 @@ namespace MetroHome65.HomeScreen
             var mainMenu = new ContextMenu();
 
             var menuAddWidget = new MenuItem {Text = "Add widget"};
-            menuAddWidget.Click += (s, e) => AddTileClick(aLocation);
+            menuAddWidget.Click += (s, e) => AddTileHandler(aLocation);
             mainMenu.MenuItems.Add(menuAddWidget);
 
             // add separator
             mainMenu.MenuItems.Add(new MenuItem {Text = "-",});
+
+            var menuSetings = new MenuItem { Text = "Settings" };
+            menuSetings.Click += (s, e) => ShowMainSettings();
+            mainMenu.MenuItems.Add(menuSetings);
+
+            // add separator
+            mainMenu.MenuItems.Add(new MenuItem { Text = "-", });
 
             var menuExit = new MenuItem {Text = "Exit"};
             menuExit.Click += (s, e) => Application.Exit();
@@ -106,23 +112,12 @@ namespace MetroHome65.HomeScreen
             mainMenu.Show(_homeScreenControl, aLocation);
         }
 
-        private void AddTileClick(Point aLocation)
-        {
-            Point cell = GetTileCell(aLocation);
-            if (cell.X + 2 > 4)
-                cell.X = 2;
-            MoveTileTo(
-                AddTile(cell, new Size(2, 2), "MetroHome65.Widgets.ShortcutWidget", true),
-                aLocation);
-            WriteSettings();
-        }
-
         /// <summary>
         /// Click at tile handler
         /// </summary>
         /// <param name="aLocation"></param>
         /// <param name="tile"> </param>
-        private void TileClickAt(Point aLocation, WidgetWrapper tile)
+        private void TileClickAt(Point aLocation, TileWrapper tile)
         {
             // if Move mode is enabled, place selected widget to the new position
             // if we click at moving widget, exit from move mode
@@ -135,7 +130,7 @@ namespace MetroHome65.HomeScreen
             }
 
             // if tile launches external program, start exit animation for visible tiles
-            if (tile.Widget.AnimateExit)
+            if (tile.Tile.AnimateExit)
             {
                 Active = false;
 
@@ -161,7 +156,7 @@ namespace MetroHome65.HomeScreen
 
             var clickResult = tile.OnClick(aLocation);
 
-            if ((tile.Widget.AnimateExit) && (!clickResult))
+            if ((tile.Tile.AnimateExit) && (!clickResult))
             {
                 Active = true;
                 // when activate plays entrance animation
@@ -171,11 +166,11 @@ namespace MetroHome65.HomeScreen
         /// <summary>
         /// Long tap handler - entering to customizing mode
         /// </summary>
-        private void TileHoldAt(Point aLocation, WidgetWrapper tile)
+        private void TileHoldAt(Point aLocation, TileWrapper tile)
         {
             if (!MoveMode)
             {
-                //!! if (!ShowWidgetPopupMenu(Widget, ALocation))
+                //!! if (!ShowWidgetPopupMenu(Tile, ALocation))
                 MovingTile = tile;
             }
         }
@@ -213,11 +208,11 @@ namespace MetroHome65.HomeScreen
         /// <summary>
         /// Shows widget settings dialog and applies changes in widget settings.
         /// </summary>
-        private bool ShowTileSettings(WidgetWrapper tile)
+        private bool ShowTileSettings(TileWrapper tile)
         {
             var widgetSettingsForm = new FrmWidgetSettings
                                          {
-                                             Widget = tile,
+                                             Tile = tile,
                                              Owner = null
                                          };
 

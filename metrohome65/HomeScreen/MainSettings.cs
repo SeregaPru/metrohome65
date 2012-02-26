@@ -17,7 +17,10 @@ namespace MetroHome65.HomeScreen
         /// <summary>
         /// Main screen background color
         /// </summary>
-        public Color ThemeColor = Color.Black;
+        [XmlIgnore]
+        public Color ThemeColor { get { return Color.FromArgb(ThemeColorValue); } }
+        [XmlElement("ThemeColor")]
+        public int ThemeColorValue = Color.Black.ToArgb();
 
         /// <summary>
         /// Main screen background image. If not set, solid background of ThemeColor will be used.
@@ -27,13 +30,18 @@ namespace MetroHome65.HomeScreen
         /// <summary>
         /// font color for items in program list
         /// </summary>
-        public Color ListFontColor = Color.White;
+        [XmlIgnore]
+        public Color ListFontColor { get { return Color.FromArgb(ListFontColorValue); } }
+        [XmlElement("ListFontColor")]
+        public int ListFontColorValue = Color.White.ToArgb();
 
         /// <summary>
         /// default tile color
         /// </summary>
-        public Color TileColor = Color.Blue;
-
+        [XmlIgnore]
+        public Color TileColor { get { return Color.FromArgb(TileColorValue); } }
+        [XmlElement("TileColor")]
+        public int TileColorValue = Color.Blue.ToArgb();
     }
 
 

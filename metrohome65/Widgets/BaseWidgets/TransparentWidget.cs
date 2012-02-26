@@ -22,7 +22,7 @@ namespace MetroHome65.Widgets
         /// <summary>
         /// backround button or solid box color
         /// </summary>
-        [WidgetParameter]
+        [TileParameter]
         public int TileColor
         {
             get { return _tileColor; }
@@ -39,7 +39,7 @@ namespace MetroHome65.Widgets
         /// <summary>
         /// widget background image
         /// </summary>
-        [WidgetParameter]
+        [TileParameter]
         public String TileImage
         {
             get { return _tileImage; }

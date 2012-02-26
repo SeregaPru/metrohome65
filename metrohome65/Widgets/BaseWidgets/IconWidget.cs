@@ -25,7 +25,7 @@ namespace MetroHome65.Widgets
         /// <summary>
         /// user defined caption for widget
         /// </summary>
-        [WidgetParameter]
+        [TileParameter]
         public String Caption { 
             get { return _caption; } 
             set {
@@ -42,7 +42,7 @@ namespace MetroHome65.Widgets
         /// relative or absolute path to icon file.
         /// icon format must be transparent PNG
         /// </summary>
-        [WidgetParameter]
+        [TileParameter]
         public String IconPath
         {
             get { return _iconPath; }

@@ -25,17 +25,17 @@ namespace MetroHome65.HomeScreen
 
 
     /// <summary>
-    /// struct for serialize Widget settings
+    /// struct for serialize Tile settings
     /// </summary>
     [Serializable]
     [XmlType("WidgetWrapper")]
-    public class WidgetWrapperSettings
+    public class TileWrapperSettings
     {
         public List<StoredParameter> Parameters;
         public Point Location;
         public Size Size;
 
-        [XmlAttribute]
-        public String WidgetClass;
+        [XmlAttribute("WidgetClass")]
+        public String TileClassName;
     }
 }

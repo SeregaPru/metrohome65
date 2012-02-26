@@ -4,7 +4,7 @@ using MetroHome65.Routines;
 
 namespace MetroHome65.Widgets
 {
-    [WidgetInfo("Phone")]
+    [TileInfo("Phone")]
     public class PhoneWidget : ShortcutWidget, IUpdatable
     {
         private System.Windows.Forms.Timer _timer;
@@ -98,8 +98,8 @@ namespace MetroHome65.Widgets
 
 
 
-    [WidgetInfo("SMS")]
-    public class SMSWidget : PhoneWidget, IUpdatable
+    [TileInfo("SMS")]
+    public class SmsTile : PhoneWidget, IUpdatable
     {
         protected override int GetMissedCount()
         {
@@ -109,8 +109,8 @@ namespace MetroHome65.Widgets
 
 
 
-    [WidgetInfo("E-mail")]
-    public class EMailWidget : PhoneWidget, IUpdatable
+    [TileInfo("E-mail")]
+    public class EMailTile : PhoneWidget, IUpdatable
     {
         protected override int GetMissedCount()
         {
