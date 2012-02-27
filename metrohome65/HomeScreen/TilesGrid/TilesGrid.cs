@@ -6,7 +6,7 @@ using Fleux.Controls;
 using Fleux.UIElements;
 using MetroHome65.Widgets;
 
-namespace MetroHome65.HomeScreen
+namespace MetroHome65.HomeScreen.TilesGrid
 {
     public partial class TilesGrid : ScrollViewer, IActive
     {

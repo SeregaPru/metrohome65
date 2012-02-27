@@ -5,7 +5,7 @@ using Fleux.UIElements;
 using MetroHome65.Routines;
 using System.Xml.Serialization;
 
-namespace MetroHome65.HomeScreen
+namespace MetroHome65.HomeScreen.TilesGrid
 {
 
     public partial class TilesGrid : ScrollViewer

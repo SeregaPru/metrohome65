@@ -53,12 +53,12 @@ namespace MetroHome65.HomeScreen
                                     };
 
             // экран блокировки
-            _lockScreen = new LockScreen();
+            _lockScreen = new LockScreen.LockScreen();
             AddPage(_lockScreen, 0);
 
             // прокрутчик холста плиток
             //!! todo - потом вместо контрола передавать холст _homeScreenCanvas
-            var tilesGrid = new TilesGrid(Control);
+            var tilesGrid = new TilesGrid.TilesGrid(Control);
             AddPage(tilesGrid, 1);
 
             // стрелка переключатель страниц
@@ -81,6 +81,11 @@ namespace MetroHome65.HomeScreen
             TheForm.Deactivate += (s, e) => OnDeactivate();
 
             CurrentPage = 1;
+        }
+
+        ~HomeScreen()
+        {
+            OnDeactivate();
         }
 
         private void AddPage(UIElement page, int position)

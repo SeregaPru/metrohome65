@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Drawing;
-using System.Threading;
 using Fleux.Styles;
 using Fleux.UIElements;
+using MetroHome65.Routines;
 using MetroHome65.Widgets;
 
-namespace MetroHome65.HomeScreen
+namespace MetroHome65.HomeScreen.LockScreen
 {
     public sealed class LockScreen : Canvas, IActive
     {
@@ -13,8 +13,7 @@ namespace MetroHome65.HomeScreen
 
         private string _dateFormat = "HH:mm\ndddd\nMMMM d";
 
-        private Thread _updateTimer;
-        private Boolean _active;
+        private ThreadTimer _updateTimer;
 
 
         public LockScreen()
@@ -34,50 +33,27 @@ namespace MetroHome65.HomeScreen
 
         private void UpdateTime()
         {
-            while (_active)
-            {
-                _lblClock.Text = DateTime.Now.ToString(_dateFormat);
-                _lblClock.Update();
-
-                for (var i = 0; i < 2000; i += 100)
-                {
-                    if (!_active) return;
-                    Thread.Sleep(100);
-                }
-            }
+            _lblClock.Text = DateTime.Now.ToString(_dateFormat);
+            _lblClock.Update();
         }
 
         public bool Active
         {
-            get { return _active; }
+            get { return (_updateTimer != null); }
             set
             {
-                _active = value;
                 if (value)
                 {
-                    StartUpdate();
+                    if (_updateTimer == null)
+                        _updateTimer = new ThreadTimer(2000, () => UpdateTime() );
                 }
                 else
                 {
-                    StopUpdate();
+                    if (_updateTimer != null)
+                        _updateTimer.Stop();
+                    _updateTimer = null;
                 }
             }
-        }
-
-        public void StartUpdate()
-        {
-            if (_updateTimer == null)
-            {
-                _updateTimer = new Thread( () => UpdateTime() );
-                _updateTimer.Start();
-            }
-        }
-
-        public void StopUpdate()
-        {
-            if (_updateTimer != null)
-                _updateTimer.Join();
-            _updateTimer = null;
         }
 
     }
