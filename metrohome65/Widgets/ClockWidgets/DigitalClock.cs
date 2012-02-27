@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Drawing;
 using System.Collections.Generic;
-using System.Threading;
 using System.Windows.Forms;
 using MetroHome65.Routines;
 using MetroHome65.Settings.Controls;
@@ -11,8 +10,7 @@ namespace MetroHome65.Widgets
     [TileInfo("Digital clock")]
     public class DigitalClockWidget : ShortcutWidget, IUpdatable
     {
-        private Thread _updateTimer;
-        private Boolean _active;
+        private ThreadTimer _updateTimer;
 
         private readonly Brush _brushCaption;
         private readonly Font _fntTime;
@@ -27,7 +25,7 @@ namespace MetroHome65.Widgets
         {
             _brushCaption = new SolidBrush(Color.White);
             _fntTime = new Font("Verdana", 36, FontStyle.Regular);
-            _fntDate = new Font("Helvetica", 12, FontStyle.Regular);
+            _fntDate = new Font("Helvetica", 10, FontStyle.Regular);
         }
 
 
@@ -88,47 +86,24 @@ namespace MetroHome65.Widgets
 
         public bool Active
         {
-            get { return _active; }
+            get { return (_updateTimer != null); }
             set
             {
-                _active = value;
                 if (value)
                 {
-                    StartUpdate();
+                    if (_updateTimer == null)
+                        _updateTimer = new ThreadTimer(2000, () => {
+                                                 _showPoints = !_showPoints;
+                                                 OnWidgetUpdate();
+                                             });
                 }
                 else
                 {
-                    StopUpdate();
+                    if (_updateTimer != null)
+                        _updateTimer.Stop();
+                    _updateTimer = null;
                 }
             }
-        }
-
-        public void StartUpdate()
-        {
-            if (_updateTimer == null)
-            {
-                _updateTimer = new Thread(() => {
-                    while (_active)
-                    {
-                        _showPoints = !_showPoints;
-                        OnWidgetUpdate();
-
-                        for (var i = 0; i < 2000; i += 100)
-                        {
-                            if (!_active) return;
-                            Thread.Sleep(100);
-                        }
-                    }
-                } );
-                _updateTimer.Start();
-            }
-        }
-
-        public void StopUpdate()
-        {
-            if (_updateTimer != null)
-                _updateTimer.Join();
-            _updateTimer = null;
         }
 
         // overriding paint icon method - don't paint icon

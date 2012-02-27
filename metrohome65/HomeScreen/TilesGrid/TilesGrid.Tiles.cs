@@ -2,7 +2,7 @@
 using System.Drawing;
 using Fleux.UIElements;
 
-namespace MetroHome65.HomeScreen
+namespace MetroHome65.HomeScreen.TilesGrid
 {
 
     public partial class TilesGrid : ScrollViewer

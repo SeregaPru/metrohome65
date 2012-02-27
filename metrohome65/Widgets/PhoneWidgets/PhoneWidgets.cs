@@ -1,5 +1,4 @@
-﻿using System;
-using System.Drawing;
+﻿using System.Drawing;
 using MetroHome65.Routines;
 
 namespace MetroHome65.Widgets
@@ -7,10 +6,10 @@ namespace MetroHome65.Widgets
     [TileInfo("Phone")]
     public class PhoneWidget : ShortcutWidget, IUpdatable
     {
-        private System.Windows.Forms.Timer _timer;
+        private ThreadTimer _updateTimer;
         private int _missedCount = 0;
 
-        private static readonly int PaddingRightCnt = ScreenRoutines.Scale(50); //todo comment
+        private static readonly int PaddingRightCnt = ScreenRoutines.Scale(55); //todo comment
         private static readonly int PaddingRightIco = ScreenRoutines.Scale(160); //todo comment
 
         protected override Size[] GetSizes()
@@ -35,7 +34,7 @@ namespace MetroHome65.Widgets
                 rect.Right - PaddingRightIco, rect.Top, PaddingRightIco - PaddingRightCnt, rect.Height));
         }
 
-        private void PaintCount(Graphics g, Rectangle Rect)
+        private void PaintCount(Graphics g, Rectangle rect)
         {
             var missedCountStr = _missedCount.ToString();
 
@@ -44,48 +43,35 @@ namespace MetroHome65.Widgets
             Font captionFont = new Font("Helvetica", 24, FontStyle.Regular);
             Brush captionBrush = new SolidBrush(Color.White);
             g.DrawString(missedCountStr, captionFont, captionBrush,
-                Rect.Right - PaddingRightCnt,
-                Rect.Top + (Rect.Height - g.MeasureString("0", captionFont).Height - captionHeight) / 2);
+                rect.Right - PaddingRightCnt,
+                rect.Top + (rect.Height - g.MeasureString("0", captionFont).Height - captionHeight) / 2);
         }
 
         public bool Active
         {
-            get { return (_timer != null); }
+            get { return (_updateTimer != null); }
             set
             {
                 if (value)
                 {
-                    StartUpdate();
+                    if (_updateTimer == null)
+                        _updateTimer = new ThreadTimer(2000, () => UpdateStatus());
                 }
                 else
                 {
-                    StopUpdate();
+                    if (_updateTimer != null)
+                        _updateTimer.Stop();
+                    _updateTimer = null;
                 }
             }
         }
 
-        public void StartUpdate()
+        private void UpdateStatus()
         {
-            if (_timer == null)
+            var currentMissedCount = GetMissedCount();
+            if (currentMissedCount != _missedCount)
             {
-                _timer = new System.Windows.Forms.Timer() { Interval = 2000 };
-                _timer.Tick += OnTimer;
-            }
-            _timer.Enabled = true;
-        }
-
-        public void StopUpdate()
-        {
-            if (_timer != null)
-                _timer.Enabled = false;
-        }
-
-        private void OnTimer(object sender, EventArgs e)
-        {
-            var CurrentMissedCount = GetMissedCount();
-            if (CurrentMissedCount != _missedCount)
-            {
-                _missedCount = CurrentMissedCount;
+                _missedCount = currentMissedCount;
                 OnWidgetUpdate();
             }
         }
@@ -99,7 +85,7 @@ namespace MetroHome65.Widgets
 
 
     [TileInfo("SMS")]
-    public class SmsTile : PhoneWidget, IUpdatable
+    public class SMSWidget : PhoneWidget, IUpdatable
     {
         protected override int GetMissedCount()
         {
@@ -110,7 +96,7 @@ namespace MetroHome65.Widgets
 
 
     [TileInfo("E-mail")]
-    public class EMailTile : PhoneWidget, IUpdatable
+    public class EMailWidget : PhoneWidget, IUpdatable
     {
         protected override int GetMissedCount()
         {

@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Drawing;
-using System.Windows.Forms;
 using MetroHome65.Routines;
 
 namespace MetroHome65.Widgets.StatusWidgets
@@ -8,7 +7,7 @@ namespace MetroHome65.Widgets.StatusWidgets
     [TileInfo("Statuses")]
     public class StatusWidget : ShortcutWidget, IUpdatable
     {
-        private Timer _updateTimer;
+        private ThreadTimer _updateTimer;
 
         readonly List<CustomStatus> _statuses = new List<CustomStatus>();
 
@@ -85,40 +84,26 @@ namespace MetroHome65.Widgets.StatusWidgets
 
         public bool Active
         {
-            get { return _updateTimer.Enabled; }
+            get { return (_updateTimer != null); }
             set
             {
                 if (value)
                 {
-                    StartUpdate();
+                    if (_updateTimer == null)
+                        _updateTimer = new ThreadTimer(2000, () => {
+                                         if (UpdateStatuses())
+                                         {
+                                             OnWidgetUpdate();
+                                         }
+                                     });
                 }
                 else
                 {
-                    StopUpdate();
+                    if (_updateTimer != null)
+                        _updateTimer.Stop();
+                    _updateTimer = null;
                 }
             }
-        }
-
-        public void StartUpdate()
-        {
-            if (_updateTimer == null)
-            {
-                _updateTimer = new Timer() { Interval = 2000 };
-                _updateTimer.Tick += (s, e) =>
-                {
-                    if (UpdateStatuses())
-                    {
-                        OnWidgetUpdate();
-                    }
-                };
-            }
-            _updateTimer.Enabled = true;
-        }
-
-        public void StopUpdate()
-        {
-            if (_updateTimer != null)
-                _updateTimer.Enabled = false;
         }
 
         private bool UpdateStatuses()
