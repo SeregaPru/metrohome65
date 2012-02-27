@@ -119,7 +119,7 @@ namespace MetroHome65.Widgets
         {
             if (Caption != "")
             {
-                Font captionFont = new System.Drawing.Font("Segoe UI Light", 8, FontStyle.Bold);
+                Font captionFont = new System.Drawing.Font("Segoe WP Light", 8, FontStyle.Bold);
                 Brush captionBrush = new System.Drawing.SolidBrush(System.Drawing.Color.White);
                 g.DrawString(Caption, captionFont, captionBrush,
                     rect.Left + CaptionLeftOffset, 

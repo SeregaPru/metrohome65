@@ -40,7 +40,7 @@
             // 
             // lblColor
             // 
-            this.lblColor.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular);
+            this.lblColor.Font = new System.Drawing.Font("Segoe WP", 12F, System.Drawing.FontStyle.Regular);
             this.lblColor.ForeColor = System.Drawing.Color.White;
             this.lblColor.Location = new System.Drawing.Point(8, 20);
             this.lblColor.Name = "lblColor";

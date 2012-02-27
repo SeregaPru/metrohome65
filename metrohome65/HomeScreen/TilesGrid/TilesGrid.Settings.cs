@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Drawing;
 using System.Collections.Generic;
+using System.Windows.Forms;
 using Fleux.UIElements;
 using MetroHome65.Routines;
 using System.Xml.Serialization;
@@ -169,9 +170,13 @@ namespace MetroHome65.HomeScreen.TilesGrid
         }
 
 
-        private void ShowMainSettings()
+        /// <summary>
+        /// shows main settings dialog
+        /// </summary>
+        private Boolean ShowMainSettings()
         {
-            //
+            var mainSettingsForm = new FrmMainSettings(_mainSettings) { Owner = null };
+            return (mainSettingsForm.ShowDialog() == DialogResult.OK);
         }
     }
 }

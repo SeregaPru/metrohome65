@@ -44,7 +44,7 @@
             // 
             // lblPageTitle
             // 
-            this.lblPageTitle.Font = new System.Drawing.Font("Segoe UI", 28F, System.Drawing.FontStyle.Regular);
+            this.lblPageTitle.Font = new System.Drawing.Font("Segoe WP", 28F, System.Drawing.FontStyle.Regular);
             this.lblPageTitle.ForeColor = System.Drawing.Color.White;
             this.lblPageTitle.Location = new System.Drawing.Point(0, 0);
             this.lblPageTitle.Name = "lblPageTitle";
@@ -86,7 +86,7 @@
             // 
             // lblWidgetSize
             // 
-            this.lblWidgetSize.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular);
+            this.lblWidgetSize.Font = new System.Drawing.Font("Segoe WP", 12F, System.Drawing.FontStyle.Regular);
             this.lblWidgetSize.ForeColor = System.Drawing.Color.White;
             this.lblWidgetSize.Location = new System.Drawing.Point(8, 20);
             this.lblWidgetSize.Name = "lblWidgetSize";
@@ -114,7 +114,7 @@
             // 
             // lblWidgetType
             // 
-            this.lblWidgetType.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular);
+            this.lblWidgetType.Font = new System.Drawing.Font("Segoe WP", 12F, System.Drawing.FontStyle.Regular);
             this.lblWidgetType.ForeColor = System.Drawing.Color.White;
             this.lblWidgetType.Location = new System.Drawing.Point(8, 20);
             this.lblWidgetType.Name = "lblWidgetType";

@@ -19,13 +19,15 @@ namespace MetroHome65.Widgets
         private Boolean _is24Hour = true;
 
         private readonly int _paddingRight = ScreenRoutines.Scale(20);
-        private readonly int _dotWidth = ScreenRoutines.Scale(30);
+        private readonly int _dotWidth = ScreenRoutines.Scale(20);
+        private readonly int _dotPaddingRight = ScreenRoutines.Scale(8);
+        private readonly int _dotPaddingLeft = ScreenRoutines.Scale(6);
 
         public DigitalClockWidget() : base()
         {
             _brushCaption = new SolidBrush(Color.White);
-            _fntTime = new Font("Verdana", 36, FontStyle.Regular);
-            _fntDate = new Font("Helvetica", 10, FontStyle.Regular);
+            _fntTime = new Font("Segoe WP Semibold", 36, FontStyle.Regular);
+            _fntDate = new Font("Segoe WP Semibold", 10, FontStyle.Regular);
         }
 
 
@@ -64,24 +66,23 @@ namespace MetroHome65.Widgets
             var sTimeMins = DateTime.Now.ToString("mm");
             var sDate = DateTime.Now.ToString("dddd, MMMM d");
 
-            var timeBoxHour = g.MeasureString(sTimeHour, _fntTime);
-            var timeBoxMins = g.MeasureString(sTimeMins, _fntTime);
+            var timeBox = g.MeasureString("99", _fntTime);
             var dateBox = g.MeasureString(sDate, _fntDate);
 
             g.DrawString(sTimeMins, _fntTime, _brushCaption,
-                rect.Right - timeBoxMins.Width - _paddingRight,
-                rect.Top + (rect.Height - timeBoxMins.Height - dateBox.Height) / 2);
+                rect.Right - timeBox.Width - _paddingRight,
+                rect.Top + (rect.Height - timeBox.Height - dateBox.Height) / 2);
             if (_showPoints)
                 g.DrawString(":", _fntTime, _brushCaption,
-                    rect.Right - timeBoxHour.Width - _paddingRight - _dotWidth,
-                    rect.Top + (rect.Height - timeBoxMins.Height - dateBox.Height) / 2 - ScreenRoutines.Scale(5));
+                    rect.Right - timeBox.Width - _paddingRight - _dotWidth - _dotPaddingRight,
+                    rect.Top + (rect.Height - timeBox.Height - dateBox.Height) / 2 - ScreenRoutines.Scale(5));
             g.DrawString(sTimeHour, _fntTime, _brushCaption,
-                rect.Right - timeBoxMins.Width - _paddingRight - _dotWidth - timeBoxHour.Width,
-                rect.Top + (rect.Height - timeBoxMins.Height - dateBox.Height) / 2);
+                rect.Right - timeBox.Width - _paddingRight - _dotWidth - _dotPaddingRight - _dotPaddingLeft - timeBox.Width,
+                rect.Top + (rect.Height - timeBox.Height - dateBox.Height) / 2);
 
             g.DrawString(sDate, _fntDate, _brushCaption,
                 rect.Right - dateBox.Width - _paddingRight,
-                rect.Bottom - (rect.Height - timeBoxMins.Height - dateBox.Height) / 2 - dateBox.Height);
+                rect.Bottom - (rect.Height - timeBox.Height - dateBox.Height) / 2 - dateBox.Height);
         }
 
         public bool Active
