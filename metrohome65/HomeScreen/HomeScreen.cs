@@ -16,6 +16,7 @@ namespace MetroHome65.HomeScreen
         private readonly Canvas _homeScreenCanvas;
         private readonly Arrow _switchArrow;
         private IAnimation _animation;
+        private readonly MainSettings _mainSettings;
 
         private readonly List<UIElement> _pages = new List<UIElement>();
         private int _curPage;
@@ -35,10 +36,10 @@ namespace MetroHome65.HomeScreen
 
             Control.EntranceDuration = 300;
 
-            var mainSettings = ReadMainSettings();
+            _mainSettings = ReadMainSettings();
 
             // фон окна
-            var background = new HomeScreenBackground(mainSettings)
+            var background = new HomeScreenBackground(_mainSettings)
             {
                 Location = new Point(0, 0),
             };
@@ -58,7 +59,8 @@ namespace MetroHome65.HomeScreen
 
             // прокрутчик холста плиток
             //!! todo - потом вместо контрола передавать холст _homeScreenCanvas
-            var tilesGrid = new TilesGrid.TilesGrid(Control);
+            var tilesGrid = new TilesGrid.TilesGrid(Control, _mainSettings);
+            tilesGrid.OnExit = Exit;
             AddPage(tilesGrid, 1);
 
             // стрелка переключатель страниц
@@ -70,7 +72,7 @@ namespace MetroHome65.HomeScreen
             _homeScreenCanvas.AddElement(_switchArrow);
 
             // список программ
-            var programsSv = new ProgramsMenuPage(mainSettings);
+            var programsSv = new ProgramsMenuPage(_mainSettings);
             AddPage(programsSv, 2);
 
             Control.AddElement(_homeScreenCanvas);
@@ -83,9 +85,11 @@ namespace MetroHome65.HomeScreen
             CurrentPage = 1;
         }
 
-        ~HomeScreen()
+        private void Exit()
         {
             OnDeactivate();
+            (new MainSettingsProvider()).WriteSettings(_mainSettings);
+            TheForm.Close();
         }
 
         private void AddPage(UIElement page, int position)

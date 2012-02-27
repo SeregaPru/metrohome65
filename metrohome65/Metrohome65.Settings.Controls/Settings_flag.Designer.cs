@@ -33,7 +33,7 @@
             // 
             // cbFlag
             // 
-            this.cbFlag.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular);
+            this.cbFlag.Font = new System.Drawing.Font("Segoe WP", 12F, System.Drawing.FontStyle.Regular);
             this.cbFlag.ForeColor = System.Drawing.Color.White;
             this.cbFlag.Location = new System.Drawing.Point(8, 20);
             this.cbFlag.Name = "cbFlag";

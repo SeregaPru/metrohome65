@@ -73,7 +73,7 @@ namespace MetroHome65.Widgets.StatusWidgets
             var captionHeigth = 0;
             if (!String.IsNullOrEmpty(caption))
             {
-                var captionFont = new Font("Segoe UI Light", 7, FontStyle.Bold);
+                var captionFont = new Font("Segoe WP Light", 7, FontStyle.Bold);
                 captionBrush.Color = captionColor;
                 var captionSize = g.MeasureString(caption, captionFont);
                 g.DrawString(caption, captionFont, captionBrush,

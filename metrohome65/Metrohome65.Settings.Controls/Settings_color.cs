@@ -19,8 +19,14 @@ namespace MetroHome65.Settings.Controls
 
         private bool _changing = false;
 
+        public string Caption
+        {
+            get { return lblColor.Text; }
+            set { lblColor.Text = value;  }
+        }
 
-        public int Value { 
+        public int Value 
+        { 
             get { return _Color; } 
             set {
                 if (_Color != value)

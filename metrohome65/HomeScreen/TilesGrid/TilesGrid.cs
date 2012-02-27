@@ -11,15 +11,19 @@ namespace MetroHome65.HomeScreen.TilesGrid
     public partial class TilesGrid : ScrollViewer, IActive
     {
         private readonly FleuxControl _homeScreenControl;
+        private MainSettings _mainSettings;
         private readonly List<TileWrapper> _tiles = new List<TileWrapper>();
         private readonly Canvas _tilesCanvas;
         private readonly UIElement _buttonSettings;
         private readonly UIElement _buttonUnpin;
         private Boolean _active = true;
 
-        public TilesGrid(FleuxControl homeScreenControl) : base()
+        public Action OnExit;
+
+        public TilesGrid(FleuxControl homeScreenControl, MainSettings mainSettings) : base()
         {
             _homeScreenControl = homeScreenControl;
+            _mainSettings = mainSettings;
 
             // кнопка настроек            
             _buttonSettings = new FlatButton("MetroHome65.settings.png")
@@ -82,7 +86,6 @@ namespace MetroHome65.HomeScreen.TilesGrid
             }
         }
 
-
         /// <summary>
         /// Fill popup menu for widget grid with grid settings
         /// </summary>
@@ -106,7 +109,7 @@ namespace MetroHome65.HomeScreen.TilesGrid
             mainMenu.MenuItems.Add(new MenuItem { Text = "-", });
 
             var menuExit = new MenuItem {Text = "Exit"};
-            menuExit.Click += (s, e) => Application.Exit();
+            menuExit.Click += (s, e) => OnExit(); //Application.Exit();
             mainMenu.MenuItems.Add(menuExit);
 
             mainMenu.Show(_homeScreenControl, aLocation);
@@ -211,10 +214,8 @@ namespace MetroHome65.HomeScreen.TilesGrid
         {
             var widgetSettingsForm = new FrmWidgetSettings
                                          {
-                                             Tile = tile,
-                                             Owner = null
+                                             Tile = tile, Owner = null
                                          };
-
             return (widgetSettingsForm.ShowDialog() == DialogResult.OK);
         }
 

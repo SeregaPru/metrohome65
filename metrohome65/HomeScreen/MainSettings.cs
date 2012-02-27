@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel;
 using System.Drawing;
 using System.Linq;
 using System.Collections.Generic;
@@ -12,28 +13,30 @@ namespace MetroHome65.HomeScreen
     /// Common settings for UI 
     /// </summary>
     [Serializable]
-    public class MainSettings
+    public class MainSettings : INotifyPropertyChanged
     {
         /// <summary>
         /// Main screen background color
         /// </summary>
         [XmlIgnore]
         public Color ThemeColor { get { return Color.FromArgb(ThemeColorValue); } }
+
         [XmlElement("ThemeColor")]
-        public int ThemeColorValue = Color.Black.ToArgb();
+        public int ThemeColorValue { get; set; } 
 
         /// <summary>
         /// Main screen background image. If not set, solid background of ThemeColor will be used.
         /// </summary>
-        public string ThemeImage = "";
+        public string ThemeImage { get; set; }
 
         /// <summary>
         /// font color for items in program list
         /// </summary>
         [XmlIgnore]
         public Color ListFontColor { get { return Color.FromArgb(ListFontColorValue); } }
+
         [XmlElement("ListFontColor")]
-        public int ListFontColorValue = Color.White.ToArgb();
+        public int ListFontColorValue { get; set; }
 
         /// <summary>
         /// default tile color
@@ -41,7 +44,27 @@ namespace MetroHome65.HomeScreen
         [XmlIgnore]
         public Color TileColor { get { return Color.FromArgb(TileColorValue); } }
         [XmlElement("TileColor")]
-        public int TileColorValue = Color.Blue.ToArgb();
+        public int TileColorValue { get; set; }
+
+
+        public MainSettings()
+        {
+            ThemeColorValue = Color.Black.ToArgb();
+            ListFontColorValue = Color.White.ToArgb();
+            TileColorValue = Color.Blue.ToArgb();
+        }
+
+
+        #region INotifyPropertyChanged
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        protected void NotifyPropertyChanged(String info)
+        {
+            if (PropertyChanged != null)
+                PropertyChanged(this, new PropertyChangedEventArgs(info));
+        }
+        #endregion
+
     }
 
 
@@ -78,6 +101,21 @@ namespace MetroHome65.HomeScreen
                 Logger.WriteLog(e.StackTrace, "Read main settings error");
                 // return default settings
                 _settings = new MainSettings();
+            }
+        }
+
+        public void WriteSettings(MainSettings settings)
+        {
+            try
+            {
+                var serializer = new XmlSerializer(settings.GetType());
+                System.IO.TextWriter writer = new System.IO.StreamWriter(SettingsFile(), false);
+                serializer.Serialize(writer, settings);
+                writer.Close();
+            }
+            catch (Exception e)
+            {
+                Logger.WriteLog(e.StackTrace, "Write main settings error");
             }
         }
 
