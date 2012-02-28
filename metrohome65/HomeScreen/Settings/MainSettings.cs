@@ -1,13 +1,10 @@
 ﻿using System;
 using System.ComponentModel;
 using System.Drawing;
-using System.Linq;
-using System.Collections.Generic;
-using System.Text;
 using System.Xml.Serialization;
 using MetroHome65.Routines;
 
-namespace MetroHome65.HomeScreen
+namespace MetroHome65.HomeScreen.Settings
 {
     /// <summary>
     /// Common settings for UI 
@@ -18,11 +15,7 @@ namespace MetroHome65.HomeScreen
         /// <summary>
         /// Main screen background color
         /// </summary>
-        [XmlIgnore]
-        public Color ThemeColor { get { return Color.FromArgb(ThemeColorValue); } }
-
-        [XmlElement("ThemeColor")]
-        public int ThemeColorValue { get; set; } 
+        public XmlColor ThemeColor { get; set; }
 
         /// <summary>
         /// Main screen background image. If not set, solid background of ThemeColor will be used.
@@ -32,26 +25,19 @@ namespace MetroHome65.HomeScreen
         /// <summary>
         /// font color for items in program list
         /// </summary>
-        [XmlIgnore]
-        public Color ListFontColor { get { return Color.FromArgb(ListFontColorValue); } }
-
-        [XmlElement("ListFontColor")]
-        public int ListFontColorValue { get; set; }
+        public XmlColor ListFontColor { get; set; }
 
         /// <summary>
         /// default tile color
         /// </summary>
-        [XmlIgnore]
-        public Color TileColor { get { return Color.FromArgb(TileColorValue); } }
-        [XmlElement("TileColor")]
-        public int TileColorValue { get; set; }
+        public XmlColor TileColor { get; set; }
 
 
         public MainSettings()
         {
-            ThemeColorValue = Color.Black.ToArgb();
-            ListFontColorValue = Color.White.ToArgb();
-            TileColorValue = Color.Blue.ToArgb();
+            ThemeColor = Color.Black;
+            ListFontColor = Color.White;
+            TileColor = Color.Blue;
         }
 
 
