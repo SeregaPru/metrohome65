@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Drawing;
 using Fleux.UIElements;
+using MetroHome65.HomeScreen.Settings;
 using MetroHome65.Widgets;
 
 namespace MetroHome65.HomeScreen.ProgramsMenu

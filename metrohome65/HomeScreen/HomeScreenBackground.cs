@@ -1,29 +1,32 @@
 ﻿using System;
 using System.Drawing;
 using Fleux.UIElements;
+using MetroHome65.HomeScreen.Settings;
 
 namespace MetroHome65.HomeScreen
 {
     public class HomeScreenBackground : UIElement
     {
-        private readonly Image _image;
+        private Image _image;
 
-        private readonly Color _bgColor;
+        private Color _bgColor;
 
         public HomeScreenBackground(MainSettings mainSettings)
         {
             Size = new Size(System.Windows.Forms.Screen.PrimaryScreen.Bounds.Width, System.Windows.Forms.Screen.PrimaryScreen.Bounds.Height);
 
-            _bgColor = mainSettings.ThemeColor;
-            _image = PrepareBgImage(mainSettings.ThemeImage.Trim());
+            mainSettings.PropertyChanged += OnMainSettingsChanged;
+
+            SetBgColor(mainSettings.ThemeColor);
+            SetImage(mainSettings.ThemeImage.Trim());
         }
 
-        private Image PrepareBgImage(string ThemeImageFileName)
+        private Image PrepareBgImage(string imagePath)
         {
-            if (String.IsNullOrEmpty(ThemeImageFileName))
+            if (String.IsNullOrEmpty(imagePath))
                 return null;
 
-            var srcImage = new Bitmap(ThemeImageFileName);
+            var srcImage = new Bitmap(imagePath);
 
             // вычисляем общий коэффициент масштабирования изображения с учетом пропорций
             var scaleX = 1.0 * Size.Width / srcImage.Width;
@@ -43,6 +46,39 @@ namespace MetroHome65.HomeScreen
         {
             if (_image != null)
                 drawingGraphics.Graphics.DrawImage(_image, 0, 0);
+            else
+            {
+                drawingGraphics.Color(_bgColor);
+                drawingGraphics.FillRectangle(Bounds);
+            }
+        }
+
+        private void SetImage(string imagePath)
+        {
+            _image = PrepareBgImage(imagePath);
+        }
+
+        private void SetBgColor(Color color)
+        {
+            _bgColor = color;
+        }
+
+        private void OnMainSettingsChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+        {
+            var mainSettings = sender as MainSettings;
+            if (mainSettings == null) return;
+
+            if (e.PropertyName == "ThemeImage")
+            {
+                SetImage(mainSettings.ThemeImage);
+                Update();
+            }
+
+            if (e.PropertyName == "ThemeColor")
+            {
+                SetBgColor(mainSettings.ThemeColor);
+                Update();
+            }
         }
 
     }

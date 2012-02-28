@@ -2,12 +2,13 @@
 using System.ComponentModel;
 using System.Drawing;
 using System.Windows.Forms;
+using MetroHome65.Routines;
 
 namespace MetroHome65.Settings.Controls
 {
     public partial class Settings_color : UserControl, INotifyPropertyChanged
     {
-        private int _Color = Color.Black.ToArgb();
+        private int _color = Color.Black.ToArgb();
 
         public Settings_color()
         {
@@ -24,32 +25,42 @@ namespace MetroHome65.Settings.Controls
 
         public int Value 
         { 
-            get { return _Color; } 
+            get { return _color; } 
             set {
-                if (_Color != value)
-                {
-                    _Color = value;
-                    Color color = Color.FromArgb(_Color);
-                    panelColorSample.BackColor = color;
+                if (_color == value) return;
 
-                    _changing = true;
-                    trackRed.Value = color.R;
-                    trackGreen.Value = color.G;
-                    trackBlue.Value = color.B;
-                    _changing = false;
+                _color = value;
+                Color color = Color.FromArgb(_color);
+                panelColorSample.BackColor = color;
 
-                    NotifyPropertyChanged("Value");
-                }
+                _changing = true;
+                trackRed.Value = color.R;
+                trackGreen.Value = color.G;
+                trackBlue.Value = color.B;
+                _changing = false;
+
+                NotifyPropertyChanged("Value");
             } 
         }
 
+        public XmlColor ColorValue
+        {
+            get { return Color.FromArgb(_color); } 
+            set
+            {
+                if (_color == value.Color.ToArgb()) return;
+
+                Value = value.Color.ToArgb();
+                NotifyPropertyChanged("ColorValue");
+            }
+        }
 
         // change widget color
         private void trackBlue_ValueChanged(object sender, EventArgs e)
         {
             if (!_changing)
             {
-                Value = Color.FromArgb(trackRed.Value, trackGreen.Value, trackBlue.Value).ToArgb();
+                ColorValue = Color.FromArgb(trackRed.Value, trackGreen.Value, trackBlue.Value);
             }
         }
 
