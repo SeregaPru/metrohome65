@@ -2,7 +2,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProductVersion>9.0.30729</ProductVersion>
+    <ProductVersion>9.0.21022</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{058BEB2E-C6A2-4B37-A734-6E3EDBFF8A5A}</ProjectGuid>
     <OutputType>Library</OutputType>
@@ -65,6 +65,10 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\MetroHome65.Interfaces\MetroHome65.Interfaces.csproj">
+      <Project>{A0D38398-7B6A-45D8-B2C7-19120FEA68FC}</Project>
+      <Name>MetroHome65.Interfaces</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\MetroHome65.Routines\MetroHome65.Routines.csproj">
       <Project>{18D428A8-6722-4A69-B39D-F652AFA34D90}</Project>
       <Name>MetroHome65.Routines</Name>
