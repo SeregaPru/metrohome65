@@ -1,4 +1,4 @@
-﻿namespace MetroHome65.HomeScreen
+﻿namespace MetroHome65.HomeScreen.Settings
 {
     partial class FrmMainSettings
     {
@@ -51,12 +51,12 @@
             // mnuApply
             // 
             this.mnuApply.Text = "Apply";
-            this.mnuApply.Click += new System.EventHandler(this.mnuApply_Click);
+            this.mnuApply.Click += new System.EventHandler(this.MenuApplyClick);
             // 
             // menuCancel
             // 
             this.menuCancel.Text = "Cancel";
-            this.menuCancel.Click += new System.EventHandler(this.menuCancel_Click);
+            this.menuCancel.Click += new System.EventHandler(this.MenuCancelClick);
             // 
             // FrmWidgetSettings
             // 
@@ -84,7 +84,5 @@
         private System.Windows.Forms.MainMenu mainMenu1;
         private System.Windows.Forms.MenuItem mnuApply;
         private System.Windows.Forms.MenuItem menuCancel;
-
-
     }
 }

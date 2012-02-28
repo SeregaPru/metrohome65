@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Drawing;
 
-namespace MetroHome65.HomeScreen.Settings
+namespace MetroHome65.Routines
 {
     public class XmlColor : System.Xml.Serialization.IXmlSerializable
     {

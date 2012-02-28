@@ -1,7 +1,9 @@
 ﻿using System;
+using System.ComponentModel;
 using System.Drawing;
 using Fleux.Styles;
 using Fleux.UIElements;
+using MetroHome65.HomeScreen.Settings;
 using MetroHome65.Routines;
 using MetroHome65.Widgets;
 
@@ -16,7 +18,7 @@ namespace MetroHome65.HomeScreen.LockScreen
         private ThreadTimer _updateTimer;
 
 
-        public LockScreen()
+        public LockScreen(MainSettings mainSettings)
         {
             _lblClock = new TextElement("00:00")
                             {
@@ -26,9 +28,11 @@ namespace MetroHome65.HomeScreen.LockScreen
                                 Style = new TextStyle(
                                     MetroTheme.PhoneFontFamilySemiBold,
                                     MetroTheme.PhoneFontSizeExtraLarge,
-                                    Color.White),
+                                    mainSettings.FontColor),
                             };
             AddElement(_lblClock);
+
+            mainSettings.PropertyChanged += OnMainSettingsChanged;
         }
 
         private void UpdateTime()
@@ -55,6 +59,19 @@ namespace MetroHome65.HomeScreen.LockScreen
                 }
             }
         }
+
+        private void OnMainSettingsChanged(object sender, PropertyChangedEventArgs e)
+        {
+            var mainSettings = sender as MainSettings;
+            if (mainSettings == null) return;
+
+            if (e.PropertyName == "FontColor")
+            {
+                _lblClock.Style.Foreground = mainSettings.FontColor;
+                Update();
+            }
+        }
+
 
     }
 }

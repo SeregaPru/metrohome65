@@ -3,56 +3,57 @@ using System.Windows.Forms;
 using MetroHome65.Settings.Controls;
 using MetroHome65.Routines;
 
-namespace MetroHome65.HomeScreen
+namespace MetroHome65.HomeScreen.Settings
 {
 
     public partial class FrmMainSettings : Form
     {
-        private MainSettings _settings;
+        private readonly MainSettings _editSettings;
+        private readonly MainSettings _mainSettings;
 
         public FrmMainSettings(MainSettings mainSettings)
         {
-            _settings = mainSettings;
-
             InitializeComponent();
 
+            _mainSettings = mainSettings;
+            _editSettings = new MainSettings();
+            CopySettings(_mainSettings, _editSettings);
             CreateControls();
         }
-             
+
         public void CreateControls()
         {
             this.SuspendLayout();
 
             var bindingManager = new BindingManager();
 
-            var ctrThemeColor = new Settings_color
-            {
-                Caption = "Theme color", Value = _settings.ThemeColorValue,
-            };
-            PlaceControl(ctrThemeColor);
-            bindingManager.Bind(_settings, "ThemeColorValue", ctrThemeColor, "Value");
-
             var ctrThemeImage = new Settings_image
             {
-                Caption = "Theme background", Value = _settings.ThemeImage,
+                Caption = "Theme background", Value = _editSettings.ThemeImage,
             };
             PlaceControl(ctrThemeImage);
-            bindingManager.Bind(_settings, "ThemeImage", ctrThemeImage, "Value");
+            bindingManager.Bind(_editSettings, "ThemeImage", ctrThemeImage, "Value");
+
+            var ctrThemeColor = new Settings_color
+            {
+                Caption = "Theme color", ColorValue = _editSettings.ThemeColor,
+            };
+            PlaceControl(ctrThemeColor);
+            bindingManager.Bind(_editSettings, "ThemeColor", ctrThemeColor, "ColorValue");
 
             var ctrTileColor = new Settings_color
             {
-                Caption = "Tile color", Value = _settings.TileColorValue,
+                Caption = "Tile color", ColorValue = _editSettings.TileColor,
             };
             PlaceControl(ctrTileColor);
-            bindingManager.Bind(_settings, "TileColorValue", ctrTileColor, "Value");
+            bindingManager.Bind(_editSettings, "TileColor", ctrTileColor, "ColorValue");
 
             var ctrFontColor = new Settings_color
             {
-                Caption = "List font color",
-                Value = _settings.ListFontColorValue,
+                Caption = "Font color", ColorValue = _editSettings.FontColor,
             };
             PlaceControl(ctrFontColor);
-            bindingManager.Bind(_settings, "ListFontColorValue", ctrFontColor, "Value");
+            bindingManager.Bind(_editSettings, "FontColor", ctrFontColor, "ColorValue");
 
             this.ResumeLayout(false);
         }
@@ -61,8 +62,8 @@ namespace MetroHome65.HomeScreen
         {
             if (control == null) return;
 
-            int controlTop = 0;
-            foreach (Control ctrl in this.Controls)
+            var controlTop = 0;
+            foreach (Control ctrl in Controls)
                 controlTop = Math.Max(controlTop, ctrl.Bottom);
                 
             control.Parent = this;
@@ -71,14 +72,23 @@ namespace MetroHome65.HomeScreen
             Controls.Add(control);
         }
 
-        private void mnuApply_Click(object sender, EventArgs e)
+        private void MenuApplyClick(object sender, EventArgs e)
         {
-            this.DialogResult = DialogResult.OK;
+            CopySettings(_editSettings, _mainSettings);
+            DialogResult = DialogResult.OK;
         }
 
-        private void menuCancel_Click(object sender, EventArgs e)
+        private void MenuCancelClick(object sender, EventArgs e)
         {
-            this.DialogResult = DialogResult.Cancel;
+            DialogResult = DialogResult.Cancel;
+        }
+
+        private void CopySettings(MainSettings src, MainSettings dst)
+        {
+            dst.ThemeImage = src.ThemeImage;
+            dst.ThemeColor = src.ThemeColor;
+            dst.FontColor = src.FontColor;
+            dst.TileColor = src.TileColor;
         }
     }
 }

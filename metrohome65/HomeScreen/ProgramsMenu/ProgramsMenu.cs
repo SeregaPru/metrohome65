@@ -4,6 +4,7 @@ using System.Drawing;
 using System.IO;
 using System.Runtime.InteropServices;
 using System.ComponentModel;
+using MetroHome65.HomeScreen.Settings;
 using MetroHome65.Routines;
 using Fleux.UIElements;
 using Fleux.Styles;
@@ -31,7 +32,7 @@ namespace MetroHome65.HomeScreen.ProgramsMenu
             _refa = new FileRoutines.structa();
 
             _bgColor = mainSettings.TileColor;
-            _fontColor = mainSettings.ListFontColor;
+            _fontColor = mainSettings.FontColor;
             _bgBrush = new SolidBrush(_bgColor);
 
             DataTemplateSelector = item => BuildItem;

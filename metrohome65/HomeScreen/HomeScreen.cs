@@ -2,11 +2,12 @@
 using System.Collections.Generic;
 using System.Drawing;
 using Microsoft.WindowsMobile.Status;
-using MetroHome65.HomeScreen.ProgramsMenu;
-using MetroHome65.Widgets;
 using Fleux.Controls;
 using Fleux.UIElements;
 using Fleux.Animations;
+using MetroHome65.HomeScreen.Settings;
+using MetroHome65.HomeScreen.ProgramsMenu;
+using MetroHome65.Widgets;
 
 namespace MetroHome65.HomeScreen
 {
@@ -54,7 +55,7 @@ namespace MetroHome65.HomeScreen
                                     };
 
             // экран блокировки
-            _lockScreen = new LockScreen.LockScreen();
+            _lockScreen = new LockScreen.LockScreen(_mainSettings);
             AddPage(_lockScreen, 0);
 
             // прокрутчик холста плиток
