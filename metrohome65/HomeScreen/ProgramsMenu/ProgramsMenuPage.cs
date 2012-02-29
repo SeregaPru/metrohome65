@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel;
 using System.Drawing;
 using Fleux.UIElements;
 using MetroHome65.HomeScreen.Settings;
@@ -8,9 +9,15 @@ namespace MetroHome65.HomeScreen.ProgramsMenu
 {
     public sealed class ProgramsMenuPage : Canvas, IActive
     {
-        private readonly UIElement _programsSv;
+        private UIElement _programsSv;
 
         public ProgramsMenuPage(MainSettings mainSettings)
+        {
+            mainSettings.PropertyChanged += OnMainSettingsChanged;
+            CreateList(mainSettings);
+        }
+
+        private void CreateList(MainSettings mainSettings)
         {
             const int programsSvPos = 18 + 48 + 18;
             _programsSv = new ProgramsMenu(mainSettings)
@@ -32,6 +39,24 @@ namespace MetroHome65.HomeScreen.ProgramsMenu
                     // stop scroll animation
                     _programsSv.Pressed(new Point(-1, -1));
                 }
+            }
+        }
+
+        /// <summary>
+        /// e-create programs menu with new setings
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void OnMainSettingsChanged(object sender, PropertyChangedEventArgs e)
+        {
+            var mainSettings = sender as MainSettings;
+            if (mainSettings == null) return;
+
+            if ((e.PropertyName == "FontColor") || (e.PropertyName == "TileColor"))
+            {
+                if (_programsSv != null)
+                    DeleteElement(_programsSv);
+                CreateList(sender as MainSettings);
             }
         }
 

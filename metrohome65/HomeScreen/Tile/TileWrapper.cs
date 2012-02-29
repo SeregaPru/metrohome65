@@ -3,7 +3,6 @@ using System.Drawing;
 using System.Linq;
 using System.Collections.Generic;
 using System.Reflection;
-using System.Windows.Forms;
 using Fleux.UIElements;
 using Fleux.Core.GraphicsHelpers;
 using MetroHome65.Widgets;
@@ -36,7 +35,7 @@ namespace MetroHome65.HomeScreen
 
         private readonly List<PropertyInfo> _propertyInfos = new List<PropertyInfo>();
 
-        private Timer _movingTimer;
+        private ThreadTimer _movingTimer;
 
         #endregion
 
@@ -340,16 +339,13 @@ namespace MetroHome65.HomeScreen
                     if (value)
                     {
                         if (_movingTimer == null)
-                        {
-                            _movingTimer = new Timer() { Interval = 300 };
-                            _movingTimer.Tick += (s, e) => RepaintMovingTile();
-                        }
-                        _movingTimer.Enabled = true;
+                            _movingTimer = new ThreadTimer(200, () => RepaintMovingTile() );
                     }
                     else
                     {
                         if (_movingTimer != null)
-                            _movingTimer.Enabled = false;
+                            _movingTimer.Stop();
+                        _movingTimer = null;
                         Update();
                     }
                 }
