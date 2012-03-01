@@ -27,13 +27,13 @@ namespace MetroHome65.HomeScreen.TilesGrid
             _mainSettings = mainSettings;
 
             // кнопка настроек            
-            _buttonSettings = new FlatButton("MetroHome65.settings.png")
+            _buttonSettings = new FlatButton("MetroHome65.Images.settings.png")
                                   {
                                       Size = new Size(48, 48),
                                       TapHandler = ButtonSettingsClick,
                                   };
             // кнопка удаления плитки
-            _buttonUnpin = new FlatButton("MetroHome65.cancel.png")
+            _buttonUnpin = new FlatButton("MetroHome65.Images.cancel.png")
                                {
                                    Size = new Size(48, 48),
                                    TapHandler = ButtonUnpinClick,
