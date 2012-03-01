@@ -18,11 +18,14 @@ namespace MetroHome65.HomeScreen
             mainSettings.PropertyChanged += OnMainSettingsChanged;
 
             SetBgColor(mainSettings.ThemeColor);
-            SetImage(mainSettings.ThemeImage.Trim());
+            SetImage(mainSettings.ThemeImage);
         }
 
         private Image PrepareBgImage(string imagePath)
         {
+            if (String.IsNullOrEmpty(imagePath))
+                return null;
+            imagePath = imagePath.Trim();
             if (String.IsNullOrEmpty(imagePath))
                 return null;
 

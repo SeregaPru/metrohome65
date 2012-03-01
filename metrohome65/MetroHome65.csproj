@@ -2,7 +2,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProductVersion>9.0.30729</ProductVersion>
+    <ProductVersion>9.0.21022</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{55BF769B-A219-4FCF-8B3C-4B87D0D147AF}</ProjectGuid>
     <OutputType>WinExe</OutputType>
@@ -18,7 +18,7 @@
     <NativePlatformName>Windows Mobile 6.5.3 Professional DTK</NativePlatformName>
     <FormFactorID>
     </FormFactorID>
-    <ApplicationIcon>home.ico</ApplicationIcon>
+    <ApplicationIcon>Images\home.ico</ApplicationIcon>
     <StartupObject>MetroHome65.Program</StartupObject>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
@@ -108,7 +108,7 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="back.png" />
+    <EmbeddedResource Include="Images\back.png" />
     <Content Include="buttons\bg1.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
@@ -157,8 +157,9 @@
     <Content Include="buttons\button sky.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <EmbeddedResource Include="cancel.png" />
-    <Content Include="home.ico" />
+    <EmbeddedResource Include="Images\cancel.png" />
+    <EmbeddedResource Include="Images\back.ico" />
+    <Content Include="Images\home.ico" />
     <Content Include="icons\acrobat.png" />
     <Content Include="icons\bluetooth.png" />
     <Content Include="icons\calc.png" />
@@ -183,6 +184,7 @@
     <Content Include="icons\skype.png" />
     <Content Include="icons\tuner.png" />
     <Content Include="icons\world.png" />
+    <EmbeddedResource Include="Images\next.ico" />
     <Content Include="wallpapers\berry.jpg">
     </Content>
     <Content Include="wallpapers\bird.jpg">
@@ -193,8 +195,8 @@
       <DependentUpon>FrmMainSettings.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="settings.png" />
-    <EmbeddedResource Include="next.png" />
+    <EmbeddedResource Include="Images\settings.png" />
+    <EmbeddedResource Include="Images\next.png" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="Fleux\Fleux.csproj">

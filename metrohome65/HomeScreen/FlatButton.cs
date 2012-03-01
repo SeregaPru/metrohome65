@@ -9,15 +9,17 @@ namespace MetroHome65.HomeScreen
 {
     public class FlatButton : UIElement
     {
+        private Image _image;
         //private IImageWrapper _image;
-        private AlphaImage _image;
+        //private AlphaImage _image;
 
         public string ResourceName
         {
             set
             {
+                _image = ResourceManager.Instance.GetBitmapFromEmbeddedResource(value);
                 //_image = ResourceManager.Instance.GetIImageFromEmbeddedResource(value);
-                _image = new AlphaImage(value, this.GetType().Assembly);
+                //_image = new AlphaImage(value, this.GetType().Assembly);
                 Update();
             }
         }
@@ -31,9 +33,8 @@ namespace MetroHome65.HomeScreen
         {
             //!!drawingGraphics.DrawText("*");
             //drawingGraphics.DrawAlphaImage(_image, 0, 0);
-            _image.PaintIcon(drawingGraphics.Graphics, 
-                - drawingGraphics.VisibleRect.Left, 
-                - drawingGraphics.VisibleRect.Top);
+            //_image.PaintIcon(drawingGraphics.Graphics, - drawingGraphics.VisibleRect.Left, - drawingGraphics.VisibleRect.Top);
+            drawingGraphics.DrawImage(_image, 0, 0);
         }
 
     }
