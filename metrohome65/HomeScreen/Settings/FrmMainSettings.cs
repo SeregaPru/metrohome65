@@ -9,15 +9,12 @@ namespace MetroHome65.HomeScreen.Settings
     public partial class FrmMainSettings : Form
     {
         private readonly MainSettings _editSettings;
-        private readonly MainSettings _mainSettings;
 
-        public FrmMainSettings(MainSettings mainSettings)
+        public FrmMainSettings()
         {
             InitializeComponent();
 
-            _mainSettings = mainSettings;
             _editSettings = new MainSettings();
-            CopySettings(_mainSettings, _editSettings);
             CreateControls();
         }
 
@@ -34,12 +31,12 @@ namespace MetroHome65.HomeScreen.Settings
             PlaceControl(ctrThemeImage);
             bindingManager.Bind(_editSettings, "ThemeImage", ctrThemeImage, "Value");
 
-            var ctrThemeColor = new Settings_color
+            var ctrThemeType = new Settings_flag
             {
-                Caption = "Theme color", ColorValue = _editSettings.ThemeColor,
+                Caption = "Dark theme", Value = _editSettings.ThemeIsDark,
             };
-            PlaceControl(ctrThemeColor);
-            bindingManager.Bind(_editSettings, "ThemeColor", ctrThemeColor, "ColorValue");
+            PlaceControl(ctrThemeType);
+            bindingManager.Bind(_editSettings, "ThemeIsDark", ctrThemeType, "Value");
 
             var ctrTileColor = new Settings_color
             {
@@ -47,13 +44,6 @@ namespace MetroHome65.HomeScreen.Settings
             };
             PlaceControl(ctrTileColor);
             bindingManager.Bind(_editSettings, "TileColor", ctrTileColor, "ColorValue");
-
-            var ctrFontColor = new Settings_color
-            {
-                Caption = "Font color", ColorValue = _editSettings.FontColor,
-            };
-            PlaceControl(ctrFontColor);
-            bindingManager.Bind(_editSettings, "FontColor", ctrFontColor, "ColorValue");
 
             this.ResumeLayout(false);
         }
@@ -74,7 +64,11 @@ namespace MetroHome65.HomeScreen.Settings
 
         private void MenuApplyClick(object sender, EventArgs e)
         {
-            CopySettings(_editSettings, _mainSettings);
+            _editSettings.ApplyTheme();
+
+            // write new settings to file
+            (new MainSettingsProvider()).WriteSettings(_editSettings);
+
             DialogResult = DialogResult.OK;
         }
 
@@ -82,13 +76,6 @@ namespace MetroHome65.HomeScreen.Settings
         {
             DialogResult = DialogResult.Cancel;
         }
-
-        private void CopySettings(MainSettings src, MainSettings dst)
-        {
-            dst.ThemeImage = src.ThemeImage;
-            dst.ThemeColor = src.ThemeColor;
-            dst.FontColor = src.FontColor;
-            dst.TileColor = src.TileColor;
-        }
+ 
     }
 }

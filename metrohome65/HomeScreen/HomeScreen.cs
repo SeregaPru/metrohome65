@@ -17,7 +17,6 @@ namespace MetroHome65.HomeScreen
         private readonly Canvas _homeScreenCanvas;
         private readonly Arrow _switchArrow;
         private IAnimation _animation;
-        private readonly MainSettings _mainSettings;
 
         private readonly List<UIElement> _pages = new List<UIElement>();
         private int _curPage;
@@ -37,10 +36,10 @@ namespace MetroHome65.HomeScreen
 
             Control.EntranceDuration = 300;
 
-            _mainSettings = ReadMainSettings();
+            ReadThemeSettings();
 
             // фон окна
-            var background = new HomeScreenBackground(_mainSettings)
+            var background = new HomeScreenBackground()
             {
                 Location = new Point(0, 0),
             };
@@ -55,12 +54,12 @@ namespace MetroHome65.HomeScreen
                                     };
 
             // экран блокировки
-            _lockScreen = new LockScreen.LockScreen(_mainSettings);
+            _lockScreen = new LockScreen.LockScreen();
             AddPage(_lockScreen, 0);
 
             // прокрутчик холста плиток
             //!! todo - потом вместо контрола передавать холст _homeScreenCanvas
-            var tilesGrid = new TilesGrid.TilesGrid(Control, _mainSettings);
+            var tilesGrid = new TilesGrid.TilesGrid(Control);
             tilesGrid.OnExit = Exit;
             AddPage(tilesGrid, 1);
 
@@ -73,7 +72,7 @@ namespace MetroHome65.HomeScreen
             _homeScreenCanvas.AddElement(_switchArrow);
 
             // список программ
-            var programsSv = new ProgramsMenuPage(_mainSettings);
+            var programsSv = new ProgramsMenuPage();
             AddPage(programsSv, 2);
 
             Control.AddElement(_homeScreenCanvas);
@@ -89,7 +88,6 @@ namespace MetroHome65.HomeScreen
         private void Exit()
         {
             OnDeactivate();
-            (new MainSettingsProvider()).WriteSettings(_mainSettings);
             TheForm.Close();
         }
 
@@ -102,9 +100,9 @@ namespace MetroHome65.HomeScreen
             _pages.Insert(position, page);
         }
 
-        private MainSettings ReadMainSettings()
+        private void ReadThemeSettings()
         {
-            return (new MainSettingsProvider()).Settings;
+            (new MainSettingsProvider()).ReadSettings();
         }
 
         private bool Flick(Point from, Point to, int millisecs, Point start)
@@ -135,49 +133,39 @@ namespace MetroHome65.HomeScreen
         {
             OnDeactivate();
 
-            _animation = new FunctionBasedAnimation(FunctionBasedAnimation.Functions.Linear)
-            {
-                Duration = 300,
-                From = _pages[fromPage].Location.X,
-                To = _pages[toPage].Location.X,
-                OnAnimation = v =>
-                {
-                    _homeScreenCanvas.Location = new Point(-v, 0);
-                    _homeScreenCanvas.Update();
-                },
-                OnAnimationStop = () =>
-                                      {
-                                          if ((toPage == 1) || (toPage == 2))
-                                          {
-                                              if (toPage == 1)
-                                                  _switchArrow.Next();
-                                              else
-                                                  _switchArrow.Prev();
+            var animateArrow = (toPage + fromPage >= 2);
+            var ArrowPosFrom = (toPage == 1) ? ArrowPos2 : ArrowPos1;
+            var ArrowPosTo = (toPage == 1) ? ArrowPos1 : ArrowPos2;
 
-                                              var arrowPosTo = (toPage == 1) ? ArrowPos1 : ArrowPos2;
-                                              _switchArrow.Location = new Point(arrowPosTo, _switchArrow.Location.Y);
-                                              _switchArrow.Update();
-                                          }
+            var _screenAnimation = new FunctionBasedAnimation(FunctionBasedAnimation.Functions.Linear)
+                                       {
+                                           Duration = 300,
+                                           From = _pages[fromPage].Location.X,
+                                           To = _pages[toPage].Location.X,
+                                           OnAnimation = v =>
+                                                             {
+                                                                 _homeScreenCanvas.Location = new Point(-v, 0);
+                                                                 _homeScreenCanvas.Update();
 
-                                          OnActivated();
-                                      }
-            };
-            StoryBoard.BeginPlay(_animation);
+                                                                 if (animateArrow)
+                                                                 {
+                                                                     var ArrowPos = ArrowPosFrom + (ArrowPosTo - ArrowPosFrom) * (v - _pages[fromPage].Location.X) / (_pages[toPage].Location.X - _pages[fromPage].Location.X);
+                                                                     _switchArrow.Location = new Point(ArrowPos, _switchArrow.Location.Y);
+                                                                     _switchArrow.Update();
+                                                                 }
+                                                             },
+                                           OnAnimationStop = () =>
+                                                                 {
+                                                                     if (toPage == 1)
+                                                                         _switchArrow.Next();
+                                                                     else
+                                                                         _switchArrow.Prev();
 
-            /*
-            StoryBoard.BeginPlay(new FunctionBasedAnimation(FunctionBasedAnimation.Functions.SoftedFluid)
-            {
-                Duration = 250,
-                From = _switchArrow.Location.X,
-                To = arrowPosTo,
-                OnAnimation = v =>
-                {
-                    _switchArrow.Location = new Point(v, _switchArrow.Location.Y);
-                    _switchArrow.Update();
-                }
-            });
-            */
+                                                                     OnActivated();
+                                                                 },
+                                       };
 
+            StoryBoard.BeginPlay(_screenAnimation);
         }
 
         protected override void OnActivated()

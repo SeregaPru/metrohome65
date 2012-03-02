@@ -1,4 +1,5 @@
-﻿using System.Drawing;
+﻿using System;
+using System.Drawing;
 using System.Reflection;
 using Fleux.Core;
 using Fleux.Core.NativeHelpers;
@@ -9,17 +10,19 @@ namespace MetroHome65.HomeScreen
 {
     public class FlatButton : UIElement
     {
-        private Image _image;
-        //private IImageWrapper _image;
-        //private AlphaImage _image;
+        //private Bitmap _image;
+        private AlphaImage _image;
 
         public string ResourceName
         {
             set
             {
-                _image = ResourceManager.Instance.GetBitmapFromEmbeddedResource(value);
-                //_image = ResourceManager.Instance.GetIImageFromEmbeddedResource(value);
-                //_image = new AlphaImage(value, this.GetType().Assembly);
+                try
+                {
+                    //_image = ResourceManager.Instance.GetBitmapFromEmbeddedResource(value);
+                    _image = new AlphaImage(value, this.GetType().Assembly);
+                }
+                catch (Exception) { }
                 Update();
             }
         }
@@ -31,10 +34,14 @@ namespace MetroHome65.HomeScreen
 
         public override void Draw(Fleux.Core.GraphicsHelpers.IDrawingGraphics drawingGraphics)
         {
-            //!!drawingGraphics.DrawText("*");
-            //drawingGraphics.DrawAlphaImage(_image, 0, 0);
-            //_image.PaintIcon(drawingGraphics.Graphics, - drawingGraphics.VisibleRect.Left, - drawingGraphics.VisibleRect.Top);
-            drawingGraphics.DrawImage(_image, 0, 0);
+            _image.PaintIcon(drawingGraphics.Graphics, - drawingGraphics.VisibleRect.Left, - drawingGraphics.VisibleRect.Top);
+
+            /*
+            Color transparentKeyColor = Color.Black; // DEFAULT BLACK, IF IT IS NOT POSSIBLE TO READ FROM IMAGE
+            if (_image != null)
+                transparentKeyColor = _image.GetPixel(0, 0);
+            drawingGraphics.DrawImage(_image, 0, 0, Size.Width, Size.Height, transparentKeyColor);
+            */
         }
 
     }

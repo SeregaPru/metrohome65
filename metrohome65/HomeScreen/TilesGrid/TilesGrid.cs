@@ -12,7 +12,6 @@ namespace MetroHome65.HomeScreen.TilesGrid
     public partial class TilesGrid : ScrollViewer, IActive
     {
         private readonly FleuxControl _homeScreenControl;
-        private MainSettings _mainSettings;
         private readonly List<TileWrapper> _tiles = new List<TileWrapper>();
         private readonly Canvas _tilesCanvas;
         private readonly UIElement _buttonSettings;
@@ -21,10 +20,9 @@ namespace MetroHome65.HomeScreen.TilesGrid
 
         public Action OnExit;
 
-        public TilesGrid(FleuxControl homeScreenControl, MainSettings mainSettings) : base()
+        public TilesGrid(FleuxControl homeScreenControl) : base()
         {
             _homeScreenControl = homeScreenControl;
-            _mainSettings = mainSettings;
 
             // кнопка настроек            
             _buttonSettings = new FlatButton("MetroHome65.Images.settings.png")

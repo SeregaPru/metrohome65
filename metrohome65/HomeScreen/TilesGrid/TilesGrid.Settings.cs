@@ -176,7 +176,7 @@ namespace MetroHome65.HomeScreen.TilesGrid
         /// </summary>
         private Boolean ShowMainSettings()
         {
-            var mainSettingsForm = new FrmMainSettings(_mainSettings) { Owner = null };
+            var mainSettingsForm = new FrmMainSettings() { Owner = null };
             return (mainSettingsForm.ShowDialog() == DialogResult.OK);
         }
     }

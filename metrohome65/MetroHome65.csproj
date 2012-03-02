@@ -108,7 +108,7 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Images\back.png" />
+    <EmbeddedResource Include="Images\back_dark.png" />
     <Content Include="buttons\bg1.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
@@ -158,7 +158,7 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <EmbeddedResource Include="Images\cancel.png" />
-    <EmbeddedResource Include="Images\back.ico" />
+    <EmbeddedResource Include="Images\back_light.png" />
     <Content Include="Images\home.ico" />
     <Content Include="icons\acrobat.png" />
     <Content Include="icons\bluetooth.png" />
@@ -184,7 +184,7 @@
     <Content Include="icons\skype.png" />
     <Content Include="icons\tuner.png" />
     <Content Include="icons\world.png" />
-    <EmbeddedResource Include="Images\next.ico" />
+    <EmbeddedResource Include="Images\next_light.png" />
     <Content Include="wallpapers\berry.jpg">
     </Content>
     <Content Include="wallpapers\bird.jpg">
@@ -196,7 +196,7 @@
       <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Images\settings.png" />
-    <EmbeddedResource Include="Images\next.png" />
+    <EmbeddedResource Include="Images\next_dark.png" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="Fleux\Fleux.csproj">
