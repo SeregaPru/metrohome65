@@ -2,6 +2,7 @@
 using System.Drawing;
 using System.Windows.Forms;
 using System.Collections.Generic;
+using Fleux.Styles;
 using Microsoft.WindowsMobile.PocketOutlook;
 using MetroHome65.Settings.Controls;
 using MetroHome65.Routines;
@@ -9,11 +10,17 @@ using MetroHome65.Routines;
 namespace MetroHome65.Widgets
 {
     [TileInfo("Contact")]
-    public class ContactWidget : BaseWidget
+    public class ContactWidget : BaseWidget, IUpdatable
     {
         private int _contactId = -1;
         private String _alternatePicturePath = "";
-        private AlphaImage _contactImage = null;
+        private AlphaImage _alternateImage = null;
+
+        // current Y offset for contact name animation
+        private int _offsetY;
+        private const int _nameRectHeight = 48;
+        private int _animateStep = 4;
+        private ThreadTimer _animateTimer;
 
         protected override Size[] GetSizes()
         {
@@ -38,6 +45,7 @@ namespace MetroHome65.Widgets
                 if (_contactId != value)
                 {
                     _contactId = value;
+                    _bufferedImage = null; // clear buffered image
                     NotifyPropertyChanged("ContactId");
                 }
             }
@@ -57,6 +65,7 @@ namespace MetroHome65.Widgets
                 {
                     _alternatePicturePath = value;
                     UpdateAlternatePicture();
+                    _bufferedImage = null; // clear buffered image
                     NotifyPropertyChanged("AlternatePicturePath");
                 }
             }
@@ -65,18 +74,18 @@ namespace MetroHome65.Widgets
         protected virtual void UpdateAlternatePicture()
         {
             if (_alternatePicturePath != "")
-                _contactImage = new AlphaImage(_alternatePicturePath);
+                _alternateImage = new AlphaImage(_alternatePicturePath);
             else
-                _contactImage = null;
+                _alternateImage = null;
         }
 
         Contact FindContact(int itemIdKey)
         {
             Contact FindedContact = null;
-            OutlookSession mySession = new OutlookSession();
+            var mySession = new OutlookSession();
             
-            ContactCollection collection = mySession.Contacts.Items;
-            foreach (Contact contact in collection)
+            var collection = mySession.Contacts.Items;
+            foreach (var contact in collection)
             {
                 if (contact.ItemId.GetHashCode().Equals(itemIdKey))
                 {
@@ -88,55 +97,96 @@ namespace MetroHome65.Widgets
             return FindedContact;
         }
 
-        public override void Paint(Graphics g, Rectangle rect)
+        private Image _bufferedImage = null;
+
+        private void DrawBufferedImage(Rectangle rect)
         {
-            Pen BorderPen = new System.Drawing.Pen(Color.Gray, 2);
-            g.DrawRectangle(BorderPen, rect.Left, rect.Top, rect.Width - 2, rect.Height - 2);
+            _bufferedImage = new Bitmap(rect.Width, rect.Height + _nameRectHeight);
+            var g = Graphics.FromImage(_bufferedImage);
 
-            Font captionFont = new System.Drawing.Font("Helvetica", 9, FontStyle.Regular);
-            Brush captionBrush = new System.Drawing.SolidBrush(System.Drawing.Color.White);
+            var captionFont = new Font("Segoe WP", 9, FontStyle.Regular);
+            var captionBrush = new SolidBrush(MetroTheme.PhoneForegroundBrush);
 
-            Contact contact = FindContact(this.ContactId);
+            var contact = FindContact(ContactId);
 
             if (contact == null)
             {
-                g.FillRectangle(new System.Drawing.SolidBrush(Color.DarkBlue),
-                    new Rectangle(rect.Left + 1, rect.Top + 1, rect.Width - 3, rect.Height - 3));
-                g.DrawString("Contact \n not \n found", captionFont, captionBrush,
-                    rect.Left + 10, rect.Top + 10);
+                g.FillRectangle(new SolidBrush(MetroTheme.PhoneAccentBrush),
+                    new Rectangle(rect.Left, rect.Top, rect.Width, rect.Height + _nameRectHeight));
+                g.DrawString("Contact \n not \n found", captionFont, captionBrush, rect.Left + 10, rect.Top + 20);
                 return;
             }
 
+            var pictureRect = new Rectangle(rect.Left, rect.Top, rect.Width, rect.Height);
+
             // if assigned alternate picture - use it
-            if (_contactImage != null)
+            if (_alternateImage != null)
             {
-                _contactImage.PaintBackground(g, rect);
+                _alternateImage.PaintBackground(g, pictureRect);
             }
             else
 
-            // use picture from contact, if present
-            if (contact.Picture != null)
-                g.DrawImage(contact.Picture,
-                    new Rectangle(rect.Left + 1, rect.Top + 1, rect.Width - 3, rect.Height - 3),
-                    0, 0, contact.Picture.Width, contact.Picture.Height, GraphicsUnit.Pixel,
-                    new System.Drawing.Imaging.ImageAttributes());
-            else
-                g.FillRectangle(new System.Drawing.SolidBrush(Color.DarkBlue), 
-                    new Rectangle(rect.Left + 1, rect.Top + 1, rect.Width - 3, rect.Height - 3));
+                // use picture from contact, if present
+                if (contact.Picture != null)
+                {
+                    g.DrawImage(contact.Picture,
+                        new Rectangle(0, 0, rect.Width, rect.Height),
+                        0, 0, contact.Picture.Width, contact.Picture.Height,
+                        GraphicsUnit.Pixel, new System.Drawing.Imaging.ImageAttributes());
+                }
+                else
+                    g.FillRectangle(new SolidBrush(MetroTheme.PhoneAccentBrush), pictureRect);
 
-            String ContactName = contact.FileAs;
-            g.DrawString(ContactName, captionFont, captionBrush,
-                rect.Left + 10, rect.Bottom - 5 - g.MeasureString(ContactName, captionFont).Height);
+            // draw contact name - below picture
+            g.FillRectangle(new SolidBrush(MetroTheme.PhoneAccentBrush),
+                new Rectangle(rect.Left, rect.Top + rect.Height, rect.Width, _nameRectHeight));
+            var contactName = contact.FileAs;
+            g.DrawString(contactName, captionFont, captionBrush, rect.Left + 10, rect.Top + rect.Height + 5);
+            // - g.MeasureString(contactName, captionFont).Height
         }
 
-
-        public override void OnMenuItemClick(String itemName)
+        public override void Paint(Graphics g, Rectangle rect)
         {
-            if (itemName == "Call")
-                MakeCall();
-            else
-            if (itemName == "Send SMS")
-                SendSMS();
+            if (_bufferedImage == null)
+                DrawBufferedImage(rect);
+            int top = rect.Top - _offsetY;
+            g.DrawImage(_bufferedImage, rect.Left, top);
+
+            // border around
+            var borderPen = new Pen(MetroTheme.PhoneAccentBrush, 1);
+            g.DrawRectangle(borderPen, new Rectangle(rect.Left, rect.Top, rect.Width - 1, rect.Height - 1));
+            g.DrawRectangle(borderPen, new Rectangle(rect.Left + 1, rect.Top + 1, rect.Width - 2, rect.Height - 2));
+        }
+
+        public bool Active
+        {
+            get { return (_animateTimer != null); }
+            set
+            {
+                if (value)
+                {
+                    if (_animateTimer == null)
+                        _animateTimer = new ThreadTimer(10, AnimateTile, (new Random()).Next(2000));
+                }
+                else
+                {
+                    if (_animateTimer != null)
+                        _animateTimer.Stop();
+                    _animateTimer = null;
+                }
+            }
+        }
+
+        private void AnimateTile()
+        {
+            _offsetY += _animateStep;
+            OnWidgetUpdate();
+
+            if ((_offsetY <= 0) || (_offsetY >= _nameRectHeight))
+            {
+                _animateStep = -_animateStep;
+                _animateTimer.SafeSleep(2000 + (new Random()).Next(2000));
+            }
         }
 
 
@@ -144,21 +194,18 @@ namespace MetroHome65.Widgets
         {
             get
             {
-                List<Control> Controls = base.EditControls;
-                Settings_contact EditControl = new Settings_contact();
-                EditControl.Value = ContactId;
-                Controls.Add(EditControl);
+                List<Control> controls = base.EditControls;
+                var editControl = new Settings_contact {Value = ContactId};
+                controls.Add(editControl);
 
-                Settings_image ImgControl = new Settings_image();
-                ImgControl.Caption = "Alternate picture";
-                ImgControl.Value = AlternatePicturePath;
-                Controls.Add(ImgControl);
+                var imgControl = new Settings_image {Caption = "Alternate picture", Value = AlternatePicturePath};
+                controls.Add(imgControl);
 
-                BindingManager BindingManager = new BindingManager();
-                BindingManager.Bind(this, "ContactId", EditControl, "Value");
-                BindingManager.Bind(this, "AlternatePicturePath", ImgControl, "Value");
+                var bindingManager = new BindingManager();
+                bindingManager.Bind(this, "ContactId", editControl, "Value");
+                bindingManager.Bind(this, "AlternatePicturePath", imgControl, "Value");
 
-                return Controls;
+                return controls;
             }
         }
 
@@ -184,21 +231,21 @@ namespace MetroHome65.Widgets
 
         private bool MakeCall()
         {
-            Contact contact = FindContact(this.ContactId);
+            var contact = FindContact(ContactId);
             if (contact == null)
                 return false;
 
-            Microsoft.WindowsMobile.Telephony.Phone myPhone = new Microsoft.WindowsMobile.Telephony.Phone();
+            var myPhone = new Microsoft.WindowsMobile.Telephony.Phone();
             myPhone.Talk(contact.MobileTelephoneNumber, false);
             return true;
         }
 
         private void SendSMS()
         {
-            Contact contact = FindContact(ContactId);
-            OutlookSession mySession = new OutlookSession();
-            SmsMessage message = new Microsoft.WindowsMobile.PocketOutlook.SmsMessage(contact.MobileTelephoneNumber, "");
-            Microsoft.WindowsMobile.PocketOutlook.MessagingApplication.DisplayComposeForm(message);
+            var contact = FindContact(ContactId);
+            var mySession = new OutlookSession();
+            var message = new SmsMessage(contact.MobileTelephoneNumber, "");
+            MessagingApplication.DisplayComposeForm(message);
         }
 
         private bool OpenContact()

@@ -170,10 +170,7 @@ namespace MetroHome65.HomeScreen.TilesGrid
         private void TileHoldAt(Point aLocation, TileWrapper tile)
         {
             if (!MoveMode)
-            {
-                //!! if (!ShowWidgetPopupMenu(Tile, ALocation))
                 MovingTile = tile;
-            }
         }
 
         private bool ButtonSettingsClick(Point aLocation)
