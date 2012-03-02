@@ -222,11 +222,11 @@ namespace MetroHome65.HomeScreen.TilesGrid
         {
             var random = new Random();
             var x = target.GetScreenRect().Left;
-            target.EntranceAnimation = new FunctionBasedAnimation(FunctionBasedAnimation.Functions.BounceEntranceSin)
+            target.EntranceAnimation = new FunctionBasedAnimation(FunctionBasedAnimation.Functions.Linear)
             {
                 From = x - 1000 + random.Next(1000 - x - 173),
                 To = x,
-                EaseFunction = v => Math.Pow(v, 15),
+                //EaseFunction = v => Math.Pow(v, 15),
                 OnAnimation = v => target.Location = new Point(v, target.Location.Y),
                 OnAnimationStart = () => { target.Active = false; },
                 OnAnimationStop = () => { target.Active = true; }
@@ -236,11 +236,11 @@ namespace MetroHome65.HomeScreen.TilesGrid
         private void SetExitAnimation(TileWrapper target)
         {
             var random = new Random();
-            target.ExitAnimation = new FunctionBasedAnimation(FunctionBasedAnimation.Functions.BounceExitSin)
+            target.ExitAnimation = new FunctionBasedAnimation(FunctionBasedAnimation.Functions.Linear)
             {
                 To = -target.Size.Width - random.Next(1000),
                 From = target.GetScreenRect().Left,
-                EaseFunction = v => Math.Pow(v, 15),
+                //EaseFunction = v => Math.Pow(v, 15),
                 OnAnimation = v => target.Location = new Point(v, target.Location.Y),
                 OnAnimationStart = () => { target.Active = false; },
                 OnAnimationStop = () => { }

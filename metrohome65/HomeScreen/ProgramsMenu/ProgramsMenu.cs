@@ -136,5 +136,11 @@ namespace MetroHome65.HomeScreen.ProgramsMenu
             return canvas;
         }
 
+        public override bool Flick(Point from, Point to, int millisecs, Point startPoint)
+        {
+            // scroll some faster 
+            return base.Flick(from, to, millisecs * 2 / 3, startPoint);
+        }
+
     }
 }
