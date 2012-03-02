@@ -19,7 +19,7 @@ namespace MetroHome65.HomeScreen.LockScreen
 
         public LockScreen()
         {
-            _lblClock = new TextElement("")
+            _lblClock = new TextElement(GetText())
                             {
                                 Size = new Size(ScreenConsts.ScreenWidth - 20 - 10, ScreenConsts.ScreenHeight / 2),
                                 Location = new Point(20, ScreenConsts.ScreenHeight * 2 / 5),
@@ -36,8 +36,13 @@ namespace MetroHome65.HomeScreen.LockScreen
 
         private void UpdateTime()
         {
-            _lblClock.Text = DateTime.Now.ToString(_dateFormat);
+            _lblClock.Text = GetText();
             _lblClock.Update();
+        }
+
+        private string GetText()
+        {
+            return DateTime.Now.ToString(_dateFormat);
         }
 
         public bool Active
@@ -48,7 +53,7 @@ namespace MetroHome65.HomeScreen.LockScreen
                 if (value)
                 {
                     if (_updateTimer == null)
-                        _updateTimer = new ThreadTimer(2000, () => UpdateTime() );
+                        _updateTimer = new ThreadTimer(2000, UpdateTime );
                 }
                 else
                 {
