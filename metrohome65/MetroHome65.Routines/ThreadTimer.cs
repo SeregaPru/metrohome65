@@ -16,20 +16,25 @@ namespace MetroHome65.Routines
 
         private Boolean _active;
 
-        public ThreadTimer(int interval, ThreadTimerProc timerProc)
+        public ThreadTimer(int interval, ThreadTimerProc timerProc,  int startDelay)
         {
             _interval = interval;
             _active = true;
 
-            _thread = new Thread(() => {
+            _thread = new Thread(() =>
+            {
+                SafeSleep(startDelay);
+
                 while (_active)
                 {
                     timerProc();
                     SafeSleep(_interval);
                 }
-            } );
+            });
             _thread.Start();
         }
+
+        public ThreadTimer(int interval, ThreadTimerProc timerProc) : this(interval, timerProc, 0) { }
 
         ~ThreadTimer()
         {
@@ -47,7 +52,7 @@ namespace MetroHome65.Routines
             }
         }
 
-        private void SafeSleep(int timeoutMs)
+        public void SafeSleep(int timeoutMs)
         {
             for (var i = 0; i < timeoutMs; i += 100)
             {

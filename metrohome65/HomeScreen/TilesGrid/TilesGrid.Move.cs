@@ -226,7 +226,6 @@ namespace MetroHome65.HomeScreen.TilesGrid
             {
                 From = x - 1000 + random.Next(1000 - x - 173),
                 To = x,
-                //EaseFunction = v => Math.Pow(v, 15),
                 OnAnimation = v => target.Location = new Point(v, target.Location.Y),
                 OnAnimationStart = () => { target.Active = false; },
                 OnAnimationStop = () => { target.Active = true; }
@@ -240,7 +239,6 @@ namespace MetroHome65.HomeScreen.TilesGrid
             {
                 To = -target.Size.Width - random.Next(1000),
                 From = target.GetScreenRect().Left,
-                //EaseFunction = v => Math.Pow(v, 15),
                 OnAnimation = v => target.Location = new Point(v, target.Location.Y),
                 OnAnimationStart = () => { target.Active = false; },
                 OnAnimationStop = () => { }
