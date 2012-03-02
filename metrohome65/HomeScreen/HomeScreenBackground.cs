@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Drawing;
+using Fleux.Styles;
 using Fleux.UIElements;
-using MetroHome65.HomeScreen.Settings;
 
 namespace MetroHome65.HomeScreen
 {
@@ -11,14 +11,14 @@ namespace MetroHome65.HomeScreen
 
         private Color _bgColor;
 
-        public HomeScreenBackground(MainSettings mainSettings)
+        public HomeScreenBackground()
         {
             Size = new Size(System.Windows.Forms.Screen.PrimaryScreen.Bounds.Width, System.Windows.Forms.Screen.PrimaryScreen.Bounds.Height);
 
-            mainSettings.PropertyChanged += OnMainSettingsChanged;
+            MetroTheme.PropertyChanged += OnThemeSettingsChanged;
 
-            SetBgColor(mainSettings.ThemeColor);
-            SetImage(mainSettings.ThemeImage);
+            SetBgColor(MetroTheme.PhoneBackgroundBrush);
+            SetImage(MetroTheme.PhoneBackgroundImage);
         }
 
         private Image PrepareBgImage(string imagePath)
@@ -66,20 +66,17 @@ namespace MetroHome65.HomeScreen
             _bgColor = color;
         }
 
-        private void OnMainSettingsChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+        private void OnThemeSettingsChanged(System.ComponentModel.PropertyChangedEventArgs e)
         {
-            var mainSettings = sender as MainSettings;
-            if (mainSettings == null) return;
-
-            if (e.PropertyName == "ThemeImage")
+            if (e.PropertyName == "PhoneBackgroundImage")
             {
-                SetImage(mainSettings.ThemeImage);
+                SetImage(MetroTheme.PhoneBackgroundImage);
                 Update();
             }
 
-            if (e.PropertyName == "ThemeColor")
+            if (e.PropertyName == "PhoneBackgroundBrush")
             {
-                SetBgColor(mainSettings.ThemeColor);
+                SetBgColor(MetroTheme.PhoneBackgroundBrush);
                 Update();
             }
         }

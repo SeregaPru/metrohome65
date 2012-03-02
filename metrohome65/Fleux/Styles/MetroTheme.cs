@@ -1,32 +1,50 @@
-﻿namespace Fleux.Styles
+﻿using System.Collections.Generic;
+using System.ComponentModel;
+
+namespace Fleux.Styles
 {
     using System;
     using System.Drawing;
     using Core.GraphicsHelpers;
+
+    public delegate void ThemeChangedEventHandler(PropertyChangedEventArgs e);
 
     /// <summary>
     /// Use as reference http://msdn.microsoft.com/en-us/library/ff769552(VS.92).aspx
     /// </summary>
     [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.StyleCop.CSharp.OrderingRules", "SA1201:ElementsMustAppearInTheCorrectOrder",
         Justification = "Reviewed. Suppression is OK here.")]
-    public static class MetroTheme
+    public static class MetroTheme 
     {
         #region Brushes/Colors
 
         // Foreground color to single-out items of interest
+        private static Color _phoneAccentBrush = Color.FromArgb(40, 160, 220);
         public static Color PhoneAccentBrush
         {
-            get { return Color.FromArgb(40, 160, 220); }
+            get { return _phoneAccentBrush; }
+            set { SetField(ref _phoneAccentBrush, value, "PhoneAccentBrush"); }
         }
 
+        private static Color _phoneForegroundBrush = Color.White;
         public static Color PhoneForegroundBrush
         {
-            get { return Color.White; }
+            get { return _phoneForegroundBrush; }
+            set { SetField(ref _phoneForegroundBrush, value, "PhoneForegroundBrush"); }
         }
 
+        private static Color _phoneBackgroundBrush = Color.Black;
         public static Color PhoneBackgroundBrush
         {
-            get { return Color.Black; }
+            get { return _phoneBackgroundBrush; }
+            set { SetField(ref _phoneBackgroundBrush, value, "PhoneBackgroundBrush"); }
+        }
+
+        private static string _phoneBackgroundImage = "";
+        public static string PhoneBackgroundImage
+        {
+            get { return _phoneBackgroundImage; }
+            set { SetField(ref _phoneBackgroundImage, value, "PhoneBackgroundImage"); }
         }
 
         public static Color PhoneInactiveBrush
@@ -36,7 +54,7 @@
 
         public static Color PhoneTextBoxBrush
         {
-            get { return Color.White; }
+            get { return _phoneForegroundBrush; }
         }
 
         // GIANNI added
@@ -467,5 +485,26 @@
         }
 
         #endregion
+
+
+        #region NotifyPropertyChanged
+
+        public static event ThemeChangedEventHandler PropertyChanged;
+
+        private static void OnPropertyChanged(string propertyName)
+        {
+            if (PropertyChanged != null)
+                PropertyChanged(new PropertyChangedEventArgs(propertyName));
+        }
+        private static bool SetField<T>(ref T field, T value, string propertyName)
+        {
+            if (EqualityComparer<T>.Default.Equals(field, value)) return false;
+            field = value;
+            OnPropertyChanged(propertyName);
+            return true;
+        }
+
+        #endregion
+
     }
 }

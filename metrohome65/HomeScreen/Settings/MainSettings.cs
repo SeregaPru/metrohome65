@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
+using Fleux.Styles;
 using MetroHome65.Routines;
 
 namespace MetroHome65.HomeScreen.Settings
@@ -15,59 +16,49 @@ namespace MetroHome65.HomeScreen.Settings
         /// <summary>
         /// Main screen background color
         /// </summary>
-        public XmlColor ThemeColor
+        private bool _themeIsDark;
+        public bool ThemeIsDark
         {
-            get { return _themeColor; }
-            set { SetField(ref _themeColor, value, "ThemeColor"); }
+            get { return _themeIsDark; }
+            set { SetField(ref _themeIsDark, value, "ThemeIsDark"); }
         }
-        private XmlColor _themeColor;
 
         /// <summary>
         /// Main screen background image. If not set, solid background of ThemeColor will be used.
         /// </summary>
+        private string _themeImage;
         public string ThemeImage
         {
             get { return _themeImage; }
             set { SetField(ref _themeImage, value, "ThemeImage"); }
         }
-        private string _themeImage;
-
-        /// <summary>
-        /// font color for items in program list
-        /// </summary>
-        public XmlColor FontColor
-        {
-            get { return _FontColor; }
-            set { SetField(ref _FontColor, value, "FontColor"); }
-        }
-        private XmlColor _FontColor;
 
         /// <summary>
         /// default tile color
         /// </summary>
+        private XmlColor _tileColor;
         public XmlColor TileColor
         {
             get { return _tileColor; }
             set { SetField(ref _tileColor, value, "TileColor"); }
         }
-        private XmlColor _tileColor;
-
 
         public MainSettings()
         {
-            ThemeColor = Color.Black;
-            FontColor = Color.White;
-            TileColor = Color.Blue;
+            ThemeIsDark = (MetroTheme.PhoneBackgroundBrush != Color.White);
+            ThemeImage = MetroTheme.PhoneBackgroundImage;
+            TileColor = MetroTheme.PhoneAccentBrush;
         }
 
+        public void ApplyTheme()
+        {
+            MetroTheme.PhoneForegroundBrush = (ThemeIsDark) ? Color.White : Color.Black;
+            MetroTheme.PhoneBackgroundBrush = (ThemeIsDark) ? Color.Black : Color.White;
+            MetroTheme.PhoneBackgroundImage = ThemeImage;
+            MetroTheme.PhoneAccentBrush = TileColor;
+        }
 
         #region INotifyPropertyChanged
-
-        protected void NotifyPropertyChanged(String info)
-        {
-            if (PropertyChanged != null)
-                PropertyChanged(this, new PropertyChangedEventArgs(info));
-        }
 
         public event PropertyChangedEventHandler PropertyChanged;
 
@@ -76,7 +67,8 @@ namespace MetroHome65.HomeScreen.Settings
             PropertyChangedEventHandler handler = PropertyChanged;
             if (handler != null) handler(this, new PropertyChangedEventArgs(propertyName));
         }
-        protected bool SetField<T>(ref T field, T value, string propertyName)
+
+        private bool SetField<T>(ref T field, T value, string propertyName)
         {
             if (EqualityComparer<T>.Default.Equals(field, value)) return false;
             field = value;

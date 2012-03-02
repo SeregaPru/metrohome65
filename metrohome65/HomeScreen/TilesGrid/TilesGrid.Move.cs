@@ -83,6 +83,7 @@ namespace MetroHome65.HomeScreen.TilesGrid
         {
             if (MoveMode && _tilesCanvas.Bounds.Contains(to))
             {
+                // в режиме перемещения плиток исключаем дребезг, срабатывание крохотного пана вместо клика
                 if (Math.Pow(from.X - to.X, 2) + Math.Pow(from.Y - to.Y, 2) < 10)
                     return false;
 

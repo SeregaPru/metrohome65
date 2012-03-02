@@ -3,7 +3,6 @@ using System.ComponentModel;
 using System.Drawing;
 using Fleux.Styles;
 using Fleux.UIElements;
-using MetroHome65.HomeScreen.Settings;
 using MetroHome65.Routines;
 using MetroHome65.Widgets;
 
@@ -18,9 +17,9 @@ namespace MetroHome65.HomeScreen.LockScreen
         private ThreadTimer _updateTimer;
 
 
-        public LockScreen(MainSettings mainSettings)
+        public LockScreen()
         {
-            _lblClock = new TextElement("00:00")
+            _lblClock = new TextElement("")
                             {
                                 Size = new Size(ScreenConsts.ScreenWidth - 20 - 10, ScreenConsts.ScreenHeight / 2),
                                 Location = new Point(20, ScreenConsts.ScreenHeight * 2 / 5),
@@ -28,11 +27,11 @@ namespace MetroHome65.HomeScreen.LockScreen
                                 Style = new TextStyle(
                                     MetroTheme.PhoneFontFamilySemiBold,
                                     MetroTheme.PhoneFontSizeExtraLarge,
-                                    mainSettings.FontColor),
+                                    MetroTheme.PhoneForegroundBrush),
                             };
             AddElement(_lblClock);
 
-            mainSettings.PropertyChanged += OnMainSettingsChanged;
+            MetroTheme.PropertyChanged += OnThemeSettingsChanged;
         }
 
         private void UpdateTime()
@@ -60,18 +59,14 @@ namespace MetroHome65.HomeScreen.LockScreen
             }
         }
 
-        private void OnMainSettingsChanged(object sender, PropertyChangedEventArgs e)
+        private void OnThemeSettingsChanged(PropertyChangedEventArgs e)
         {
-            var mainSettings = sender as MainSettings;
-            if (mainSettings == null) return;
-
-            if (e.PropertyName == "FontColor")
+            if (e.PropertyName == "PhoneForegroundBrush")
             {
-                _lblClock.Style.Foreground = mainSettings.FontColor;
+                _lblClock.Style.Foreground = MetroTheme.PhoneForegroundBrush;
                 Update();
             }
         }
-
 
     }
 }

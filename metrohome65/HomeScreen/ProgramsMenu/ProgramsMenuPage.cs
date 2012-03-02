@@ -1,6 +1,7 @@
 ﻿using System;
 using System.ComponentModel;
 using System.Drawing;
+using Fleux.Styles;
 using Fleux.UIElements;
 using MetroHome65.HomeScreen.Settings;
 using MetroHome65.Widgets;
@@ -11,16 +12,16 @@ namespace MetroHome65.HomeScreen.ProgramsMenu
     {
         private UIElement _programsSv;
 
-        public ProgramsMenuPage(MainSettings mainSettings)
+        public ProgramsMenuPage()
         {
-            mainSettings.PropertyChanged += OnMainSettingsChanged;
-            CreateList(mainSettings);
+            MetroTheme.PropertyChanged += OnThemeSettingsChanged;
+            CreateList();
         }
 
-        private void CreateList(MainSettings mainSettings)
+        private void CreateList()
         {
             const int programsSvPos = 18 + 48 + 18;
-            _programsSv = new ProgramsMenu(mainSettings)
+            _programsSv = new ProgramsMenu()
             {
                 Location = new Point(programsSvPos, 5),
                 Size = new Size(ScreenConsts.ScreenWidth - programsSvPos, ScreenConsts.ScreenHeight - 5),
@@ -45,18 +46,14 @@ namespace MetroHome65.HomeScreen.ProgramsMenu
         /// <summary>
         /// e-create programs menu with new setings
         /// </summary>
-        /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void OnMainSettingsChanged(object sender, PropertyChangedEventArgs e)
+        private void OnThemeSettingsChanged(PropertyChangedEventArgs e)
         {
-            var mainSettings = sender as MainSettings;
-            if (mainSettings == null) return;
-
-            if ((e.PropertyName == "FontColor") || (e.PropertyName == "TileColor"))
+            if ((e.PropertyName == "PhoneAccentBrush") || (e.PropertyName == "PhoneForegroundBrush"))
             {
                 if (_programsSv != null)
                     DeleteElement(_programsSv);
-                CreateList(sender as MainSettings);
+                CreateList();
             }
         }
 

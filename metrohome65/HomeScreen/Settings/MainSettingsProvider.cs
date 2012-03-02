@@ -6,37 +6,25 @@ namespace MetroHome65.HomeScreen.Settings
 {
     public class MainSettingsProvider
     {
-        private MainSettings _settings;
-
-        public MainSettings Settings
-        {
-            get
-            {
-                if (_settings == null)
-                    ReadSettings();
-                return _settings;
-            } 
-        }
-
         /// <summary>
         /// Read settings from XML file
         /// </summary>
-        private void ReadSettings()
+        public void ReadSettings()
         {
             try
             {
-                _settings = new MainSettings();
+                var settings = new MainSettings();
 
-                var serializer = new XmlSerializer(_settings.GetType());
+                var serializer = new XmlSerializer(settings.GetType());
                 System.IO.TextReader reader = new System.IO.StreamReader(SettingsFile());
-                _settings = (MainSettings)serializer.Deserialize(reader);
+                settings = (MainSettings)serializer.Deserialize(reader);
                 reader.Close();
+
+                settings.ApplyTheme();
             }
             catch (Exception e)
             {
                 Logger.WriteLog(e.StackTrace, "Read main settings error");
-                // return default settings
-                _settings = new MainSettings();
             }
         }
 
