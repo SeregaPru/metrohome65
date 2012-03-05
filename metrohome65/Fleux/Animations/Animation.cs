@@ -13,6 +13,8 @@
         public int TargetValue = 0;
         public double Acceleration = 0.0005;
         public Action<int> OnAnimation;
+        public Action OnAnimationStop { get; set; }
+        public Action OnAnimationStart { get; set; }
 
         private int initialTicks = 0;
         private double currentVelocity = 0;
@@ -37,10 +39,6 @@
         {
             this.lastKeepAnimating = false;
         }
-
-        public void OnFinish() { }
-
-        public void OnStart() { }
 
         public bool Animate()
         {

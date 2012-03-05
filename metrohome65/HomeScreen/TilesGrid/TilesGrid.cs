@@ -46,6 +46,8 @@ namespace MetroHome65.HomeScreen.TilesGrid
 
             Content = _tilesCanvas;
             VerticalScroll = true;
+            OnStartScroll = () => ActivateTiles(false);
+            OnStopScroll = () => ActivateTiles(true);
 
             TapHandler = GridClickHandler;
             HoldHandler = p =>
@@ -68,25 +70,39 @@ namespace MetroHome65.HomeScreen.TilesGrid
 
                 _active = value;
 
-                // stop scroll animation
-                Pressed(new Point(-1, -1));
+                if (! _active)
+                {
+                    // stop scroll animation
+                    Pressed(new Point(-1, -1));
 
-                // stop moving animation
-                MovingTile = null;
+                    // stop moving animation
+                    MovingTile = null;
+                }
 
+                // когда активируем после запуска внешнего приложения - играем входящую анимацию
                 if ((_active) && (_launching))
                 {
                     _launching = false;
                     _homeScreenControl.AnimateEntrance();
                 }
 
-                // start/stop updatable widgets
-                new Thread( () =>
-                                {
-                                    foreach (var wsInfo in _tiles)
-                                        wsInfo.Active = _active;
-                                }).Start();
+                ActivateTiles(_active);
             }
+        }
+
+        // start/stop updatable widgets
+        private void ActivateTiles(bool active)
+        {
+            new Thread(() =>
+            {
+                // lock asynchronous activisation
+                // for sequental runing activation - deactivation
+                lock (this)
+                {
+                    foreach (var wsInfo in _tiles)
+                        wsInfo.Active = active;
+                }
+            }).Start();
         }
 
         /// <summary>

@@ -11,6 +11,8 @@
         public int TargetDuration = 300; // Total animation duration, even if it starts delayed (It includes the wait time)
         public bool CalculateDeAcceleration;
         public Action<int> OnAnimation;
+        public Action OnAnimationStop { get; set; }
+        public Action OnAnimationStart { get; set; }
 
         protected double deacceleration = 0.001; // Will be calculated
 
@@ -51,10 +53,6 @@
         {
             this.lastKeepAnimating = false;
         }
-
-        public void OnFinish() { }
-
-        public void OnStart() { }
 
         public bool Animate()
         {

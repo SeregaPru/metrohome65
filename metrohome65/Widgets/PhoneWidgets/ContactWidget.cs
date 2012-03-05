@@ -16,7 +16,7 @@ namespace MetroHome65.Widgets
     {
         private int _contactId = -1;
         private String _alternatePicturePath = "";
-        private AlphaImage _alternateImage = null;
+        private AlphaImage _alternateImage;
 
         // current Y offset for contact name animation
         private int _offsetY;
@@ -42,6 +42,15 @@ namespace MetroHome65.Widgets
                 {
                     _contactId = value;
                     _needRepaint = true;
+
+                    // флаг анимировать ли плитку - анимируем только когда есть картинка
+                    try
+                    {
+                        var contact = FindContact(ContactId);
+                        _needAnimateTile = (contact != null) && ((contact.Picture != null) || (_alternateImage != null));
+                    }
+                    catch (Exception) { _needAnimateTile = false; }
+
                     NotifyPropertyChanged("ContactId");
                 }
             }
@@ -69,7 +78,7 @@ namespace MetroHome65.Widgets
 
         Contact FindContact(int itemIdKey)
         {
-            Contact FindedContact = null;
+            Contact findedContact = null;
 
             // locked access to outlook session
             lock (this)
@@ -81,13 +90,13 @@ namespace MetroHome65.Widgets
                 {
                     if (contact.ItemId.GetHashCode().Equals(itemIdKey))
                     {
-                        FindedContact = contact;
+                        findedContact = contact;
                         break;
                     }
                 }
             }
 
-            return FindedContact;
+            return findedContact;
         }
 
         #region Draw
@@ -115,16 +124,13 @@ namespace MetroHome65.Widgets
         {
             ClearBuffer();
 
-            _doubleBuffer = new Bitmap(Bounds.Width, (NeedAnimateTile()) ? Bounds.Height + _nameRectHeight : Bounds.Height);
+            _doubleBuffer = new Bitmap(Bounds.Width, (_needAnimateTile) ? Bounds.Height + _nameRectHeight : Bounds.Height);
             _graphics = Graphics.FromImage(_doubleBuffer);
         }
 
         protected virtual void UpdateAlternatePicture()
         {
-            if (_alternatePicturePath != "")
-                _alternateImage = new AlphaImage(_alternatePicturePath);
-            else
-                _alternateImage = null;
+            _alternateImage = _alternatePicturePath != "" ? new AlphaImage(_alternatePicturePath) : null;
         }
 
         public override void PaintBuffer(Graphics g, Rectangle rect)
@@ -202,9 +208,13 @@ namespace MetroHome65.Widgets
 
         #endregion
 
+
         #region Animation
 
         private IAnimation _animation;
+
+        // флаг анимировать ли плитку - анимируем только когда есть картинка
+        private bool _needAnimateTile;
 
         private static StoryBoard sb = new StoryBoard();
 
@@ -213,7 +223,7 @@ namespace MetroHome65.Widgets
             get { return (_animateTimer != null); }
             set
             {
-                if (! NeedAnimateTile())
+                if (!_needAnimateTile)
                     return;
 
                 if (value)
@@ -231,12 +241,6 @@ namespace MetroHome65.Widgets
                     _animateTimer = null;
                 }
             }
-        }
-
-        private void ResetPosition()
-        {
-            _offsetY = 0;
-            _animateStep = Math.Abs(_animateStep);
         }
 
         private IAnimation GetAnimation()
@@ -267,7 +271,7 @@ namespace MetroHome65.Widgets
             }
 
             if (!Active) return;
-            _animateTimer.SafeSleep(2000 + (new Random()).Next(2000));
+            _animateTimer.SafeSleep(5000 + (new Random()).Next(5000));
                        
             _animation = GetAnimation();
             lock (sb)
@@ -279,21 +283,7 @@ namespace MetroHome65.Widgets
             }
 
             if (!Active) return;
-            _animateTimer.SafeSleep(5000 + (new Random()).Next(5000));
-        }
-
-        // флаг анимировать ли плитку - анимируем только когда есть картинка
-        private bool NeedAnimateTile()
-        {
-            try
-            {
-                var contact = FindContact(ContactId);
-                return (contact != null) && ((contact.Picture != null) || (_alternateImage != null));
-            }
-            catch(Exception e)
-            {
-                return false;
-            }
+            _animateTimer.SafeSleep(10000 + (new Random()).Next(10000));
         }
 
         #endregion
@@ -318,6 +308,9 @@ namespace MetroHome65.Widgets
         }
 
 
+        // launch external application - play exit animation
+        public override bool AnimateExit { get { return true; } }
+
         /// <summary>
         /// on click open contact
         /// </summary>
@@ -326,17 +319,9 @@ namespace MetroHome65.Widgets
         {
             return OpenContact();
         }
-        
-        /// <summary>
-        /// on double click make a call
-        /// </summary>
-        /// <param name="location"></param>
-        public override bool OnDblClick(Point location)
-        {
-            return MakeCall();
-        }
 
 
+        /*
         private bool MakeCall()
         {
             var contact = FindContact(ContactId);
@@ -355,16 +340,16 @@ namespace MetroHome65.Widgets
             var message = new SmsMessage(contact.MobileTelephoneNumber, "");
             MessagingApplication.DisplayComposeForm(message);
         }
+        */
 
         private bool OpenContact()
         {
-            Contact contact = FindContact(this.ContactId);
-            if (contact != null)
-            {
-                contact.ShowDialog();
-                return true;
-            }
-            return false;
+            var contact = FindContact(ContactId);
+            if (contact == null)
+                return false;
+
+            contact.ShowDialog();
+            return true;
         }
 
     }

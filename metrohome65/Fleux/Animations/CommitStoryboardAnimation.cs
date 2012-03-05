@@ -7,6 +7,9 @@
         private int animationStarted;
         private bool lastKeepAnimating;
 
+        public Action OnAnimationStop { get; set; }
+        public Action OnAnimationStart { get; set; }
+
         public Action CommitAction { get; set; }
 
         public int Duration { get; set; }
@@ -25,10 +28,6 @@
         {
             this.lastKeepAnimating = false;
         }
-
-        public void OnFinish() { }
-
-        public void OnStart() { }
 
         public bool Animate()
         {

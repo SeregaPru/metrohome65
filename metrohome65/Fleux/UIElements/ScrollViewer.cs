@@ -211,6 +211,8 @@
                                                                               this.Update();
                                                                           })
                                             {
+                                                OnAnimationStart = OnStartScroll,
+                                                OnAnimationStop = OnStopScroll,
                                                 Min = -Math.Max(0, this.content.Size.Width - this.Size.Width),
                                                 Max = 0
                                             };
@@ -223,11 +225,19 @@
                                                                             this.Update();
                                                                         })
                                             {
+                                                OnAnimationStart = OnStartScroll,
+                                                OnAnimationStop = OnStopScroll,
                                                 Min = -Math.Max(0, this.content.Size.Height - this.Size.Height),
                                                 Max = 0
                                             };
                 }
             }
         }
+
+        // on start scroll animation
+        public Action OnStartScroll { get; set; }
+
+        // on stop scroll animation
+        public Action OnStopScroll { get; set; }
     }
 }

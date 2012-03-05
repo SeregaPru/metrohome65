@@ -14,6 +14,12 @@
             this.applyAction = applyAction;
         }
 
+        // on start scroll animation
+        public Action OnAnimationStart { get; set; }
+
+        // on stop scroll animation
+        public Action OnAnimationStop { get; set; }
+
         public int Current { get; set; }
 
         public int Max { get; set; }
@@ -54,7 +60,9 @@
                             LimitsBehavior = DeceleratedAnimation.LimitsBehaviorOptions.None,
                             Deceleration = 0.000075,
                             MaxVelocity = 10,
-                            OnAnimation = v => this.ApplyNewCurrent(v)
+                            OnAnimation = v => this.ApplyNewCurrent(v),
+                            OnAnimationStop = () => { if (this.OnAnimationStop != null) this.OnAnimationStop(); },
+                            OnAnimationStart = () => { if (this.OnAnimationStart != null) this.OnAnimationStart(); },
                         });
             }
         }

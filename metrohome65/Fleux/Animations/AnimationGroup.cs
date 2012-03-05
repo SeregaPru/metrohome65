@@ -1,4 +1,6 @@
-﻿namespace Fleux.Animations
+﻿using System;
+
+namespace Fleux.Animations
 {
     using System.Collections.Generic;
 
@@ -47,9 +49,8 @@
             this.cancelled = true;
         }
 
-        public void OnFinish() { }
-
-        public void OnStart() { }
+        public Action OnAnimationStop { get; set; }
+        public Action OnAnimationStart { get; set; }
 
     }
 }
