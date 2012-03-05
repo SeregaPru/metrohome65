@@ -250,6 +250,7 @@ namespace MetroHome65.Widgets
                 {
                     _offsetY = v;
                     Update();
+                    Application.DoEvents();
                 },
             };
         }
