@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Threading;
 using System.Windows.Forms;
 using Fleux.Controls;
 using Fleux.UIElements;
@@ -80,8 +81,11 @@ namespace MetroHome65.HomeScreen.TilesGrid
                 }
 
                 // start/stop updatable widgets
-                foreach (var wsInfo in _tiles)
-                    wsInfo.Active = _active;
+                new Thread( () =>
+                                {
+                                    foreach (var wsInfo in _tiles)
+                                        wsInfo.Active = _active;
+                                }).Start();
             }
         }
 

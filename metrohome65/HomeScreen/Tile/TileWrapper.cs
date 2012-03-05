@@ -8,6 +8,7 @@ using Fleux.UIElements;
 using Fleux.Core.GraphicsHelpers;
 using MetroHome65.Interfaces;
 using MetroHome65.Routines;
+using Fleux.Core.Scaling;
 
 namespace MetroHome65.HomeScreen
 {
@@ -15,7 +16,7 @@ namespace MetroHome65.HomeScreen
     /// <summary>
     /// Container for tile view, middle layer between tiles grid and tile plugin.
     /// </summary>
-    public class TileWrapper : Canvas
+    public class TileWrapper : UIElement
     {
         #region Fields
 
@@ -166,16 +167,22 @@ namespace MetroHome65.HomeScreen
                 if (TileClass == value) return;
 
                 // remove old tile
-                Clear();
+                if (_tile != null)
+                {
+                    (_tile as UIElement).Parent = null;
+                    (_tile as UIElement).Updated = null;
+                }
 
                 // create and insert new tile
                 _tile = PluginManager.GetInstance().CreateTile(value);
                 FillTileProperties();
 
-                AddElement(_tile as UIElement);
-
                 TapHandler += p => { OnClick(p); return true; };
                 DoubleTapHandler += p => { OnDblClick(p); return true; };
+
+                // insert new tile
+                (_tile as UIElement).Parent = this;
+                (_tile as UIElement).Updated = this.Update;
 
                 Active = true;
             }
@@ -251,28 +258,39 @@ namespace MetroHome65.HomeScreen
             return (Tile != null) && Tile.OnClick(clickLocation);
         }
 
+        private Bitmap clipBitmap;
+
         public override void Draw(IDrawingGraphics drawingGraphics)
         {
             if (drawingGraphics == null)
                 return;
 
-            // for moving mode - change drawing rect size
-            var tileGraphic = _moving ? drawingGraphics.CreateChild(new Point(_deltaX, _deltaY)) : drawingGraphics;
-
-            if (Tile != null)
+            if (this.clipBitmap == null)
+                this.clipBitmap = new Bitmap(this.Size.Width.ToPixels(), this.Size.Height.ToPixels());
+            using (var localClip = drawingGraphics.GetClipBuffer(new Rectangle(0, 0, this.Size.Width, this.Size.Height), this.clipBitmap))
             {
-                base.Draw(tileGraphic);
-            }
-            else
-            {
-                tileGraphic.Color(MetroTheme.PhoneBackgroundBrush);
-                tileGraphic.FillRectangle(Bounds);
+                // for moving mode - change drawing rect size
+                var tileGraphic = _moving
+                                      ? localClip.DrawingGr.CreateChild(new Point(_deltaX, _deltaY))
+                                      : localClip.DrawingGr.CreateChild(new Point(0, 0));
 
-                tileGraphic.Color(MetroTheme.PhoneAccentBrush);
-                tileGraphic.DrawRectangle(Bounds);
+                if (Tile != null)
+                {
+                    (Tile as UIElement).Draw(tileGraphic);
+                }
+                else
+                {
+                    var drawRect = new Rectangle(0, 0, Bounds.Width, Bounds.Height);
 
-                tileGraphic.Style(MetroTheme.PhoneTextContrastStyle);
-                tileGraphic.DrawText("Tile\nnot\nfound");
+                    tileGraphic.Color(MetroTheme.PhoneAccentBrush);
+                    tileGraphic.FillRectangle(drawRect);
+
+                    tileGraphic.Color(MetroTheme.PhoneForegroundBrush);
+                    tileGraphic.DrawRectangle(drawRect);
+
+                    tileGraphic.Style(MetroTheme.PhoneTextSmallStyle);
+                    tileGraphic.DrawText("Tile\nnot\nfound");
+                }
             }
         }
 

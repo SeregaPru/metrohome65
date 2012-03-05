@@ -59,9 +59,9 @@ namespace MetroHome65.Widgets
         }
 
 
-        public override void Paint(Graphics g, Rectangle rect)
+        public override void PaintBuffer(Graphics g, Rectangle rect)
         {
-            base.Paint(g, rect);
+            base.PaintBuffer(g, rect);
 
             var sTimeHour = (Is24Hour) ? DateTime.Now.ToString("HH") : DateTime.Now.ToString("hh");
             var sTimeMins = DateTime.Now.ToString("mm");

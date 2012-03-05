@@ -35,11 +35,11 @@ namespace MetroHome65.Widgets.StatusWidgets
             return sizes;
         }
         
-        public override void Paint(Graphics g, Rectangle rect)
+        public override void PaintBuffer(Graphics g, Rectangle rect)
         {
             _widgetSize = rect.Size;
 
-            base.Paint(g, rect);
+            base.PaintBuffer(g, rect);
             PaintStatuses(g);
         }
 

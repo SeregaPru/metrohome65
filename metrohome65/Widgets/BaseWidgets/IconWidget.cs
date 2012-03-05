@@ -134,9 +134,9 @@ namespace MetroHome65.Widgets
         /// </summary>
         /// <param name="g"></param>
         /// <param name="rect"></param>
-        public override void Paint(Graphics g, Rectangle rect)
+        public override void PaintBuffer(Graphics g, Rectangle rect)
         {
-            base.Paint(g, rect);
+            base.PaintBuffer(g, rect);
 
             PaintIcon(g, rect);
             PaintCaption(g, rect);

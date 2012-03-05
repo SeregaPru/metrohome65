@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Threading;
+using System.Windows.Forms;
 
 namespace MetroHome65.Routines
 {
@@ -16,9 +17,12 @@ namespace MetroHome65.Routines
 
         private Boolean _active;
 
+        private ThreadTimerProc _timerProc;
+
         public ThreadTimer(int interval, ThreadTimerProc timerProc,  int startDelay)
         {
             _interval = interval;
+            _timerProc = timerProc;
             _active = true;
 
             _thread = new Thread(() =>
@@ -27,7 +31,8 @@ namespace MetroHome65.Routines
 
                 while (_active)
                 {
-                    timerProc();
+                    if (_timerProc != null)
+                        _timerProc();
                     SafeSleep(_interval);
                 }
             });
@@ -44,6 +49,7 @@ namespace MetroHome65.Routines
         public void Stop()
         {
             _active = false;
+            _timerProc = null;
 
             if (_thread != null)
             {
@@ -54,10 +60,11 @@ namespace MetroHome65.Routines
 
         public void SafeSleep(int timeoutMs)
         {
-            for (var i = 0; i < timeoutMs; i += 100)
+            for (var i = 0; i < timeoutMs; i += 50)
             {
                 if (!_active) return;
-                Thread.Sleep(100);
+                Thread.Sleep(50);
+                Application.DoEvents();
             }
         }
 
