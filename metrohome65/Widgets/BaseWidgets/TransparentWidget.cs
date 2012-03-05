@@ -62,7 +62,7 @@ namespace MetroHome65.Widgets
         /// </summary>
         /// <param name="g"></param>
         /// <param name="rect"></param>
-        public override void Paint(Graphics g, Rectangle rect)
+        public override void PaintBuffer(Graphics g, Rectangle rect)
         {
             // if button image is set, draw button image
             if (_bgImage != null)

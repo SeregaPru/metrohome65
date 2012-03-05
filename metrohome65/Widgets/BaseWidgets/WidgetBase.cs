@@ -27,7 +27,7 @@ namespace MetroHome65.Widgets
         protected virtual void SetSize(Size value) { _Size = value; }
         public Size Size { set { SetSize(value); } }
 
-        public virtual void Paint(Graphics g, Rectangle rect) { }
+        public virtual void PaintBuffer(Graphics g, Rectangle rect) { }
 
         public virtual bool OnClick(Point location) { return false; }
 
@@ -46,8 +46,8 @@ namespace MetroHome65.Widgets
         // double buffer
         private Bitmap _doubleBuffer;
         private Graphics _graphics;
-        private bool _needRepaint = true;
-
+        private bool _needRepaint;
+        
         private void ClearBuffer()
         {
             if (_graphics != null)
@@ -75,21 +75,17 @@ namespace MetroHome65.Widgets
             if (drawingGraphics == null)
                 return;
 
-            if (Bounds.Width + Bounds.Height == 0)
-                return;
-
-            if (_needRepaint)
+            if ((_doubleBuffer == null) || (_needRepaint))
             {
                 PrepareBuffer();
-                Paint(_graphics, new Rectangle(0, 0, Bounds.Width, Bounds.Height));
+                PaintBuffer(_graphics, new Rectangle(0, 0, Bounds.Width, Bounds.Height));
                 _needRepaint = false;
             }
 
             drawingGraphics.DrawImage(_doubleBuffer, 0, 0);
-            //.Graphics.DrawImage(_doubleBuffer, -drawingGraphics.VisibleRect.Left, -drawingGraphics.VisibleRect.Top);
         }
 
-        public void ForceUpdate()
+        public virtual void ForceUpdate()
         {
             _needRepaint = true;
             Update();

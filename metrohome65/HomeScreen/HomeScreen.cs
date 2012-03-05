@@ -133,8 +133,8 @@ namespace MetroHome65.HomeScreen
         {
             OnDeactivate();
 
-            var animateArrow = (toPage + fromPage >= 2);
-            var ArrowPosFrom = (toPage == 1) ? ArrowPos2 : ArrowPos1;
+            //var animateArrow = (toPage + fromPage >= 2);
+            //var ArrowPosFrom = (toPage == 1) ? ArrowPos2 : ArrowPos1;
             var ArrowPosTo = (toPage == 1) ? ArrowPos1 : ArrowPos2;
 
             var _screenAnimation = new FunctionBasedAnimation(FunctionBasedAnimation.Functions.Linear)
@@ -147,12 +147,14 @@ namespace MetroHome65.HomeScreen
                                                                  _homeScreenCanvas.Location = new Point(-v, 0);
                                                                  _homeScreenCanvas.Update();
 
+                                                                 /* пока слишком медленно
                                                                  if (animateArrow)
                                                                  {
                                                                      var ArrowPos = ArrowPosFrom + (ArrowPosTo - ArrowPosFrom) * (v - _pages[fromPage].Location.X) / (_pages[toPage].Location.X - _pages[fromPage].Location.X);
                                                                      _switchArrow.Location = new Point(ArrowPos, _switchArrow.Location.Y);
                                                                      _switchArrow.Update();
                                                                  }
+                                                                 */
                                                              },
                                            OnAnimationStop = () =>
                                                                  {
@@ -160,6 +162,9 @@ namespace MetroHome65.HomeScreen
                                                                          _switchArrow.Next();
                                                                      else
                                                                          _switchArrow.Prev();
+
+                                                                     _switchArrow.Location = new Point(ArrowPosTo, _switchArrow.Location.Y);
+                                                                     _switchArrow.Update();
 
                                                                      OnActivated();
                                                                  },
