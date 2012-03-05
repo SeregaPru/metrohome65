@@ -2,7 +2,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProductVersion>9.0.21022</ProductVersion>
+    <ProductVersion>9.0.30729</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{6EA956FA-6157-44EF-A9B4-FB43B4E18FAD}</ProjectGuid>
     <OutputType>Library</OutputType>
@@ -56,6 +56,10 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\Fleux\Fleux.csproj">
+      <Project>{8526293A-9C66-48F6-A90D-FB2B7128BF08}</Project>
+      <Name>Fleux</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\MetroHome65.Interfaces\MetroHome65.Interfaces.csproj">
       <Project>{A0D38398-7B6A-45D8-B2C7-19120FEA68FC}</Project>
       <Name>MetroHome65.Interfaces</Name>

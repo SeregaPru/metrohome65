@@ -1,11 +1,12 @@
 ﻿using System.Collections.Generic;
 using System.Drawing;
+using MetroHome65.Interfaces;
 using MetroHome65.Routines;
 
 namespace MetroHome65.Widgets.StatusWidgets
 {
     [TileInfo("Statuses")]
-    public class StatusWidget : ShortcutWidget, IUpdatable
+    public class StatusWidget : ShortcutWidget, IActive
     {
         private ThreadTimer _updateTimer;
 
@@ -93,7 +94,7 @@ namespace MetroHome65.Widgets.StatusWidgets
                         _updateTimer = new ThreadTimer(2000, () => {
                                          if (UpdateStatuses())
                                          {
-                                             OnWidgetUpdate();
+                                             ForceUpdate();
                                          }
                                      });
                 }
@@ -124,7 +125,7 @@ namespace MetroHome65.Widgets.StatusWidgets
                 if (GetStatusRect(i).Contains(location))
                 {
                     _statuses[i].ChangeStatus();
-                    OnWidgetUpdate();
+                    Update();
                     break;
                 }
             }

@@ -3,6 +3,7 @@ using System.Drawing;
 using System.Windows.Forms;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
+using MetroHome65.Interfaces;
 using MetroHome65.Routines;
 using MetroHome65.Settings.Controls;
 

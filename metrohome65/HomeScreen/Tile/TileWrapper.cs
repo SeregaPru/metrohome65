@@ -3,9 +3,10 @@ using System.Drawing;
 using System.Linq;
 using System.Collections.Generic;
 using System.Reflection;
+using Fleux.Styles;
 using Fleux.UIElements;
 using Fleux.Core.GraphicsHelpers;
-using MetroHome65.Widgets;
+using MetroHome65.Interfaces;
 using MetroHome65.Routines;
 
 namespace MetroHome65.HomeScreen
@@ -14,7 +15,7 @@ namespace MetroHome65.HomeScreen
     /// <summary>
     /// Container for tile view, middle layer between tiles grid and tile plugin.
     /// </summary>
-    public class TileWrapper : UIElement
+    public class TileWrapper : Canvas
     {
         #region Fields
 
@@ -26,12 +27,6 @@ namespace MetroHome65.HomeScreen
         private ITile _tile;
         private Point _gridPosition = new Point(0, 0);
         private Size _gridSize = new Size(1, 1);
-        private bool _moving = false;
-
-        // double buffer
-        private Bitmap _doubleBuffer;
-        private Graphics _graphics;
-        private bool _needRepaint = true;
 
         private readonly List<PropertyInfo> _propertyInfos = new List<PropertyInfo>();
 
@@ -51,11 +46,6 @@ namespace MetroHome65.HomeScreen
             TileClass = aTileName;
             GridSize = aGridSize;
             GridPosition = aGridPosition;
-        }
-
-        ~TileWrapper()
-        {
-            ClearBuffer();
         }
 
         /// <summary>
@@ -123,6 +113,12 @@ namespace MetroHome65.HomeScreen
             var screenRect = GetScreenRect();
             Location = screenRect.Location;
             Size = screenRect.Size;
+
+            if (_tile != null)
+            {
+                (_tile as UIElement).Location = new Point(0, 0);
+                (_tile as UIElement).Size = this.Size;
+            }
         }
 
         public Rectangle GetScreenRect()
@@ -169,11 +165,14 @@ namespace MetroHome65.HomeScreen
             {
                 if (TileClass == value) return;
 
+                // remove old tile
+                Clear();
+
+                // create and insert new tile
                 _tile = PluginManager.GetInstance().CreateTile(value);
                 FillTileProperties();
 
-                if (Tile is IUpdatable)
-                    (Tile as IUpdatable).OnUpdate += OnTileUpdate;
+                AddElement(_tile as UIElement);
 
                 TapHandler += p => { OnClick(p); return true; };
                 DoubleTapHandler += p => { OnDblClick(p); return true; };
@@ -188,10 +187,8 @@ namespace MetroHome65.HomeScreen
         /// </summary>
         public Boolean Active { 
             set {
-                if (_tile is IUpdatable)
-                {
-                    (_tile as IUpdatable).Active = value;
-                }
+                if (_tile is IActive)
+                    (_tile as IActive).Active = value;
             }
         }
 
@@ -242,79 +239,7 @@ namespace MetroHome65.HomeScreen
             return this;
         }
 
-        private void ClearBuffer()
-        {
-            if (_graphics != null)
-            {
-                _graphics.Dispose();
-                _graphics = null;
-            }
-            if (_doubleBuffer != null)
-            {
-                _doubleBuffer.Dispose();
-                _doubleBuffer = null;
-            }
-        }
 
-        private void PaintBuffer()
-        {
-            ClearBuffer();
-
-            _doubleBuffer = new Bitmap(Size.Width, Size.Height);
-            _graphics = Graphics.FromImage(_doubleBuffer);
-            var paintRect = new Rectangle(0, 0, _doubleBuffer.Width, _doubleBuffer.Height);
-
-            if (Tile != null)
-            {
-                Tile.Paint(_graphics, paintRect);
-            }
-            else
-            {
-                var pen = new Pen(Color.Gray, 1) { DashStyle = System.Drawing.Drawing2D.DashStyle.Dash };
-                _graphics.DrawRectangle(pen, paintRect);
-                _graphics.DrawString("Tile\nnot\nfound", new Font("Verdana", 8, FontStyle.Regular),
-                    new SolidBrush(Color.Yellow), paintRect.X + 5, paintRect.Y + 5);
-            }
-        }
-
-        public override void Draw(IDrawingGraphics drawingGraphics)
-        {
-            if (_needRepaint)
-            {
-                PaintBuffer();
-                _needRepaint = false;
-            }
-
-            if (drawingGraphics == null)
-                return;
-
-            // for moving mode - change size
-            if (_moving)
-            {
-                var paintRect = new Rectangle(0, 0, Bounds.Width, Bounds.Height);
-                paintRect.Inflate(_deltaX, _deltaY);
-                drawingGraphics.DrawImage(_doubleBuffer, paintRect);
-            }
-            else
-            {
-                drawingGraphics.Graphics.DrawImage(_doubleBuffer, -drawingGraphics.VisibleRect.Left, -drawingGraphics.VisibleRect.Top);
-            }
-        }
-
-        public void ForceUpdate()
-        {
-            _needRepaint = true;
-            Update();
-            System.Windows.Forms.Application.DoEvents();
-        }
-
-        /// <summary>
-        /// Handler for event, triggered by tile, when it needs to be repainted
-        /// </summary>
-        private void OnTileUpdate()
-        {
-            ForceUpdate();
-        }
 
         public bool OnClick(Point clickLocation)
         {
@@ -326,12 +251,49 @@ namespace MetroHome65.HomeScreen
             return (Tile != null) && Tile.OnClick(clickLocation);
         }
 
+        public override void Draw(IDrawingGraphics drawingGraphics)
+        {
+            if (drawingGraphics == null)
+                return;
+
+            // for moving mode - change drawing rect size
+            var tileGraphic = _moving ? drawingGraphics.CreateChild(new Point(_deltaX, _deltaY)) : drawingGraphics;
+
+            if (Tile != null)
+            {
+                base.Draw(tileGraphic);
+            }
+            else
+            {
+                tileGraphic.Color(MetroTheme.PhoneBackgroundBrush);
+                tileGraphic.FillRectangle(Bounds);
+
+                tileGraphic.Color(MetroTheme.PhoneAccentBrush);
+                tileGraphic.DrawRectangle(Bounds);
+
+                tileGraphic.Style(MetroTheme.PhoneTextContrastStyle);
+                tileGraphic.DrawText("Tile\nnot\nfound");
+            }
+        }
+
+        public void ForceUpdate()
+        {
+            if (Tile != null)
+                Tile.ForceUpdate();
+        }
+
+        #region Moving
+
+        private bool _moving = false;
+
         /// <summary>
         /// Flag when tile is in moving mode
         /// </summary>
-        public bool Moving {
+        public bool Moving
+        {
             get { return _moving; }
-            set {
+            set
+            {
                 if (_moving != value)
                 {
                     _moving = value;
@@ -339,7 +301,7 @@ namespace MetroHome65.HomeScreen
                     if (value)
                     {
                         if (_movingTimer == null)
-                            _movingTimer = new ThreadTimer(200, () => RepaintMovingTile() );
+                            _movingTimer = new ThreadTimer(200, () => RepaintMovingTile());
                     }
                     else
                     {
@@ -357,7 +319,6 @@ namespace MetroHome65.HomeScreen
         private int _deltaXInc = 2;
         private int _deltaYInc = -2;
 
-
         private void RepaintMovingTile()
         {
             if (!_moving)
@@ -372,10 +333,9 @@ namespace MetroHome65.HomeScreen
 
             // paint tile
             Update();
-
-            //System.Windows.Forms.Application.DoEvents();
         }
 
+        #endregion
 
     }
 }

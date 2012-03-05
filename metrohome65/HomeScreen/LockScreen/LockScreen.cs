@@ -3,8 +3,8 @@ using System.ComponentModel;
 using System.Drawing;
 using Fleux.Styles;
 using Fleux.UIElements;
+using MetroHome65.Interfaces;
 using MetroHome65.Routines;
-using MetroHome65.Widgets;
 
 namespace MetroHome65.HomeScreen.LockScreen
 {

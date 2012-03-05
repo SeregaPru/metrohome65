@@ -5,7 +5,7 @@ using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
 using System.Reflection;
-using MetroHome65.Widgets;
+using MetroHome65.Interfaces;
 using MetroHome65.Routines;
 
 namespace MetroHome65.HomeScreen

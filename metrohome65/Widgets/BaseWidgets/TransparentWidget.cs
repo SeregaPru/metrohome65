@@ -2,6 +2,8 @@
 using System.Drawing;
 using System.Windows.Forms;
 using System.Collections.Generic;
+using Fleux.Styles;
+using MetroHome65.Interfaces;
 using MetroHome65.Routines;
 using MetroHome65.Settings.Controls;
 
@@ -12,12 +14,9 @@ namespace MetroHome65.Widgets
     /// </summary>
     public abstract class TransparentWidget : BaseWidget
     {
-        private int _tileColor = Color.DeepSkyBlue.ToArgb();
+        private int _tileColor = MetroTheme.PhoneAccentBrush.ToArgb();
         private String _tileImage = "";
         private AlphaImage _bgImage;
-
-        protected override Boolean GetTransparent() { return true; }
-
 
         /// <summary>
         /// backround button or solid box color

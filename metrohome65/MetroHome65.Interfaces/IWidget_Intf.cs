@@ -3,8 +3,7 @@ using System.Drawing;
 using System.Collections.Generic;
 using System.Windows.Forms;
 
-
-namespace MetroHome65.Widgets
+namespace MetroHome65.Interfaces
 {
 
     /// <summary>
@@ -53,30 +52,9 @@ namespace MetroHome65.Widgets
         Size Size { set; }
 
         /// <summary>
-        /// Additional popup menu items for tile.
-        /// They will be shown in tile popup menu, above standart items.
+        /// force repaint tile
         /// </summary>
-        String[] MenuItems { get; }
-
-        /// <summary>
-        /// Tile transparency.
-        /// Transparent tile draws itself over grid background.
-        /// Not transparent tile should draw the whole area.
-        /// </summary>
-        Boolean Transparent { get; }
-
-        /// <summary>
-        /// paint tile's internal area.
-        /// </summary>
-        /// <param name="g">Graphics context</param>
-        /// <param name="rect">Drawing area</param>
-        void Paint(Graphics g, Rectangle rect);
-
-        /// <summary>
-        /// Hanler for custom menu item click
-        /// </summary>
-        /// <param name="itemName"></param>
-        void OnMenuItemClick(String itemName);
+        void ForceUpdate();
 
         /// <summary>
         /// Handler for click event

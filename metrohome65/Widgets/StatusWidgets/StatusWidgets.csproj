@@ -2,7 +2,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProductVersion>9.0.21022</ProductVersion>
+    <ProductVersion>9.0.30729</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{C0BBBE1D-433E-4468-B401-647FC0578320}</ProjectGuid>
     <OutputType>Library</OutputType>
@@ -64,6 +64,10 @@
     <Compile Include="Wifi.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\Fleux\Fleux.csproj">
+      <Project>{8526293A-9C66-48F6-A90D-FB2B7128BF08}</Project>
+      <Name>Fleux</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\MetroHome65.Interfaces\MetroHome65.Interfaces.csproj">
       <Project>{A0D38398-7B6A-45D8-B2C7-19120FEA68FC}</Project>
       <Name>MetroHome65.Interfaces</Name>

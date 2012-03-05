@@ -2,13 +2,14 @@
 using System.Drawing;
 using System.Collections.Generic;
 using System.Windows.Forms;
+using MetroHome65.Interfaces;
 using MetroHome65.Routines;
 using MetroHome65.Settings.Controls;
 
 namespace MetroHome65.Widgets
 {
     [TileInfo("Digital clock")]
-    public class DigitalClockWidget : ShortcutWidget, IUpdatable
+    public class DigitalClockWidget : ShortcutWidget, IActive
     {
         private ThreadTimer _updateTimer;
 
@@ -95,7 +96,7 @@ namespace MetroHome65.Widgets
                     if (_updateTimer == null)
                         _updateTimer = new ThreadTimer(2000, () => {
                                                  _showPoints = !_showPoints;
-                                                 OnWidgetUpdate();
+                                                 ForceUpdate();
                                              });
                 }
                 else

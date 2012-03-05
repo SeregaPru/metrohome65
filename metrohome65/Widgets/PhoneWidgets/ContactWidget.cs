@@ -3,6 +3,7 @@ using System.Drawing;
 using System.Windows.Forms;
 using System.Collections.Generic;
 using Fleux.Styles;
+using MetroHome65.Interfaces;
 using Microsoft.WindowsMobile.PocketOutlook;
 using MetroHome65.Settings.Controls;
 using MetroHome65.Routines;
@@ -10,7 +11,7 @@ using MetroHome65.Routines;
 namespace MetroHome65.Widgets
 {
     [TileInfo("Contact")]
-    public class ContactWidget : BaseWidget, IUpdatable
+    public class ContactWidget : BaseWidget, IActive
     {
         private int _contactId = -1;
         private String _alternatePicturePath = "";
@@ -29,12 +30,6 @@ namespace MetroHome65.Widgets
                 new Size(2, 2) 
             };
             return sizes;
-        }
-
-        protected override String[] GetMenuItems()
-        {
-            String[] Items = { "Call", "Send SMS" };
-            return Items;
         }
 
         [TileParameter]
@@ -180,7 +175,7 @@ namespace MetroHome65.Widgets
         private void AnimateTile()
         {
             _offsetY += _animateStep;
-            OnWidgetUpdate();
+            ForceUpdate();
 
             if ((_offsetY <= 0) || (_offsetY >= _nameRectHeight))
             {
