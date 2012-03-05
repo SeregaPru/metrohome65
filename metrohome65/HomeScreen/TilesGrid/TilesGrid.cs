@@ -5,7 +5,7 @@ using System.Windows.Forms;
 using Fleux.Controls;
 using Fleux.UIElements;
 using MetroHome65.HomeScreen.Settings;
-using MetroHome65.Widgets;
+using MetroHome65.Interfaces;
 
 namespace MetroHome65.HomeScreen.TilesGrid
 {

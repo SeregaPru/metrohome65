@@ -1,13 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
+using MetroHome65.Interfaces;
 using Microsoft.WindowsMobile.Status;
 using Fleux.Controls;
 using Fleux.UIElements;
 using Fleux.Animations;
 using MetroHome65.HomeScreen.Settings;
 using MetroHome65.HomeScreen.ProgramsMenu;
-using MetroHome65.Widgets;
 
 namespace MetroHome65.HomeScreen
 {

@@ -3,14 +3,22 @@ using System.Drawing;
 using System.Windows.Forms;
 using System.ComponentModel;
 using System.Collections.Generic;
+using Fleux.Core.GraphicsHelpers;
+using Fleux.UIElements;
+using MetroHome65.Interfaces;
 
 namespace MetroHome65.Widgets
 {
 
-    public abstract class BaseWidget : ITile, INotifyPropertyChanged
+    public abstract class BaseWidget : UIElement, ITile, INotifyPropertyChanged
     {
-        private readonly EventHandlerList _events = new EventHandlerList();
-        private static readonly object _EventWidgetUpdate = new object();
+
+        ~BaseWidget()
+        {
+            ClearBuffer();
+        }
+     
+        #region ITile
 
         protected virtual Size[] GetSizes() { return null; }
         public Size[] Sizes { get { return GetSizes(); } }
@@ -19,40 +27,76 @@ namespace MetroHome65.Widgets
         protected virtual void SetSize(Size value) { _Size = value; }
         public Size Size { set { SetSize(value); } }
 
-        protected virtual String[] GetMenuItems() { return null; } 
-        public String[] MenuItems { get { return GetMenuItems(); } }
-        
-        protected virtual Boolean GetTransparent() { return false; }
-        public Boolean Transparent { get { return GetTransparent(); } }
-        
         public virtual void Paint(Graphics g, Rectangle rect) { }
 
         public virtual bool OnClick(Point location) { return false; }
 
         public virtual bool OnDblClick(Point location) { return false; }
 
-        public virtual void OnMenuItemClick(String itemName) { }
-
-
-        /// <summary>
-        /// Event raised when tile needs to be updated (repainted)
-        /// </summary>
-        public event UpdateEventHandler OnUpdate
-        {
-            add { _events.AddHandler(_EventWidgetUpdate, value); }
-            remove { _events.RemoveHandler(_EventWidgetUpdate, value); }       
-        }
-
-        protected void OnWidgetUpdate()
-        {
-            var handler = _events[_EventWidgetUpdate] as UpdateEventHandler;
-            if (handler != null)
-                handler();
-        }
-
         public virtual bool AnimateExit { get { return false; } }
 
         public virtual List<Control> EditControls { get { return new List<Control>(); } }
+
+        #endregion
+
+
+
+        #region Draw
+
+        // double buffer
+        private Bitmap _doubleBuffer;
+        private Graphics _graphics;
+        private bool _needRepaint = true;
+
+        private void ClearBuffer()
+        {
+            if (_graphics != null)
+            {
+                _graphics.Dispose();
+                _graphics = null;
+            }
+            if (_doubleBuffer != null)
+            {
+                _doubleBuffer.Dispose();
+                _doubleBuffer = null;
+            }
+        }
+
+        private void PrepareBuffer()
+        {
+            ClearBuffer();
+
+            _doubleBuffer = new Bitmap(Bounds.Width, Bounds.Height);
+            _graphics = Graphics.FromImage(_doubleBuffer);
+        }
+
+        public override void Draw(IDrawingGraphics drawingGraphics)
+        {
+            if (drawingGraphics == null)
+                return;
+
+            if (Bounds.Width + Bounds.Height == 0)
+                return;
+
+            if (_needRepaint)
+            {
+                PrepareBuffer();
+                Paint(_graphics, new Rectangle(0, 0, Bounds.Width, Bounds.Height));
+                _needRepaint = false;
+            }
+
+            drawingGraphics.DrawImage(_doubleBuffer, 0, 0);
+            //.Graphics.DrawImage(_doubleBuffer, -drawingGraphics.VisibleRect.Left, -drawingGraphics.VisibleRect.Top);
+        }
+
+        public void ForceUpdate()
+        {
+            _needRepaint = true;
+            Update();
+            Application.DoEvents();
+        }
+
+        #endregion
 
 
         #region INotifyPropertyChanged

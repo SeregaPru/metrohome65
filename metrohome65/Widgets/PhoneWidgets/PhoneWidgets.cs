@@ -1,10 +1,11 @@
 ﻿using System.Drawing;
+using MetroHome65.Interfaces;
 using MetroHome65.Routines;
 
 namespace MetroHome65.Widgets
 {
     [TileInfo("Phone")]
-    public class PhoneWidget : ShortcutWidget, IUpdatable
+    public class PhoneWidget : ShortcutWidget, IActive
     {
         private ThreadTimer _updateTimer;
         private int _missedCount = 0;
@@ -72,7 +73,7 @@ namespace MetroHome65.Widgets
             if (currentMissedCount != _missedCount)
             {
                 _missedCount = currentMissedCount;
-                OnWidgetUpdate();
+                ForceUpdate();
             }
         }
 
@@ -85,7 +86,7 @@ namespace MetroHome65.Widgets
 
 
     [TileInfo("SMS")]
-    public class SMSWidget : PhoneWidget, IUpdatable
+    public class SMSWidget : PhoneWidget
     {
         protected override int GetMissedCount()
         {
@@ -96,7 +97,7 @@ namespace MetroHome65.Widgets
 
 
     [TileInfo("E-mail")]
-    public class EMailWidget : PhoneWidget, IUpdatable
+    public class EMailWidget : PhoneWidget
     {
         protected override int GetMissedCount()
         {

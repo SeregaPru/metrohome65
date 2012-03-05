@@ -51,7 +51,7 @@
     <Reference Include="System.Windows.Forms" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="IUpdatable_Intf.cs" />
+    <Compile Include="IActive_Intf.cs" />
     <Compile Include="IWidget_Intf.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
