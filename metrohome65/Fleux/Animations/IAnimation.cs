@@ -1,4 +1,6 @@
-﻿namespace Fleux.Animations
+﻿using System;
+
+namespace Fleux.Animations
 {
     public interface IAnimation
     {
@@ -10,8 +12,8 @@
 
         void Cancel();
 
-        void OnStart();
+        Action OnAnimationStart { get; set; }
 
-        void OnFinish();
+        Action OnAnimationStop { get; set; }
     }
 }

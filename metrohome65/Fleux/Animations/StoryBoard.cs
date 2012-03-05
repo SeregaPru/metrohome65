@@ -81,7 +81,7 @@
         {
             this.animations.ForEach(a => a.Reset());
 
-            this.animations.ForEach(a => a.OnStart());
+            this.animations.ForEach(a => { if (a.OnAnimationStart != null) a.OnAnimationStart(); });
             System.Windows.Forms.Application.DoEvents();
 
             var keepAnimating = true;
@@ -94,7 +94,7 @@
                 System.Windows.Forms.Application.DoEvents();
             }
 
-            this.animations.ForEach(a => a.OnFinish());
+            this.animations.ForEach(a => { if (a.OnAnimationStop != null) a.OnAnimationStop(); });
             System.Windows.Forms.Application.DoEvents();
 
             this.stopAnimation = false;

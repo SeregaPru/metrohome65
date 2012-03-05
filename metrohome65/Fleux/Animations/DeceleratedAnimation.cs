@@ -11,6 +11,8 @@
         public int MinValue;
         public int MaxValue = Int16.MaxValue;
         public Action<int> OnAnimation;
+        public Action OnAnimationStop { get; set; }
+        public Action OnAnimationStart { get; set; }
 
         private int direction;
         private int initialTicks;
@@ -77,10 +79,6 @@
         {
             this.lastKeepingAnimating = false;
         }
-
-        public void OnFinish() { }
-
-        public void OnStart() { }
 
         public bool Animate()
         {

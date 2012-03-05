@@ -19,9 +19,8 @@
         {
         }
 
-        public void OnFinish() { }
-
-        public void OnStart() { }
+        public Action OnAnimationStop { get; set; }
+        public Action OnAnimationStart { get; set; }
 
     }
 }
