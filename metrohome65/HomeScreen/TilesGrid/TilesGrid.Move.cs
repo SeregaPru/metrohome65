@@ -81,17 +81,25 @@ namespace MetroHome65.HomeScreen.TilesGrid
         /// </summary>
         public override bool Pan(Point from, Point to, bool done, Point startPoint)
         {
+            var result = false;
+
             if (MoveMode && _tilesCanvas.Bounds.Contains(to))
             {
                 // в режиме перемещения плиток исключаем дребезг, срабатывание крохотного пана вместо клика
-                if (Math.Pow(from.X - to.X, 2) + Math.Pow(from.Y - to.Y, 2) < 10)
+                if (Math.Pow(from.X - to.X, 2) + Math.Pow(from.Y - to.Y, 2) <= 10)
                     return false;
 
                 MoveTileTo(MovingTile, to);
-                return true;
+                result = true;
+            }
+            else
+            {
+                FreezeUpdate(true);
+                result = base.Pan(from, to, done, startPoint);
+                FreezeUpdate(false);
             }
 
-            return base.Pan(from, to, done, startPoint);
+            return result;
         }
 
         /// <summary>

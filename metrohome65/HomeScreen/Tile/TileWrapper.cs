@@ -3,6 +3,7 @@ using System.Drawing;
 using System.Linq;
 using System.Collections.Generic;
 using System.Reflection;
+using System.Windows.Forms;
 using Fleux.Styles;
 using Fleux.UIElements;
 using Fleux.Core.GraphicsHelpers;
@@ -271,7 +272,7 @@ namespace MetroHome65.HomeScreen
             {
                 // for moving mode - change drawing rect size
                 var tileGraphic = _moving
-                                      ? localClip.DrawingGr.CreateChild(new Point(_deltaX, _deltaY))
+                                      ? localClip.DrawingGr.CreateChild(new Point(0, 0), (100.0 + _movingScale) / 100.0, new Point(Bounds.Width / 2, Bounds.Height / 2) )
                                       : localClip.DrawingGr.CreateChild(new Point(0, 0));
 
                 if (Tile != null)
@@ -280,6 +281,7 @@ namespace MetroHome65.HomeScreen
                 }
                 else
                 {
+                    // if tile is wrong - draw stub tile with warning text
                     var drawRect = new Rectangle(0, 0, Bounds.Width, Bounds.Height);
 
                     tileGraphic.Color(MetroTheme.PhoneAccentBrush);
@@ -319,7 +321,7 @@ namespace MetroHome65.HomeScreen
                     if (value)
                     {
                         if (_movingTimer == null)
-                            _movingTimer = new ThreadTimer(200, () => RepaintMovingTile());
+                            _movingTimer = new ThreadTimer(100, () => RepaintMovingTile());
                     }
                     else
                     {
@@ -332,25 +334,21 @@ namespace MetroHome65.HomeScreen
             }
         }
 
-        private int _deltaX = 0;
-        private int _deltaY = -2;
-        private int _deltaXInc = 2;
-        private int _deltaYInc = -2;
+        private int _movingScale = 0;
+        private int _movingScaleStep = 3;
 
         private void RepaintMovingTile()
         {
             if (!_moving)
                 return;
 
-            if ((_deltaX >= 0) || (_deltaX <= -5))
-                _deltaXInc = -_deltaXInc;
-            _deltaX += _deltaXInc;
-            if ((_deltaY >= 0) || (_deltaY <= -5))
-                _deltaYInc = -_deltaYInc;
-            _deltaY += _deltaYInc;
+            if ((_movingScale >= 0) || (_movingScale <= -15))
+                _movingScaleStep = -_movingScaleStep;
+            _movingScale += _movingScaleStep;
 
             // paint tile
             Update();
+            Application.DoEvents();
         }
 
         #endregion

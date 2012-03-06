@@ -17,9 +17,6 @@ namespace MetroHome65.Widgets.StatusWidgets
         /// </summary>
         private static readonly int MinWidth = ScreenRoutines.Scale(49);
 
-        private Size _widgetSize;
-
-
         public StatusWidget() : base()
         {
             _statuses.Add(new BatteryStatus());
@@ -37,8 +34,6 @@ namespace MetroHome65.Widgets.StatusWidgets
         
         public override void PaintBuffer(Graphics g, Rectangle rect)
         {
-            _widgetSize = rect.Size;
-
             base.PaintBuffer(g, rect);
             PaintStatuses(g);
         }
@@ -64,13 +59,13 @@ namespace MetroHome65.Widgets.StatusWidgets
             var statusCount = StatusesCount();
             while (statusWidth < MinWidth)
             {
-                statusWidth = _widgetSize.Width / statusCount;
+                statusWidth = Bounds.Width / statusCount;
                 statusCount--;
             }
 
             var statusRect = new Rectangle(
-                statusWidth * position + position, 0, 
-                statusWidth, _widgetSize.Height);
+                statusWidth * position + position, 0,
+                statusWidth, Bounds.Height);
             return statusRect;
         }
 

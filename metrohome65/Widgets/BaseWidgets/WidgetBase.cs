@@ -66,7 +66,7 @@ namespace MetroHome65.Widgets
         {
             ClearBuffer();
 
-            _doubleBuffer = new Bitmap(Bounds.Width, Bounds.Height);
+            _doubleBuffer = new Bitmap(Bounds.Width, Bounds.Height, System.Drawing.Imaging.PixelFormat.Format32bppRgb);
             _graphics = Graphics.FromImage(_doubleBuffer);
         }
 

@@ -46,8 +46,8 @@ namespace MetroHome65.HomeScreen.TilesGrid
 
             Content = _tilesCanvas;
             VerticalScroll = true;
-            OnStartScroll = () => ActivateTiles(false);
-            OnStopScroll = () => ActivateTiles(true);
+            OnStartScroll = () => FreezeUpdate(true); //ActivateTiles(false);
+            OnStopScroll = () => FreezeUpdate(false); //ActivateTiles(true);
 
             TapHandler = GridClickHandler;
             HoldHandler = p =>
@@ -66,11 +66,7 @@ namespace MetroHome65.HomeScreen.TilesGrid
             get { return _active; }
             set
             {
-                if (_active == value) return;
-
-                _active = value;
-
-                if (! _active)
+                if (!value)
                 {
                     // stop scroll animation
                     Pressed(new Point(-1, -1));
@@ -79,6 +75,9 @@ namespace MetroHome65.HomeScreen.TilesGrid
                     MovingTile = null;
                 }
 
+                if (_active == value) return;
+                _active = value;
+
                 // когда активируем после запуска внешнего приложения - играем входящую анимацию
                 if ((_active) && (_launching))
                 {
@@ -86,23 +85,40 @@ namespace MetroHome65.HomeScreen.TilesGrid
                     _homeScreenControl.AnimateEntrance();
                 }
 
+                FreezeUpdate(!_active);
                 ActivateTiles(_active);
             }
+        }
+
+        // don't stop tile's animation but simple turn off redraw during animation
+        // to speed-up scrolling (avoid tiles animation during scrolling)
+        private void FreezeUpdate(bool freeze)
+        {
+            var updatedProc = freeze ? null : _tilesCanvas.Updated;
+
+            new Thread(() =>
+                           {
+                               lock (this)
+                               {
+                                   foreach (var tile in _tilesCanvas.ChildrenEnumerable)
+                                       tile.Updated = updatedProc;
+                               }
+                           }).Start();
         }
 
         // start/stop updatable widgets
         private void ActivateTiles(bool active)
         {
             new Thread(() =>
-            {
-                // lock asynchronous activisation
-                // for sequental runing activation - deactivation
-                lock (this)
-                {
-                    foreach (var wsInfo in _tiles)
-                        wsInfo.Active = active;
-                }
-            }).Start();
+                            {
+                                // lock asynchronous activisation
+                                // for sequental runing activation - deactivation
+                                lock (this)
+                                {
+                                    foreach (var wsInfo in _tiles)
+                                        wsInfo.Active = active;
+                                }
+                            }).Start();
         }
 
         /// <summary>
