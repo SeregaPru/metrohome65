@@ -39,12 +39,6 @@
             element.Updated = this.Update;
         }
 
-        public virtual void DeleteElement(UIElement element)
-        {
-            element.Parent = null;
-            element.Updated = null;
-            this.Children.Remove(element);
-        }
         public override void Draw(IDrawingGraphics drawingGraphics)
         {
             this.Children

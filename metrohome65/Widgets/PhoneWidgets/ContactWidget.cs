@@ -218,13 +218,17 @@ namespace MetroHome65.Widgets
 
         private static StoryBoard sb = new StoryBoard();
 
+        private bool _active;
+
         public bool Active
         {
-            get { return (_animateTimer != null); }
+            get { return _active; }
             set
             {
                 if (!_needAnimateTile)
                     return;
+
+                _active = value;
 
                 if (value)
                 {

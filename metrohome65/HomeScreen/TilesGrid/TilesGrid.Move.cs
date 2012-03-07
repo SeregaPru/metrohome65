@@ -35,6 +35,8 @@ namespace MetroHome65.HomeScreen.TilesGrid
                 {
                     // отключаем живые плитки
                     Active = false;
+                    // но перерисовку оставляем включенной
+                    FreezeUpdate(false);
 
                     _movingTile = value;
                     _movingTile.Moving = true;

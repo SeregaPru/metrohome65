@@ -14,7 +14,7 @@ namespace MetroHome65.HomeScreen.TilesGrid
     {
         private readonly FleuxControl _homeScreenControl;
         private readonly List<TileWrapper> _tiles = new List<TileWrapper>();
-        private readonly Canvas _tilesCanvas;
+        private readonly TilesCanvas _tilesCanvas;
         private readonly UIElement _buttonSettings;
         private readonly UIElement _buttonUnpin;
         private Boolean _active = true;
@@ -42,7 +42,7 @@ namespace MetroHome65.HomeScreen.TilesGrid
             homeScreenControl.AddElement(_buttonSettings);
 
             // холст контейнер плиток
-            _tilesCanvas = new Canvas {Size = new Size(400, 100)};
+            _tilesCanvas = new TilesCanvas {Size = new Size(400, 100)};
 
             Content = _tilesCanvas;
             VerticalScroll = true;
@@ -94,16 +94,7 @@ namespace MetroHome65.HomeScreen.TilesGrid
         // to speed-up scrolling (avoid tiles animation during scrolling)
         private void FreezeUpdate(bool freeze)
         {
-            var updatedProc = freeze ? null : _tilesCanvas.Updated;
-
-            new Thread(() =>
-                           {
-                               lock (this)
-                               {
-                                   foreach (var tile in _tilesCanvas.ChildrenEnumerable)
-                                       tile.Updated = updatedProc;
-                               }
-                           }).Start();
+            _tilesCanvas.FreezeUpdate = freeze;
         }
 
         // start/stop updatable widgets
