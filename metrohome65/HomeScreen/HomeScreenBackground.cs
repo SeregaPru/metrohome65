@@ -29,19 +29,24 @@ namespace MetroHome65.HomeScreen
             if (String.IsNullOrEmpty(imagePath))
                 return null;
 
-            var srcImage = new Bitmap(imagePath);
+            Bitmap image = null;
+            try
+            {
+                var srcImage = new Bitmap(imagePath);
 
-            // вычисляем общий коэффициент масштабирования изображения с учетом пропорций
-            var scaleX = 1.0 * Size.Width / srcImage.Width;
-            var scaleY = 1.0 * Size.Height / srcImage.Height;
-            var scale = Math.Max(scaleX, scaleY);
-            var destRect = new Rectangle(0, 0, (int)Math.Round(srcImage.Width * scale),
-                                         (int)Math.Round(srcImage.Height * scale));
+                // вычисляем общий коэффициент масштабирования изображения с учетом пропорций
+                var scaleX = 1.0*Size.Width/srcImage.Width;
+                var scaleY = 1.0*Size.Height/srcImage.Height;
+                var scale = Math.Max(scaleX, scaleY);
+                var destRect = new Rectangle(0, 0, (int) Math.Round(srcImage.Width*scale),
+                                             (int) Math.Round(srcImage.Height*scale));
 
-            var image = new Bitmap(Size.Width, Size.Height);
-            var graphic = Graphics.FromImage(image);
-            graphic.DrawImage(srcImage, destRect,
-                              new Rectangle(0, 0, srcImage.Width, srcImage.Height), GraphicsUnit.Pixel);
+                image = new Bitmap(Size.Width, Size.Height);
+                var graphic = Graphics.FromImage(image);
+                graphic.DrawImage(srcImage, destRect,
+                                  new Rectangle(0, 0, srcImage.Width, srcImage.Height), GraphicsUnit.Pixel);
+            } catch { }
+
             return image;
         }
 

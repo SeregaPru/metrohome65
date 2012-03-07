@@ -51,8 +51,7 @@ namespace MetroHome65.HomeScreen.ProgramsMenu
         {
             if ((e.PropertyName == "PhoneAccentBrush") || (e.PropertyName == "PhoneForegroundBrush"))
             {
-                if (_programsSv != null)
-                    DeleteElement(_programsSv);
+                Clear();
                 CreateList();
             }
         }
