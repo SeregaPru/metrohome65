@@ -4,12 +4,26 @@ using System.Drawing;
 using System.IO;
 using System.Runtime.InteropServices;
 using System.ComponentModel;
+using System.Windows.Forms;
+using Fleux.Controls;
 using MetroHome65.Routines;
 using Fleux.UIElements;
 using Fleux.Styles;
+using TinyIoC;
+using TinyMessenger;
 
 namespace MetroHome65.HomeScreen.ProgramsMenu
 {
+    /// <summary>
+    /// message for notification to tiles grid to add new tile
+    /// </summary>
+    public class PinProgramMessage : ITinyMessage
+    {
+        public string Name;
+        public string Path;
+        public object Sender { get { return null; } }
+    }
+
 
     sealed class ProgramsMenu : ListElement
     {
@@ -22,8 +36,12 @@ namespace MetroHome65.HomeScreen.ProgramsMenu
 
         private readonly Brush _bgBrush;
 
-        public ProgramsMenu()
+        private TinyIoCContainer _container;
+
+        public ProgramsMenu(TinyIoCContainer container)
         {
+            _container = container;
+
             EntranceAnimation = null;
             ExitAnimation = null;
             VerticalScroll = true;
@@ -129,9 +147,18 @@ namespace MetroHome65.HomeScreen.ProgramsMenu
 
             // click handler = launch program
             canvas.TapHandler = point =>
-            {
-                FileRoutines.StartProcess(fileDescr.Path); return true;
-            };
+                                    {
+                                        FileRoutines.StartProcess(fileDescr.Path); return true;
+                                    };
+
+            // hold handler - show context menu
+            canvas.HoldHandler = point =>
+                                     {
+                                         ShowPopupMenu(new Point(
+                                             point.X + canvas.Bounds.Left + canvas.Parent.Bounds.Left,
+                                             point.Y + canvas.Bounds.Top + canvas.Parent.Bounds.Top), fileDescr);
+                                         return true;
+                                     };
 
             return canvas;
         }
@@ -140,6 +167,32 @@ namespace MetroHome65.HomeScreen.ProgramsMenu
         {
             // scroll some faster 
             return base.Flick(from, to, millisecs * 2 / 3, startPoint);
+        }
+
+        /// <summary>
+        ////shows context menu for program item
+        /// </summary>
+        /// <param name="fileDescr"></param>
+        private void ShowPopupMenu(Point location, FileDescr fileDescr)
+        {
+            var mainMenu = new ContextMenu();
+
+            var menuPinProgram = new MenuItem { Text = "Pin to start" };
+            menuPinProgram.Click += (s, e) => PinProgram(fileDescr);
+            mainMenu.MenuItems.Add(menuPinProgram);
+
+            mainMenu.Show(_container.Resolve(typeof(FleuxControl)) as Control, location);
+        }
+
+        /// <summary>
+        /// pin selected item to start menu
+        /// </summary>
+        /// <param name="fileDescr"></param>
+        private void PinProgram(FileDescr fileDescr)
+        {
+            var messenger = _container.Resolve<ITinyMessengerHub>();
+
+            messenger.Publish(new PinProgramMessage() { Name = fileDescr.Name, Path = fileDescr.Path} );
         }
 
     }
