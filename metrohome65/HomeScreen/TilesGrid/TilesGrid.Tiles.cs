@@ -71,5 +71,20 @@ namespace MetroHome65.HomeScreen.TilesGrid
             WriteSettings();
         }
 
+        /// <summary>
+        /// pin program to ftart from programs menu
+        /// </summary>
+        /// <param name="name"></param>
+        /// <param name="path"></param>
+        private void PinProgram(string name, string path)
+        {
+            AddTile(new Point(0, 99), new Size(2, 2), "MetroHome65.Widgets.ShortcutWidget", false).
+                SetParameter("CommandLine", path).
+                SetParameter("Caption", name).
+                SetParameter("IconPath", path);
+
+            RealignTiles();
+            WriteSettings();
+        }
     }
 }

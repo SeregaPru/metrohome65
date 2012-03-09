@@ -16,11 +16,12 @@
 #region Preprocessor Directives
 // Uncomment this line if you want the container to automatically
 // register the TinyMessenger messenger/event aggregator
-//#define TINYMESSENGER
+#define TINYMESSENGER
 
 // Preprocessor directives for enabling/disabling functionality
 // depending on platform features. If the platform has an appropriate
 // #DEFINE then these should be set automatically below.
+
 #define EXPRESSIONS                         // Platform supports System.Linq.Expressions
 #define APPDOMAIN_GETASSEMBLIES             // Platform supports getting all assemblies from the AppDomain object
 #define UNBOUND_GENERICS_GETCONSTRUCTORS    // Platform supports GetConstructors on unbound generic types
@@ -48,11 +49,12 @@
 #endif
 
 #endregion
+
 namespace TinyIoC
 {
+    using System.Linq;
     using System;
     using System.Collections.Generic;
-    using System.Linq;
     using System.Reflection;
 #if EXPRESSIONS
     using System.Linq.Expressions;
@@ -157,10 +159,10 @@ namespace TinyIoC
             {
                 assemblies = new Type[] { };
             }
-            catch (ReflectionTypeLoadException)
-            {
-                assemblies = new Type[] { };
-            }
+            //catch (ReflectionTypeLoadException)
+            //{
+            //    assemblies = new Type[] { };
+            //}
 
             return assemblies;
         }
@@ -3368,8 +3370,15 @@ namespace TinyIoC
             {
                 if (registerType.IsInterface)
                 {
-                    if (!registerImplementation.FindInterfaces((t, o) => t.Name == registerType.Name, null).Any())
-                        return false;
+                    var interfaces = registerImplementation.GetInterfaces();
+                    foreach (var @interface in interfaces)
+                    {
+                        if (@interface.Name == registerType.Name)
+                            return true;
+                    }
+                    return false;
+                    //if (!registerImplementation.FindInterfaces((t, o) => t.Name == registerType.Name, null).Any())
+                    //    return false;
                 }
                 else if (registerType.IsAbstract && registerImplementation.BaseType != registerType)
                 {

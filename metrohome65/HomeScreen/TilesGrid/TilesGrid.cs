@@ -5,14 +5,16 @@ using System.Threading;
 using System.Windows.Forms;
 using Fleux.Controls;
 using Fleux.UIElements;
-using MetroHome65.HomeScreen.Settings;
+using MetroHome65.HomeScreen.ProgramsMenu;
 using MetroHome65.Interfaces;
+using TinyIoC;
+using TinyMessenger;
 
 namespace MetroHome65.HomeScreen.TilesGrid
 {
     public partial class TilesGrid : ScrollViewer, IActive
     {
-        private readonly FleuxControl _homeScreenControl;
+        private TinyIoCContainer _container;
         private readonly List<TileWrapper> _tiles = new List<TileWrapper>();
         private readonly TilesCanvas _tilesCanvas;
         private readonly UIElement _buttonSettings;
@@ -21,9 +23,9 @@ namespace MetroHome65.HomeScreen.TilesGrid
 
         public Action OnExit;
 
-        public TilesGrid(FleuxControl homeScreenControl) : base()
+        public TilesGrid(TinyIoCContainer container) : base()
         {
-            _homeScreenControl = homeScreenControl;
+            _container = container;
 
             // кнопка настроек            
             _buttonSettings = new FlatButton("MetroHome65.Images.settings.png")
@@ -38,8 +40,9 @@ namespace MetroHome65.HomeScreen.TilesGrid
                                    TapHandler = ButtonUnpinClick,
                                };
             RealignSettingsButtons(false);
-            homeScreenControl.AddElement(_buttonUnpin);
-            homeScreenControl.AddElement(_buttonSettings);
+            var control = _container.Resolve(typeof (FleuxControl)) as FleuxControl;
+            control.AddElement(_buttonUnpin);
+            control.AddElement(_buttonSettings);
 
             // холст контейнер плиток
             _tilesCanvas = new TilesCanvas {Size = new Size(400, 100)};
@@ -56,6 +59,10 @@ namespace MetroHome65.HomeScreen.TilesGrid
                                       ShowMainPopupMenu(p);
                                   return true;
                               };
+
+            // подписка на событие добавления программы из меню
+            var messenger = _container.Resolve<ITinyMessengerHub>();
+            messenger.Subscribe<PinProgramMessage>( msg => PinProgram(msg.Name, msg.Path) );
 
             ReadSettings();
         }
@@ -82,7 +89,7 @@ namespace MetroHome65.HomeScreen.TilesGrid
                 if ((_active) && (_launching))
                 {
                     _launching = false;
-                    _homeScreenControl.AnimateEntrance();
+                    (_container.Resolve(typeof (FleuxControl)) as FleuxControl).AnimateEntrance();
                 }
 
                 FreezeUpdate(!_active);
@@ -115,13 +122,13 @@ namespace MetroHome65.HomeScreen.TilesGrid
         /// <summary>
         /// Fill popup menu for widget grid with grid settings
         /// </summary>
-        /// <param name="aLocation"> </param>
-        private void ShowMainPopupMenu(Point aLocation)
+        /// <param name="location"> </param>
+        private void ShowMainPopupMenu(Point location)
         {
             var mainMenu = new ContextMenu();
 
             var menuAddWidget = new MenuItem {Text = "Add widget"};
-            menuAddWidget.Click += (s, e) => AddTileHandler(aLocation);
+            menuAddWidget.Click += (s, e) => AddTileHandler(location);
             mainMenu.MenuItems.Add(menuAddWidget);
 
             // add separator
@@ -138,7 +145,7 @@ namespace MetroHome65.HomeScreen.TilesGrid
             menuExit.Click += (s, e) => OnExit(); //Application.Exit();
             mainMenu.MenuItems.Add(menuExit);
 
-            mainMenu.Show(_homeScreenControl, aLocation);
+            mainMenu.Show(_container.Resolve(typeof(FleuxControl)) as Control, location);
         }
 
         /// <summary>
@@ -179,7 +186,7 @@ namespace MetroHome65.HomeScreen.TilesGrid
                     }
                 }
                 _launching = true;
-                _homeScreenControl.AnimateExit();
+                (_container.Resolve(typeof(FleuxControl)) as FleuxControl).AnimateExit();
             }
 
             var clickResult = tile.OnClick(aLocation);

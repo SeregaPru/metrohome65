@@ -1,10 +1,11 @@
 ﻿using System;
 using System.ComponentModel;
 using System.Drawing;
+using Fleux.Controls;
 using Fleux.Styles;
 using Fleux.UIElements;
-using MetroHome65.HomeScreen.Settings;
 using MetroHome65.Interfaces;
+using TinyIoC;
 
 namespace MetroHome65.HomeScreen.ProgramsMenu
 {
@@ -12,8 +13,11 @@ namespace MetroHome65.HomeScreen.ProgramsMenu
     {
         private UIElement _programsSv;
 
-        public ProgramsMenuPage()
+        private TinyIoCContainer _container;
+
+        public ProgramsMenuPage(TinyIoCContainer container)
         {
+            _container = container;
             MetroTheme.PropertyChanged += OnThemeSettingsChanged;
             CreateList();
         }
@@ -21,7 +25,7 @@ namespace MetroHome65.HomeScreen.ProgramsMenu
         private void CreateList()
         {
             const int programsSvPos = 18 + 48 + 18;
-            _programsSv = new ProgramsMenu()
+            _programsSv = new ProgramsMenu(_container)
             {
                 Location = new Point(programsSvPos, 5),
                 Size = new Size(ScreenConsts.ScreenWidth - programsSvPos, ScreenConsts.ScreenHeight - 5),
