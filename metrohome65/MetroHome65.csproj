@@ -67,7 +67,6 @@
     </Compile>
     <Compile Include="HomeScreen\LockScreen\LockScreen.cs" />
     <Compile Include="HomeScreen\ProgramsMenu\ProgramsMenuPage.cs" />
-    <Compile Include="HomeScreen\ScreenConsts.cs" />
     <Compile Include="HomeScreen\Settings\MainSettingsProvider.cs" />
     <Compile Include="HomeScreen\TilesGrid\TilesCanvas.cs" />
     <Compile Include="HomeScreen\Tile\FrmWidgetSettings.cs">

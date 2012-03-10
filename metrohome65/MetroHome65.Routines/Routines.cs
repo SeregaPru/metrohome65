@@ -83,4 +83,11 @@ namespace MetroHome65.Routines
         }
     }
 
+    public static class ScreenConsts
+    {
+        public const int ScreenWidth = 480;
+        public const int ScreenHeight = 800;
+
+    }
+
 }

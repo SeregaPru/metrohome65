@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Drawing;
 using MetroHome65.Interfaces;
+using MetroHome65.Routines;
 using Microsoft.WindowsMobile.Status;
 using Fleux.Controls;
 using Fleux.UIElements;
@@ -14,8 +15,6 @@ namespace MetroHome65.HomeScreen
 {
     public class HomeScreen : FleuxControlPage
     {
-        private TinyIoCContainer _container;
-
         private readonly UIElement _lockScreen;
         private readonly Canvas _homeScreenCanvas;
         private readonly Arrow _switchArrow;
@@ -34,8 +33,7 @@ namespace MetroHome65.HomeScreen
 
         public HomeScreen() : base(false)
         {
-            _container = new TinyIoCContainer();
-            _container.Register(typeof (FleuxControl), Control);
+            TinyIoCContainer.Current.Register<FleuxControl>(Control);
 
             theForm.Menu = null;
             theForm.Text = "";
@@ -65,7 +63,7 @@ namespace MetroHome65.HomeScreen
 
             // прокрутчик холста плиток
             //!! todo - потом вместо контрола передавать холст _homeScreenCanvas
-            var tilesGrid = new TilesGrid.TilesGrid(_container);
+            var tilesGrid = new TilesGrid.TilesGrid();
             tilesGrid.OnExit = Exit;
             AddPage(tilesGrid, 1);
 
@@ -78,7 +76,7 @@ namespace MetroHome65.HomeScreen
             _homeScreenCanvas.AddElement(_switchArrow);
 
             // список программ
-            var programsSv = new ProgramsMenuPage(_container);
+            var programsSv = new ProgramsMenuPage();
             AddPage(programsSv, 2);
 
             Control.AddElement(_homeScreenCanvas);

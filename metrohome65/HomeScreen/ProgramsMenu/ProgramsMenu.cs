@@ -36,12 +36,8 @@ namespace MetroHome65.HomeScreen.ProgramsMenu
 
         private readonly Brush _bgBrush;
 
-        private TinyIoCContainer _container;
-
-        public ProgramsMenu(TinyIoCContainer container)
+        public ProgramsMenu()
         {
-            _container = container;
-
             EntranceAnimation = null;
             ExitAnimation = null;
             VerticalScroll = true;
@@ -104,10 +100,10 @@ namespace MetroHome65.HomeScreen.ProgramsMenu
         }
 
 
-        private static readonly int IconSize = ScreenRoutines.Scale(64);
-        private static readonly int PaddingHor = ScreenRoutines.Scale(7);
-        private static readonly int BorderSize = ScreenRoutines.Scale(4);
-        private static readonly int BlankSize = ScreenRoutines.Scale(4);
+        private static readonly int IconSize = 64;
+        private static readonly int PaddingHor = 10;
+        private static readonly int BorderSize = 5;
+        private static readonly int BlankSize = 5;
 
         private FileRoutines.structa _refa;
         private Rectangle _rect = new Rectangle(0, 0, IconSize + BorderSize * 2, IconSize + BorderSize * 2);
@@ -118,31 +114,36 @@ namespace MetroHome65.HomeScreen.ProgramsMenu
 
             var canvas = new Canvas
             {
-                Size = new Size(ScreenRoutines.Scale(480), IconSize + BlankSize * 2 + BorderSize * 2)
+                Size = new Size(ScreenConsts.ScreenWidth, IconSize + BlankSize * 2 + BorderSize * 2)
             };
 
             // draw icon with border
-            FileRoutines.SHGetFileInfo(ref fileDescr.Path, 0, ref _refa, Marshal.SizeOf(_refa), 0x100);
-            var icon = Icon.FromHandle(_refa.a);
-
             var image = new Bitmap(_rect.Width, _rect.Height);
             var graphics = Graphics.FromImage(image);
             graphics.FillRectangle(_bgBrush, _rect);
-            graphics.DrawIcon(icon, BorderSize, BorderSize);
+
+            try
+            {
+                FileRoutines.SHGetFileInfo(ref fileDescr.Path, 0, ref _refa, Marshal.SizeOf(_refa), 0x100);
+                var icon = Icon.FromHandle(_refa.a);
+                graphics.DrawIcon(icon, BorderSize, BorderSize);
+            }
+            catch (Exception) { }
 
             canvas.AddElement(new ImageElement(image)
-            {
-                Size = image.Size,
-                Location = new Point(0, BlankSize),
-            });
+                                  {
+                                      Size = image.Size,
+                                      Location = new Point(0, BlankSize),
+                                  });
 
             // draw program name
             var textHeight = ScreenRoutines.Scale(15);
             canvas.AddElement(new TextElement(fileDescr.Name)
             {
+                AutoSizeMode = TextElement.AutoSizeModeOptions.None,
                 Style = new TextStyle(MetroTheme.PhoneFontFamilySemiBold, MetroTheme.PhoneFontSizeNormal, _fontColor),
-                Location = new Point(image.Width + PaddingHor, textHeight),
-                Size = new Size(ScreenRoutines.Scale(480) - image.Width + PaddingHor, image.Height - textHeight)
+                Location = new Point(_rect.Width + PaddingHor, textHeight),
+                Size = new Size(ScreenConsts.ScreenWidth - _rect.Width + PaddingHor, _rect.Height - textHeight)
             });
 
             // click handler = launch program
@@ -181,7 +182,7 @@ namespace MetroHome65.HomeScreen.ProgramsMenu
             menuPinProgram.Click += (s, e) => PinProgram(fileDescr);
             mainMenu.MenuItems.Add(menuPinProgram);
 
-            mainMenu.Show(_container.Resolve(typeof(FleuxControl)) as Control, location);
+            mainMenu.Show(TinyIoCContainer.Current.Resolve<FleuxControl>(), location);
         }
 
         /// <summary>
@@ -190,7 +191,7 @@ namespace MetroHome65.HomeScreen.ProgramsMenu
         /// <param name="fileDescr"></param>
         private void PinProgram(FileDescr fileDescr)
         {
-            var messenger = _container.Resolve<ITinyMessengerHub>();
+            var messenger = TinyIoCContainer.Current.Resolve<ITinyMessengerHub>();
 
             messenger.Publish(new PinProgramMessage() { Name = fileDescr.Name, Path = fileDescr.Path} );
         }
