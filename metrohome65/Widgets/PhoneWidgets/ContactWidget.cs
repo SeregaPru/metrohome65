@@ -3,11 +3,14 @@ using System.Drawing;
 using System.Windows.Forms;
 using System.Collections.Generic;
 using Fleux.Animations;
+using Fleux.Controls;
 using Fleux.Styles;
 using MetroHome65.Interfaces;
 using Microsoft.WindowsMobile.PocketOutlook;
 using MetroHome65.Settings.Controls;
 using MetroHome65.Routines;
+using PhoneWidgets;
+using TinyIoC;
 
 namespace MetroHome65.Widgets
 {
@@ -312,47 +315,19 @@ namespace MetroHome65.Widgets
         }
 
 
-        // launch external application - play exit animation
-        public override bool AnimateExit { get { return true; } }
-
         /// <summary>
         /// on click open contact
         /// </summary>
         /// <param name="location"></param>
         public override bool OnClick(Point location)
         {
-            return OpenContact();
-        }
+            var control = TinyIoCContainer.Current.Resolve<FleuxControl>();
+            var contactForm = new ContactPage(FindContact(ContactId));
 
+            control.AddElement(contactForm);
+            contactForm.Location = new Point((ScreenConsts.ScreenWidth - contactForm.Size.Width) / 2,
+                (ScreenConsts.ScreenHeight - contactForm.Size.Height) / 2);
 
-        /*
-        private bool MakeCall()
-        {
-            var contact = FindContact(ContactId);
-            if (contact == null)
-                return false;
-
-            var myPhone = new Microsoft.WindowsMobile.Telephony.Phone();
-            myPhone.Talk(contact.MobileTelephoneNumber, false);
-            return true;
-        }
-
-        private void SendSMS()
-        {
-            var contact = FindContact(ContactId);
-            var mySession = new OutlookSession();
-            var message = new SmsMessage(contact.MobileTelephoneNumber, "");
-            MessagingApplication.DisplayComposeForm(message);
-        }
-        */
-
-        private bool OpenContact()
-        {
-            var contact = FindContact(ContactId);
-            if (contact == null)
-                return false;
-
-            contact.ShowDialog();
             return true;
         }
 

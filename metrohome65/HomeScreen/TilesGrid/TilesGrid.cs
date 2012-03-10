@@ -14,7 +14,6 @@ namespace MetroHome65.HomeScreen.TilesGrid
 {
     public partial class TilesGrid : ScrollViewer, IActive
     {
-        private TinyIoCContainer _container;
         private readonly List<TileWrapper> _tiles = new List<TileWrapper>();
         private readonly TilesCanvas _tilesCanvas;
         private readonly UIElement _buttonSettings;
@@ -23,10 +22,8 @@ namespace MetroHome65.HomeScreen.TilesGrid
 
         public Action OnExit;
 
-        public TilesGrid(TinyIoCContainer container) : base()
+        public TilesGrid() : base()
         {
-            _container = container;
-
             // кнопка настроек            
             _buttonSettings = new FlatButton("MetroHome65.Images.settings.png")
                                   {
@@ -40,7 +37,7 @@ namespace MetroHome65.HomeScreen.TilesGrid
                                    TapHandler = ButtonUnpinClick,
                                };
             RealignSettingsButtons(false);
-            var control = _container.Resolve(typeof (FleuxControl)) as FleuxControl;
+            var control = TinyIoCContainer.Current.Resolve<FleuxControl>();
             control.AddElement(_buttonUnpin);
             control.AddElement(_buttonSettings);
 
@@ -61,7 +58,7 @@ namespace MetroHome65.HomeScreen.TilesGrid
                               };
 
             // подписка на событие добавления программы из меню
-            var messenger = _container.Resolve<ITinyMessengerHub>();
+            var messenger = TinyIoCContainer.Current.Resolve<ITinyMessengerHub>();
             messenger.Subscribe<PinProgramMessage>( msg => PinProgram(msg.Name, msg.Path) );
 
             ReadSettings();
@@ -89,7 +86,7 @@ namespace MetroHome65.HomeScreen.TilesGrid
                 if ((_active) && (_launching))
                 {
                     _launching = false;
-                    (_container.Resolve(typeof (FleuxControl)) as FleuxControl).AnimateEntrance();
+                    TinyIoCContainer.Current.Resolve<FleuxControl>().AnimateEntrance();
                 }
 
                 FreezeUpdate(!_active);
@@ -145,7 +142,7 @@ namespace MetroHome65.HomeScreen.TilesGrid
             menuExit.Click += (s, e) => OnExit(); //Application.Exit();
             mainMenu.MenuItems.Add(menuExit);
 
-            mainMenu.Show(_container.Resolve(typeof(FleuxControl)) as Control, location);
+            mainMenu.Show(TinyIoCContainer.Current.Resolve<FleuxControl>(), location);
         }
 
         /// <summary>
@@ -186,7 +183,7 @@ namespace MetroHome65.HomeScreen.TilesGrid
                     }
                 }
                 _launching = true;
-                (_container.Resolve(typeof(FleuxControl)) as FleuxControl).AnimateExit();
+                TinyIoCContainer.Current.Resolve<FleuxControl>().AnimateExit();
             }
 
             var clickResult = tile.OnClick(aLocation);
