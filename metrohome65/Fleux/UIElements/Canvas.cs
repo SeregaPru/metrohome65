@@ -51,10 +51,5 @@
         {
             this.Children.Clear();
         }
-
-        protected override void OnUpdated(UIElement element)
-        {
-            this.Update();    
-        }
     }
 }

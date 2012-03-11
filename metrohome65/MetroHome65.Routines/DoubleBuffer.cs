@@ -1,5 +1,7 @@
 ﻿using System.Drawing;
+using System.Drawing.Imaging;
 using Fleux.Core.GraphicsHelpers;
+using Fleux.Core.NativeHelpers;
 
 namespace MetroHome65.Routines
 {
@@ -41,16 +43,22 @@ namespace MetroHome65.Routines
         {
             ClearBuffer();
 
-            _image = new Bitmap(_size.Width, _size.Height, System.Drawing.Imaging.PixelFormat.Format32bppRgb);
+            _image = new Bitmap(_size.Width, _size.Height, (PixelFormat) PixelFormatID.PixelFormat32bppARGB);
             _graphics = Graphics.FromImage(_image);
             _drawingGraphics = DrawingGraphics.FromGraphicsAndRect(_graphics, _image,
                     new Rectangle(0, 0, _image.Width, _image.Height));
         }
 
-        public Image Image { get { return _image; } }
+        public void Clear()
+        {
+            _graphics.Clear(Color.Transparent);
+        }
+
+        public Bitmap Image { get { return _image; } }
 
         public Graphics Graphics { get { return _graphics; } }
 
         public DrawingGraphics DrawingGraphics { get { return _drawingGraphics; } }
+
     }
 }

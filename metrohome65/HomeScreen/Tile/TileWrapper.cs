@@ -183,7 +183,7 @@ namespace MetroHome65.HomeScreen
 
                 // insert new tile
                 (_tile as UIElement).Parent = this;
-                (_tile as UIElement).Updated = (element) => this.Update();
+                (_tile as UIElement).Updated = this.OnUpdated;
 
                 Active = true;
             }

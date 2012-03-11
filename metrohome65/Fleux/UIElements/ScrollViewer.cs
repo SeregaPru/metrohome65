@@ -51,11 +51,6 @@
             }
         }
 
-        protected override void OnUpdated(UIElement element)
-        {
-            this.Update();
-        }
-
         private void OnContentSizeChanged()
         {
             if (this.verticalInertia != null)
