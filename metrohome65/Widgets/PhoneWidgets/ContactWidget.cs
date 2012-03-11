@@ -24,7 +24,6 @@ namespace MetroHome65.Widgets
         // current Y offset for contact name animation
         private int _offsetY;
         private const int _nameRectHeight = 82;
-        private int _animateStep = 4;
         private ThreadTimer _animateTimer;
 
         protected override Size[] GetSizes()
@@ -105,31 +104,8 @@ namespace MetroHome65.Widgets
         #region Draw
 
         // double buffer
-        private Bitmap _doubleBuffer;
-        private Graphics _graphics;
+        private DoubleBuffer _buffer;
         private bool _needRepaint;
-
-        private void ClearBuffer()
-        {
-            if (_graphics != null)
-            {
-                _graphics.Dispose();
-                _graphics = null;
-            }
-            if (_doubleBuffer != null)
-            {
-                _doubleBuffer.Dispose();
-                _doubleBuffer = null;
-            }
-        }
-
-        private void PrepareBuffer()
-        {
-            ClearBuffer();
-
-            _doubleBuffer = new Bitmap(Bounds.Width, (_needAnimateTile) ? Bounds.Height + _nameRectHeight : Bounds.Height);
-            _graphics = Graphics.FromImage(_doubleBuffer);
-        }
 
         protected virtual void UpdateAlternatePicture()
         {
@@ -185,21 +161,21 @@ namespace MetroHome65.Widgets
 
         public override void Draw(Fleux.Core.GraphicsHelpers.IDrawingGraphics drawingGraphics)
         {
-            if ((_doubleBuffer == null) || (_needRepaint))
+            if ((_buffer == null) || (_needRepaint))
             {
-                PrepareBuffer();
-                PaintBuffer(_graphics, new Rectangle(0, 0, Bounds.Width, Bounds.Height));
+                _buffer = new DoubleBuffer(new Size(Size.Width, (_needAnimateTile) ? Size.Height + _nameRectHeight : Size.Height));
+                PaintBuffer(_buffer.Graphics, new Rectangle(0, 0, Size.Width, Size.Height));
                 _needRepaint = false;
             }
 
             // for faster draw - paintdirectly to graphic
             //drawingGraphics.DrawImage(_doubleBuffer, 0, - _offsetY);
-            drawingGraphics.Graphics.DrawImage(_doubleBuffer, - drawingGraphics.VisibleRect.Left, - drawingGraphics.VisibleRect.Top - _offsetY);
+            drawingGraphics.Graphics.DrawImage(_buffer.Image, -drawingGraphics.VisibleRect.Left, -drawingGraphics.VisibleRect.Top - _offsetY);
 
             // border around
             drawingGraphics.Color(MetroTheme.PhoneAccentBrush);
-            drawingGraphics.DrawRectangle(0, 0, Bounds.Width - 1, Bounds.Height - 1);
-            drawingGraphics.DrawRectangle(1, 1, Bounds.Width - 2, Bounds.Height - 2);
+            drawingGraphics.DrawRectangle(0, 0, Size.Width - 1, Size.Height - 1);
+            drawingGraphics.DrawRectangle(1, 1, Size.Width - 2, Size.Height - 2);
         }
 
         public override void ForceUpdate()

@@ -69,7 +69,7 @@ namespace MetroHome65.HomeScreen.TilesGrid
         /// </summary>
         private bool GridClickHandler(Point location)
         {
-            if (MoveMode && _tilesCanvas.Bounds.Contains(location))
+            if (MoveMode && _bufferedCanvas.Bounds.Contains(location))
             {
                 MoveTileTo(MovingTile, location);
                 return true;
@@ -85,7 +85,7 @@ namespace MetroHome65.HomeScreen.TilesGrid
         {
             var result = false;
 
-            if (MoveMode && _tilesCanvas.Bounds.Contains(to))
+            if (MoveMode && _bufferedCanvas.Bounds.Contains(to))
             {
                 // в режиме перемещения плиток исключаем дребезг, срабатывание крохотного пана вместо клика
                 if (Math.Pow(from.X - to.X, 2) + Math.Pow(from.Y - to.Y, 2) <= 10)
@@ -110,8 +110,8 @@ namespace MetroHome65.HomeScreen.TilesGrid
         private Point GetTileCell(Point location)
         {
             return new Point(
-                (location.X - _tilesCanvas.Location.X) / (TileWrapper.CellWidth + TileWrapper.CellSpacingHor),
-                (location.Y - _tilesCanvas.Location.X - VerticalOffset) / (TileWrapper.CellHeight + TileWrapper.CellSpacingVer)
+                (location.X - _bufferedCanvas.Location.X) / (TileWrapper.CellWidth + TileWrapper.CellSpacingHor),
+                (location.Y - _bufferedCanvas.Location.X - VerticalOffset) / (TileWrapper.CellHeight + TileWrapper.CellSpacingVer)
                 );
         }
 
@@ -214,7 +214,7 @@ namespace MetroHome65.HomeScreen.TilesGrid
                 }
                 widgetsHeight += 50; // add padding at bottom and blank spaces at top and bottom
 
-                _tilesCanvas.Size = new Size(_tilesCanvas.Size.Width, widgetsHeight);
+                _bufferedCanvas.Size = new Size(_bufferedCanvas.Size.Width, widgetsHeight);
                 Update();
             }
             catch (Exception e)

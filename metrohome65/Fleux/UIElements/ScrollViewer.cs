@@ -43,7 +43,7 @@
             set
             {
                 this.content = value;
-                this.content.Updated = this.Update;
+                this.content.Updated = this.OnUpdated;
                 this.content.Parent = this;
                 this.Children.Add(this.content);
 
@@ -51,7 +51,12 @@
             }
         }
 
-		private void OnContentSizeChanged()
+        protected override void OnUpdated(UIElement element)
+        {
+            this.Update();
+        }
+
+        private void OnContentSizeChanged()
         {
             if (this.verticalInertia != null)
                 this.verticalInertia.Min = -Math.Max(0, this.content.Size.Height - this.Size.Height);

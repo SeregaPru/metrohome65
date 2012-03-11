@@ -15,7 +15,7 @@ namespace MetroHome65.HomeScreen.TilesGrid
     public partial class TilesGrid : ScrollViewer, IActive
     {
         private readonly List<TileWrapper> _tiles = new List<TileWrapper>();
-        private readonly TilesCanvas _tilesCanvas;
+        private readonly BufferedCanvas _bufferedCanvas;
         private readonly UIElement _buttonSettings;
         private readonly UIElement _buttonUnpin;
         private Boolean _active = true;
@@ -42,9 +42,9 @@ namespace MetroHome65.HomeScreen.TilesGrid
             control.AddElement(_buttonSettings);
 
             // холст контейнер плиток
-            _tilesCanvas = new TilesCanvas {Size = new Size(400, 100)};
+            _bufferedCanvas = new BufferedCanvas {Size = new Size(400, 100)};
 
-            Content = _tilesCanvas;
+            Content = _bufferedCanvas;
             VerticalScroll = true;
             OnStartScroll = () => FreezeUpdate(true); //ActivateTiles(false);
             OnStopScroll = () => FreezeUpdate(false); //ActivateTiles(true);
@@ -98,7 +98,7 @@ namespace MetroHome65.HomeScreen.TilesGrid
         // to speed-up scrolling (avoid tiles animation during scrolling)
         private void FreezeUpdate(bool freeze)
         {
-            _tilesCanvas.FreezeUpdate = freeze;
+            _bufferedCanvas.FreezeUpdate = freeze;
         }
 
         // start/stop updatable widgets

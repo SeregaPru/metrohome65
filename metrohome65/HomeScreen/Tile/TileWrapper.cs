@@ -105,7 +105,7 @@ namespace MetroHome65.HomeScreen
                     _gridSize = new Size(2, 2);
                 }
 
-            _tile.Size = _gridSize;
+            _tile.GridSize = _gridSize;
 
             CalcScreenPosition();
         }
@@ -183,7 +183,7 @@ namespace MetroHome65.HomeScreen
 
                 // insert new tile
                 (_tile as UIElement).Parent = this;
-                (_tile as UIElement).Updated = this.Update;
+                (_tile as UIElement).Updated = (element) => this.Update();
 
                 Active = true;
             }

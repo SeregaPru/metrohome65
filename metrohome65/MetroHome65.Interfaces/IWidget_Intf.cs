@@ -49,7 +49,7 @@ namespace MetroHome65.Interfaces
         /// <summary>
         /// Current tile size
         /// </summary>
-        Size Size { set; }
+        Size GridSize { set; }
 
         /// <summary>
         /// force repaint tile

@@ -2,7 +2,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProductVersion>9.0.30729</ProductVersion>
+    <ProductVersion>9.0.21022</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{18D428A8-6722-4A69-B39D-F652AFA34D90}</ProjectGuid>
     <OutputType>Library</OutputType>
@@ -69,6 +69,7 @@
   <ItemGroup>
     <Compile Include="AlphaImage.cs" />
     <Compile Include="BindingManager.cs" />
+    <Compile Include="DoubleBuffer.cs" />
     <Compile Include="Logger.cs" />
     <Compile Include="Routines.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
