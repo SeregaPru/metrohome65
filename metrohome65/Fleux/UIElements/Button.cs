@@ -17,8 +17,12 @@
         public Button(string text)
         {
             m_text = text;
-            this.Style = MetroTheme.PhoneTextNormalStyle;
-            this.Size = new Size(100, 25);
+
+            Style = MetroTheme.PhoneTextNormalStyle;
+            BackgroundColor = MetroTheme.PhoneBackgroundBrush;
+            BorderColor = MetroTheme.PhoneForegroundBrush;
+
+            Size = new Size(100, 25);
         }
         #endregion
 
@@ -85,22 +89,33 @@
         {
             if (m_pressed)
             {
-                drawingGraphics.Color(this.BackgroundColor);
+                drawingGraphics.Color(BorderColor);
                 drawingGraphics.FillRectangle(0, 0, this.Size.Width, this.Size.Height);
+
+                drawingGraphics.Style(new TextStyle(Style.FontFamily, Style.FontSize, BackgroundColor));
+            }
+            else
+            {
+                drawingGraphics.Color(BackgroundColor);
+                drawingGraphics.FillRectangle(0, 0, this.Size.Width, this.Size.Height);
+
+                drawingGraphics.Color(this.BorderColor);
+                drawingGraphics.PenWidth(3);
+                drawingGraphics.DrawRectangle(0, 0, this.Size.Width, this.Size.Height);
+                drawingGraphics.PenWidth(1);
+
+                drawingGraphics.Style(this.Style);
             }
 
-            drawingGraphics.Color(this.BorderColor);
-            drawingGraphics.DrawRectangle(0, 0, this.Size.Width, this.Size.Height);
-            drawingGraphics.DrawRectangle(1, 1, this.Size.Width-1, this.Size.Height-1);
-            drawingGraphics.Style(this.Style);
-
-            int width = drawingGraphics.CalculateTextWidth(m_text);
             switch (this.AutoSizeMode)
             {
                 case AutoSizeModeOptions.None:
                 case AutoSizeModeOptions.OneLineAutoHeight:
-                    drawingGraphics.MoveX((this.Size.Width - width)/2).DrawText(m_text);
-                    break;
+                    {
+                        int width = drawingGraphics.CalculateTextWidth(m_text);
+                        drawingGraphics.MoveX((this.Size.Width - width) / 2).DrawText(m_text);
+                        break;
+                    }
                 case AutoSizeModeOptions.WrapText:
                     drawingGraphics.DrawMultiLineText(m_text, this.Size.Width, this.Size.Height);
                     break;
