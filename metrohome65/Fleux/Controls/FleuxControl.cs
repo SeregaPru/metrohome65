@@ -79,7 +79,12 @@
         {
             this.elements.Add(element);
             this.offUpdated = false;
-            element.Updated = this.ForcedInvalidate;
+            element.Updated = OnUpdated;
+        }
+
+        private void OnUpdated(UIElement element)
+        {
+            this.ForcedInvalidate();
         }
 
         public void RemoveElement(UIElement element)

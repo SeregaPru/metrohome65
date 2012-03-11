@@ -28,7 +28,7 @@
             this.Children.Add(element);
             element.Parent = this;
             this.Size = new Size(Math.Max(element.Bounds.Right, this.Size.Width), Math.Max(element.Bounds.Bottom, this.Size.Height));
-            element.Updated = this.Update;
+            element.Updated = this.OnUpdated;
         }
 
         public virtual void AddElementAt(int index, UIElement element)
@@ -36,7 +36,7 @@
             this.Children.Insert(index, element);
             element.Parent = this;
             this.Size = new Size(Math.Max(element.Bounds.Right, this.Size.Width), Math.Max(element.Bounds.Bottom, this.Size.Height));
-            element.Updated = this.Update;
+            element.Updated = this.OnUpdated;
         }
 
         public override void Draw(IDrawingGraphics drawingGraphics)
@@ -50,6 +50,11 @@
         public void Clear()
         {
             this.Children.Clear();
+        }
+
+        protected override void OnUpdated(UIElement element)
+        {
+            this.Update();    
         }
     }
 }

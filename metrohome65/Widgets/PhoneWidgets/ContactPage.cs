@@ -16,10 +16,10 @@ namespace PhoneWidgets
     public sealed class ContactPage : Canvas
     {
         private const int FormWidth = 400;
-        private const int ButtonWidth = FormWidth - 2 * 25;
-        private const int ButtonHeight = 25;
-        private const int PaddingVer = 10;
-        private const int PaddingHor = 25;
+        private const int PaddingVer = 30;
+        private const int PaddingHor = 30;
+        private const int ButtonWidth = FormWidth - 2 * PaddingHor;
+        private const int ButtonHeight = 50;
 
         private readonly Contact _contact;
 
@@ -32,8 +32,9 @@ namespace PhoneWidgets
 
             var buttonClose = new Button("x")
             {
-                Size = new Size(20, 20),
-                Location = new Point(FormWidth - 40, 20),
+                Size = new Size(ButtonHeight, ButtonHeight),
+                Location = new Point(FormWidth - ButtonHeight - PaddingHor, PaddingVer),
+                AutoSizeMode = Button.AutoSizeModeOptions.OneLineAutoHeight,
                 TapHandler = (p) => { Close(); return true; },
             };
             AddElement(buttonClose);
@@ -41,7 +42,7 @@ namespace PhoneWidgets
             var textName = new TextElement(contact.FileAs)
                                {
                                    Style = MetroTheme.PhoneTextLargeStyle,
-                                   Location = new Point(PaddingHor, PaddingHor),
+                                   Location = new Point(PaddingHor, PaddingVer),
                                    Size = new Size(ButtonWidth, 100),
                                    AutoSizeMode = TextElement.AutoSizeModeOptions.WrapText,
                                };
@@ -50,25 +51,28 @@ namespace PhoneWidgets
             var buttonCall = new Button("Call")
                                  {
                                      Size = new Size(ButtonWidth, ButtonHeight),
-                                     Location = new Point(PaddingHor, textName.Bounds.Bottom + PaddingVer * 2),
+                                     Location = new Point(PaddingHor, textName.Bounds.Bottom + PaddingVer),
+                                     AutoSizeMode = Button.AutoSizeModeOptions.OneLineAutoHeight,
                                      TapHandler = (p) => { MakeCall(); return true; },
                                  };
             AddElement(buttonCall);
 
             var buttonSms = new Button("Send SMS")
-            {
-                Size = new Size(ButtonWidth, ButtonHeight),
-                Location = new Point(PaddingHor, buttonCall.Bounds.Bottom + PaddingVer),
-                TapHandler = (p) => { SendSMS(); return true; },
-            };
+                                {
+                                    Size = new Size(ButtonWidth, ButtonHeight),
+                                    Location = new Point(PaddingHor, buttonCall.Bounds.Bottom + PaddingVer),
+                                    AutoSizeMode = Button.AutoSizeModeOptions.OneLineAutoHeight,
+                                    TapHandler = (p) => { SendSMS(); return true; },
+                                };
             AddElement(buttonSms);
 
             var buttonContact = new Button("Contact info")
-            {
-                Size = new Size(ButtonWidth, ButtonHeight),
-                Location = new Point(PaddingHor, buttonSms.Bounds.Bottom + PaddingVer),
-                TapHandler = (p) => { OpenContact(); return true; },
-            };
+                                    {
+                                        Size = new Size(ButtonWidth, ButtonHeight),
+                                        Location = new Point(PaddingHor, buttonSms.Bounds.Bottom + PaddingVer),
+                                        AutoSizeMode = Button.AutoSizeModeOptions.OneLineAutoHeight,
+                                        TapHandler = (p) => { OpenContact(); return true; },
+                                    };
             AddElement(buttonContact);
         }
 
@@ -81,7 +85,7 @@ namespace PhoneWidgets
             drawingGraphics.FillRectangle(rect);
 
             drawingGraphics.Color(MetroTheme.PhoneForegroundBrush);
-            drawingGraphics.PenWidth(2);
+            drawingGraphics.PenWidth(3);
             drawingGraphics.DrawRectangle(rect);
 
             base.Draw(drawingGraphics);

@@ -64,7 +64,7 @@
 
         public IAnimation ExitAnimation { get; set; }
 
-        public Action Updated { get; set; }
+        public Action<UIElement> Updated { get; set; }
 
         public Func<Point, bool> TapHandler { get; set; }
 
@@ -141,8 +141,13 @@
         {
             if (this.Updated != null && (this.Parent == null || this.Parent.IsShowing(this)))
             {
-                this.Updated();
+                OnUpdated(this);
             }
+        }
+
+        protected virtual void OnUpdated(UIElement element)
+        {
+            this.Updated(this);
         }
 
         public virtual Point ApplyTransformation(Point source)

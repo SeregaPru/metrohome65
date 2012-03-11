@@ -6,26 +6,21 @@ using System.Collections.Generic;
 using Fleux.Core.GraphicsHelpers;
 using Fleux.UIElements;
 using MetroHome65.Interfaces;
+using MetroHome65.Routines;
 
 namespace MetroHome65.Widgets
 {
 
     public abstract class BaseWidget : UIElement, ITile, INotifyPropertyChanged
     {
-
-        ~BaseWidget()
-        {
-            ClearBuffer();
-        }
-     
+    
         #region ITile
 
         protected virtual Size[] GetSizes() { return null; }
         public Size[] Sizes { get { return GetSizes(); } }
 
-        protected Size _Size;
-        protected virtual void SetSize(Size value) { _Size = value; }
-        public Size Size { set { SetSize(value); } }
+        protected Size _gridSize;
+        public Size GridSize { set{ _gridSize = value; } }
 
         public virtual void PaintBuffer(Graphics g, Rectangle rect) { }
 
@@ -44,45 +39,22 @@ namespace MetroHome65.Widgets
         #region Draw
 
         // double buffer
-        private Bitmap _doubleBuffer;
-        private Graphics _graphics;
+        private DoubleBuffer _buffer;
         private bool _needRepaint;
-        
-        private void ClearBuffer()
-        {
-            if (_graphics != null)
-            {
-                _graphics.Dispose();
-                _graphics = null;
-            }
-            if (_doubleBuffer != null)
-            {
-                _doubleBuffer.Dispose();
-                _doubleBuffer = null;
-            }
-        }
-
-        private void PrepareBuffer()
-        {
-            ClearBuffer();
-
-            _doubleBuffer = new Bitmap(Bounds.Width, Bounds.Height, System.Drawing.Imaging.PixelFormat.Format32bppRgb);
-            _graphics = Graphics.FromImage(_doubleBuffer);
-        }
 
         public override void Draw(IDrawingGraphics drawingGraphics)
         {
             if (drawingGraphics == null)
                 return;
 
-            if ((_doubleBuffer == null) || (_needRepaint))
+            if ((_buffer == null) || (_needRepaint))
             {
-                PrepareBuffer();
-                PaintBuffer(_graphics, new Rectangle(0, 0, Bounds.Width, Bounds.Height));
+                _buffer = new DoubleBuffer(Size);
+                PaintBuffer(_buffer.Graphics, new Rectangle(0, 0, Size.Width, Size.Height));
                 _needRepaint = false;
             }
 
-            drawingGraphics.DrawImage(_doubleBuffer, 0, 0);
+            drawingGraphics.DrawImage(_buffer.Image, 0, 0);
         }
 
         public virtual void ForceUpdate()

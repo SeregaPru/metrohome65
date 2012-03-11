@@ -42,7 +42,7 @@ namespace MetroHome65.HomeScreen.TilesGrid
             tile.Draw(null);
 
             _tiles.Add(tile);
-            _tilesCanvas.AddElement(tile);
+            _bufferedCanvas.AddElement(tile);
 
             if (doRealign)
             {
@@ -65,7 +65,7 @@ namespace MetroHome65.HomeScreen.TilesGrid
             MovingTile = null;
 
             _tiles.Remove(deletingTile);
-            _tilesCanvas.DeleteElement(deletingTile);
+            _bufferedCanvas.DeleteElement(deletingTile);
 
             RealignTiles();
             WriteSettings();
