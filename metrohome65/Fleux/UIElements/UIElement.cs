@@ -147,7 +147,8 @@
 
         protected virtual void OnUpdated(UIElement element)
         {
-            this.Updated(this);
+            if (this.Updated != null)
+                this.Updated(this);
         }
 
         public virtual Point ApplyTransformation(Point source)
