@@ -30,51 +30,43 @@ namespace MetroHome65.HomeScreen.TilesGrid
 
         #region override methods
     
+        public BufferedCanvas()
+        {
+            SizeChanged += (s, e) => CreateBuffer();
+        }
+
         public override void AddElement(UIElement element)
         {
             base.AddElement(element);
+
             _needRepaint = true;
         }
 
         public override void AddElementAt(int index, UIElement element)
         {
             base.AddElementAt(index, element);
+
             _needRepaint = true;
         }
 
+        /// <summary>
+        /// Handler for update event from child.
+        /// Redraw only triggered element, not whole buffer. For 
+        /// </summary>
+        /// <param name="element"></param>
         protected override void OnUpdated(UIElement element)
         {
             if (!FreezeUpdate)
             {
                 // repaint in buffer only changed element
-                if (_buffer != null)
-                {
-                    _buffer.Graphics.Clip = new Region(element.Bounds);
+                //RepaintBuffer();
 
-                    _buffer.Clear();
-                    element.Draw(_buffer.DrawingGraphics.CreateChild(
-                        element.Location, element.TransformationScaling, element.TransformationCenter));
-
-                    _buffer.Graphics.ResetClip();
-                }
+                //if (Children.Contains(element))
+                if (element != this)
+                    RepaintElement(element);
 
                 this.Updated(this);
             }
-        }
-
-        private void UpdateBuffer()
-        {
-            _buffer.Clear();
-            Children
-                .ToList()
-                .ForEach(e =>
-                {
-                    //!! todo не порождать дочерние графики рисовать прямо на одном
-                    //_buffer.DrawingGraphics.MoveRel(e.Location.X, e.Location.Y);
-                    //e.Draw(_buffer.DrawingGraphics);
-                    //_buffer.DrawingGraphics.MoveRel(- e.Location.X, - e.Location.Y);
-                    e.Draw(_buffer.DrawingGraphics.CreateChild(e.Location, e.TransformationScaling, e.TransformationCenter));
-                });
         }
 
         public override void Draw(IDrawingGraphics drawingGraphics)
@@ -83,57 +75,60 @@ namespace MetroHome65.HomeScreen.TilesGrid
                 return;
 
             if (_buffer == null)
-                _buffer = new DoubleBuffer(Size);
+                CreateBuffer();
 
             if ((_needRepaint) && (!FreezeUpdate))
             {
-                UpdateBuffer();
+                RepaintBuffer();
                 _needRepaint = false;
             }
 
-            if (_buffer != null)
-                //DrawBuffer(drawingGraphics);
-                drawingGraphics.DrawImage(_buffer.Image, 0, 0);
-
+            DrawBuffer(drawingGraphics);
         }
 
         private void DrawBuffer(IDrawingGraphics drawingGraphics)
         {
-            var hSrc = _buffer.Graphics.GetHdc();
-            var hDst = drawingGraphics.Graphics.GetHdc();
-
-            /*
-            var blendFunction = new BlendFunction
+            lock (this)
             {
-                BlendOp = (byte)BlendOperation.AcSrcOver,
-                BlendFlags = (byte)BlendFlags.Zero,
-                SourceConstantAlpha = 100,
-                AlphaFormat = 0
-            };
+                //drawingGraphics.DrawImage(_buffer.Image, 0, 0);
+                //return;
 
-            DrawingAPI.AlphaBlend(hDst, 0, -drawingGraphics.VisibleRect.Top, Size.Width, Size.Height, hSrc,
-                0, 0, Size.Width, Size.Height, blendFunction);
+                var hSrc = _buffer.Graphics.GetHdc();
+                var hDst = drawingGraphics.Graphics.GetHdc();
 
-             */
+                /*
+                var blendFunction = new BlendFunction
+                {
+                    BlendOp = (byte)BlendOperation.AcSrcOver,
+                    BlendFlags = (byte)BlendFlags.Zero,
+                    SourceConstantAlpha = 100,
+                    AlphaFormat = 0
+                };
 
-            /*
-            DrawingAPI.BitBlt(hDst, 0, -drawingGraphics.VisibleRect.Top, Size.Width, Size.Height, 
-                hSrc, 0, 0, 
-                DrawingAPI.SRCCOPY
-                );
-            */
-            /*
-            BitmapData a = _buffer.Image.LockBits(new Rectangle(0, 0, Size.Width, Size.Height), ImageLockMode.ReadOnly,
-                                           (PixelFormat) PixelFormatID.PixelFormat32bppARGB);
-            var factory = (IImagingFactory)Activator.CreateInstance(Type.GetTypeFromCLSID(new Guid("327ABDA8-072B-11D3-9D7B-0000F81EF32E")));
-            IImage image;
-            factory.CreateImageFromBuffer(a.Scan0, a., BufferDisposalFlag.BufferDisposalFlagNone, image);
+                DrawingAPI.AlphaBlend(hDst, 0, -drawingGraphics.VisibleRect.Top, Size.Width, Size.Height, hSrc,
+                    0, 0, Size.Width, Size.Height, blendFunction);
 
-            _buffer.Image.UnlockBits(a);
-            */
+                 */
 
-            _buffer.Graphics.ReleaseHdc(hSrc);
-            drawingGraphics.Graphics.ReleaseHdc(hDst);
+                
+                DrawingAPI.BitBlt(hDst, 0, -drawingGraphics.VisibleRect.Top, Size.Width, Size.Height, 
+                    hSrc, 0, 0, 
+                    DrawingAPI.SRCCOPY
+                    );
+                
+                /*
+                BitmapData a = _buffer.Image.LockBits(new Rectangle(0, 0, Size.Width, Size.Height), ImageLockMode.ReadOnly,
+                                               (PixelFormat) PixelFormatID.PixelFormat32bppARGB);
+                var factory = (IImagingFactory)Activator.CreateInstance(Type.GetTypeFromCLSID(new Guid("327ABDA8-072B-11D3-9D7B-0000F81EF32E")));
+                IImage image;
+                factory.CreateImageFromBuffer(a.Scan0, a., BufferDisposalFlag.BufferDisposalFlagNone, image);
+
+                _buffer.Image.UnlockBits(a);
+                */
+
+                _buffer.Graphics.ReleaseHdc(hSrc);
+                drawingGraphics.Graphics.ReleaseHdc(hDst);
+            }
         }
 
         #endregion
@@ -146,6 +141,67 @@ namespace MetroHome65.HomeScreen.TilesGrid
             element.Parent = null;
             element.Updated = null;
             Children.Remove(element);
+
+            _needRepaint = true;
+        }
+
+        private void RepaintBuffer()
+        {
+            lock (this)
+            {
+                if (_buffer == null) return;
+
+                ClearBuffer(new Rectangle(0, 0, _buffer.Image.Width, _buffer.Image.Height));
+                Children
+                    .ToList()
+                    .ForEach(element =>
+                                 {
+                                     //!! todo не порождать дочерние графики рисовать прямо на одном
+                                     //_buffer.DrawingGraphics.MoveRel(e.Location.X, e.Location.Y);
+                                     //e.Draw(_buffer.DrawingGraphics);
+                                     //_buffer.DrawingGraphics.MoveRel(- e.Location.X, - e.Location.Y);
+
+                                     element.Draw(_buffer.DrawingGraphics.CreateChild(element.Location, element.TransformationScaling, element.TransformationCenter));
+                                 });
+            }
+        }
+
+        private void RepaintElement(UIElement element)
+        {
+            lock (this)
+            {
+                if (_buffer == null) return;
+
+                //var oldClip = _buffer.Graphics.Clip;
+                //_buffer.Graphics.Clip = new Region(element.Bounds);
+
+                ClearBuffer(element.Bounds);
+                element.Draw(_buffer.DrawingGraphics.CreateChild(
+                    element.Location, element.TransformationScaling, element.TransformationCenter));
+
+                //_buffer.Graphics.Clip = oldClip;
+            }
+        }
+
+        private void ClearBuffer(Rectangle rect)
+        {
+            _buffer.Graphics.FillRectangle(new SolidBrush(Color.Transparent), rect);
+        }
+
+        public void ForceUpdate()
+        {
+            _needRepaint = true;
+            Update();
+        }
+
+        private void CreateBuffer()
+        {
+            // re-create buffer with new size
+            lock (this)
+            {
+                _buffer = null;
+                _buffer = new DoubleBuffer(Size);
+            }
             _needRepaint = true;
         }
 
