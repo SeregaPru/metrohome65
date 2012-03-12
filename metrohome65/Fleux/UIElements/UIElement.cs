@@ -141,10 +141,12 @@
         {
             if (this.Updated != null && (this.Parent == null || this.Parent.IsShowing(this)))
             {
+                //! MetroHome65 - pass update event sender to parent
                 OnUpdated(this);
             }
         }
 
+        //! MetroHome65 - pass update event sender to parent
         protected virtual void OnUpdated(UIElement element)
         {
             if (this.Updated != null)

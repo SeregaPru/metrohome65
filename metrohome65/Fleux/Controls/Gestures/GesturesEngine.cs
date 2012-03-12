@@ -2,8 +2,8 @@
 {
     using System;
     using System.Drawing;
-    using System.Threading;
     using Core.Dim;
+    using System.Windows.Forms; 
 
     // Tap
     // A tap represents the left click of a mouse.
@@ -51,9 +51,25 @@
         private bool canBeHold;
         private Point prevDownPoint;
 
+        //! Fork: fleuxdesktop2, Change Set c3b9c68e6c31
+        private Timer holdTimer; 
+        private bool mouseDown;
+
         public GesturesEngine()
         {
             this.parameters = GestureDetectionParameters.Current;
+
+            //! Fork: fleuxdesktop2, Change Set c3b9c68e6c31
+            this.holdTimer = new Timer();
+            this.holdTimer.Tick += (obj, ev) => {
+                this.holdTimer.Enabled = false;
+                if (this.canBeHold)
+                {
+                    this.RaiseHold();
+                    this.canBeHold = false;
+                    this.MouseUp(this.prevDownPoint);
+                }
+            }; 
         }
 
         public Action<Point> Tap { get; set; }
@@ -88,19 +104,34 @@
             this.canBeTap = true;
             this.canBeHold = true;
             this.RaisePressed(point);
+
+            //! Fork: fleuxdesktop2, Change Set c3b9c68e6c31
+            this.mouseDown = true;
+            this.holdTimer.Enabled = false;
+            this.holdTimer.Interval = this.parameters.TapTimePeriod;
+            this.holdTimer.Enabled = true; 
         }
 
         public void MouseMove(Point point)
         {
+            //! Fork: fleuxdesktop2, Change Set c3b9c68e6c31
+            if (!this.mouseDown) return; 
+
             this.canBeHold = this.canBeHold && this.mouseDownPoint.IsCloseTo(point, this.parameters.TapDistance);
-            this.RaisePan(this.prevDownPoint, point, false);
+            //! Fork: fleuxdesktop2, Change Set 17b512879306 
+            if (!this.mouseDownPoint.IsCloseTo(point, this.parameters.PanThreshold)) 
+                this.RaisePan(this.prevDownPoint, point, false);
             this.prevDownPoint = point;
         }
 
         public void MouseUp(Point point)
         {
+            this.mouseDown = false; 
+
             var ellapsedFromMouseDown = Environment.TickCount - this.mouseDownTicks;
-            this.canBeHold = this.canBeHold && this.mouseDownPoint.IsCloseTo(point, this.parameters.TapDistance);
+            
+            //this.canBeHold = this.canBeHold && this.mouseDownPoint.IsCloseTo(point, this.parameters.TapDistance);
+            this.canBeHold = false; 
 
             this.RaiseReleased(this.mouseDownPoint, point);
 

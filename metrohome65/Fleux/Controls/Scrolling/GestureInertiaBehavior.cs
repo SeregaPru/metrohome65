@@ -26,6 +26,10 @@
 
         public int Min { get; set; }
 
+        //! Fork: fleuxdesktop2, Change Set 8b81eb940370
+        /* If true, pans and flicks will not shift content over than minimums */
+        public bool TrimPanning = false; 
+
         public void Pan(int from, int to, bool done)
         {
             this.CancelCurrentAnimation();
@@ -77,6 +81,13 @@
 
         private void ApplyNewCurrent(int current)
         {
+            //! Fork: fleuxdesktop2, Change Set 8b81eb940370
+            if (TrimPanning)
+            {
+                if (current < this.Min) current = this.Min;
+                if (current > this.Max) current = this.Max;
+            } 
+
             this.Current = current;
             this.applyAction(this.Current);
         }

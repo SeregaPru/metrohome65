@@ -15,6 +15,11 @@
         private UIElement content;
         private Bitmap clipBitmap;
 
+        //! Fork: fleuxdesktop2, Change Set 8b81eb940370
+        private bool panInProgress = false;
+        private int panV = 0;
+        private int panH = 0; 
+
         public ScrollViewer()
         {
             this.EntranceAnimation = new ForwarderAnimation(() => this.content.EntranceAnimation);
@@ -42,11 +47,21 @@
 
             set
             {
+                //! Fork: fleuxdesktop2, Change Set bede1dc701a9
+                // allow content recreation
+                if (this.content != null)
+                    this.Children.Remove(this.content); 
+
                 this.content = value;
                 this.content.Updated = this.OnUpdated;
                 this.content.Parent = this;
                 this.Children.Add(this.content);
 
+                //! Fork: fleuxdesktop2, Change Set e692d2097a32
+                this.horizontalInertia = null;
+                this.verticalInertia = null; 
+
+                //! MetroHome65
                 this.content.SizeChanged += (v, e) => OnContentSizeChanged();
             }
         }
@@ -60,12 +75,28 @@
         }
         public bool DrawShadows { get; set; }
 
-        public int HorizontalOffset { get; set; }
+        //! Fork: fleuxdesktop2, Change Set 8b81eb940370
+        public int HorizontalOffset
+        {
+            get { return this.content.Location.X; }
+            set {
+                this.content.Location = new Point(value, this.content.Location.Y);
+                if (!panInProgress){
+                    panH = value;
+                }
+            }
+        }
 
+        //! Fork: fleuxdesktop2, Change Set 8b81eb940370
         public int VerticalOffset
         {
             get { return this.content.Location.Y; }
-            set { this.content.Location = new Point(this.content.Location.X, value); }
+            set {
+                this.content.Location = new Point(this.content.Location.X, value);
+                if (!panInProgress){
+                    panV = value;
+                }
+            }         
         }
 
         public bool HorizontalScroll { get; set; }
@@ -74,6 +105,18 @@
 
         public bool ShowScrollbars { get; set; }
 
+        //! Fork: fleuxdesktop2, Change Set 8b81eb940370
+        /**
+          If true, vertical 'overscroll' when panning and flicking will be disabled
+        */
+        public bool TrimVerticalPanning = false;
+
+        //! Fork: fleuxdesktop2, Change Set 8b81eb940370
+        /**
+          If true, horizontal 'overscroll' when panning and flicking will be disabled
+        */
+        public bool TrimHorizontalPanning = false;
+  
         public override Rectangle Bounds
         {
             get
@@ -84,13 +127,19 @@
 
         public override void Draw(IDrawingGraphics drawingGraphics)
         {
+            if (this.content == null) return;
+                
             if (this.clipBitmap == null)
             {
                 this.clipBitmap = new Bitmap(this.Size.Width.ToPixels(), this.Size.Height.ToPixels());
             }
+
             using (var clipBitmap = drawingGraphics.GetClipBuffer(new Rectangle(0, 0, this.Size.Width, this.Size.Height), this.clipBitmap))
             {
-                this.Content.Draw(clipBitmap.DrawingGr.CreateChild(new Point(this.HorizontalOffset, this.VerticalOffset), this.content.TransformationScaling, this.content.TransformationCenter));
+                this.Content.Draw(
+                    clipBitmap.DrawingGr.CreateChild(new Point(this.HorizontalOffset, this.VerticalOffset),
+                                                     this.content.TransformationScaling,
+                                                     this.content.TransformationCenter));
                 if (this.ShowScrollbars)
                 {
                     this.DrawScrollBar(clipBitmap.DrawingGr);
@@ -126,15 +175,19 @@
 #if !WindowsCE
             var directionDelta = Math.Abs(to.X - from.X) - Math.Abs(to.Y - from.Y);
             var isHorizontal = directionDelta == 0 ? this.lastGestureWasHorizontal : directionDelta > 0;
+
+            //! Fork: fleuxdesktop2, Change Set 8b81eb940370
+            panInProgress = !done; 
+
             if (this.horizontalInertia != null && this.HorizontalScroll && !isHorizontal)
             {
                 this.horizontalInertia.Pan(0, 0, done);
-                return false;
+                //return false; //! Fork: fleuxdesktop2, Change Set 8b81eb940370
             }
             if (this.verticalInertia != null && this.VerticalScroll && isHorizontal)
             {
                 this.verticalInertia.Pan(0, 0, done);
-                return false;
+                //return false; //! Fork: fleuxdesktop2, Change Set 8b81eb940370
             }
             if ((isHorizontal && !this.HorizontalScroll)
                 || (!isHorizontal && !this.VerticalScroll))
@@ -161,6 +214,9 @@
         public override bool Flick(Point from, Point to, int millisecs, Point startPoint)
         {
             this.TryCreateInertia();
+
+            //! Fork: fleuxdesktop2, Change Set 8b81eb940370
+            panInProgress = false;
 
             // Validate if should we handle this Flick
             var directionDelta = Math.Abs(to.X - from.X) - Math.Abs(to.Y - from.Y);
@@ -214,7 +270,9 @@
                                                 OnAnimationStart = OnStartScroll,
                                                 OnAnimationStop = OnStopScroll,
                                                 Min = -Math.Max(0, this.content.Size.Width - this.Size.Width),
-                                                Max = 0
+                                                Max = 0,
+                                                //! Fork: fleuxdesktop2, Change Set 8b81eb940370
+                                                TrimPanning = TrimHorizontalPanning, 
                                             };
                 }
                 if (this.VerticalScroll && this.verticalInertia == null)
@@ -228,7 +286,9 @@
                                                 OnAnimationStart = OnStartScroll,
                                                 OnAnimationStop = OnStopScroll,
                                                 Min = -Math.Max(0, this.content.Size.Height - this.Size.Height),
-                                                Max = 0
+                                                Max = 0,
+                                                //! Fork: fleuxdesktop2, Change Set 8b81eb940370
+                                                TrimPanning = TrimVerticalPanning,
                                             };
                 }
             }
