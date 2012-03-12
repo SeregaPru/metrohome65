@@ -61,8 +61,9 @@ namespace MetroHome65.HomeScreen.TilesGrid
                 // repaint in buffer only changed element
                 //RepaintBuffer();
 
-                //if (Children.Contains(element))
-                if (element != this)
+                if (element == this)
+                    _needRepaint = true;
+                else
                     RepaintElement(element);
 
                 this.Updated(this);
@@ -88,10 +89,19 @@ namespace MetroHome65.HomeScreen.TilesGrid
 
         private void DrawBuffer(IDrawingGraphics drawingGraphics)
         {
+            var dstTop = (drawingGraphics.VisibleRect.Top > 0) ? 0 : drawingGraphics.VisibleRect.Top;
+            var srcTop = (drawingGraphics.VisibleRect.Top > 0) ? drawingGraphics.VisibleRect.Top : 0;
+            var height = (drawingGraphics.VisibleRect.Top > 0) ? drawingGraphics.VisibleRect.Height : drawingGraphics.VisibleRect.Height;
+
             lock (this)
             {
-                //drawingGraphics.DrawImage(_buffer.Image, 0, 0);
-                //return;
+drawingGraphics.DrawImage(_buffer.Image, 0, 0);
+return;
+
+                drawingGraphics.DrawImage(_buffer.Image,
+                    new Rectangle(0, dstTop, drawingGraphics.VisibleRect.Width, height),
+                    new Rectangle(0, srcTop, drawingGraphics.VisibleRect.Width, height));
+                return;
 
                 var hSrc = _buffer.Graphics.GetHdc();
                 var hDst = drawingGraphics.Graphics.GetHdc();
@@ -110,11 +120,16 @@ namespace MetroHome65.HomeScreen.TilesGrid
 
                  */
 
-                
-                DrawingAPI.BitBlt(hDst, 0, -drawingGraphics.VisibleRect.Top, Size.Width, Size.Height, 
-                    hSrc, 0, 0, 
+                DrawingAPI.BitBlt(hDst, 0, dstTop, Size.Width, height, 
+                    hSrc, 0, srcTop, 
                     DrawingAPI.SRCCOPY
                     );
+
+                
+                //DrawingAPI.BitBlt(hDst, 0, -drawingGraphics.VisibleRect.Top, Size.Width, Size.Height, 
+                //    hSrc, 0, 0, 
+                //    DrawingAPI.SRCCOPY
+                //    );
                 
                 /*
                 BitmapData a = _buffer.Image.LockBits(new Rectangle(0, 0, Size.Width, Size.Height), ImageLockMode.ReadOnly,
@@ -135,15 +150,6 @@ namespace MetroHome65.HomeScreen.TilesGrid
 
 
         #region methods
-
-        public void DeleteElement(UIElement element)
-        {
-            element.Parent = null;
-            element.Updated = null;
-            Children.Remove(element);
-
-            _needRepaint = true;
-        }
 
         private void RepaintBuffer()
         {
@@ -186,12 +192,6 @@ namespace MetroHome65.HomeScreen.TilesGrid
         private void ClearBuffer(Rectangle rect)
         {
             _buffer.Graphics.FillRectangle(new SolidBrush(Color.Transparent), rect);
-        }
-
-        public void ForceUpdate()
-        {
-            _needRepaint = true;
-            Update();
         }
 
         private void CreateBuffer()

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Drawing;
 using System.Linq;
+using Fleux.Controls.Gestures;
 using Fleux.Core.GraphicsHelpers;
 using Fleux.Core.Scaling;
 using Fleux.UIElements;
@@ -66,21 +67,13 @@ namespace MetroHome65.HomeScreen.TilesGrid
             }
         }
 
+        /*
         public override void Draw(IDrawingGraphics drawingGraphics)
         {
-            /*
-            if (this.clipBitmap == null)
-            {
-                this.clipBitmap = new Bitmap(this.Size.Width.ToPixels(), this.Size.Height.ToPixels());
-            }
-            using (var clipBitmap = drawingGraphics.GetClipBuffer(new Rectangle(0, 0, this.Size.Width, this.Size.Height), this.clipBitmap))
-            {
-                this.Content.Draw(clipBitmap.DrawingGr.CreateChild(new Point(this.HorizontalOffset, this.VerticalOffset), this.content.TransformationScaling, this.content.TransformationCenter));
-            }
-            */
-
             this.Content.Draw(drawingGraphics.CreateChild(new Point(this.HorizontalOffset, this.VerticalOffset)));
+            //base.Draw(drawingGraphics);
         }
+        */ 
 
         /// <summary>
         /// click handler for tiles grid - enter to moving mode
@@ -114,9 +107,12 @@ namespace MetroHome65.HomeScreen.TilesGrid
             }
             else
             {
-                FreezeUpdate(true);
-                result = base.Pan(from, to, done, startPoint);
-                FreezeUpdate(false);
+                if (! GesturesEngine.IsHorizontal(from, to))
+                {
+                    FreezeUpdate(true);
+                    result = base.Pan(from, to, done, startPoint);
+                    FreezeUpdate(false);
+                }
             }
 
             return result;
@@ -233,7 +229,7 @@ namespace MetroHome65.HomeScreen.TilesGrid
                 widgetsHeight += 50; // add padding at bottom and blank spaces at top and bottom
 
                 _tilesCanvas.Size = new Size(_tilesCanvas.Size.Width, widgetsHeight);
-                _tilesCanvas.ForceUpdate();
+                _tilesCanvas.Update();
             }
             catch (Exception e)
             {
