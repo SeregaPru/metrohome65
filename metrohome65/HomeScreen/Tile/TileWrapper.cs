@@ -321,7 +321,7 @@ namespace MetroHome65.HomeScreen
                     if (value)
                     {
                         if (_movingTimer == null)
-                            _movingTimer = new ThreadTimer(100, () => RepaintMovingTile());
+                            _movingTimer = new ThreadTimer(100, RepaintMovingTile);
                     }
                     else
                     {
