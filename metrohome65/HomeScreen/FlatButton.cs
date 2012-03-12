@@ -36,7 +36,7 @@ namespace MetroHome65.HomeScreen
         {
             //drawingGraphics.DrawText("*");
 
-            _image.PaintIcon(drawingGraphics.Graphics, - drawingGraphics.VisibleRect.Left, - drawingGraphics.VisibleRect.Top);
+            _image.PaintIcon(drawingGraphics.Graphics, drawingGraphics.CalculateX(0), drawingGraphics.CalculateY(0));
 
             /*
             Color transparentKeyColor = Color.Black; // DEFAULT BLACK, IF IT IS NOT POSSIBLE TO READ FROM IMAGE

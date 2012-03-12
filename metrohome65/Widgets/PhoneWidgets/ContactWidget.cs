@@ -204,6 +204,8 @@ namespace MetroHome65.Widgets
             get { return _active; }
             set
             {
+                return;
+
                 if (!_needAnimateTile)
                     return;
 

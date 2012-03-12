@@ -15,7 +15,7 @@ namespace MetroHome65.HomeScreen.TilesGrid
     public partial class TilesGrid : ScrollViewer, IActive
     {
         private readonly List<TileWrapper> _tiles = new List<TileWrapper>();
-        private readonly BufferedCanvas _tilesCanvas;
+        private readonly TilesCanvas _tilesCanvas;
         private readonly UIElement _buttonSettings;
         private readonly UIElement _buttonUnpin;
         private Boolean _active = true;
@@ -24,6 +24,25 @@ namespace MetroHome65.HomeScreen.TilesGrid
 
         public TilesGrid() : base()
         {
+            // запрет перерисовки во время скроллирования
+            OnStartScroll = () => FreezeUpdate(true); 
+            OnStopScroll = () => FreezeUpdate(false); 
+
+            VerticalScroll = true;
+
+            TapHandler = GridClickHandler;
+            HoldHandler = p =>
+            {
+                if (!MoveMode)
+                    ShowMainPopupMenu(p);
+                return true;
+            };
+
+            // подписка на событие добавления программы из меню
+            var messenger = TinyIoCContainer.Current.Resolve<ITinyMessengerHub>();
+            messenger.Subscribe<PinProgramMessage>(msg => PinProgram(msg.Name, msg.Path));
+
+
             // кнопка настроек            
             _buttonSettings = new FlatButton("MetroHome65.Images.settings.png")
                                   {
@@ -42,24 +61,9 @@ namespace MetroHome65.HomeScreen.TilesGrid
             control.AddElement(_buttonSettings);
 
             // холст контейнер плиток
-            _tilesCanvas = new BufferedCanvas {Size = new Size(400, 100)};
+            _tilesCanvas = new TilesCanvas { Size = new Size(400, 100) };
 
             Content = _tilesCanvas;
-            VerticalScroll = true;
-            OnStartScroll = () => FreezeUpdate(true); //ActivateTiles(false);
-            OnStopScroll = () => FreezeUpdate(false); //ActivateTiles(true);
-
-            TapHandler = GridClickHandler;
-            HoldHandler = p =>
-                              {
-                                  if (! MoveMode)
-                                      ShowMainPopupMenu(p);
-                                  return true;
-                              };
-
-            // подписка на событие добавления программы из меню
-            var messenger = TinyIoCContainer.Current.Resolve<ITinyMessengerHub>();
-            messenger.Subscribe<PinProgramMessage>( msg => PinProgram(msg.Name, msg.Path) );
 
             ReadSettings();
         }
