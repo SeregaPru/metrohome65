@@ -168,9 +168,11 @@ namespace MetroHome65.Widgets
                 _needRepaint = false;
             }
 
-            // for faster draw - paintdirectly to graphic
-            //drawingGraphics.DrawImage(_doubleBuffer, 0, - _offsetY);
-            drawingGraphics.Graphics.DrawImage(_buffer.Image, -drawingGraphics.VisibleRect.Left, -drawingGraphics.VisibleRect.Top - _offsetY);
+            // for faster draw - paint directly to graphic
+            //drawingGraphics.DrawImage(_buffer.Image, 0, - _offsetY);
+            drawingGraphics.Graphics.DrawImage(_buffer.Image, 
+                drawingGraphics.CalculateX(0), drawingGraphics.CalculateY(0),
+                new Rectangle(0, _offsetY, Size.Width, Size.Height), GraphicsUnit.Pixel);
 
             // border around
             drawingGraphics.Color(MetroTheme.PhoneAccentBrush);
@@ -204,8 +206,6 @@ namespace MetroHome65.Widgets
             get { return _active; }
             set
             {
-                return;
-
                 if (!_needAnimateTile)
                     return;
 

@@ -259,21 +259,25 @@ namespace MetroHome65.HomeScreen
             return (Tile != null) && Tile.OnClick(clickLocation);
         }
 
-        private Bitmap clipBitmap;
+        //private Bitmap clipBitmap;
 
         public override void Draw(IDrawingGraphics drawingGraphics)
         {
             if (drawingGraphics == null)
                 return;
 
-            if (this.clipBitmap == null)
-                this.clipBitmap = new Bitmap(this.Size.Width.ToPixels(), this.Size.Height.ToPixels());
-            using (var localClip = drawingGraphics.GetClipBuffer(new Rectangle(0, 0, this.Size.Width, this.Size.Height), this.clipBitmap))
+            //if (this.clipBitmap == null)
+            //    this.clipBitmap = new Bitmap(this.Size.Width.ToPixels(), this.Size.Height.ToPixels());
+            //using (var localClip = drawingGraphics.GetClipBuffer(new Rectangle(0, 0, this.Size.Width, this.Size.Height), this.clipBitmap))
             {
                 // for moving mode - change drawing rect size
+                //var tileGraphic = _moving
+                //                      ? localClip.DrawingGr.CreateChild(new Point(0, 0), (100.0 + _movingScale) / 100.0, new Point(Bounds.Width / 2, Bounds.Height / 2) )
+                //                      : localClip.DrawingGr.CreateChild(new Point(0, 0));
+
                 var tileGraphic = _moving
-                                      ? localClip.DrawingGr.CreateChild(new Point(0, 0), (100.0 + _movingScale) / 100.0, new Point(Bounds.Width / 2, Bounds.Height / 2) )
-                                      : localClip.DrawingGr.CreateChild(new Point(0, 0));
+                                      ? drawingGraphics.CreateChild(new Point(0, 0), (100.0 + _movingScale) / 100.0, new Point(Bounds.Width / 2, Bounds.Height / 2))
+                                      : drawingGraphics;
 
                 if (Tile != null)
                 {
