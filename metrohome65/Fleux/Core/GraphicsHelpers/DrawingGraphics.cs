@@ -32,10 +32,17 @@
             this.canvasImage = canvasImage;
             this.state = new DrawingHelperState(this.ValidateExtendsFromLogic);
             this.drawingExtends = new Rectangle();
+
+            //! Fork: fleuxdesktop2, Change Set 6a7e167f7196
+            this.MaxWidth = canvasImage.Width;
+            this.MaxHeight = canvasImage.Height; 
         }
 
         // Expressed in pixels
         public int MaxWidth { get; set; }
+
+        //! Fork: fleuxdesktop2, Change Set 6a7e167f7196
+        public int MaxHeight { get; set; } 
 
         // Graphics where the actions will be performed
         public Graphics Graphics { get; private set; }
@@ -110,7 +117,9 @@
 #if WindowsCE
             get { return new Rectangle(-this.Location.X.ToLogic(), -this.Location.Y.ToLogic(), 800, 600); }
 #else
-            get { return new Rectangle(-this.Location.X.ToLogic(), -this.Location.Y.ToLogic(), 480, 800); }
+            //! Fork: fleuxdesktop2, Change Set b272519f5400
+            //get { return new Rectangle(-this.Location.X.ToLogic(), -this.Location.Y.ToLogic(), 480, 800); }
+            get { return new Rectangle(Math.Max(0, -this.Location.X.ToLogic()), Math.Max(0,-this.Location.Y.ToLogic()), MaxWidth.ToLogic(), MaxHeight.ToLogic()); }
 #endif
         }
 
@@ -119,6 +128,10 @@
             return new DrawingGraphics(gr, canvasImage)
             {
                 MaxWidth = rect.Width,
+
+                //! Fork: fleuxdesktop2, Change Set 6a7e167f7196
+                MaxHeight = rect.Height,
+
                 Location = rect.Location,
             };
         }
@@ -591,11 +604,39 @@
             return this;
         }
 
+        //! Fork: fleuxdesktop2, Change Set 49971c396624 
         public IDrawingGraphics DrawCenterText(string text, int width)
         {
-            throw new NotImplementedException();
-        }
+            var measure = this.Graphics.MeasureString(text, this.state.CurrenFont);
+            int textOffset = (width - ((int)measure.Width).ToLogic()) / 2;
 
+            this.Graphics.DrawString(text,
+                                     this.state.CurrenFont,
+                                     this.state.CurrentBrush,
+                                     this.CalculateX(this.state.CurrentX + textOffset),
+                                     this.CalculateY(this.state.CurrentY));
+            this.state.CurrentX += width;
+            this.ValidateExtends(this.CalculateX(this.state.CurrentX), this.CalculateY(this.state.CurrentY) + (int)measure.Height);
+            return this;
+        }
+ 
+        //! Fork: fleuxdesktop2, Change Set 49971c396624 
+        public IDrawingGraphics DrawCenterText(string text, int width, int height)
+        {
+            var measure = this.Graphics.MeasureString(text, this.state.CurrenFont);
+            int textOffsetX = (width - ((int)measure.Width).ToLogic()) / 2;
+            int textOffsetY = (height - ((int)measure.Height).ToLogic()) / 2;
+ 
+            this.Graphics.DrawString(text,
+                                     this.state.CurrenFont,
+                                     this.state.CurrentBrush,
+                                     this.CalculateX(this.state.CurrentX + textOffsetX),
+                                     this.CalculateY(this.state.CurrentY + textOffsetY));
+            this.state.CurrentX += width;
+            this.ValidateExtends(this.CalculateX(this.state.CurrentX), this.CalculateY(this.state.CurrentY) + (int)measure.Height);
+            return this;
+        }
+         
         public IDrawingGraphics DrawRightText(string text)
         {
             throw new NotImplementedException();
@@ -634,19 +675,19 @@
             return (int)(Math.Abs(logicalHeight).ToPixels() * this.scalingFactorFromParent * this.scalingFactor);
         }
 
-        protected int CalculateX(int x)
+        public int CalculateX(int x)
         {
             return this.ScaledBounds.Left + 
                 ((int)(this.TransformationCenter.X + ((x - this.TransformationCenter.X) * this.scalingFactorFromParent * this.scalingFactor))).ToPixels();
         }
 
-        protected int CalculateY(int y)
+        public int CalculateY(int y)
         {
             return this.ScaledBounds.Top +
                 ((int)(this.TransformationCenter.Y + ((y - this.TransformationCenter.Y) * this.scalingFactorFromParent * this.scalingFactor))).ToPixels();
         }
 
-        protected Rectangle CalculateRect(Rectangle logicalRect)
+        public Rectangle CalculateRect(Rectangle logicalRect)
         {
             return new Rectangle(this.CalculateX(logicalRect.X),
                                  this.CalculateY(logicalRect.Y),

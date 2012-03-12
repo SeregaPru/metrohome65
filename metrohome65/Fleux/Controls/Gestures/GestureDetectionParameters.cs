@@ -8,6 +8,10 @@
         // Up to this distance, it can be a tap or hold, otherwise, it can be a flick or pan
         public int TapDistance;
 
+        //! Fork: fleuxdesktop2, Change Set 17b512879306 
+        // Up to this threshold panning will not be detected
+        public int PanThreshold; 
+
         // How long to wait for the second tap
         public int DoubleTapTimePeriod;
 

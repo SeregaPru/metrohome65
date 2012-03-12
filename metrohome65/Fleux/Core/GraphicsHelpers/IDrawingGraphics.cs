@@ -12,8 +12,6 @@
     /// </summary>
     public interface IDrawingGraphics
     {
-        Graphics Graphics { get; }
-
         // Getters
         // Bounds (may change while it's drawing)
         int Right { get; } // Based on actual drawing extends. Not Scaled
@@ -25,6 +23,9 @@
         int X { get; } // Not Scaled
         
         int Y { get; } // Not Scaled
+
+        //! Fork: fleuxdesktop2, Change Set 781688e2635e
+        Graphics Graphics { get; } 
 
         Rectangle VisibleRect { get; } // Logical visible rect
 
@@ -153,9 +154,17 @@
         IDrawingGraphics DrawMultiLineText(string text, int width);
         
         IDrawingGraphics DrawMultiLineText(string text, int width, int height);
-        
-        IDrawingGraphics DrawCenterText(string text, int width); // Between currentX and currentX + width
-        
+
+        //! Fork: fleuxdesktop2, Change Set 49971c396624
+        // Between currentX and currentX + width
+        IDrawingGraphics DrawCenterText(string text, int width);
+
+        //! Fork: fleuxdesktop2, Change Set 49971c396624
+        /**
+         * Center text in a box
+         */
+        IDrawingGraphics DrawCenterText(string text, int width, int height);
+
         IDrawingGraphics DrawRightText(string text); // Aligned to currentX
 
         // GIANNI added
@@ -166,5 +175,13 @@
         IDrawingGraphics CreateChild(Point innerlocation, double scaling, Point transformationCenter);
 
         IDrawingGraphics CreateChild(Point innerlocation);
+
+
+        //! Fork: fleuxdesktop2, Change Set 781688e2635e
+        int CalculateX(int x);
+
+        int CalculateY(int y);
+
+        Rectangle CalculateRect(Rectangle logicalRect); 
     }
 }
