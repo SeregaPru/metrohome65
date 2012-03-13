@@ -1,4 +1,6 @@
-﻿namespace Fleux.Controls
+﻿using Fleux.Styles;
+
+namespace Fleux.Controls
 {
     using System;
     using System.Collections.Generic;
@@ -206,7 +208,7 @@
         {
             if (this.active)
             {
-                e.Graphics.Clear(Color.Black);
+                e.Graphics.Clear(MetroTheme.PhoneBackgroundBrush); //! MetroHome65 - use theme Backcground color property instead Black
                 var gr = DrawingGraphics.FromGraphicsAndRect(this.offGr, this.offBmp, new Rectangle(0, 0, this.offBmp.Width, this.offBmp.Height));
                 this.elements.ForEach(element => element.Draw(gr.CreateChild(element.Location, element.TransformationScaling, element.TransformationCenter)));
                 if (this.ShadowedAnimationMode != ShadowedAnimationOptions.None

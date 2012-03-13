@@ -182,12 +182,12 @@
             if (this.horizontalInertia != null && this.HorizontalScroll && !isHorizontal)
             {
                 this.horizontalInertia.Pan(0, 0, done);
-                //return false; //! Fork: fleuxdesktop2, Change Set 8b81eb940370
+                return false; //!?? Fork: fleuxdesktop2, Change Set 8b81eb940370
             }
             if (this.verticalInertia != null && this.VerticalScroll && isHorizontal)
             {
                 this.verticalInertia.Pan(0, 0, done);
-                //return false; //! Fork: fleuxdesktop2, Change Set 8b81eb940370
+                return false; //!?? Fork: fleuxdesktop2, Change Set 8b81eb940370
             }
             if ((isHorizontal && !this.HorizontalScroll)
                 || (!isHorizontal && !this.VerticalScroll))
