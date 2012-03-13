@@ -111,7 +111,8 @@ namespace MetroHome65.HomeScreen.TilesGrid
                 {
                     FreezeUpdate(true);
                     result = base.Pan(from, to, done, startPoint);
-                    FreezeUpdate(false);
+                    if (done)
+                        FreezeUpdate(false);
                 }
             }
 

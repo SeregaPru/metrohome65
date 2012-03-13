@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Drawing;
+using Fleux.Controls;
 using Fleux.Styles;
 using Fleux.UIElements;
+using TinyIoC;
 
 namespace MetroHome65.HomeScreen
 {
@@ -9,15 +11,12 @@ namespace MetroHome65.HomeScreen
     {
         private Image _image;
 
-        private Color _bgColor;
-
         public HomeScreenBackground()
         {
             Size = new Size(System.Windows.Forms.Screen.PrimaryScreen.Bounds.Width, System.Windows.Forms.Screen.PrimaryScreen.Bounds.Height);
 
             MetroTheme.PropertyChanged += OnThemeSettingsChanged;
 
-            SetBgColor(MetroTheme.PhoneBackgroundBrush);
             SetImage(MetroTheme.PhoneBackgroundImage);
         }
 
@@ -50,25 +49,23 @@ namespace MetroHome65.HomeScreen
             return image;
         }
 
+        /// <summary>
+        /// Draw only background image.
+        /// If no background image is specified, background color is specified for owner control
+        /// </summary>
+        /// <param name="drawingGraphics"></param>
         public override void Draw(Fleux.Core.GraphicsHelpers.IDrawingGraphics drawingGraphics)
         {
             if (_image != null)
                 drawingGraphics.Graphics.DrawImage(_image, 0, 0);
-            else
-            {
-                drawingGraphics.Color(_bgColor);
-                drawingGraphics.FillRectangle(Bounds);
-            }
         }
 
         private void SetImage(string imagePath)
         {
-            _image = PrepareBgImage(imagePath);
-        }
+            if (_image != null)
+                _image.Dispose();
 
-        private void SetBgColor(Color color)
-        {
-            _bgColor = color;
+            _image = PrepareBgImage(imagePath);
         }
 
         private void OnThemeSettingsChanged(System.ComponentModel.PropertyChangedEventArgs e)
@@ -76,12 +73,6 @@ namespace MetroHome65.HomeScreen
             if (e.PropertyName == "PhoneBackgroundImage")
             {
                 SetImage(MetroTheme.PhoneBackgroundImage);
-                Update();
-            }
-
-            if (e.PropertyName == "PhoneBackgroundBrush")
-            {
-                SetBgColor(MetroTheme.PhoneBackgroundBrush);
                 Update();
             }
         }
