@@ -30,6 +30,9 @@
                                                      TapDistance = 18,
                                                      DoubleTapTimePeriod = 700,
                                                      FlickPeriod = 500,
+
+                                                     //! Fork: fleuxdesktop2, Change Set 17b512879306 
+                                                     PanThreshold = 5,
                                                  });
             }
         }
