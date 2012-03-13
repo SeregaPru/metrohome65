@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Drawing;
-using Fleux.Controls;
 using Fleux.Styles;
 using Fleux.UIElements;
-using TinyIoC;
 
 namespace MetroHome65.HomeScreen
 {

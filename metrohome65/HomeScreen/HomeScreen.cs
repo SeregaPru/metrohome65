@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Drawing;
 using Fleux.Controls.Gestures;
 using MetroHome65.Interfaces;
