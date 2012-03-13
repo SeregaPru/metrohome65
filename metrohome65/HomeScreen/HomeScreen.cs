@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
+using Fleux.Controls.Gestures;
 using MetroHome65.Interfaces;
 using MetroHome65.Routines;
 using Microsoft.WindowsMobile.Status;
@@ -97,8 +98,8 @@ namespace MetroHome65.HomeScreen
 
         private void AddPage(UIElement page, int position)
         {
-            page.Size = new Size(ScreenConsts.ScreenWidth, ScreenConsts.ScreenHeight);
-            page.Location = new Point(position * ScreenConsts.ScreenWidth, 0);
+            page.Size = new Size(ScreenConsts.ScreenWidth - 2, ScreenConsts.ScreenHeight);
+            page.Location = new Point(position * ScreenConsts.ScreenWidth + 1, 0);
 
             _homeScreenCanvas.AddElement(page);
             _pages.Insert(position, page);
@@ -111,7 +112,7 @@ namespace MetroHome65.HomeScreen
 
         private bool Flick(Point from, Point to, int millisecs, Point start)
         {
-            if (Math.Abs(from.X - to.X) > Math.Abs(from.Y - to.Y))
+            if (GesturesEngine.IsHorizontal(from, to))
             {
                 CurrentPage = CurrentPage + ((to.X - from.X > 0) ? -1 : 1);
                 return true;
