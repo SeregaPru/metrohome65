@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Drawing;
+using System.Drawing.Imaging;
 using Fleux.Styles;
 using Fleux.UIElements;
 
@@ -38,7 +39,7 @@ namespace MetroHome65.HomeScreen
                 var destRect = new Rectangle(0, 0, (int) Math.Round(srcImage.Width*scale),
                                              (int) Math.Round(srcImage.Height*scale));
 
-                image = new Bitmap(Size.Width, Size.Height);
+                image = new Bitmap(Size.Width, Size.Height, PixelFormat.Format16bppRgb565);
                 var graphic = Graphics.FromImage(image);
                 graphic.DrawImage(srcImage, destRect,
                                   new Rectangle(0, 0, srcImage.Width, srcImage.Height), GraphicsUnit.Pixel);

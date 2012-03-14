@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Drawing.Imaging;
 using System.Linq;
 using System.Drawing;
 using System.IO;
@@ -118,7 +119,7 @@ namespace MetroHome65.HomeScreen.ProgramsMenu
             };
 
             // draw icon with border
-            var image = new Bitmap(_rect.Width, _rect.Height);
+            var image = new Bitmap(_rect.Width, _rect.Height, PixelFormat.Format16bppRgb565);
             var graphics = Graphics.FromImage(image);
             graphics.FillRectangle(_bgBrush, _rect);
 

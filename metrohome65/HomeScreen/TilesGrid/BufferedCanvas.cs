@@ -89,19 +89,23 @@ namespace MetroHome65.HomeScreen.TilesGrid
 
         private void DrawBuffer(IDrawingGraphics drawingGraphics)
         {
-            var dstTop = (drawingGraphics.VisibleRect.Top > 0) ? 0 : drawingGraphics.VisibleRect.Top;
+            //var dstTop = (drawingGraphics.VisibleRect.Top > 0) ? 0 : drawingGraphics.VisibleRect.Top;
+            var dstTop = Math.Max(0, drawingGraphics.CalculateY(0));
+            var dstLeft = drawingGraphics.CalculateX(0);
+            var dstWidth = _buffer.Image.Width;
             var srcTop = (drawingGraphics.VisibleRect.Top > 0) ? drawingGraphics.VisibleRect.Top : 0;
-            var height = (drawingGraphics.VisibleRect.Top > 0) ? drawingGraphics.VisibleRect.Height : drawingGraphics.VisibleRect.Height;
+            var height = this.Parent.Size.Height;
 
             lock (this)
             {
 //drawingGraphics.DrawImage(_buffer.Image, 0, 0);
 //return;
-
+                /*
                 drawingGraphics.Graphics.DrawImage(_buffer.Image,
-                    new Rectangle(0, dstTop, drawingGraphics.VisibleRect.Width, height),
-                    new Rectangle(0, srcTop, drawingGraphics.VisibleRect.Width, height), GraphicsUnit.Pixel);
+                    new Rectangle(dstLeft, dstTop, dstWidth, height),
+                    new Rectangle(0, srcTop, dstWidth, height), GraphicsUnit.Pixel);
                 return;
+                 */ 
 
                 var hSrc = _buffer.Graphics.GetHdc();
                 var hDst = drawingGraphics.Graphics.GetHdc();
@@ -120,8 +124,8 @@ namespace MetroHome65.HomeScreen.TilesGrid
 
                  */
 
-                DrawingAPI.BitBlt(hDst, 0, dstTop, Size.Width, height, 
-                    hSrc, 0, srcTop, 
+                DrawingAPI.BitBlt(hDst, dstLeft, dstTop, dstWidth, height, 
+                                  hSrc, 0, srcTop, 
                     DrawingAPI.SRCCOPY
                     );
 
