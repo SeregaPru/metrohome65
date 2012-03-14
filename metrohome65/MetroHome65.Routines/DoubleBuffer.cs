@@ -43,7 +43,7 @@ namespace MetroHome65.Routines
         {
             ClearBuffer();
 
-            _image = new Bitmap(_size.Width, _size.Height, (PixelFormat) PixelFormatID.PixelFormat24bppRGB);
+            _image = new Bitmap(_size.Width, _size.Height, PixelFormat.Format16bppRgb565);
             _graphics = Graphics.FromImage(_image);
             _drawingGraphics = DrawingGraphics.FromGraphicsAndRect(_graphics, _image,
                     new Rectangle(0, 0, _image.Width, _image.Height));
