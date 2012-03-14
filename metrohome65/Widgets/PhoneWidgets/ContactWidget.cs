@@ -23,16 +23,15 @@ namespace MetroHome65.Widgets
 
         // current Y offset for contact name animation
         private int _offsetY;
-        private const int _nameRectHeight = 82;
+        private const int NameRectHeight = 82;
         private ThreadTimer _animateTimer;
 
         protected override Size[] GetSizes()
         {
-            Size[] sizes = new Size[] { 
+            return new Size[] { 
                 new Size(1, 1), 
                 new Size(2, 2) 
             };
-            return sizes;
         }
 
         [TileParameter]
@@ -127,7 +126,7 @@ namespace MetroHome65.Widgets
             }
 
             var pictureRect = new Rectangle(rect.Left, rect.Top, rect.Width, rect.Height);
-            var nameRectHeight = _nameRectHeight;
+            var nameRectHeight = NameRectHeight;
             var nameRectTop = rect.Height + 25;
 
             // if assigned alternate picture - use it
@@ -156,23 +155,20 @@ namespace MetroHome65.Widgets
                 new Rectangle(rect.Left, rect.Top + rect.Height, rect.Width, nameRectHeight));
             var contactName = contact.FileAs;
             g.DrawString(contactName, captionFont, new SolidBrush(MetroTheme.PhoneForegroundBrush), rect.Left + 10, rect.Top + nameRectTop);
-            //// - g.MeasureString(contactName, captionFont).Height
         }
 
         public override void Draw(Fleux.Core.GraphicsHelpers.IDrawingGraphics drawingGraphics)
         {
             if ((_buffer == null) || (_needRepaint))
             {
-                _buffer = new DoubleBuffer(new Size(Size.Width, (_needAnimateTile) ? Size.Height + _nameRectHeight : Size.Height));
+                _buffer = new DoubleBuffer(new Size(Size.Width, (_needAnimateTile) ? Size.Height + NameRectHeight : Size.Height));
                 PaintBuffer(_buffer.Graphics, new Rectangle(0, 0, Size.Width, Size.Height));
                 _needRepaint = false;
             }
 
-            // for faster draw - paint directly to graphic
-            //drawingGraphics.DrawImage(_buffer.Image, 0, - _offsetY);
-            drawingGraphics.Graphics.DrawImage(_buffer.Image, 
-                drawingGraphics.CalculateX(0), drawingGraphics.CalculateY(0),
-                new Rectangle(0, _offsetY, Size.Width, Size.Height), GraphicsUnit.Pixel);
+            drawingGraphics.DrawImage(_buffer.Image,
+                                      new Rectangle(0, 0, Size.Width, Size.Height),
+                                      new Rectangle(0, _offsetY, Size.Width, Size.Height));
 
             // border around
             drawingGraphics.Color(MetroTheme.PhoneAccentBrush);
@@ -197,7 +193,7 @@ namespace MetroHome65.Widgets
         // флаг анимировать ли плитку - анимируем только когда есть картинка
         private bool _needAnimateTile;
 
-        private static StoryBoard sb = new StoryBoard();
+        private static readonly StoryBoard _sb = new StoryBoard();
 
         private bool _active;
 
@@ -234,12 +230,11 @@ namespace MetroHome65.Widgets
             {
                 Duration = 1000,
                 From = _offsetY,
-                To = ((_offsetY <= 0) ? _nameRectHeight : 0),
+                To = ((_offsetY <= 0) ? NameRectHeight : 0),
                 OnAnimation = v =>
                 {
                     _offsetY = v;
                     Update();
-                    Application.DoEvents();
                 },
             };
         }
@@ -247,24 +242,24 @@ namespace MetroHome65.Widgets
         private void AnimateTile()
         {
             _animation = GetAnimation(); 
-            lock (sb)
+            lock (_sb)
             {
                 if (!Active) return;
-                sb.Clear();
-                sb.AddAnimation(_animation);
-                sb.AnimateSync();
+                _sb.Clear();
+                _sb.AddAnimation(_animation);
+                _sb.AnimateSync();
             }
 
             if (!Active) return;
             _animateTimer.SafeSleep(5000 + (new Random()).Next(5000));
                        
             _animation = GetAnimation();
-            lock (sb)
+            lock (_sb)
             {
                 if (!Active) return;
-                sb.Clear();
-                sb.AddAnimation(_animation);
-                sb.AnimateSync();
+                _sb.Clear();
+                _sb.AddAnimation(_animation);
+                _sb.AnimateSync();
             }
 
             if (!Active) return;

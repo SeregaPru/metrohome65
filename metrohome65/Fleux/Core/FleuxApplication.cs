@@ -1,4 +1,6 @@
-﻿namespace Fleux.Core
+﻿using System.Drawing.Imaging;
+
+namespace Fleux.Core
 {
     using System;
     using System.Drawing;
@@ -55,7 +57,7 @@
             {
                 if (FleuxApplication.dummyGraphics == null)
                 {
-                    FleuxApplication.DummyImage = new Bitmap(1, 1);
+                    FleuxApplication.DummyImage = new Bitmap(1, 1, PixelFormat.Format16bppRgb565);
                     FleuxApplication.dummyGraphics = Graphics.FromImage(FleuxApplication.DummyImage);
                 }
                 return FleuxApplication.dummyGraphics;

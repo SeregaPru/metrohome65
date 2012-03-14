@@ -1,4 +1,6 @@
-﻿namespace Fleux.Core.Scaling
+﻿using System.Drawing.Imaging;
+
+namespace Fleux.Core.Scaling
 {
     using System.Drawing;
 
@@ -6,7 +8,7 @@
     {
         public static Bitmap Scaled(this Bitmap source)
         {
-            var bmp = new Bitmap(source.Width.ToPixels(), source.Height.ToPixels());
+            var bmp = new Bitmap(source.Width.ToPixels(), source.Height.ToPixels(), PixelFormat.Format16bppRgb565);
             using (var gr = Graphics.FromImage(bmp))
             {
                 gr.DrawImage(source,

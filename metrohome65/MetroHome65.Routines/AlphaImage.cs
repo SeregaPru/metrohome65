@@ -71,6 +71,13 @@ namespace MetroHome65.Routines
             }
         }
 
+        public Size Size { get
+            {
+                OpenNETCF.Drawing.Imaging.ImageInfo imageInfo;
+                _img.GetImageInfo(out imageInfo);
+                return new Size((int) imageInfo.Width, (int) imageInfo.Height);
+            } 
+        }
 
         public void PaintIcon(Graphics g, int x, int y)
         {
