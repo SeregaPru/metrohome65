@@ -25,6 +25,7 @@ namespace MetroHome65.Routines
             _timerProc = timerProc;
             _active = true;
 
+    return;
             _thread = new Thread(() =>
             {
                 SafeSleep(startDelay);
