@@ -1,4 +1,6 @@
-﻿namespace Fleux.UIElements
+﻿using System.Drawing.Imaging;
+
+namespace Fleux.UIElements
 {
     using System;
     using System.Drawing;
@@ -131,7 +133,7 @@
                 
             if (this.clipBitmap == null)
             {
-                this.clipBitmap = new Bitmap(this.Size.Width.ToPixels(), this.Size.Height.ToPixels());
+                this.clipBitmap = new Bitmap(this.Size.Width.ToPixels(), this.Size.Height.ToPixels(), PixelFormat.Format16bppRgb565);
             }
 
             using (var clipBitmap = drawingGraphics.GetClipBuffer(new Rectangle(0, 0, this.Size.Width, this.Size.Height), this.clipBitmap))

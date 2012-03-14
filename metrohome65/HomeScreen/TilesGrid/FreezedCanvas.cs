@@ -19,7 +19,7 @@ namespace MetroHome65.HomeScreen.TilesGrid
         {
             if (!FreezeUpdate)
             {
-                this.Updated(this);
+                base.Updated(this);
             }
         }
 

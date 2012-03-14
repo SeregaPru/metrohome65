@@ -1,4 +1,6 @@
-﻿namespace Fleux.Controls
+﻿using System.Drawing.Imaging;
+
+namespace Fleux.Controls
 {
     using System;
     using System.Drawing;
@@ -70,7 +72,7 @@
                         this.controlGr = CreateGraphics();
                     }
 
-                    this.offBmp = new Bitmap(Width, Height);
+                    this.offBmp = new Bitmap(Width, Height, PixelFormat.Format16bppRgb565);
                     this.offGr = Graphics.FromImage(this.offBmp);
                     this.offUpdated = false;
                 }

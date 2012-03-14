@@ -21,6 +21,8 @@ namespace MetroHome65.HomeScreen
                 {
                     //_image = ResourceManager.Instance.GetBitmapFromEmbeddedResource(value);
                     _image = new AlphaImage(value, this.GetType().Assembly);
+
+                    this.Size = _image.Size;
                 }
                 catch (Exception) { }
                 Update();

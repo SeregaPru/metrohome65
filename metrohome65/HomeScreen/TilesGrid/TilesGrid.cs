@@ -46,13 +46,13 @@ namespace MetroHome65.HomeScreen.TilesGrid
 
 
             // кнопка настроек            
-            _buttonSettings = new FlatButton("MetroHome65.Images.settings.png")
+            _buttonSettings = new ThemedImageButton("settings")
                                   {
                                       Size = new Size(48, 48),
                                       TapHandler = ButtonSettingsClick,
                                   };
             // кнопка удаления плитки
-            _buttonUnpin = new FlatButton("MetroHome65.Images.cancel.png")
+            _buttonUnpin = new ThemedImageButton("cancel")
                                {
                                    Size = new Size(48, 48),
                                    TapHandler = ButtonUnpinClick,
@@ -114,6 +114,7 @@ namespace MetroHome65.HomeScreen.TilesGrid
         private void FreezeUpdate(bool freeze)
         {
             _tilesCanvas.FreezeUpdate = freeze;
+            ActivateTiles(!freeze);
         }
 
         // start/stop updatable widgets
@@ -128,7 +129,8 @@ namespace MetroHome65.HomeScreen.TilesGrid
                                     foreach (var wsInfo in _tiles)
                                         wsInfo.Active = active;
                                 }
-                            }).Start();
+                            }
+            ).Start();
         }
 
         /// <summary>

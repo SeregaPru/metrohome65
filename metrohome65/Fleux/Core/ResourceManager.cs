@@ -1,4 +1,6 @@
-﻿namespace Fleux.Core
+﻿using System.Drawing.Imaging;
+
+namespace Fleux.Core
 {
     using System;
     using System.Collections.Generic;
@@ -156,7 +158,7 @@
                                     locator,
                                     () =>
                                     {
-                                        var scaledBitmap = new Bitmap(width, height);
+                                        var scaledBitmap = new Bitmap(width, height, PixelFormat.Format16bppRgb565);
 
                                         using (var gr = Graphics.FromImage(scaledBitmap))
                                         {
