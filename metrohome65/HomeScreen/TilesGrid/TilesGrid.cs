@@ -4,6 +4,8 @@ using System.Drawing;
 using System.Threading;
 using System.Windows.Forms;
 using Fleux.Controls;
+using Fleux.Core.GraphicsHelpers;
+using Fleux.Core.Scaling;
 using Fleux.UIElements;
 using MetroHome65.HomeScreen.ProgramsMenu;
 using MetroHome65.Interfaces;
@@ -66,6 +68,15 @@ namespace MetroHome65.HomeScreen.TilesGrid
             Content = _tilesCanvas;
 
             ReadSettings();
+        }
+
+        // fast drawind method instead of double bufferes scrollview's method
+        // because we know that height is the whole screen and we don't neet cropping
+        public override void Draw(IDrawingGraphics drawingGraphics)
+        {
+            Content.Draw(
+                drawingGraphics.CreateChild(new Point(0, this.VerticalOffset)));
+            //base.Draw(drawingGraphics);
         }
 
         // IActive

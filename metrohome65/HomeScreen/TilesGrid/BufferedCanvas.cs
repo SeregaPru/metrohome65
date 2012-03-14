@@ -95,12 +95,12 @@ namespace MetroHome65.HomeScreen.TilesGrid
 
             lock (this)
             {
-drawingGraphics.DrawImage(_buffer.Image, 0, 0);
-return;
+//drawingGraphics.DrawImage(_buffer.Image, 0, 0);
+//return;
 
-                drawingGraphics.DrawImage(_buffer.Image,
+                drawingGraphics.Graphics.DrawImage(_buffer.Image,
                     new Rectangle(0, dstTop, drawingGraphics.VisibleRect.Width, height),
-                    new Rectangle(0, srcTop, drawingGraphics.VisibleRect.Width, height));
+                    new Rectangle(0, srcTop, drawingGraphics.VisibleRect.Width, height), GraphicsUnit.Pixel);
                 return;
 
                 var hSrc = _buffer.Graphics.GetHdc();
