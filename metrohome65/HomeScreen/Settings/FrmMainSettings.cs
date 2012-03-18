@@ -26,21 +26,21 @@ namespace MetroHome65.HomeScreen.Settings
 
             var ctrThemeImage = new Settings_image
             {
-                Caption = "Theme background", Value = _editSettings.ThemeImage,
+                Caption = "Background image", Value = _editSettings.ThemeImage,
             };
             PlaceControl(ctrThemeImage);
             bindingManager.Bind(_editSettings, "ThemeImage", ctrThemeImage, "Value");
 
             var ctrThemeType = new Settings_flag
             {
-                Caption = "Dark theme", Value = _editSettings.ThemeIsDark,
+                Caption = "Dark", Value = _editSettings.ThemeIsDark,
             };
             PlaceControl(ctrThemeType);
             bindingManager.Bind(_editSettings, "ThemeIsDark", ctrThemeType, "Value");
 
             var ctrTileColor = new Settings_color
             {
-                Caption = "Tile color", ColorValue = _editSettings.TileColor,
+                Caption = "Accent color", ColorValue = _editSettings.TileColor,
             };
             PlaceControl(ctrTileColor);
             bindingManager.Bind(_editSettings, "TileColor", ctrTileColor, "ColorValue");

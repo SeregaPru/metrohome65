@@ -32,16 +32,17 @@
             this.mainMenu1 = new System.Windows.Forms.MainMenu();
             this.mnuApply = new System.Windows.Forms.MenuItem();
             this.menuCancel = new System.Windows.Forms.MenuItem();
+            this.label1 = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // lblPageTitle
             // 
-            this.lblPageTitle.Font = new System.Drawing.Font("Segoe WP", 28F, System.Drawing.FontStyle.Regular);
+            this.lblPageTitle.Font = new System.Drawing.Font("Segoe WP", 8F, System.Drawing.FontStyle.Regular);
             this.lblPageTitle.ForeColor = System.Drawing.Color.White;
-            this.lblPageTitle.Location = new System.Drawing.Point(0, 0);
+            this.lblPageTitle.Location = new System.Drawing.Point(12, 12);
             this.lblPageTitle.Name = "lblPageTitle";
-            this.lblPageTitle.Size = new System.Drawing.Size(324, 104);
-            this.lblPageTitle.Text = "Settings";
+            this.lblPageTitle.Size = new System.Drawing.Size(119, 34);
+            this.lblPageTitle.Text = "SETTINGS";
             // 
             // mainMenu1
             // 
@@ -58,7 +59,16 @@
             this.menuCancel.Text = "Cancel";
             this.menuCancel.Click += new System.EventHandler(this.MenuCancelClick);
             // 
-            // FrmWidgetSettings
+            // label1
+            // 
+            this.label1.Font = new System.Drawing.Font("Segoe WP", 25F, System.Drawing.FontStyle.Regular);
+            this.label1.ForeColor = System.Drawing.Color.White;
+            this.label1.Location = new System.Drawing.Point(3, 45);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(324, 102);
+            this.label1.Text = "theme";
+            // 
+            // FrmMainSettings
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(192F, 192F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
@@ -66,12 +76,13 @@
             this.BackColor = System.Drawing.Color.Black;
             this.ClientSize = new System.Drawing.Size(480, 748);
             this.ControlBox = false;
+            this.Controls.Add(this.label1);
             this.Controls.Add(this.lblPageTitle);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Location = new System.Drawing.Point(0, 0);
             this.Menu = this.mainMenu1;
             this.MinimizeBox = false;
-            this.Name = "FrmWidgetSettings";
+            this.Name = "FrmMainSettings";
             this.Text = "Form1";
             this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
             this.ResumeLayout(false);
@@ -84,5 +95,6 @@
         private System.Windows.Forms.MainMenu mainMenu1;
         private System.Windows.Forms.MenuItem mnuApply;
         private System.Windows.Forms.MenuItem menuCancel;
+        private System.Windows.Forms.Label label1;
     }
 }

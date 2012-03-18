@@ -25,7 +25,7 @@ namespace MetroHome65.HomeScreen.LockScreen
                                 Location = new Point(20, ScreenConsts.ScreenHeight * 2 / 5),
                                 AutoSizeMode = TextElement.AutoSizeModeOptions.None,
                                 Style = new TextStyle(
-                                    MetroTheme.PhoneFontFamilySemiBold,
+                                    MetroTheme.PhoneFontFamilyNormal,
                                     MetroTheme.PhoneFontSizeExtraLarge,
                                     MetroTheme.PhoneForegroundBrush),
                             };

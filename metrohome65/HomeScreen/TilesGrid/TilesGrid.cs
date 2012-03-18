@@ -48,13 +48,11 @@ namespace MetroHome65.HomeScreen.TilesGrid
             // кнопка настроек            
             _buttonSettings = new ThemedImageButton("settings")
                                   {
-                                      Size = new Size(48, 48),
                                       TapHandler = ButtonSettingsClick,
                                   };
             // кнопка удаления плитки
             _buttonUnpin = new ThemedImageButton("cancel")
                                {
-                                   Size = new Size(48, 48),
                                    TapHandler = ButtonUnpinClick,
                                };
             RealignSettingsButtons(false);
@@ -101,7 +99,7 @@ namespace MetroHome65.HomeScreen.TilesGrid
                 if ((_active) && (_launching))
                 {
                     _launching = false;
-                    TinyIoCContainer.Current.Resolve<FleuxControl>().AnimateEntrance();
+                    _tilesCanvas.AnimateEntrance();
                 }
 
                 FreezeUpdate(!_active);
@@ -183,32 +181,17 @@ namespace MetroHome65.HomeScreen.TilesGrid
             if (tile.Tile.AnimateExit)
             {
                 Active = false;
-
-                var scrollRect = new Rectangle(0, -VerticalOffset, Bounds.Width, Bounds.Height);
-
-                foreach (var curTile in _tiles)
-                {
-                    if (curTile.GetScreenRect().IntersectsWith(scrollRect))
-                    {
-                        SetExitAnimation(curTile);
-                        SetEntranceAnimation(curTile);
-                    }
-                    else
-                    {
-                        curTile.ExitAnimation = null;
-                        curTile.EntranceAnimation = null;
-                    }
-                }
                 _launching = true;
-                TinyIoCContainer.Current.Resolve<FleuxControl>().AnimateExit();
+                _tilesCanvas.AnimateExit();
             }
 
             var clickResult = tile.OnClick(aLocation);
 
+            // if tile's onClick action failed, play back entrance animation
             if ((tile.Tile.AnimateExit) && (!clickResult))
             {
+                // when page activate it plays entrance animation
                 Active = true;
-                // when activate plays entrance animation
             }
         }
 
