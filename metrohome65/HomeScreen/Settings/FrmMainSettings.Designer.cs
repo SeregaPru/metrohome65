@@ -39,7 +39,7 @@
             // 
             this.lblPageTitle.Font = new System.Drawing.Font("Segoe WP", 8F, System.Drawing.FontStyle.Regular);
             this.lblPageTitle.ForeColor = System.Drawing.Color.White;
-            this.lblPageTitle.Location = new System.Drawing.Point(12, 12);
+            this.lblPageTitle.Location = new System.Drawing.Point(5, 12);
             this.lblPageTitle.Name = "lblPageTitle";
             this.lblPageTitle.Size = new System.Drawing.Size(119, 34);
             this.lblPageTitle.Text = "SETTINGS";
@@ -63,7 +63,7 @@
             // 
             this.label1.Font = new System.Drawing.Font("Segoe WP", 25F, System.Drawing.FontStyle.Regular);
             this.label1.ForeColor = System.Drawing.Color.White;
-            this.label1.Location = new System.Drawing.Point(3, 45);
+            this.label1.Location = new System.Drawing.Point(5, 38);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(324, 102);
             this.label1.Text = "theme";
@@ -76,8 +76,8 @@
             this.BackColor = System.Drawing.Color.Black;
             this.ClientSize = new System.Drawing.Size(480, 748);
             this.ControlBox = false;
-            this.Controls.Add(this.label1);
             this.Controls.Add(this.lblPageTitle);
+            this.Controls.Add(this.label1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Location = new System.Drawing.Point(0, 0);
             this.Menu = this.mainMenu1;
