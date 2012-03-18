@@ -171,9 +171,11 @@ namespace MetroHome65.Widgets
                                       new Rectangle(0, _offsetY, Size.Width, Size.Height));
 
             // border around
+            /*
             drawingGraphics.Color(MetroTheme.PhoneAccentBrush);
             drawingGraphics.DrawRectangle(0, 0, Size.Width - 1, Size.Height - 1);
             drawingGraphics.DrawRectangle(1, 1, Size.Width - 2, Size.Height - 2);
+            */ 
         }
 
         public override void ForceUpdate()
@@ -234,7 +236,8 @@ namespace MetroHome65.Widgets
                 OnAnimation = v =>
                 {
                     _offsetY = v;
-                    Update();
+                    if (Active)
+                        Update();
                 },
             };
         }
@@ -252,6 +255,7 @@ namespace MetroHome65.Widgets
 
             if (!Active) return;
             _animateTimer.SafeSleep(5000 + (new Random()).Next(5000));
+            if (!Active) return;
                        
             _animation = GetAnimation();
             lock (_sb)

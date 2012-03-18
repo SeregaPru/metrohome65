@@ -7,9 +7,9 @@ using System.Windows.Forms;
 using Fleux.Styles;
 using Fleux.UIElements;
 using Fleux.Core.GraphicsHelpers;
+using MetroHome65.HomeScreen.Tile;
 using MetroHome65.Interfaces;
 using MetroHome65.Routines;
-using Fleux.Core.Scaling;
 
 namespace MetroHome65.HomeScreen
 {
@@ -20,11 +20,6 @@ namespace MetroHome65.HomeScreen
     public class TileWrapper : UIElement
     {
         #region Fields
-
-        public static int CellWidth = ScreenRoutines.Scale(81);
-        public static int CellHeight = CellWidth;
-        public static int CellSpacingHor = ScreenRoutines.Scale(12);
-        public static int CellSpacingVer = CellSpacingHor;
 
         private ITile _tile;
         private Point _gridPosition = new Point(0, 0);
@@ -126,10 +121,10 @@ namespace MetroHome65.HomeScreen
         public Rectangle GetScreenRect()
         {
             return new Rectangle(
-                _gridPosition.X * (CellWidth + CellSpacingHor) + 30,
-                _gridPosition.Y * (CellHeight + CellSpacingVer) + 5,
-                _gridSize.Width * (CellWidth + CellSpacingHor) - CellSpacingHor,
-                _gridSize.Height * (CellHeight + CellSpacingVer) - CellSpacingVer);
+                _gridPosition.X * (TileConsts.TileSize + TileConsts.TileSpacing) + TileConsts.TilesPaddingLeft,
+                _gridPosition.Y * (TileConsts.TileSize + TileConsts.TileSpacing) + TileConsts.TilesPaddingTop,
+                _gridSize.Width * (TileConsts.TileSize + TileConsts.TileSpacing) - TileConsts.TileSpacing,
+                _gridSize.Height * (TileConsts.TileSize + TileConsts.TileSpacing) - TileConsts.TileSpacing);
         }
 
         private void FillTileProperties()

@@ -89,6 +89,7 @@
     <Compile Include="HomeScreen\TilesGrid\TilesGrid.Settings.cs" />
     <Compile Include="HomeScreen\TilesGrid\TilesGrid.Tiles.cs" />
     <Compile Include="HomeScreen\TilesGrid\TilesGrid.Move.cs" />
+    <Compile Include="HomeScreen\Tile\TileConsts.cs" />
     <Compile Include="HomeScreen\Tile\TileSettings.cs" />
     <Compile Include="PluginManager.cs" />
     <Compile Include="Program.cs" />
@@ -111,7 +112,6 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Images\back_dark.png" />
     <Content Include="buttons\bg1.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
@@ -160,8 +160,9 @@
     <Content Include="buttons\button sky.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <EmbeddedResource Include="Images\back_light.png" />
     <EmbeddedResource Include="Images\cancel_light.png" />
+    <EmbeddedResource Include="Images\back_dark.png" />
+    <EmbeddedResource Include="Images\back_light.png" />
     <Content Include="Images\home.ico" />
     <Content Include="icons\acrobat.png" />
     <Content Include="icons\bluetooth.png" />
@@ -188,8 +189,9 @@
     <Content Include="icons\tuner.png" />
     <Content Include="icons\world.png" />
     <EmbeddedResource Include="Images\cancel_dark.png" />
-    <EmbeddedResource Include="Images\next_light.png" />
     <EmbeddedResource Include="Images\settings_dark.png" />
+    <EmbeddedResource Include="Images\next_dark.png" />
+    <EmbeddedResource Include="Images\next_light.png" />
     <Content Include="wallpapers\berry.jpg">
     </Content>
     <Content Include="wallpapers\bird.jpg">
@@ -200,7 +202,6 @@
       <DependentUpon>FrmMainSettings.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="Images\next_dark.png" />
     <EmbeddedResource Include="Images\settings_light.png" />
   </ItemGroup>
   <ItemGroup>

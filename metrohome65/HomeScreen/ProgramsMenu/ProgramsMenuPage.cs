@@ -12,6 +12,7 @@ namespace MetroHome65.HomeScreen.ProgramsMenu
     public sealed class ProgramsMenuPage : Canvas, IActive
     {
         private UIElement _programsSv;
+        private const int PaddingTop = 98;
 
         public ProgramsMenuPage()
         {
@@ -21,11 +22,10 @@ namespace MetroHome65.HomeScreen.ProgramsMenu
 
         private void CreateList()
         {
-            const int programsSvPos = 18 + 48 + 18;
             _programsSv = new ProgramsMenu()
             {
-                Location = new Point(programsSvPos, 5),
-                Size = new Size(ScreenConsts.ScreenWidth - programsSvPos, ScreenConsts.ScreenHeight - 5),
+                Location = new Point(PaddingTop, 5),
+                Size = new Size(ScreenConsts.ScreenWidth - PaddingTop, ScreenConsts.ScreenHeight - 5),
             };
             AddElement(_programsSv);
         }

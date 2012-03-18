@@ -6,6 +6,7 @@ using Fleux.Core.GraphicsHelpers;
 using Fleux.Core.Scaling;
 using Fleux.UIElements;
 using Fleux.Animations;
+using MetroHome65.HomeScreen.Tile;
 using MetroHome65.Routines;
 
 namespace MetroHome65.HomeScreen.TilesGrid
@@ -57,8 +58,8 @@ namespace MetroHome65.HomeScreen.TilesGrid
         {
             if (moveMode)
             {
-                _buttonUnpin.Location = new Point(410, 100);
-                _buttonSettings.Location = new Point(410, 190);
+                _buttonUnpin.Location = new Point(TileConsts.ArrowPosX, 100);
+                _buttonSettings.Location = new Point(TileConsts.ArrowPosX, 190);
             }
             else
             {
@@ -125,8 +126,8 @@ namespace MetroHome65.HomeScreen.TilesGrid
         private Point GetTileCell(Point location)
         {
             return new Point(
-                (location.X - _tilesCanvas.Location.X) / (TileWrapper.CellWidth + TileWrapper.CellSpacingHor),
-                (location.Y - _tilesCanvas.Location.X - VerticalOffset) / (TileWrapper.CellHeight + TileWrapper.CellSpacingVer)
+                (location.X - _tilesCanvas.Location.X) / (TileConsts.TileSize + TileConsts.TileSpacing),
+                (location.Y - _tilesCanvas.Location.X - VerticalOffset) / (TileConsts.TileSize + TileConsts.TileSpacing)
                 );
         }
 
@@ -242,33 +243,6 @@ namespace MetroHome65.HomeScreen.TilesGrid
         #region Animation
 
         private bool _launching = false;
-
-        private void SetEntranceAnimation(TileWrapper target)
-        {
-            var random = new Random();
-            var x = target.GetScreenRect().Left;
-            target.EntranceAnimation = new FunctionBasedAnimation(FunctionBasedAnimation.Functions.Linear)
-            {
-                From = x - 1000 + random.Next(1000 - x - 173),
-                To = x,
-                OnAnimation = v => target.Location = new Point(v, target.Location.Y),
-                OnAnimationStart = () => { target.Active = false; },
-                OnAnimationStop = () => { target.Active = true; }
-            };
-        }
-
-        private void SetExitAnimation(TileWrapper target)
-        {
-            var random = new Random();
-            target.ExitAnimation = new FunctionBasedAnimation(FunctionBasedAnimation.Functions.Linear)
-            {
-                To = -target.Size.Width - random.Next(1000),
-                From = target.GetScreenRect().Left,
-                OnAnimation = v => target.Location = new Point(v, target.Location.Y),
-                OnAnimationStart = () => { target.Active = false; },
-                OnAnimationStop = () => { }
-            };
-        }
 
         #endregion
 
