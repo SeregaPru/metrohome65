@@ -399,7 +399,12 @@
         public IDrawingGraphics DrawImage(System.Drawing.Image image, System.Drawing.Rectangle destRect, System.Drawing.Rectangle sourceRect)
         {
             var destScaledRect = this.CalculateRect(destRect);
-            this.Graphics.DrawImage(image, destScaledRect, sourceRect, GraphicsUnit.Pixel);
+
+            //!! metrohome65 - optimization
+            if ((destScaledRect.Width == sourceRect.Width) && (destScaledRect.Height == sourceRect.Height))
+                this.Graphics.DrawImage(image, destScaledRect.X, destScaledRect.Y, sourceRect, GraphicsUnit.Pixel);
+            else
+                this.Graphics.DrawImage(image, destScaledRect, sourceRect, GraphicsUnit.Pixel);
 
             this.state.CurrentX = destRect.Right;
             this.ValidateExtends(0, destScaledRect.Bottom);

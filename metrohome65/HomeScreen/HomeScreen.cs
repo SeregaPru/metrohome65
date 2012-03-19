@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Drawing;
 using Fleux.Controls.Gestures;
 using MetroHome65.HomeScreen.Tile;
@@ -27,6 +28,7 @@ namespace MetroHome65.HomeScreen
         // system state for receiving notifications about system events
         private readonly SystemState _systemState = new SystemState(0);
 
+        private const int ArrowPos1 = ScreenConsts.ScreenWidth + TileConsts.ArrowPosX;
         private const int ArrowPos2 = ScreenConsts.ScreenWidth * 2 + TileConsts.ArrowPadding;
         
 
@@ -69,7 +71,7 @@ namespace MetroHome65.HomeScreen
             // стрелка переключатель страниц
             _switchArrow = new Arrow 
                                {
-                                   Location = new Point(TileConsts.ArrowPosX, TileConsts.TilesPaddingTop),
+                                   Location = new Point(ArrowPos1, TileConsts.TilesPaddingTop),
                                    TapHandler = p => { CurrentPage = (_curPage == 1) ? 2 : 1; return true; },
                                };
             _homeScreenCanvas.AddElement(_switchArrow);
@@ -110,7 +112,8 @@ namespace MetroHome65.HomeScreen
 
         private bool Flick(Point from, Point to, int millisecs, Point start)
         {
-            if (GesturesEngine.IsHorizontal(from, to))
+            if (GesturesEngine.IsHorizontal(from, to) && 
+                (Math.Abs(to.X - from.X) > ScreenConsts.ScreenWidth / 10))
             {
                 CurrentPage = CurrentPage + ((to.X - from.X > 0) ? -1 : 1);
                 return true;
@@ -138,7 +141,7 @@ namespace MetroHome65.HomeScreen
 
             //var animateArrow = (toPage + fromPage >= 2);
             //var ArrowPosFrom = (toPage == 1) ? ArrowPos2 : ArrowPos1;
-            var ArrowPosTo = (toPage == 1) ? TileConsts.ArrowPosX : ArrowPos2;
+            var ArrowPosTo = (toPage == 1) ? ArrowPos1 : ArrowPos2;
 
             var _screenAnimation = new FunctionBasedAnimation(FunctionBasedAnimation.Functions.Linear)
                                        {

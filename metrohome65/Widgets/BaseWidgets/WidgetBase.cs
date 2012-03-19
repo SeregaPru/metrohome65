@@ -56,11 +56,8 @@ namespace MetroHome65.Widgets
 
             drawingGraphics.DrawImage(_buffer.Image, 0, 0);
            
-            //drawingGraphics.Graphics.DrawImage(_buffer.Image, 0, 0, 
-            //    new Rectangle(0, 0, _buffer.Image.Width, _buffer.Image.Height), GraphicsUnit.Pixel);
-
-            //drawingGraphics.Color(Color.Red);
-            //drawingGraphics.FillRectangle(Bounds);
+            // draw direct to graphic for speed
+            //drawingGraphics.Graphics.DrawImage(_buffer.Image, drawingGraphics.CalculateX(0), drawingGraphics.CalculateY(0));
         }
 
         public virtual void ForceUpdate()

@@ -19,7 +19,7 @@ namespace MetroHome65.HomeScreen.Tile
 
         public const int ArrowPadding = 24;
 
-        public const int ArrowPosX = ScreenConsts.ScreenWidth + TileConsts.TileSize * 4 + TileConsts.TileSpacing * 3 + TileConsts.TilesPaddingLeft + ArrowPadding;
+        public const int ArrowPosX = TileConsts.TileSize * 4 + TileConsts.TileSpacing * 3 + TileConsts.TilesPaddingLeft + ArrowPadding;
 
     }
 }

@@ -182,6 +182,7 @@
 
         int CalculateY(int y);
 
-        Rectangle CalculateRect(Rectangle logicalRect); 
+        Rectangle CalculateRect(Rectangle logicalRect);
+
     }
 }

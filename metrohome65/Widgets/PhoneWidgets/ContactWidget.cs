@@ -166,13 +166,13 @@ namespace MetroHome65.Widgets
                 _needRepaint = false;
             }
 
-            //drawingGraphics.DrawImage(_buffer.Image,
-            //                          new Rectangle(0, 0, Size.Width, Size.Height),
-            //                          new Rectangle(0, _offsetY, Size.Width, Size.Height));
+            drawingGraphics.DrawImage(_buffer.Image,
+                                      new Rectangle(0, 0, Size.Width, Size.Height),
+                                      new Rectangle(0, _offsetY, Size.Width, Size.Height));
 
-            drawingGraphics.Graphics.DrawImage(_buffer.Image, 
-                drawingGraphics.CalculateX(0), drawingGraphics.CalculateY(0),
-                new Rectangle(0, _offsetY, Size.Width, Size.Height), GraphicsUnit.Pixel);
+            //drawingGraphics.Graphics.DrawImage(_buffer.Image, 
+            //    drawingGraphics.CalculateX(0), drawingGraphics.CalculateY(0),
+            //    new Rectangle(0, _offsetY, Size.Width, Size.Height), GraphicsUnit.Pixel);
 
             // border around
             /*
