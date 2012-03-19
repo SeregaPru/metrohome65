@@ -2,7 +2,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProductVersion>9.0.30729</ProductVersion>
+    <ProductVersion>9.0.21022</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{A0D38398-7B6A-45D8-B2C7-19120FEA68FC}</ProjectGuid>
     <OutputType>Library</OutputType>
@@ -51,9 +51,21 @@
     <Reference Include="System.Windows.Forms" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Events\PinProgramMessage.cs" />
+    <Compile Include="Events\ShowPageMessage.cs" />
     <Compile Include="IActive_Intf.cs" />
     <Compile Include="IWidget_Intf.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Fleux\Fleux.csproj">
+      <Project>{8526293A-9C66-48F6-A90D-FB2B7128BF08}</Project>
+      <Name>Fleux</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MetroHome65.Routines\MetroHome65.Routines.csproj">
+      <Project>{18D428A8-6722-4A69-B39D-F652AFA34D90}</Project>
+      <Name>MetroHome65.Routines</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CompactFramework.CSharp.targets" />
   <ProjectExtensions>

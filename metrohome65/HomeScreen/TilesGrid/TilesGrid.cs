@@ -5,10 +5,9 @@ using System.Threading;
 using System.Windows.Forms;
 using Fleux.Controls;
 using Fleux.Core.GraphicsHelpers;
-using Fleux.Core.Scaling;
 using Fleux.UIElements;
-using MetroHome65.HomeScreen.ProgramsMenu;
 using MetroHome65.Interfaces;
+using MetroHome65.Interfaces.Events;
 using TinyIoC;
 using TinyMessenger;
 
@@ -56,9 +55,9 @@ namespace MetroHome65.HomeScreen.TilesGrid
                                    TapHandler = ButtonUnpinClick,
                                };
             RealignSettingsButtons(false);
-            var control = TinyIoCContainer.Current.Resolve<FleuxControl>();
-            control.AddElement(_buttonUnpin);
-            control.AddElement(_buttonSettings);
+            var parentControl = TinyIoCContainer.Current.Resolve<FleuxControlPage>().Control;
+            parentControl.AddElement(_buttonUnpin);
+            parentControl.AddElement(_buttonSettings);
 
             // холст контейнер плиток
             _tilesCanvas = new TilesCanvas { Size = new Size(400, 100) };
@@ -157,7 +156,7 @@ namespace MetroHome65.HomeScreen.TilesGrid
             menuExit.Click += (s, e) => OnExit(); //Application.Exit();
             mainMenu.MenuItems.Add(menuExit);
 
-            mainMenu.Show(TinyIoCContainer.Current.Resolve<FleuxControl>(), location);
+            mainMenu.Show(TinyIoCContainer.Current.Resolve<FleuxControlPage>().Control, location);
         }
 
         /// <summary>
