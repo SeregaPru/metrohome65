@@ -6,11 +6,13 @@ using Fleux.Animations;
 using Fleux.Controls;
 using Fleux.Styles;
 using MetroHome65.Interfaces;
+using MetroHome65.Interfaces.Events;
 using Microsoft.WindowsMobile.PocketOutlook;
 using MetroHome65.Settings.Controls;
 using MetroHome65.Routines;
 using PhoneWidgets;
 using TinyIoC;
+using TinyMessenger;
 
 namespace MetroHome65.Widgets
 {
@@ -302,12 +304,10 @@ namespace MetroHome65.Widgets
         /// <param name="location"></param>
         public override bool OnClick(Point location)
         {
-            var control = TinyIoCContainer.Current.Resolve<FleuxControl>();
-            var contactForm = new ContactPage(FindContact(ContactId));
+            var contactPage = new ContactPage(FindContact(ContactId));
 
-            control.AddElement(contactForm);
-            contactForm.Location = new Point((ScreenConsts.ScreenWidth - contactForm.Size.Width) / 2,
-                (ScreenConsts.ScreenHeight - contactForm.Size.Height) / 2);
+            var messenger = TinyIoCContainer.Current.Resolve<ITinyMessengerHub>();
+            messenger.Publish(new ShowPageMessage(contactPage));
 
             return true;
         }

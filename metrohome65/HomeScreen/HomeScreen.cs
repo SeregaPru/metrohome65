@@ -4,6 +4,7 @@ using System.Drawing;
 using Fleux.Controls.Gestures;
 using MetroHome65.HomeScreen.Tile;
 using MetroHome65.Interfaces;
+using MetroHome65.Interfaces.Events;
 using MetroHome65.Routines;
 using Microsoft.WindowsMobile.Status;
 using Fleux.Controls;
@@ -12,6 +13,7 @@ using Fleux.Animations;
 using MetroHome65.HomeScreen.Settings;
 using MetroHome65.HomeScreen.ProgramsMenu;
 using TinyIoC;
+using TinyMessenger;
 
 namespace MetroHome65.HomeScreen
 {
@@ -20,9 +22,8 @@ namespace MetroHome65.HomeScreen
         private readonly UIElement _lockScreen;
         private readonly Canvas _homeScreenCanvas;
         private readonly Arrow _switchArrow;
-        private IAnimation _animation;
 
-        private readonly List<UIElement> _pages = new List<UIElement>();
+        private readonly List<UIElement> _sections = new List<UIElement>();
         private int _curPage;
         
         // system state for receiving notifications about system events
@@ -34,7 +35,7 @@ namespace MetroHome65.HomeScreen
 
         public HomeScreen() : base(false)
         {
-            TinyIoCContainer.Current.Register<FleuxControl>(Control);
+            TinyIoCContainer.Current.Register<FleuxControlPage>(this);
 
             theForm.Menu = null;
             theForm.Text = "";
@@ -44,10 +45,7 @@ namespace MetroHome65.HomeScreen
             ReadThemeSettings();
 
             // фон окна
-            var background = new HomeScreenBackground()
-            {
-                Location = new Point(0, 0),
-            };
+            var background = new HomeScreenBackground() { Location = new Point(0, 0), };
             Control.AddElement(background);
 
             
@@ -60,13 +58,13 @@ namespace MetroHome65.HomeScreen
 
             // экран блокировки
             _lockScreen = new LockScreen.LockScreen();
-            AddPage(_lockScreen, 0);
+            AddSection(_lockScreen, 0);
 
             // прокрутчик холста плиток
             //!! todo - потом вместо контрола передавать холст _homeScreenCanvas
             var tilesGrid = new TilesGrid.TilesGrid();
             tilesGrid.OnExit = Exit;
-            AddPage(tilesGrid, 1);
+            AddSection(tilesGrid, 1);
 
             // стрелка переключатель страниц
             _switchArrow = new Arrow 
@@ -78,7 +76,7 @@ namespace MetroHome65.HomeScreen
 
             // список программ
             var programsSv = new ProgramsMenuPage();
-            AddPage(programsSv, 2);
+            AddSection(programsSv, 2);
 
             Control.AddElement(_homeScreenCanvas);
 
@@ -87,22 +85,30 @@ namespace MetroHome65.HomeScreen
             _systemState.Changed += OnSystemStateChanged;
             TheForm.Deactivate += (s, e) => OnDeactivate();
 
+            // subscribe to event - show page
+            var messenger = TinyIoCContainer.Current.Resolve<ITinyMessengerHub>();
+            messenger.Subscribe<ShowPageMessage>(msg => OnShowPage(msg.Page));
+
+
             CurrentPage = 1;
         }
 
-        private void Exit()
+        /// <summary>
+        /// Shows user page with entrance animation
+        /// </summary>
+        /// <param name="page"></param>
+        private void OnShowPage(FleuxControlPage page)
         {
-            OnDeactivate();
-            TheForm.Close();
+            NavigateTo(page);
         }
 
-        private void AddPage(UIElement page, int position)
+        private void AddSection(UIElement section, int position)
         {
-            page.Size = new Size(ScreenConsts.ScreenWidth - 2, ScreenConsts.ScreenHeight);
-            page.Location = new Point(position * ScreenConsts.ScreenWidth + 1, 0);
+            section.Size = new Size(ScreenConsts.ScreenWidth - 2, ScreenConsts.ScreenHeight);
+            section.Location = new Point(position * ScreenConsts.ScreenWidth + 1, 0);
 
-            _homeScreenCanvas.AddElement(page);
-            _pages.Insert(position, page);
+            _homeScreenCanvas.AddElement(section);
+            _sections.Insert(position, section);
         }
 
         private void ReadThemeSettings()
@@ -126,7 +132,7 @@ namespace MetroHome65.HomeScreen
             get { return _curPage; }
             set
             {
-                if ((_curPage == value) || (value < 0) || (value >= _pages.Count))
+                if ((_curPage == value) || (value < 0) || (value >= _sections.Count))
                     return;
 
                 var prevPage = _curPage;
@@ -141,13 +147,13 @@ namespace MetroHome65.HomeScreen
 
             //var animateArrow = (toPage + fromPage >= 2);
             //var ArrowPosFrom = (toPage == 1) ? ArrowPos2 : ArrowPos1;
-            var ArrowPosTo = (toPage == 1) ? ArrowPos1 : ArrowPos2;
+            var arrowPosTo = (toPage == 1) ? ArrowPos1 : ArrowPos2;
 
-            var _screenAnimation = new FunctionBasedAnimation(FunctionBasedAnimation.Functions.Linear)
+            var screenAnimation = new FunctionBasedAnimation(FunctionBasedAnimation.Functions.Linear)
                                        {
                                            Duration = 300,
-                                           From = _pages[fromPage].Location.X,
-                                           To = _pages[toPage].Location.X,
+                                           From = _sections[fromPage].Location.X,
+                                           To = _sections[toPage].Location.X,
                                            OnAnimation = v =>
                                                              {
                                                                  _homeScreenCanvas.Location = new Point(-v, 0);
@@ -169,21 +175,21 @@ namespace MetroHome65.HomeScreen
                                                                      else
                                                                          _switchArrow.Prev();
 
-                                                                     _switchArrow.Location = new Point(ArrowPosTo, _switchArrow.Location.Y);
+                                                                     _switchArrow.Location = new Point(arrowPosTo, _switchArrow.Location.Y);
                                                                      _switchArrow.Update();
 
                                                                      OnActivated();
                                                                  },
                                        };
 
-            StoryBoard.BeginPlay(_screenAnimation);
+            StoryBoard.BeginPlay(screenAnimation);
         }
 
         protected override void OnActivated()
         {
-            if (_pages[_curPage] is IActive)
+            if (_sections[_curPage] is IActive)
             {
-                var active = _pages[_curPage] as IActive;
+                var active = _sections[_curPage] as IActive;
                 if (active != null) 
                     active.Active = true;
             }
@@ -196,15 +202,17 @@ namespace MetroHome65.HomeScreen
         /// </summary>
         private void OnDeactivate()
         {
-            if (_animation != null)
-            {
-                _animation.Cancel();
-            }
-            foreach (var page in _pages)
+            foreach (var page in _sections)
             {
                 if (page is IActive)
                     (page as IActive).Active = false;
             }
+        }
+
+        private void Exit()
+        {
+            OnDeactivate();
+            TheForm.Close();
         }
 
         // handler for system state change event

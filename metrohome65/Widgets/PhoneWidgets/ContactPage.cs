@@ -1,6 +1,7 @@
 ﻿using System.Drawing;
 using Fleux.Controls;
 using Fleux.Styles;
+using Fleux.Templates;
 using Fleux.UIElements;
 using MetroHome65.Routines;
 using Microsoft.WindowsMobile.PocketOutlook;
@@ -13,7 +14,7 @@ namespace PhoneWidgets
     /// Shows on tile click.
     /// Contain buttons for call, send SMS etc.
     /// </summary>
-    public sealed class ContactPage : Canvas
+    public sealed class ContactPage : WindowsPhone7Page
     {
         private const int FormWidth = 400;
         private const int PaddingVer = 30;
@@ -23,21 +24,12 @@ namespace PhoneWidgets
 
         private readonly Contact _contact;
 
-        public ContactPage(Contact contact)
+        public ContactPage(Contact contact) : base("CONTACT", "NAME SURNAME")
         {
-            Size = new Size(FormWidth, FormWidth);
+            this.Control.ShadowedAnimationMode = FleuxControl.ShadowedAnimationOptions.FromRight;
 
             _contact = contact;
             if (contact == null) return;
-
-            var buttonClose = new Button("x")
-            {
-                Size = new Size(ButtonHeight, ButtonHeight),
-                Location = new Point(FormWidth - ButtonHeight - PaddingHor, PaddingVer),
-                AutoSizeMode = Button.AutoSizeModeOptions.OneLineAutoHeight,
-                TapHandler = (p) => { Close(); return true; },
-            };
-            AddElement(buttonClose);
 
             var textName = new TextElement(contact.FileAs)
                                {
@@ -46,7 +38,7 @@ namespace PhoneWidgets
                                    Size = new Size(ButtonWidth, 100),
                                    AutoSizeMode = TextElement.AutoSizeModeOptions.WrapText,
                                };
-            AddElement(textName);
+            Content.AddElement(textName);
 
             var buttonCall = new Button("Call")
                                  {
@@ -55,7 +47,7 @@ namespace PhoneWidgets
                                      AutoSizeMode = Button.AutoSizeModeOptions.OneLineAutoHeight,
                                      TapHandler = (p) => { MakeCall(); return true; },
                                  };
-            AddElement(buttonCall);
+            Content.AddElement(buttonCall);
 
             var buttonSms = new Button("Send SMS")
                                 {
@@ -64,7 +56,7 @@ namespace PhoneWidgets
                                     AutoSizeMode = Button.AutoSizeModeOptions.OneLineAutoHeight,
                                     TapHandler = (p) => { SendSMS(); return true; },
                                 };
-            AddElement(buttonSms);
+            Content.AddElement(buttonSms);
 
             var buttonContact = new Button("Contact info")
                                     {
@@ -73,23 +65,9 @@ namespace PhoneWidgets
                                         AutoSizeMode = Button.AutoSizeModeOptions.OneLineAutoHeight,
                                         TapHandler = (p) => { OpenContact(); return true; },
                                     };
-            AddElement(buttonContact);
+            Content.AddElement(buttonContact);
         }
 
-        // draw solid background and frame around form
-        public override void Draw(Fleux.Core.GraphicsHelpers.IDrawingGraphics drawingGraphics)
-        {
-            var rect = new Rectangle(0, 0, Bounds.Width, Bounds.Height);
-
-            drawingGraphics.Color(MetroTheme.PhoneBackgroundBrush);
-            drawingGraphics.FillRectangle(rect);
-
-            drawingGraphics.Color(MetroTheme.PhoneForegroundBrush);
-            drawingGraphics.PenWidth(3);
-            drawingGraphics.DrawRectangle(rect);
-
-            base.Draw(drawingGraphics);
-        }
 
         private bool MakeCall()
         {
@@ -112,12 +90,6 @@ namespace PhoneWidgets
         {
             _contact.ShowDialog();
             return true;
-        }
-
-        private void Close()
-        {
-            var control = TinyIoCContainer.Current.Resolve<FleuxControl>();
-            control.RemoveElement(this);
         }
 
 

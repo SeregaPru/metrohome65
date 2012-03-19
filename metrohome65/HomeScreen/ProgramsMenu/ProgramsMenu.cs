@@ -7,6 +7,7 @@ using System.Runtime.InteropServices;
 using System.ComponentModel;
 using System.Windows.Forms;
 using Fleux.Controls;
+using MetroHome65.Interfaces.Events;
 using MetroHome65.Routines;
 using Fleux.UIElements;
 using Fleux.Styles;
@@ -15,17 +16,6 @@ using TinyMessenger;
 
 namespace MetroHome65.HomeScreen.ProgramsMenu
 {
-    /// <summary>
-    /// message for notification to tiles grid to add new tile
-    /// </summary>
-    public class PinProgramMessage : ITinyMessage
-    {
-        public string Name;
-        public string Path;
-        public object Sender { get { return null; } }
-    }
-
-
     sealed class ProgramsMenu : ListElement
     {
 
@@ -171,9 +161,10 @@ namespace MetroHome65.HomeScreen.ProgramsMenu
             return base.Flick(from, to, millisecs * 2 / 3, startPoint);
         }
 
-        /// <summary>
         ////shows context menu for program item
+        /// <summary>
         /// </summary>
+        /// <param name="location"></param>
         /// <param name="fileDescr"></param>
         private void ShowPopupMenu(Point location, FileDescr fileDescr)
         {
@@ -183,7 +174,7 @@ namespace MetroHome65.HomeScreen.ProgramsMenu
             menuPinProgram.Click += (s, e) => PinProgram(fileDescr);
             mainMenu.MenuItems.Add(menuPinProgram);
 
-            mainMenu.Show(TinyIoCContainer.Current.Resolve<FleuxControl>(), location);
+            mainMenu.Show(TinyIoCContainer.Current.Resolve<FleuxControlPage>().Control, location);
         }
 
         /// <summary>
