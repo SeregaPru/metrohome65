@@ -12,7 +12,7 @@
         protected TextElement title1;
         protected TextElement title2;
 
-        public WindowsPhone7Page(string title1, string title2) : base(true)
+        public WindowsPhone7Page(string title1, string title2, bool fullscreen) : base(fullscreen)
         {
             this.Control.EntranceDuration = 300;
 
@@ -40,6 +40,9 @@
             this.Control.AddElement(this.title1.AnimateVerticalEntrance(true));
             this.Control.AddElement(this.title2.AnimateVerticalEntrance(true));
         }
+
+        public WindowsPhone7Page(string title1, string title2)
+            : this(title1, title2, true) { }
 
         public Canvas Content { get; set; }
 
