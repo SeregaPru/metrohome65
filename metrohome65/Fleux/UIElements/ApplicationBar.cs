@@ -45,6 +45,9 @@ namespace Fleux.UIElements
         #region OVERRIDE - Methods
         public override void Draw(Fleux.Core.GraphicsHelpers.IDrawingGraphics drawingGraphics)
         {
+            drawingGraphics.Color(Color.Gray);
+            drawingGraphics.FillRectangle(new Rectangle(0, 0, Size.Width, Size.Height));
+
             base.Draw(drawingGraphics);
         }
         #endregion
@@ -61,7 +64,7 @@ namespace Fleux.UIElements
             int prevLocation = offset;
             Children.ForEach(element =>
             {
-                element.Location = new Point(prevLocation, 0);
+                element.Location = new Point(prevLocation, (this.Size.Height - element.Size.Height) / 2);
                 prevLocation = element.Location.X + element.Size.Width + m_ButtonSpacing;
             });
         }
