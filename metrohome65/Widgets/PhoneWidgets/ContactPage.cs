@@ -45,7 +45,7 @@ namespace PhoneWidgets
                                      Size = new Size(ButtonWidth, ButtonHeight),
                                      Location = new Point(PaddingHor, textName.Bounds.Bottom + PaddingVer),
                                      AutoSizeMode = Button.AutoSizeModeOptions.OneLineAutoHeight,
-                                     TapHandler = (p) => { MakeCall(); return true; },
+                                     TapHandler = (p) => MakeCall(),
                                  };
             Content.AddElement(buttonCall);
 
@@ -54,7 +54,7 @@ namespace PhoneWidgets
                                     Size = new Size(ButtonWidth, ButtonHeight),
                                     Location = new Point(PaddingHor, buttonCall.Bounds.Bottom + PaddingVer),
                                     AutoSizeMode = Button.AutoSizeModeOptions.OneLineAutoHeight,
-                                    TapHandler = (p) => { SendSMS(); return true; },
+                                    TapHandler = (p) => SendSMS(),
                                 };
             Content.AddElement(buttonSms);
 
@@ -63,15 +63,25 @@ namespace PhoneWidgets
                                         Size = new Size(ButtonWidth, ButtonHeight),
                                         Location = new Point(PaddingHor, buttonSms.Bounds.Bottom + PaddingVer),
                                         AutoSizeMode = Button.AutoSizeModeOptions.OneLineAutoHeight,
-                                        TapHandler = (p) => { OpenContact(); return true; },
+                                        TapHandler = (p) => OpenContact(),
                                     };
             Content.AddElement(buttonContact);
+
+
+            var buttonClose = new Button("x")
+            {
+                Size = new Size(ButtonWidth, ButtonHeight),
+                Location = new Point(PaddingHor, buttonContact.Bounds.Bottom + PaddingVer),
+                AutoSizeMode = Button.AutoSizeModeOptions.OneLineAutoHeight,
+                TapHandler = (p) => { this.Close(); return true; },
+            };
+            Content.AddElement(buttonClose);
         }
 
 
         private bool MakeCall()
         {
-            if (_contact == null)
+            if (string.IsNullOrEmpty(_contact.MobileTelephoneNumber))
                 return false;
 
             var myPhone = new Microsoft.WindowsMobile.Telephony.Phone();
@@ -79,11 +89,15 @@ namespace PhoneWidgets
             return true;
         }
 
-        private void SendSMS()
+        private bool SendSMS()
         {
+            if (string.IsNullOrEmpty(_contact.MobileTelephoneNumber))
+                return false;
+
             var mySession = new OutlookSession();
             var message = new SmsMessage(_contact.MobileTelephoneNumber, "");
             MessagingApplication.DisplayComposeForm(message);
+            return true;
         }
 
         private bool OpenContact()
