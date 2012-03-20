@@ -141,6 +141,7 @@ namespace MetroHome65.HomeScreen
                 SwitchScreen(prevPage, _curPage);
             }
         }
+
         private void SwitchScreen(int fromPage, int toPage)
         {
             OnDeactivate();

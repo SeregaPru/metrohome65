@@ -1,11 +1,12 @@
 ﻿using System.Drawing;
-using Fleux.Controls;
+using Fleux.Animations;
+using Fleux.Core;
 using Fleux.Styles;
 using Fleux.Templates;
 using Fleux.UIElements;
+using Fleux.UIElements.Events;
 using MetroHome65.Routines;
 using Microsoft.WindowsMobile.PocketOutlook;
-using TinyIoC;
 
 namespace PhoneWidgets
 {
@@ -16,93 +17,153 @@ namespace PhoneWidgets
     /// </summary>
     public sealed class ContactPage : WindowsPhone7Page
     {
-        private const int FormWidth = 400;
-        private const int PaddingVer = 30;
+        private const int PaddingVer = 10;
         private const int PaddingHor = 30;
-        private const int ButtonWidth = FormWidth - 2 * PaddingHor;
-        private const int ButtonHeight = 50;
 
         private readonly Contact _contact;
 
-        public ContactPage(Contact contact) : base("CONTACT", "NAME SURNAME")
+        public ContactPage(Contact contact) : base("", "profile", false)
         {
-            this.Control.ShadowedAnimationMode = FleuxControl.ShadowedAnimationOptions.FromRight;
-
             _contact = contact;
-            if (contact == null) return;
+            this.Control.ShadowedAnimationMode = Fleux.Controls.FleuxControl.ShadowedAnimationOptions.FromRight;
 
-            var textName = new TextElement(contact.FileAs)
-                               {
-                                   Style = MetroTheme.PhoneTextLargeStyle,
-                                   Location = new Point(PaddingHor, PaddingVer),
-                                   Size = new Size(ButtonWidth, 100),
-                                   AutoSizeMode = TextElement.AutoSizeModeOptions.WrapText,
-                               };
-            Content.AddElement(textName);
+            this.theForm.Menu = null;
 
-            var buttonCall = new Button("Call")
+            var appBar = new ApplicationBar()
+                             {
+                                 Size = new Size(ScreenConsts.ScreenWidth, 48 + 2 * 10),
+                                 Location = new Point(0, ScreenConsts.ScreenHeight - ScreenConsts.TopBarSize - Content.Location.Y - 48 - 2 * 10)
+                             };
+            appBar.ButtonTap += OnAppBarButtonTap;
+            Content.AddElement(appBar.AnimateHorizontalEntrance(true));
+
+            appBar.AddButton(ResourceManager.Instance.GetBitmapFromEmbeddedResource("PhoneWidgets.Images.edit.bmp"));
+            appBar.AddButton(ResourceManager.Instance.GetBitmapFromEmbeddedResource("PhoneWidgets.Images.cancel.bmp"));
+
+            if (_contact == null) return;
+
+            title1.Text = contact.FileAs.ToUpper();
+
+            var stackPanel = new StackPanel()
                                  {
-                                     Size = new Size(ButtonWidth, ButtonHeight),
-                                     Location = new Point(PaddingHor, textName.Bounds.Bottom + PaddingVer),
-                                     AutoSizeMode = Button.AutoSizeModeOptions.OneLineAutoHeight,
-                                     TapHandler = (p) => MakeCall(),
+                                     Location = new Point(PaddingHor, title2.Bounds.Bottom),
+                                     Size = new Size(
+                                         ScreenConsts.ScreenWidth,
+                                         ScreenConsts.ScreenHeight - title2.Bounds.Bottom - appBar.Size.Height),
                                  };
-            Content.AddElement(buttonCall);
+            Content.AddElement(stackPanel.AnimateHorizontalEntrance(true));
 
-            var buttonSms = new Button("Send SMS")
-                                {
-                                    Size = new Size(ButtonWidth, ButtonHeight),
-                                    Location = new Point(PaddingHor, buttonCall.Bounds.Bottom + PaddingVer),
-                                    AutoSizeMode = Button.AutoSizeModeOptions.OneLineAutoHeight,
-                                    TapHandler = (p) => SendSMS(),
-                                };
-            Content.AddElement(buttonSms);
+            var titleStyle = new TextStyle(
+                    MetroTheme.PhoneFontFamilySemiLight,
+                    MetroTheme.PhoneFontSizeMediumLarge,
+                    MetroTheme.PhoneForegroundBrush);
 
-            var buttonContact = new Button("Contact info")
-                                    {
-                                        Size = new Size(ButtonWidth, ButtonHeight),
-                                        Location = new Point(PaddingHor, buttonSms.Bounds.Bottom + PaddingVer),
-                                        AutoSizeMode = Button.AutoSizeModeOptions.OneLineAutoHeight,
-                                        TapHandler = (p) => OpenContact(),
-                                    };
-            Content.AddElement(buttonContact);
+            var subTitleStyle = new TextStyle(
+                MetroTheme.PhoneFontFamilySemiLight,
+                MetroTheme.PhoneFontSizeSmall,
+                MetroTheme.PhoneAccentBrush);
 
-
-            var buttonClose = new Button("x")
+            // call mobile
+            if (!string.IsNullOrEmpty(_contact.MobileTelephoneNumber))
             {
-                Size = new Size(ButtonWidth, ButtonHeight),
-                Location = new Point(PaddingHor, buttonContact.Bounds.Bottom + PaddingVer),
-                AutoSizeMode = Button.AutoSizeModeOptions.OneLineAutoHeight,
-                TapHandler = (p) => { this.Close(); return true; },
-            };
-            Content.AddElement(buttonClose);
+                stackPanel.AddElement(new TextElement("call mobile")
+                {
+                    Style = titleStyle,
+                    AutoSizeMode = TextElement.AutoSizeModeOptions.OneLineAutoHeight,
+                    TapHandler = (p) => MakeCall(_contact.MobileTelephoneNumber),
+                });
+                stackPanel.AddElement(new TextElement(_contact.MobileTelephoneNumber)
+                {
+                    Style = subTitleStyle,
+                    AutoSizeMode = TextElement.AutoSizeModeOptions.OneLineAutoHeight,
+                    TapHandler = (p) => MakeCall(_contact.MobileTelephoneNumber),
+                });
+            }
+            stackPanel.AddElement(new TextElement("") { Size = new Size(10, PaddingVer), });
+
+            // call mobile
+            if (!string.IsNullOrEmpty(_contact.HomeTelephoneNumber))
+            {
+                stackPanel.AddElement(new TextElement("call home")
+                {
+                    Style = titleStyle,
+                    AutoSizeMode = TextElement.AutoSizeModeOptions.OneLineAutoHeight,
+                    TapHandler = (p) => MakeCall(_contact.HomeTelephoneNumber),
+                });
+                stackPanel.AddElement(new TextElement(_contact.HomeTelephoneNumber)
+                {
+                    Style = subTitleStyle,
+                    AutoSizeMode = TextElement.AutoSizeModeOptions.OneLineAutoHeight,
+                    TapHandler = (p) => MakeCall(_contact.HomeTelephoneNumber),
+                });
+            }
+            stackPanel.AddElement(new TextElement("") { Size = new Size(10, PaddingVer), });
+
+            // send sms to mobile
+            if (!string.IsNullOrEmpty(_contact.MobileTelephoneNumber))
+            {
+                stackPanel.AddElement(new TextElement("text")
+                {
+                    Style = titleStyle,
+                    AutoSizeMode = TextElement.AutoSizeModeOptions.OneLineAutoHeight,
+                    TapHandler = (p) => SendSMS(_contact.MobileTelephoneNumber),
+                });
+                stackPanel.AddElement(new TextElement("SMS")
+                {
+                    Style = subTitleStyle,
+                    AutoSizeMode = TextElement.AutoSizeModeOptions.OneLineAutoHeight,
+                    TapHandler = (p) => SendSMS(_contact.MobileTelephoneNumber),
+                });
+            }
+
         }
 
-
-        private bool MakeCall()
+        /// <summary>
+        /// Handler for app bar buttons.
+        /// 0 is edit contact
+        /// 1 is close
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void OnAppBarButtonTap(object sender, ButtonTapEventArgs e)
         {
-            if (string.IsNullOrEmpty(_contact.MobileTelephoneNumber))
+            if (e.ButtonID == 0) // edit
+                OpenContact();
+            else
+                Close();
+        }
+
+        private bool MakeCall(string number)
+        {
+            if (string.IsNullOrEmpty(number))
                 return false;
 
             var myPhone = new Microsoft.WindowsMobile.Telephony.Phone();
-            myPhone.Talk(_contact.MobileTelephoneNumber, false);
+            myPhone.Talk(number, false);
+
+            Close();
             return true;
         }
 
-        private bool SendSMS()
+        private bool SendSMS(string number)
         {
-            if (string.IsNullOrEmpty(_contact.MobileTelephoneNumber))
+            if (string.IsNullOrEmpty(number))
                 return false;
 
-            var mySession = new OutlookSession();
-            var message = new SmsMessage(_contact.MobileTelephoneNumber, "");
+            //var mySession = new OutlookSession();
+            var message = new SmsMessage(number, "");
             MessagingApplication.DisplayComposeForm(message);
+
+            Close();
             return true;
         }
 
         private bool OpenContact()
         {
+            if (_contact == null) return false;
             _contact.ShowDialog();
+
+            Close();
             return true;
         }
 

@@ -15,7 +15,7 @@ namespace MetroHome65.HomeScreen.Tile
 
         // tile canvas left padding
         // 93 is real padding in WP7, 36 is WM top bar height
-        public const int TilesPaddingTop = 93 - 36;
+        public const int TilesPaddingTop = 93 - ScreenConsts.TopBarSize;
 
         public const int ArrowPadding = 24;
 
