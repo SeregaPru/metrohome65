@@ -42,16 +42,37 @@ namespace PhoneWidgets
 
             if (_contact == null) return;
 
-            title1.Text = contact.FileAs.ToUpper();
+            // write contact's name as title
+            title1.Text = string.Format("{0} {1}", contact.FirstName, contact.LastName).ToUpper();
 
             var stackPanel = new StackPanel()
                                  {
-                                     Location = new Point(PaddingHor, title2.Bounds.Bottom),
-                                     Size = new Size(
-                                         ScreenConsts.ScreenWidth,
-                                         ScreenConsts.ScreenHeight - title2.Bounds.Bottom - appBar.Size.Height),
+                                     Size = new Size(ScreenConsts.ScreenWidth - PaddingHor * 2, 10),
                                  };
             Content.AddElement(stackPanel.AnimateHorizontalEntrance(true));
+
+            var scroller = new ScrollViewer()
+                               {
+                                   Content = stackPanel,
+                                   Location = new Point(PaddingHor, title2.Bounds.Bottom),
+                                   Size = new Size(
+                                       ScreenConsts.ScreenWidth,
+                                       ScreenConsts.ScreenHeight - title2.Bounds.Bottom - appBar.Size.Height),
+                                   HorizontalScroll = false,
+                                   ShowScrollbars = true,
+                               };
+            Content.AddElement(scroller.AnimateHorizontalEntrance(true));
+
+            // contact's picture
+            if (contact.Picture != null)
+            {
+                var img = new ImageElement(contact.Picture)
+                              {
+                                  Size = new Size(ScreenConsts.ScreenWidth/5*2, ScreenConsts.ScreenWidth/5*2),
+                              };
+                stackPanel.AddElement(img);
+                stackPanel.AddElement(new DelegateUIElement() { Size = new Size(10, PaddingVer), });
+            }
 
             var titleStyle = new TextStyle(
                     MetroTheme.PhoneFontFamilySemiLight,
@@ -78,8 +99,8 @@ namespace PhoneWidgets
                     AutoSizeMode = TextElement.AutoSizeModeOptions.OneLineAutoHeight,
                     TapHandler = (p) => MakeCall(_contact.MobileTelephoneNumber),
                 });
+                stackPanel.AddElement(new DelegateUIElement() { Size = new Size(10, PaddingVer), });
             }
-            stackPanel.AddElement(new TextElement("") { Size = new Size(10, PaddingVer), });
 
             // call mobile
             if (!string.IsNullOrEmpty(_contact.HomeTelephoneNumber))
@@ -96,8 +117,8 @@ namespace PhoneWidgets
                     AutoSizeMode = TextElement.AutoSizeModeOptions.OneLineAutoHeight,
                     TapHandler = (p) => MakeCall(_contact.HomeTelephoneNumber),
                 });
+                stackPanel.AddElement(new DelegateUIElement() { Size = new Size(10, PaddingVer), });
             }
-            stackPanel.AddElement(new TextElement("") { Size = new Size(10, PaddingVer), });
 
             // send sms to mobile
             if (!string.IsNullOrEmpty(_contact.MobileTelephoneNumber))
@@ -114,6 +135,7 @@ namespace PhoneWidgets
                     AutoSizeMode = TextElement.AutoSizeModeOptions.OneLineAutoHeight,
                     TapHandler = (p) => SendSMS(_contact.MobileTelephoneNumber),
                 });
+                stackPanel.AddElement(new DelegateUIElement() { Size = new Size(10, PaddingVer), });
             }
 
         }
