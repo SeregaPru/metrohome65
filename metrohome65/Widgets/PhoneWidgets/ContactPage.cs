@@ -5,7 +5,6 @@ using Fleux.Styles;
 using Fleux.Templates;
 using Fleux.UIElements;
 using Fleux.UIElements.Events;
-using MetroHome65.Routines;
 using Microsoft.WindowsMobile.PocketOutlook;
 
 namespace PhoneWidgets
@@ -22,122 +21,124 @@ namespace PhoneWidgets
 
         private readonly Contact _contact;
 
+        private readonly TextStyle _titleStyle = new TextStyle(
+                MetroTheme.PhoneFontFamilySemiLight,
+                MetroTheme.PhoneFontSizeMediumLarge,
+                MetroTheme.PhoneForegroundBrush);
+
+        private readonly TextStyle _subTitleStyle = new TextStyle(
+            MetroTheme.PhoneFontFamilySemiLight,
+            MetroTheme.PhoneFontSizeSmall,
+            MetroTheme.PhoneAccentBrush);
+
         public ContactPage(Contact contact) : base("", "profile", false)
         {
             _contact = contact;
-            this.Control.ShadowedAnimationMode = Fleux.Controls.FleuxControl.ShadowedAnimationOptions.FromRight;
+            Control.ShadowedAnimationMode = Fleux.Controls.FleuxControl.ShadowedAnimationOptions.FromRight;
 
-            this.theForm.Menu = null;
+            theForm.Menu = null;
+            Content.Size = new Size(Size.Width, Size.Height - 150); 
 
-            var appBar = new ApplicationBar()
+            var appBar = new ApplicationBar
                              {
-                                 Size = new Size(ScreenConsts.ScreenWidth, 48 + 2 * 10),
-                                 Location = new Point(0, ScreenConsts.ScreenHeight - ScreenConsts.TopBarSize - Content.Location.Y - 48 - 2 * 10)
+                                 Size = new Size(Content.Size.Width, 48 + 2 * 10),
+                                 Location = new Point(0, Content.Size.Height - 48 - 2 * 10)
                              };
-            appBar.ButtonTap += OnAppBarButtonTap;
-            Content.AddElement(appBar.AnimateHorizontalEntrance(true));
-
             appBar.AddButton(ResourceManager.Instance.GetBitmapFromEmbeddedResource("PhoneWidgets.Images.edit.bmp"));
             appBar.AddButton(ResourceManager.Instance.GetBitmapFromEmbeddedResource("PhoneWidgets.Images.cancel.bmp"));
+            appBar.ButtonTap += OnAppBarButtonTap;
+            Content.AddElement(appBar.AnimateHorizontalEntrance(true));
 
             if (_contact == null) return;
 
             // write contact's name as title
             title1.Text = string.Format("{0} {1}", contact.FirstName, contact.LastName).ToUpper();
 
-            var stackPanel = new StackPanel()
-                                 {
-                                     Size = new Size(ScreenConsts.ScreenWidth - PaddingHor * 2, 10),
-                                 };
-            Content.AddElement(stackPanel.AnimateHorizontalEntrance(true));
+            var stackPanel = new StackPanel { Size = new Size(Content.Size.Width - PaddingHor * 2, 1), };
 
-            var scroller = new ScrollViewer()
+            var scroller = new ScrollViewer
                                {
                                    Content = stackPanel,
-                                   Location = new Point(PaddingHor, title2.Bounds.Bottom),
-                                   Size = new Size(
-                                       ScreenConsts.ScreenWidth,
-                                       ScreenConsts.ScreenHeight - title2.Bounds.Bottom - appBar.Size.Height),
-                                   HorizontalScroll = false,
+                                   Location = new Point(PaddingHor, 0),
+                                   Size = new Size(Content.Size.Width - PaddingHor, Content.Size.Height - appBar.Size.Height),
                                    ShowScrollbars = true,
+                                   HorizontalScroll = false,
+                                   VerticalScroll = true,
                                };
-            Content.AddElement(scroller.AnimateHorizontalEntrance(true));
+            Content.AddElement(scroller.AnimateHorizontalEntrance(false));
 
             // contact's picture
             if (contact.Picture != null)
             {
-                var img = new ImageElement(contact.Picture)
-                              {
-                                  Size = new Size(ScreenConsts.ScreenWidth/5*2, ScreenConsts.ScreenWidth/5*2),
-                              };
+                var img = new ImageElement(contact.Picture) { Size = new Size(180, 180), };
                 stackPanel.AddElement(img);
-                stackPanel.AddElement(new DelegateUIElement() { Size = new Size(10, PaddingVer), });
-            }
-
-            var titleStyle = new TextStyle(
-                    MetroTheme.PhoneFontFamilySemiLight,
-                    MetroTheme.PhoneFontSizeMediumLarge,
-                    MetroTheme.PhoneForegroundBrush);
-
-            var subTitleStyle = new TextStyle(
-                MetroTheme.PhoneFontFamilySemiLight,
-                MetroTheme.PhoneFontSizeSmall,
-                MetroTheme.PhoneAccentBrush);
-
-            // call mobile
-            if (!string.IsNullOrEmpty(_contact.MobileTelephoneNumber))
-            {
-                stackPanel.AddElement(new TextElement("call mobile")
-                {
-                    Style = titleStyle,
-                    AutoSizeMode = TextElement.AutoSizeModeOptions.OneLineAutoHeight,
-                    TapHandler = (p) => MakeCall(_contact.MobileTelephoneNumber),
-                });
-                stackPanel.AddElement(new TextElement(_contact.MobileTelephoneNumber)
-                {
-                    Style = subTitleStyle,
-                    AutoSizeMode = TextElement.AutoSizeModeOptions.OneLineAutoHeight,
-                    TapHandler = (p) => MakeCall(_contact.MobileTelephoneNumber),
-                });
-                stackPanel.AddElement(new DelegateUIElement() { Size = new Size(10, PaddingVer), });
+                stackPanel.AddElement(new DelegateUIElement { Size = new Size(10, PaddingVer), });
             }
 
             // call mobile
-            if (!string.IsNullOrEmpty(_contact.HomeTelephoneNumber))
-            {
-                stackPanel.AddElement(new TextElement("call home")
-                {
-                    Style = titleStyle,
-                    AutoSizeMode = TextElement.AutoSizeModeOptions.OneLineAutoHeight,
-                    TapHandler = (p) => MakeCall(_contact.HomeTelephoneNumber),
-                });
-                stackPanel.AddElement(new TextElement(_contact.HomeTelephoneNumber)
-                {
-                    Style = subTitleStyle,
-                    AutoSizeMode = TextElement.AutoSizeModeOptions.OneLineAutoHeight,
-                    TapHandler = (p) => MakeCall(_contact.HomeTelephoneNumber),
-                });
-                stackPanel.AddElement(new DelegateUIElement() { Size = new Size(10, PaddingVer), });
-            }
+            AddCallPanel(stackPanel, "mobile", _contact.MobileTelephoneNumber);
+
+            // call home
+            AddCallPanel(stackPanel, "home", _contact.HomeTelephoneNumber);
+
+            // call work
+            AddCallPanel(stackPanel, "work", _contact.BusinessTelephoneNumber);
 
             // send sms to mobile
             if (!string.IsNullOrEmpty(_contact.MobileTelephoneNumber))
             {
                 stackPanel.AddElement(new TextElement("text")
                 {
-                    Style = titleStyle,
+                    Style = _titleStyle,
                     AutoSizeMode = TextElement.AutoSizeModeOptions.OneLineAutoHeight,
-                    TapHandler = (p) => SendSMS(_contact.MobileTelephoneNumber),
+                    TapHandler = p => SendSMS(_contact.MobileTelephoneNumber),
                 });
                 stackPanel.AddElement(new TextElement("SMS")
                 {
-                    Style = subTitleStyle,
+                    Style = _subTitleStyle,
                     AutoSizeMode = TextElement.AutoSizeModeOptions.OneLineAutoHeight,
-                    TapHandler = (p) => SendSMS(_contact.MobileTelephoneNumber),
+                    TapHandler = p => SendSMS(_contact.MobileTelephoneNumber),
                 });
-                stackPanel.AddElement(new DelegateUIElement() { Size = new Size(10, PaddingVer), });
+                stackPanel.AddElement(new DelegateUIElement { Size = new Size(10, PaddingVer), });
             }
 
+            // send email to mobile
+            if (!string.IsNullOrEmpty(_contact.Email1Address))
+            {
+                stackPanel.AddElement(new TextElement("send email")
+                {
+                    Style = _titleStyle,
+                    AutoSizeMode = TextElement.AutoSizeModeOptions.OneLineAutoHeight,
+                    TapHandler = p => SendEmail(_contact.Email1Address),
+                });
+                stackPanel.AddElement(new TextElement(_contact.Email1Address)
+                {
+                    Style = _subTitleStyle,
+                    AutoSizeMode = TextElement.AutoSizeModeOptions.OneLineAutoHeight,
+                    TapHandler = p => SendEmail(_contact.Email1Address),
+                });
+                stackPanel.AddElement(new DelegateUIElement { Size = new Size(10, PaddingVer), });
+            }
+
+        }
+
+        private void AddCallPanel(StackPanel parent, string phoneName, string phoneNumber)
+        {
+            if (string.IsNullOrEmpty(phoneNumber)) return;
+
+            parent.AddElement(new TextElement("call " + phoneName)
+                                  {
+                                      Style = _titleStyle,
+                                      AutoSizeMode = TextElement.AutoSizeModeOptions.OneLineAutoHeight,
+                                      TapHandler = p => MakeCall(phoneNumber),
+                                  });
+            parent.AddElement(new TextElement(phoneNumber)
+                                  {
+                                      Style = _subTitleStyle,
+                                      AutoSizeMode = TextElement.AutoSizeModeOptions.OneLineAutoHeight,
+                                      TapHandler = p => MakeCall(phoneNumber),
+                                  });
+            parent.AddElement(new DelegateUIElement { Size = new Size(10, PaddingVer), });
         }
 
         /// <summary>
@@ -172,8 +173,20 @@ namespace PhoneWidgets
             if (string.IsNullOrEmpty(number))
                 return false;
 
-            //var mySession = new OutlookSession();
             var message = new SmsMessage(number, "");
+            MessagingApplication.DisplayComposeForm(message);
+
+            Close();
+            return true;
+        }
+
+        private bool SendEmail(string emailTo)
+        {
+            if (string.IsNullOrEmpty(emailTo))
+                return false;
+
+            var message = new EmailMessage();
+            message.To.Add(new Recipient(emailTo));
             MessagingApplication.DisplayComposeForm(message);
 
             Close();

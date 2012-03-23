@@ -34,6 +34,8 @@
                 i.ResizeForWidth(this.Size.Width);
                 y += i.Size.Height;                
             }
+
+            Size = new Size(Size.Width, y);
         }
     }
 }
