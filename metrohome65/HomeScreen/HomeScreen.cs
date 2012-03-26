@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Threading;
 using Fleux.Controls.Gestures;
 using MetroHome65.HomeScreen.Tile;
 using MetroHome65.Interfaces;
@@ -88,8 +89,7 @@ namespace MetroHome65.HomeScreen
             // subscribe to event - show page
             var messenger = TinyIoCContainer.Current.Resolve<ITinyMessengerHub>();
             messenger.Subscribe<ShowPageMessage>(msg => OnShowPage(msg.Page));
-
-
+            
             CurrentPage = 1;
         }
 
@@ -214,6 +214,9 @@ namespace MetroHome65.HomeScreen
         {
             OnDeactivate();
             TheForm.Close();
+
+            // wait for threads terminate
+            Thread.Sleep(1000);
         }
 
         // handler for system state change event

@@ -43,8 +43,8 @@ namespace MetroHome65.HomeScreen.TilesGrid
 
                 if (curTile.Bounds.IntersectsWith(scrollRect))
                 {
-                    SetExitAnimation(tileWrapper);
-                    SetEntranceAnimation(tileWrapper);
+                    curTile.ExitAnimation = GetExitAnimation(tileWrapper);
+                    curTile.EntranceAnimation = GetEntranceAnimation(tileWrapper);
 
                     sb.AddAnimation(curTile.ExitAnimation);
                 }
@@ -84,13 +84,18 @@ namespace MetroHome65.HomeScreen.TilesGrid
                                 });
             sb.AnimateSync();
 
+            // not always animation completes good. after animation correct tiles positions.
+            foreach (var element in Children)
+                element.Location = (element as TileWrapper).GetScreenRect().Location;
+            Update();
+
             FreezeUpdate = true;
         }
 
-        private void SetExitAnimation(TileWrapper target)
+        private IAnimation GetExitAnimation(TileWrapper target)
         {
             var random = new Random();
-            target.ExitAnimation = new FunctionBasedAnimation(FunctionBasedAnimation.Functions.Linear)
+            return new FunctionBasedAnimation(FunctionBasedAnimation.Functions.Linear)
             {
                 Duration = _animationDuration,
                 To = -target.Size.Width - random.Next(1000),
@@ -99,11 +104,11 @@ namespace MetroHome65.HomeScreen.TilesGrid
             };
         }
 
-        private void SetEntranceAnimation(TileWrapper target)
+        private IAnimation GetEntranceAnimation(TileWrapper target)
         {
             var random = new Random();
             var x = target.GetScreenRect().Left; // here use GetScreenRect instead Bounds because real coords are wrong
-            target.EntranceAnimation = new FunctionBasedAnimation(FunctionBasedAnimation.Functions.Linear)
+            return new FunctionBasedAnimation(FunctionBasedAnimation.Functions.Linear)
             {
                 Duration = _animationDuration,
                 From = x - 1000 + random.Next(1000 - x - 173),

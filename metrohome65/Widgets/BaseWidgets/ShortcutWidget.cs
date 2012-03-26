@@ -54,7 +54,7 @@ namespace MetroHome65.Widgets
         }
 
         // launch external application - play exit animation
-        public override bool AnimateExit { get { return true; } }
+        protected override bool GetDoExitAnimation() { return true; }
 
         public override List<Control> EditControls
         {

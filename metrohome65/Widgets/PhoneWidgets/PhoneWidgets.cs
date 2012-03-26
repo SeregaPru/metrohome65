@@ -1,4 +1,5 @@
 ﻿using System.Drawing;
+using Fleux.Styles;
 using MetroHome65.Interfaces;
 using MetroHome65.Routines;
 
@@ -41,8 +42,8 @@ namespace MetroHome65.Widgets
 
             var captionHeight = (Caption == "") ? 0 : (CaptionSize /*+ CaptionBottomOffset*/);
 
-            Font captionFont = new Font("Helvetica", 24, FontStyle.Regular);
-            Brush captionBrush = new SolidBrush(Color.White);
+            Font captionFont = new Font(MetroTheme.TileTextStyle.FontFamily, 24, FontStyle.Regular);
+            Brush captionBrush = new SolidBrush(MetroTheme.TileTextStyle.Foreground);
             g.DrawString(missedCountStr, captionFont, captionBrush,
                 rect.Right - PaddingRightCnt,
                 rect.Top + (rect.Height - g.MeasureString("0", captionFont).Height - captionHeight) / 2);

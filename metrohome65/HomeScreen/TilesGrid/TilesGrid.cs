@@ -67,6 +67,11 @@ namespace MetroHome65.HomeScreen.TilesGrid
             ReadSettings();
         }
 
+        ~TilesGrid()
+        {
+            ActivateTilesSync(false);
+        }
+
         // fast drawind method instead of double bufferes scrollview's method
         // because we know that height is the whole screen and we don't neet cropping
         public override void Draw(IDrawingGraphics drawingGraphics)
@@ -123,11 +128,16 @@ namespace MetroHome65.HomeScreen.TilesGrid
                                 // for sequental runing activation - deactivation
                                 lock (this)
                                 {
-                                    foreach (var wsInfo in _tiles)
-                                        wsInfo.Active = active;
+                                    ActivateTilesSync(active);
                                 }
                             }
             ).Start();
+        }
+
+        private void ActivateTilesSync(bool active)
+        {
+            foreach (var wsInfo in _tiles)
+                wsInfo.Active = active;
         }
 
         /// <summary>
@@ -153,7 +163,7 @@ namespace MetroHome65.HomeScreen.TilesGrid
             mainMenu.MenuItems.Add(new MenuItem { Text = "-", });
 
             var menuExit = new MenuItem {Text = "Exit"};
-            menuExit.Click += (s, e) => OnExit(); //Application.Exit();
+            menuExit.Click += (s, e) => OnExit(); 
             mainMenu.MenuItems.Add(menuExit);
 
             mainMenu.Show(TinyIoCContainer.Current.Resolve<FleuxControlPage>().Control, location);
@@ -164,7 +174,7 @@ namespace MetroHome65.HomeScreen.TilesGrid
         /// </summary>
         /// <param name="aLocation"></param>
         /// <param name="tile"> </param>
-        private void TileClickAt(Point aLocation, TileWrapper tile)
+        private bool TileClickAt(Point aLocation, TileWrapper tile)
         {
             // if Move mode is enabled, place selected widget to the new position
             // if we click at moving widget, exit from move mode
@@ -173,11 +183,11 @@ namespace MetroHome65.HomeScreen.TilesGrid
                 // if click at moving tile - exit from moving mode
                 // if click at another tile - change moving tile to selected
                 MovingTile = (tile == MovingTile) ? null : tile;
-                return;
+                return true;
             }
 
             // if tile launches external program, start exit animation for visible tiles
-            if (tile.Tile.AnimateExit)
+            if (tile.Tile.DoExitAnimation)
             {
                 Active = false;
                 _launching = true;
@@ -187,20 +197,25 @@ namespace MetroHome65.HomeScreen.TilesGrid
             var clickResult = tile.OnClick(aLocation);
 
             // if tile's onClick action failed, play back entrance animation
-            if ((tile.Tile.AnimateExit) && (!clickResult))
+            if ((tile.Tile.DoExitAnimation) && (!clickResult))
             {
                 // when page activate it plays entrance animation
                 Active = true;
             }
+            return true;
         }
 
         /// <summary>
         /// Long tap handler - entering to customizing mode
         /// </summary>
-        private void TileHoldAt(Point aLocation, TileWrapper tile)
+        private bool TileHoldAt(Point aLocation, TileWrapper tile)
         {
             if (!MoveMode)
+            {
                 MovingTile = tile;
+                return true;
+            }
+            return false;
         }
 
         private bool ButtonSettingsClick(Point aLocation)

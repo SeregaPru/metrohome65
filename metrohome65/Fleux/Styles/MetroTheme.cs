@@ -418,6 +418,7 @@ namespace Fleux.Styles
 #endif
         }
 
+
         public static TextStyle TileTextStyle
         {
 #if WindowsCE
@@ -426,7 +427,7 @@ namespace Fleux.Styles
                 return new TextStyle(
                     MetroTheme.PhoneFontFamilySemiBold,
                     14,
-                    MetroTheme.PhoneForegroundBrush);
+                    Color.White);
             }
 #else
             get
@@ -434,7 +435,7 @@ namespace Fleux.Styles
                 return new TextStyle(
                     MetroTheme.PhoneFontFamilySemiBold,
                     7,
-                    MetroTheme.PhoneForegroundBrush);
+                    Color.White);
             }
 #endif
         }

@@ -3,14 +3,12 @@ using System.Drawing;
 using System.Windows.Forms;
 using System.Collections.Generic;
 using Fleux.Animations;
-using Fleux.Controls;
 using Fleux.Styles;
 using MetroHome65.Interfaces;
 using MetroHome65.Interfaces.Events;
 using Microsoft.WindowsMobile.PocketOutlook;
 using MetroHome65.Settings.Controls;
 using MetroHome65.Routines;
-using PhoneWidgets;
 using TinyIoC;
 using TinyMessenger;
 
@@ -35,6 +33,9 @@ namespace MetroHome65.Widgets
                 new Size(2, 2) 
             };
         }
+
+        // launch external application - play exit animation
+        protected override bool GetDoExitAnimation() { return true; }
 
         [TileParameter]
         public int ContactId
@@ -123,7 +124,7 @@ namespace MetroHome65.Widgets
             {
                 g.FillRectangle(new SolidBrush(MetroTheme.PhoneAccentBrush),
                     new Rectangle(rect.Left, rect.Top, rect.Width, rect.Height));
-                g.DrawString("Contact \n not \n found", captionFont, new SolidBrush(MetroTheme.PhoneForegroundBrush), rect.Left + 10, rect.Top + 10);
+                g.DrawString("Contact \n not \n found", captionFont, new SolidBrush(MetroTheme.TileTextStyle.Foreground), rect.Left + 10, rect.Top + 10);
                 return;
             }
 
@@ -156,7 +157,7 @@ namespace MetroHome65.Widgets
             g.FillRectangle(new SolidBrush(MetroTheme.PhoneAccentBrush),
                 new Rectangle(rect.Left, rect.Top + rect.Height, rect.Width, nameRectHeight));
             var contactName = contact.FileAs;
-            g.DrawString(contactName, captionFont, new SolidBrush(MetroTheme.PhoneForegroundBrush), rect.Left + 10, rect.Top + nameRectTop);
+            g.DrawString(contactName, captionFont, new SolidBrush(MetroTheme.TileTextStyle.Foreground), rect.Left + 10, rect.Top + nameRectTop);
         }
 
         public override void Draw(Fleux.Core.GraphicsHelpers.IDrawingGraphics drawingGraphics)
@@ -241,9 +242,10 @@ namespace MetroHome65.Widgets
                 To = ((_offsetY <= 0) ? NameRectHeight : 0),
                 OnAnimation = v =>
                 {
+                    if (!Active) return;
+
                     _offsetY = v;
-                    if (Active)
-                        Update();
+                    Update();
                 },
             };
         }

@@ -67,7 +67,7 @@ namespace MetroHome65.Interfaces
 
         bool OnDblClick(Point location);
 
-        bool AnimateExit { get; } 
+        bool DoExitAnimation { get; } 
 
         List<Control> EditControls { get; }
     }
