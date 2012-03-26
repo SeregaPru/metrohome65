@@ -19,9 +19,6 @@ namespace MetroHome65.HomeScreen.ProgramsMenu
     sealed class ProgramsMenu : ListElement
     {
 
-        // color for item name font
-        private readonly Color _fontColor;
-
         // color for item icon background
         private readonly Color _bgColor;
 
@@ -36,7 +33,6 @@ namespace MetroHome65.HomeScreen.ProgramsMenu
             _refa = new FileRoutines.structa();
 
             _bgColor = MetroTheme.PhoneAccentBrush;
-            _fontColor = MetroTheme.PhoneForegroundBrush;
             _bgBrush = new SolidBrush(_bgColor);
 
             DataTemplateSelector = item => BuildItem;
@@ -132,7 +128,7 @@ namespace MetroHome65.HomeScreen.ProgramsMenu
             canvas.AddElement(new TextElement(fileDescr.Name)
             {
                 AutoSizeMode = TextElement.AutoSizeModeOptions.None,
-                Style = new TextStyle(MetroTheme.PhoneFontFamilySemiBold, MetroTheme.PhoneFontSizeNormal, _fontColor),
+                Style = new TextStyle(MetroTheme.PhoneFontFamilyNormal, 11, MetroTheme.PhoneForegroundBrush),
                 Location = new Point(_rect.Width + PaddingHor, textHeight),
                 Size = new Size(ScreenConsts.ScreenWidth - _rect.Width + PaddingHor, _rect.Height - textHeight)
             });

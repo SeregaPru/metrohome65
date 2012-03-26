@@ -216,7 +216,7 @@ namespace MetroHome65.HomeScreen
             TheForm.Close();
 
             // wait for threads terminate
-            Thread.Sleep(1000);
+            Thread.Sleep(3000);
         }
 
         // handler for system state change event

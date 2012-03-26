@@ -116,18 +116,18 @@ namespace MetroHome65.Widgets
 
         public override void PaintBuffer(Graphics g, Rectangle rect)
         {
-            var captionFont = new Font("Segoe WP", 9, FontStyle.Regular);
-
             var contact = FindContact(ContactId);
 
             if (contact == null)
             {
                 g.FillRectangle(new SolidBrush(MetroTheme.PhoneAccentBrush),
                     new Rectangle(rect.Left, rect.Top, rect.Width, rect.Height));
-                g.DrawString("Contact \n not \n found", captionFont, new SolidBrush(MetroTheme.TileTextStyle.Foreground), rect.Left + 10, rect.Top + 10);
+                var errorFont = new Font(MetroTheme.TileTextStyle.FontFamily, 8, FontStyle.Regular);
+                g.DrawString("Contact \n not \n found", errorFont, new SolidBrush(MetroTheme.TileTextStyle.Foreground), rect.Left + 10, rect.Top + 10);
                 return;
             }
 
+            var captionFont = new Font(MetroTheme.TileTextStyle.FontFamily, 11, FontStyle.Regular);
             var pictureRect = new Rectangle(rect.Left, rect.Top, rect.Width, rect.Height);
             var nameRectHeight = NameRectHeight;
             var nameRectTop = rect.Height + 25;

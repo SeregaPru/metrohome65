@@ -121,7 +121,7 @@ namespace MetroHome65.Widgets
         {
             if (Caption != "")
             {
-                var captionFont = new Font(MetroTheme.TileTextStyle.FontFamily, MetroTheme.TileTextStyle.FontSize, FontStyle.Bold);
+                var captionFont = new Font(MetroTheme.TileTextStyle.FontFamily, MetroTheme.TileTextStyle.FontSize, FontStyle.Regular);
                 var captionBrush = new SolidBrush(MetroTheme.TileTextStyle.Foreground);
                 g.DrawString(Caption, captionFont, captionBrush,
                     rect.Left + CaptionLeftOffset, 
