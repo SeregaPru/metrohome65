@@ -2,6 +2,7 @@
 using System.Drawing;
 using System.Collections.Generic;
 using System.Windows.Forms;
+using Fleux.Styles;
 using MetroHome65.Interfaces;
 using MetroHome65.Routines;
 using MetroHome65.Settings.Controls;
@@ -26,7 +27,7 @@ namespace MetroHome65.Widgets
 
         public DigitalClockWidget() : base()
         {
-            _brushCaption = new SolidBrush(Color.White);
+            _brushCaption = new SolidBrush(MetroTheme.TileTextStyle.Foreground);
             _fntTime = new Font("Segoe WP Semibold", 36, FontStyle.Regular);
             _fntDate = new Font("Segoe WP Semibold", 10, FontStyle.Regular);
         }

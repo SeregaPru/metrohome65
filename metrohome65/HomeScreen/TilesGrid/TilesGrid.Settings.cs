@@ -14,7 +14,6 @@ namespace MetroHome65.HomeScreen.TilesGrid
     {
         [XmlType("ArrayOfWidgetWrapper")]
         public class StoredSettings : List<TileWrapperSettings> {};
-        public StoredSettings _storedSettings;
 
         /// <summary>
         /// Read widgets settings from XML file
@@ -22,14 +21,13 @@ namespace MetroHome65.HomeScreen.TilesGrid
         private void ReadSettings()
         {
             _tiles.Clear();
+            var storedSettings = new StoredSettings();
 
             try
             {
-                _storedSettings = new StoredSettings();
-
-                var serializer = new XmlSerializer(_storedSettings.GetType());
+                var serializer = new XmlSerializer(storedSettings.GetType());
                 System.IO.TextReader reader = new System.IO.StreamReader(SettingsFile());
-                _storedSettings = (StoredSettings) serializer.Deserialize(reader);
+                storedSettings = (StoredSettings) serializer.Deserialize(reader);
                 reader.Close();
             }
             catch (Exception e)
@@ -38,7 +36,7 @@ namespace MetroHome65.HomeScreen.TilesGrid
                 DebugFill();
             }
 
-            foreach (var settings in _storedSettings)
+            foreach (var settings in storedSettings)
             {
                 var tile = new TileWrapper();
                 try
@@ -51,7 +49,6 @@ namespace MetroHome65.HomeScreen.TilesGrid
                     Logger.WriteLog(e.StackTrace, "DeserializeSettings error");
                 }
             }
-            _storedSettings = null;
 
             RealignTiles();
         }
@@ -61,23 +58,22 @@ namespace MetroHome65.HomeScreen.TilesGrid
         /// </summary>
         private void WriteSettings()
         {
-            _storedSettings = new StoredSettings();
+            var storedSettings = new StoredSettings();
 
             foreach (var tile in _tiles)
-                _storedSettings.Add(tile.SerializeSettings());
+                storedSettings.Add(tile.SerializeSettings());
 
             try
             {
-                var serializer = new XmlSerializer(_storedSettings.GetType());
+                var serializer = new XmlSerializer(storedSettings.GetType());
                 System.IO.TextWriter writer = new System.IO.StreamWriter(SettingsFile(), false);
-                serializer.Serialize(writer, _storedSettings);
+                serializer.Serialize(writer, storedSettings);
                 writer.Close();
             }
             catch (Exception e)
             {
                 Logger.WriteLog(e.StackTrace, "WriteSettings error");
             }
-            _storedSettings = null;
         }
 
         private String SettingsFile() { return FileRoutines.CoreDir + "\\widgets.xml"; }
@@ -88,31 +84,31 @@ namespace MetroHome65.HomeScreen.TilesGrid
         {
             _tiles.Clear();
 
-            String IconsDir = FileRoutines.CoreDir + "\\icons\\" +
+            String iconsDir = FileRoutines.CoreDir + "\\icons\\" +
                 ((ScreenRoutines.IsQVGA) ? "small\\small-" : "");
 
             AddTile(new Point(0, 0), new Size(2, 2), "MetroHome65.Widgets.SMSWidget", false).
                 SetParameter("CommandLine", @"\Windows\tmail.exe").
                 SetParameter("Caption", "SMS").
-                SetParameter("IconPath", IconsDir + "message.png").
+                SetParameter("IconPath", iconsDir + "message.png").
                 SetParameter("TileColor", Color.Orange.ToArgb());
 
             AddTile(new Point(0, 2), new Size(2, 2), "MetroHome65.Widgets.PhoneWidget", false).
                 SetParameter("CommandLine", @"\Windows\cprog.exe").
                 SetParameter("Caption", "Phone").
-                SetParameter("IconPath", IconsDir + "phone.png").
+                SetParameter("IconPath", iconsDir + "phone.png").
                 SetParameter("TileImage", FileRoutines.CoreDir + "\\buttons\\button gray.png");
 
             AddTile(new Point(2, 0), new Size(2, 2), "MetroHome65.Widgets.ShortcutWidget", false).
                 SetParameter("CommandLine", @"\Windows\addrbook.lnk").
                 SetParameter("Caption", "Contacts").
-                SetParameter("IconPath", IconsDir + "contacts.png").
+                SetParameter("IconPath", iconsDir + "contacts.png").
                 SetParameter("TileImage", FileRoutines.CoreDir + "\\buttons\\button darkgray.png");
 
             AddTile(new Point(2, 2), new Size(2, 2), "MetroHome65.Widgets.ShortcutWidget", false).
                 SetParameter("CommandLine", @"\Windows\iexplore.exe").
                 SetParameter("Caption", "Internet Explorer").
-                SetParameter("IconPath", IconsDir + "iexplore.png").
+                SetParameter("IconPath", iconsDir + "iexplore.png").
                 SetParameter("TileImage", FileRoutines.CoreDir + "\\buttons\\button blue.png");
 
             AddTile(new Point(0, 4), new Size(4, 2), "MetroHome65.Widgets.DigitalClockWidget", false).
@@ -134,7 +130,7 @@ namespace MetroHome65.HomeScreen.TilesGrid
                 SetParameter("CommandLine", @"\Windows\taskmgr.exe").
                 SetParameter("IconPath", @"\Windows\taskmgr.exe").
                 SetParameter("Caption", "").
-                SetParameter("TileImage", FileRoutines.CoreDir + "\\buttons\\button blue.png"); ;
+                SetParameter("TileImage", FileRoutines.CoreDir + "\\buttons\\button blue.png"); 
 
             AddTile(new Point(3, 6), new Size(1, 1), "MetroHome65.Widgets.ShortcutWidget", false).
                 SetParameter("CommandLine", @"\Windows\calendar.exe").
@@ -149,22 +145,22 @@ namespace MetroHome65.HomeScreen.TilesGrid
             AddTile(new Point(0, 9), new Size(2, 2), "MetroHome65.Widgets.ShortcutWidget", false).
                 SetParameter("CommandLine", @"\Windows\MobileCalculator.exe").
                 SetParameter("Caption", "Calculator").
-                SetParameter("IconPath", IconsDir + "calc.png");
+                SetParameter("IconPath", iconsDir + "calc.png");
 
             AddTile(new Point(2, 9), new Size(2, 2), "MetroHome65.Widgets.ShortcutWidget", false).
                 SetParameter("CommandLine", @"\Windows\wmplayer.exe").
                 SetParameter("Caption", "Media player").
-                SetParameter("IconPath", IconsDir + "media.png");
+                SetParameter("IconPath", iconsDir + "media.png");
 
             AddTile(new Point(0, 11), new Size(2, 2), "MetroHome65.Widgets.ShortcutWidget", false).
                 SetParameter("CommandLine", @"\Windows\fexplore.exe").
                 SetParameter("Caption", "Explorer").
-                SetParameter("IconPath", IconsDir + "folder.png");
+                SetParameter("IconPath", iconsDir + "folder.png");
 
             AddTile(new Point(2, 11), new Size(2, 2), "MetroHome65.Widgets.EMailWidget", false).
                 SetParameter("CommandLine", @"\Windows\tmail.exe").
                 SetParameter("Caption", "E-mail").
-                SetParameter("IconPath", IconsDir + "mail.png");
+                SetParameter("IconPath", iconsDir + "mail.png");
 
             RealignTiles();
             WriteSettings();
@@ -176,7 +172,7 @@ namespace MetroHome65.HomeScreen.TilesGrid
         /// </summary>
         private Boolean ShowMainSettings()
         {
-            var mainSettingsForm = new FrmMainSettings() { Owner = null };
+            var mainSettingsForm = new FrmMainSettings { Owner = null };
             return (mainSettingsForm.ShowDialog() == DialogResult.OK);
         }
     }

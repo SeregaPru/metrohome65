@@ -3,6 +3,7 @@ using System.Drawing;
 using System.Windows.Forms;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
+using Fleux.Styles;
 using MetroHome65.Interfaces;
 using MetroHome65.Routines;
 using MetroHome65.Settings.Controls;
@@ -120,8 +121,8 @@ namespace MetroHome65.Widgets
         {
             if (Caption != "")
             {
-                Font captionFont = new System.Drawing.Font("Segoe WP Light", 8, FontStyle.Bold);
-                Brush captionBrush = new System.Drawing.SolidBrush(System.Drawing.Color.White);
+                var captionFont = new Font(MetroTheme.TileTextStyle.FontFamily, MetroTheme.TileTextStyle.FontSize, FontStyle.Bold);
+                var captionBrush = new SolidBrush(MetroTheme.TileTextStyle.Foreground);
                 g.DrawString(Caption, captionFont, captionBrush,
                     rect.Left + CaptionLeftOffset, 
                     rect.Bottom - CaptionBottomOffset - CaptionSize);

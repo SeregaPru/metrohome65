@@ -7,7 +7,7 @@ using Fleux.UIElements;
 using Fleux.UIElements.Events;
 using Microsoft.WindowsMobile.PocketOutlook;
 
-namespace PhoneWidgets
+namespace MetroHome65.Widgets
 {
     /// <summary>
     /// Popup form for contact tile.
@@ -47,7 +47,7 @@ namespace PhoneWidgets
             appBar.AddButton(ResourceManager.Instance.GetBitmapFromEmbeddedResource("PhoneWidgets.Images.edit.bmp"));
             appBar.AddButton(ResourceManager.Instance.GetBitmapFromEmbeddedResource("PhoneWidgets.Images.cancel.bmp"));
             appBar.ButtonTap += OnAppBarButtonTap;
-            Content.AddElement(appBar.AnimateHorizontalEntrance(true));
+            Content.AddElement(appBar.AnimateHorizontalEntrance(false));
 
             if (_contact == null) return;
 

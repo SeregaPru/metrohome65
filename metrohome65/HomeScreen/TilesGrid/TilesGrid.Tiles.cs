@@ -49,8 +49,8 @@ namespace MetroHome65.HomeScreen.TilesGrid
                 RealignTiles();
             }
 
-            tile.TapHandler = p => { TileClickAt(p, tile); return true; };
-            tile.HoldHandler = p => { TileHoldAt(p, tile); return true; };
+            tile.TapHandler = p => { return TileClickAt(p, tile); };
+            tile.HoldHandler = p => { return TileHoldAt(p, tile); };
 
             return tile;
         }

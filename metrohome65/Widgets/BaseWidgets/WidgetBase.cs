@@ -17,10 +17,10 @@ namespace MetroHome65.Widgets
         #region ITile
 
         protected virtual Size[] GetSizes() { return null; }
-        public Size[] Sizes { get { return GetSizes(); } }
+        public virtual Size[] Sizes { get { return GetSizes(); } }
 
         protected Size _gridSize;
-        public Size GridSize { set{ _gridSize = value; } }
+        public virtual Size GridSize { set { _gridSize = value; } }
 
         public virtual void PaintBuffer(Graphics g, Rectangle rect) { }
 
@@ -28,7 +28,8 @@ namespace MetroHome65.Widgets
 
         public virtual bool OnDblClick(Point location) { return false; }
 
-        public virtual bool AnimateExit { get { return false; } }
+        protected virtual bool GetDoExitAnimation() { return false; }
+        public virtual bool DoExitAnimation { get { return GetDoExitAnimation(); } }
 
         public virtual List<Control> EditControls { get { return new List<Control>(); } }
 

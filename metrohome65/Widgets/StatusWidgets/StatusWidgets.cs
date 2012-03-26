@@ -128,7 +128,7 @@ namespace MetroHome65.Widgets.StatusWidgets
         }
 
         // no external action - no animation
-        public override bool AnimateExit { get { return false; } }
+        protected override bool GetDoExitAnimation() { return false; } 
 
     }
 

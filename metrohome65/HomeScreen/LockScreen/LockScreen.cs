@@ -19,10 +19,14 @@ namespace MetroHome65.HomeScreen.LockScreen
 
         public LockScreen()
         {
+            var textHeight = 350;
+            var leftOffset = 20;
+            var rightOffset = 10;
+
             _lblClock = new TextElement(GetText())
                             {
-                                Size = new Size(ScreenConsts.ScreenWidth - 20 - 10, ScreenConsts.ScreenHeight / 2),
-                                Location = new Point(20, ScreenConsts.ScreenHeight * 2 / 5),
+                                Size = new Size(ScreenConsts.ScreenWidth - leftOffset - rightOffset, textHeight),
+                                Location = new Point(leftOffset, ScreenConsts.ScreenHeight - textHeight),
                                 AutoSizeMode = TextElement.AutoSizeModeOptions.None,
                                 Style = new TextStyle(
                                     MetroTheme.PhoneFontFamilyNormal,

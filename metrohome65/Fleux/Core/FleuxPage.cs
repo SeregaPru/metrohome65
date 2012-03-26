@@ -115,6 +115,8 @@
             this.theForm = new Form { BackColor = this.BackColor, WindowState = this.fullscreen ? FormWindowState.Maximized : FormWindowState.Normal };
             this.theForm.Text = "Fleux.Net";
 
+            theForm.SuspendLayout();
+
             if (!this.fullscreen)
             {
                 var mainMenu1 = new System.Windows.Forms.MainMenu();
@@ -147,6 +149,8 @@
             }
 
             this.theForm.Activated += (s, e) => this.OnActivated();
+
+            theForm.ResumeLayout(false);
         }
     }
 }

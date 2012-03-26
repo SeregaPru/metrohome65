@@ -243,33 +243,37 @@ namespace MetroHome65.HomeScreen
         }
 
 
-
         public bool OnClick(Point clickLocation)
         {
-            return (Tile != null) && Tile.OnClick(clickLocation);
+            try
+            {
+                return (Tile != null) && Tile.OnClick(clickLocation);
+            }
+            catch (Exception)
+            {
+                return false;
+            }
         }
 
         public bool OnDblClick(Point clickLocation)
         {
-            return (Tile != null) && Tile.OnClick(clickLocation);
+            try
+            {
+                return (Tile != null) && Tile.OnClick(clickLocation);
+            }
+            catch (Exception)
+            {
+                return false;
+            }
         }
 
-        //private Bitmap clipBitmap;
 
         public override void Draw(IDrawingGraphics drawingGraphics)
         {
             if (drawingGraphics == null)
                 return;
 
-            //if (this.clipBitmap == null)
-            //    this.clipBitmap = new Bitmap(this.Size.Width.ToPixels(), this.Size.Height.ToPixels());
-            //using (var localClip = drawingGraphics.GetClipBuffer(new Rectangle(0, 0, this.Size.Width, this.Size.Height), this.clipBitmap))
             {
-                // for moving mode - change drawing rect size
-                //var tileGraphic = _moving
-                //                      ? localClip.DrawingGr.CreateChild(new Point(0, 0), (100.0 + _movingScale) / 100.0, new Point(Bounds.Width / 2, Bounds.Height / 2) )
-                //                      : localClip.DrawingGr.CreateChild(new Point(0, 0));
-
                 var tileGraphic = _moving
                                       ? drawingGraphics.CreateChild(new Point(0, 0), (100.0 + _movingScale) / 100.0, new Point(Bounds.Width / 2, Bounds.Height / 2))
                                       : drawingGraphics;
