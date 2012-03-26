@@ -434,7 +434,7 @@ namespace Fleux.Styles
             {
                 return new TextStyle(
                     MetroTheme.PhoneFontFamilySemiBold,
-                    7,
+                    8,
                     Color.White);
             }
 #endif

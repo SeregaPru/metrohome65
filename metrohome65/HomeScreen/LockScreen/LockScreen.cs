@@ -19,7 +19,7 @@ namespace MetroHome65.HomeScreen.LockScreen
 
         public LockScreen()
         {
-            var textHeight = 350;
+            var textHeight = 400;
             var leftOffset = 20;
             var rightOffset = 10;
 
