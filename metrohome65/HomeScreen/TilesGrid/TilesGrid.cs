@@ -107,7 +107,7 @@ namespace MetroHome65.HomeScreen.TilesGrid
                 }
 
                 FreezeUpdate(!_active);
-                ActivateTiles(_active);
+                ActivateTilesAsync(_active);
             }
         }
 
@@ -116,11 +116,11 @@ namespace MetroHome65.HomeScreen.TilesGrid
         private void FreezeUpdate(bool freeze)
         {
             _tilesCanvas.FreezeUpdate = freeze;
-            ActivateTiles(!freeze);
+            ActivateTilesAsync(!freeze);
         }
 
         // start/stop updatable widgets
-        private void ActivateTiles(bool active)
+        private void ActivateTilesAsync(bool active)
         {
             new Thread(() =>
                             {
