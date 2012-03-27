@@ -213,10 +213,9 @@ namespace MetroHome65.HomeScreen
         private void Exit()
         {
             OnDeactivate();
-            TheForm.Close();
+            _sections.RemoveAll(element => true);
 
-            // wait for threads terminate
-            Thread.Sleep(3000);
+            TheForm.Close();
         }
 
         // handler for system state change event
