@@ -96,11 +96,12 @@ namespace MetroHome65.HomeScreen.TilesGrid
         {
             var random = new Random();
             return new FunctionBasedAnimation(FunctionBasedAnimation.Functions.Linear)
-            {
-                Duration = _animationDuration,
-                To = -target.Size.Width - random.Next(1000),
-                From = target.Bounds.Left,
-                OnAnimation = v => target.Location = new Point(v, target.Location.Y),
+                       {
+                           Duration = _animationDuration,
+                           To = -target.Size.Width - random.Next(1000),
+                           From = target.Location.X,
+                           OnAnimation = v => target.Location = new Point(v, target.Location.Y),
+                           OnAnimationStop = () => { target.ExitAnimation = null; },
             };
         }
 
@@ -114,6 +115,7 @@ namespace MetroHome65.HomeScreen.TilesGrid
                 From = x - 1000 + random.Next(1000 - x - 173),
                 To = x,
                 OnAnimation = v => target.Location = new Point(v, target.Location.Y),
+                OnAnimationStop = () => { target.EntranceAnimation = null; },
             };
         }
 
