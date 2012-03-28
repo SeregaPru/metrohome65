@@ -89,8 +89,6 @@ namespace MetroHome65.HomeScreen
             // subscribe to event - show page
             var messenger = TinyIoCContainer.Current.Resolve<ITinyMessengerHub>();
             messenger.Subscribe<ShowPageMessage>(msg => OnShowPage(msg.Page));
-            
-            CurrentPage = 1;
         }
 
         /// <summary>
