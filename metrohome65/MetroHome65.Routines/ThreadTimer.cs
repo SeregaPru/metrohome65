@@ -53,7 +53,7 @@ namespace MetroHome65.Routines
 
             if (_thread != null)
             {
-                _thread.Join(5000);
+                _thread.Join();
                 _thread = null;
             }
         }

@@ -64,7 +64,7 @@ namespace MetroHome65.HomeScreen
             // прокрутчик холста плиток
             //!! todo - потом вместо контрола передавать холст _homeScreenCanvas
             var tilesGrid = new TilesGrid.TilesGrid();
-            tilesGrid.OnExit = Exit;
+            tilesGrid.OnExit = ExitApp;
             AddSection(tilesGrid, 1);
 
             // стрелка переключатель страниц
@@ -208,11 +208,9 @@ namespace MetroHome65.HomeScreen
             }
         }
 
-        private void Exit()
+        private void ExitApp()
         {
             OnDeactivate();
-            _sections.RemoveAll(element => true);
-
             TheForm.Close();
         }
 

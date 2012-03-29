@@ -13,7 +13,7 @@ using TinyMessenger;
 
 namespace MetroHome65.HomeScreen.TilesGrid
 {
-    public partial class TilesGrid : ScrollViewer, IActive
+    public partial class TilesGrid : ScrollViewer, IActive, IDisposable
     {
         private readonly List<TileWrapper> _tiles = new List<TileWrapper>();
         private readonly TilesCanvas _tilesCanvas;
@@ -26,8 +26,8 @@ namespace MetroHome65.HomeScreen.TilesGrid
         public TilesGrid() : base()
         {
             // запрет перерисовки во время скроллирования
-            OnStartScroll = () => FreezeUpdate(true); 
-            OnStopScroll = () => FreezeUpdate(false); 
+            OnStartScroll = () => { FreezeUpdate(true); ActivateTilesAsync(false); };
+            OnStopScroll = () => { FreezeUpdate(false); ActivateTilesAsync(true); };
 
             VerticalScroll = true;
 
@@ -65,11 +65,6 @@ namespace MetroHome65.HomeScreen.TilesGrid
             Content = _tilesCanvas;
 
             ReadSettings();
-        }
-
-        ~TilesGrid()
-        {
-            ActivateTilesSync(false);
         }
 
         // fast drawind method instead of double bufferes scrollview's method
@@ -116,7 +111,7 @@ namespace MetroHome65.HomeScreen.TilesGrid
         private void FreezeUpdate(bool freeze)
         {
             _tilesCanvas.FreezeUpdate = freeze;
-            ActivateTilesAsync(!freeze);
+            //ActivateTilesAsync(!freeze);
         }
 
         // start/stop updatable widgets
@@ -128,16 +123,11 @@ namespace MetroHome65.HomeScreen.TilesGrid
                                 // for sequental runing activation - deactivation
                                 lock (this)
                                 {
-                                    ActivateTilesSync(active);
+                                    foreach (var wsInfo in _tiles)
+                                        wsInfo.Active = active;
                                 }
                             }
             ).Start();
-        }
-
-        private void ActivateTilesSync(bool active)
-        {
-            foreach (var wsInfo in _tiles)
-                wsInfo.Active = active;
         }
 
         /// <summary>

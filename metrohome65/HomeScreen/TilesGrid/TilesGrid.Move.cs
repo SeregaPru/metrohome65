@@ -68,14 +68,6 @@ namespace MetroHome65.HomeScreen.TilesGrid
             }
         }
 
-        /*
-        public override void Draw(IDrawingGraphics drawingGraphics)
-        {
-            this.Content.Draw(drawingGraphics.CreateChild(new Point(this.HorizontalOffset, this.VerticalOffset)));
-            //base.Draw(drawingGraphics);
-        }
-        */ 
-
         /// <summary>
         /// click handler for tiles grid - enter to moving mode
         /// </summary>
