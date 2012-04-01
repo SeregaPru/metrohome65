@@ -14,7 +14,8 @@ namespace MetroHome65.HomeScreen.Settings
         {
             InitializeComponent();
 
-            _editSettings = new MainSettings();
+            _editSettings = MainSettings.Clone();
+
             CreateControls();
         }
 
@@ -38,12 +39,20 @@ namespace MetroHome65.HomeScreen.Settings
             PlaceControl(ctrThemeType);
             bindingManager.Bind(_editSettings, "ThemeIsDark", ctrThemeType, "Value");
 
-            var ctrTileColor = new Settings_color
+            var ctrAccentColor = new Settings_color
             {
-                Caption = "Accent color", ColorValue = _editSettings.TileColor,
+                Caption = "Accent color", ColorValue = _editSettings.AccentColor,
             };
-            PlaceControl(ctrTileColor);
-            bindingManager.Bind(_editSettings, "TileColor", ctrTileColor, "ColorValue");
+            PlaceControl(ctrAccentColor);
+            bindingManager.Bind(_editSettings, "AccentColor", ctrAccentColor, "ColorValue");
+
+            var ctrLockScreenImage = new Settings_image
+            {
+                Caption = "Lock screen background",
+                Value = _editSettings.LockScreenImage,
+            };
+            PlaceControl(ctrLockScreenImage);
+            bindingManager.Bind(_editSettings, "LockScreenImage", ctrLockScreenImage, "Value");
 
             this.ResumeLayout(false);
         }
@@ -67,7 +76,7 @@ namespace MetroHome65.HomeScreen.Settings
             _editSettings.ApplyTheme();
 
             // write new settings to file
-            (new MainSettingsProvider()).WriteSettings(_editSettings);
+            (new MainSettingsProvider()).WriteSettings();
 
             DialogResult = DialogResult.OK;
         }

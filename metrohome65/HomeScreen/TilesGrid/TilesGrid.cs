@@ -13,7 +13,7 @@ using TinyMessenger;
 
 namespace MetroHome65.HomeScreen.TilesGrid
 {
-    public partial class TilesGrid : ScrollViewer, IActive, IDisposable
+    public partial class TilesGrid : ScrollViewer, IActive
     {
         private readonly List<TileWrapper> _tiles = new List<TileWrapper>();
         private readonly TilesCanvas _tilesCanvas;

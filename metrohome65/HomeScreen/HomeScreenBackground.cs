@@ -1,8 +1,11 @@
 ﻿using System;
 using System.Drawing;
 using System.Drawing.Imaging;
-using Fleux.Styles;
 using Fleux.UIElements;
+using MetroHome65.HomeScreen.Settings;
+using MetroHome65.Interfaces.Events;
+using TinyIoC;
+using TinyMessenger;
 
 namespace MetroHome65.HomeScreen
 {
@@ -14,9 +17,18 @@ namespace MetroHome65.HomeScreen
         {
             Size = new Size(System.Windows.Forms.Screen.PrimaryScreen.Bounds.Width, System.Windows.Forms.Screen.PrimaryScreen.Bounds.Height);
 
-            MetroTheme.PropertyChanged += OnThemeSettingsChanged;
+            var messenger = TinyIoCContainer.Current.Resolve<ITinyMessengerHub>();
+            messenger.Subscribe<SettingsChangedMessage>(OnSettingsChanged);
 
-            SetImage(MetroTheme.PhoneBackgroundImage);
+            SetImage(GetImage());
+        }
+
+        protected void SetImage(string imagePath)
+        {
+            if (_image != null)
+                _image.Dispose();
+
+            _image = PrepareBgImage(imagePath);
         }
 
         private Image PrepareBgImage(string imagePath)
@@ -56,22 +68,20 @@ namespace MetroHome65.HomeScreen
         public override void Draw(Fleux.Core.GraphicsHelpers.IDrawingGraphics drawingGraphics)
         {
             if (_image != null)
-                drawingGraphics.Graphics.DrawImage(_image, 0, 0);
+                drawingGraphics.Graphics.DrawImage(_image, drawingGraphics.CalculateX(0), 0);
         }
 
-        private void SetImage(string imagePath)
+        protected virtual string GetImage()
         {
-            if (_image != null)
-                _image.Dispose();
-
-            _image = PrepareBgImage(imagePath);
+            var mainSettings = TinyIoCContainer.Current.Resolve<MainSettings>();
+            return mainSettings.ThemeImage;
         }
 
-        private void OnThemeSettingsChanged(System.ComponentModel.PropertyChangedEventArgs e)
+        protected virtual void OnSettingsChanged(SettingsChangedMessage settingsChangedMessage)
         {
-            if (e.PropertyName == "PhoneBackgroundImage")
+            if (settingsChangedMessage.PropertyName == "ThemeImage")
             {
-                SetImage(MetroTheme.PhoneBackgroundImage);
+                SetImage(GetImage());
                 Update();
             }
         }
