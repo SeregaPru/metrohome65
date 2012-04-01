@@ -1,10 +1,12 @@
 ﻿using System;
-using System.ComponentModel;
 using System.Drawing;
 using Fleux.Styles;
 using Fleux.UIElements;
 using MetroHome65.Interfaces;
+using MetroHome65.Interfaces.Events;
 using MetroHome65.Routines;
+using TinyIoC;
+using TinyMessenger;
 
 namespace MetroHome65.HomeScreen.LockScreen
 {
@@ -23,6 +25,8 @@ namespace MetroHome65.HomeScreen.LockScreen
             var leftOffset = 20;
             var rightOffset = 10;
 
+            AddElement(new LockScreenBackground());
+
             _lblClock = new TextElement(GetText())
                             {
                                 Size = new Size(ScreenConsts.ScreenWidth - leftOffset - rightOffset, textHeight),
@@ -35,7 +39,8 @@ namespace MetroHome65.HomeScreen.LockScreen
                             };
             AddElement(_lblClock);
 
-            MetroTheme.PropertyChanged += OnThemeSettingsChanged;
+            var messenger = TinyIoCContainer.Current.Resolve<ITinyMessengerHub>();
+            messenger.Subscribe<SettingsChangedMessage>(OnSettingsChanged);
         }
 
         private void UpdateTime()
@@ -68,9 +73,9 @@ namespace MetroHome65.HomeScreen.LockScreen
             }
         }
 
-        private void OnThemeSettingsChanged(PropertyChangedEventArgs e)
+        private void OnSettingsChanged(SettingsChangedMessage settingsChangedMessage)
         {
-            if (e.PropertyName == "PhoneForegroundBrush")
+            if (settingsChangedMessage.PropertyName == "ThemeIsDark")
             {
                 _lblClock.Style.Foreground = MetroTheme.PhoneForegroundBrush;
                 Update();

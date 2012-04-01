@@ -40,13 +40,6 @@ namespace Fleux.Styles
             set { SetField(ref _phoneBackgroundBrush, value, "PhoneBackgroundBrush"); }
         }
 
-        private static string _phoneBackgroundImage = "";
-        public static string PhoneBackgroundImage
-        {
-            get { return _phoneBackgroundImage; }
-            set { SetField(ref _phoneBackgroundImage, value, "PhoneBackgroundImage"); }
-        }
-
         public static Color PhoneInactiveBrush
         {
             get { return Color.Black; }

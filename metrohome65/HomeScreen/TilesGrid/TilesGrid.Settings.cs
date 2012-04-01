@@ -84,8 +84,7 @@ namespace MetroHome65.HomeScreen.TilesGrid
         {
             _tiles.Clear();
 
-            String iconsDir = FileRoutines.CoreDir + "\\icons\\" +
-                ((ScreenRoutines.IsQVGA) ? "small\\small-" : "");
+            String iconsDir = FileRoutines.CoreDir + @"\icons\" + ((ScreenRoutines.IsQVGA) ? @"small\small-" : "");
 
             AddTile(new Point(0, 0), new Size(2, 2), "MetroHome65.Widgets.SMSWidget", false).
                 SetParameter("CommandLine", @"\Windows\tmail.exe").
@@ -97,44 +96,44 @@ namespace MetroHome65.HomeScreen.TilesGrid
                 SetParameter("CommandLine", @"\Windows\cprog.exe").
                 SetParameter("Caption", "Phone").
                 SetParameter("IconPath", iconsDir + "phone.png").
-                SetParameter("TileImage", FileRoutines.CoreDir + "\\buttons\\button gray.png");
+                SetParameter("TileImage", FileRoutines.CoreDir + @"\buttons\button gray.png");
 
             AddTile(new Point(2, 0), new Size(2, 2), "MetroHome65.Widgets.ShortcutWidget", false).
                 SetParameter("CommandLine", @"\Windows\addrbook.lnk").
                 SetParameter("Caption", "Contacts").
                 SetParameter("IconPath", iconsDir + "contacts.png").
-                SetParameter("TileImage", FileRoutines.CoreDir + "\\buttons\\button darkgray.png");
+                SetParameter("TileImage", FileRoutines.CoreDir + @"\buttons\button gray.png");
 
             AddTile(new Point(2, 2), new Size(2, 2), "MetroHome65.Widgets.ShortcutWidget", false).
                 SetParameter("CommandLine", @"\Windows\iexplore.exe").
                 SetParameter("Caption", "Internet Explorer").
                 SetParameter("IconPath", iconsDir + "iexplore.png").
-                SetParameter("TileImage", FileRoutines.CoreDir + "\\buttons\\button blue.png");
+                SetParameter("TileImage", FileRoutines.CoreDir + @"\buttons\button blue.png");
 
             AddTile(new Point(0, 4), new Size(4, 2), "MetroHome65.Widgets.DigitalClockWidget", false).
-                SetParameter("TileImage", FileRoutines.CoreDir + "\\buttons\\bg2.png");
+                SetParameter("TileImage", FileRoutines.CoreDir + @"\buttons\bg2.png");
 
             AddTile(new Point(0, 6), new Size(1, 1), "MetroHome65.Widgets.ShortcutWidget", false).
                 SetParameter("CommandLine", @"\Windows\camera.exe").
-                SetParameter("IconPath", @"\Windows\camera.exe").
+                SetParameter("IconPath", FileRoutines.CoreDir + @"\icons\small\small-camera.png").
                 SetParameter("Caption", "").
-                SetParameter("TileImage", FileRoutines.CoreDir + "\\buttons\\button gray.png");
+                SetParameter("TileImage", FileRoutines.CoreDir + @"\buttons\button gray.png");
 
             AddTile(new Point(1, 6), new Size(1, 1), "MetroHome65.Widgets.ShortcutWidget", false).
                 SetParameter("CommandLine", @"\Windows\wrlsmgr.exe").
-                SetParameter("IconPath", @"\Windows\wrlsmgr.exe").
+                SetParameter("IconPath", FileRoutines.CoreDir + @"\icons\small\small-bluetooth.png").
                 SetParameter("Caption", "").
                 SetParameter("TileColor", Color.DarkGreen.ToArgb());
 
             AddTile(new Point(2, 6), new Size(1, 1), "MetroHome65.Widgets.ShortcutWidget", false).
                 SetParameter("CommandLine", @"\Windows\taskmgr.exe").
-                SetParameter("IconPath", @"\Windows\taskmgr.exe").
+                SetParameter("IconPath", @"\icons\small\small-gauge.png").
                 SetParameter("Caption", "").
-                SetParameter("TileImage", FileRoutines.CoreDir + "\\buttons\\button blue.png"); 
+                SetParameter("TileImage", FileRoutines.CoreDir + @"\buttons\button blue.png"); 
 
             AddTile(new Point(3, 6), new Size(1, 1), "MetroHome65.Widgets.ShortcutWidget", false).
                 SetParameter("CommandLine", @"\Windows\calendar.exe").
-                SetParameter("IconPath", @"\Windows\calendar.exe").
+                SetParameter("IconPath", FileRoutines.CoreDir + @"\icons\small\small-calendar.png").
                 SetParameter("Caption", "").
                 SetParameter("TileColor", Color.Maroon.ToArgb());
 
