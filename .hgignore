@@ -14,3 +14,4 @@ syntax: regexp
 \.identcache$
 ^.*_ReSharper.*
 .*/[dD]ebug/.*
+.*/[rR]elease/.*
