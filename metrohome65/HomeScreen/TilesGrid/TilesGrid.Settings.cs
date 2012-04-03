@@ -127,7 +127,7 @@ namespace MetroHome65.HomeScreen.TilesGrid
 
             AddTile(new Point(2, 6), new Size(1, 1), "MetroHome65.Widgets.ShortcutWidget", false).
                 SetParameter("CommandLine", @"\Windows\taskmgr.exe").
-                SetParameter("IconPath", @"\icons\small\small-gauge.png").
+                SetParameter("IconPath", FileRoutines.CoreDir + @"\icons\small\small-gauge.png").
                 SetParameter("Caption", "").
                 SetParameter("TileImage", FileRoutines.CoreDir + @"\buttons\button blue.png"); 
 

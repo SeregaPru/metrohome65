@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Drawing;
+using Fleux.Animations;
 using Fleux.Styles;
 using Fleux.UIElements;
 using MetroHome65.Interfaces;
@@ -41,6 +42,8 @@ namespace MetroHome65.HomeScreen.LockScreen
 
             var messenger = TinyIoCContainer.Current.Resolve<ITinyMessengerHub>();
             messenger.Subscribe<SettingsChangedMessage>(OnSettingsChanged);
+
+            this.TapHandler = OnTap;
         }
 
         private void UpdateTime()
@@ -71,6 +74,30 @@ namespace MetroHome65.HomeScreen.LockScreen
                     _updateTimer = null;
                 }
             }
+        }
+
+        /// <summary>
+        /// when tap to lockscreen, plays animation
+        /// </summary>
+        /// <param name="arg"></param>
+        /// <returns></returns>
+        private bool OnTap(Point arg)
+        {
+            var screenAnimation = new FunctionBasedAnimation(FunctionBasedAnimation.Functions.Linear)
+            {
+                Duration = 1000,
+                From = 100,
+                To = 0,
+                OnAnimation = v =>
+                {
+                    Location = new Point(- (int)(Math.Round(Math.Abs(Math.Sin(v / 10.0) * v))), 0);
+                    Update();
+                },
+                OnAnimationStop = () => { Location = new Point(0, 0); },
+            };
+            StoryBoard.BeginPlay(screenAnimation);
+
+            return true;
         }
 
         private void OnSettingsChanged(SettingsChangedMessage settingsChangedMessage)
