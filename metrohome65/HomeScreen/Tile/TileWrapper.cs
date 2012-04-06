@@ -121,7 +121,7 @@ namespace MetroHome65.HomeScreen
         public Rectangle GetScreenRect()
         {
             return new Rectangle(
-                _gridPosition.X * (TileConsts.TileSize + TileConsts.TileSpacing) + TileConsts.TilesPaddingLeft,
+                _gridPosition.X * (TileConsts.TileSize + TileConsts.TileSpacing),
                 _gridPosition.Y * (TileConsts.TileSize + TileConsts.TileSpacing) + TileConsts.TilesPaddingTop,
                 _gridSize.Width * (TileConsts.TileSize + TileConsts.TileSpacing) - TileConsts.TileSpacing,
                 _gridSize.Height * (TileConsts.TileSize + TileConsts.TileSpacing) - TileConsts.TileSpacing);
