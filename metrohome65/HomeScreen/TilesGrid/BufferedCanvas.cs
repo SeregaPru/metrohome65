@@ -4,6 +4,7 @@ using System.Drawing.Imaging;
 using System.Linq;
 using Fleux.Core.GraphicsHelpers;
 using Fleux.Core.NativeHelpers;
+using Fleux.Styles;
 using Fleux.UIElements;
 using MetroHome65.Routines;
 using BitmapData = System.Drawing.Imaging.BitmapData;
@@ -33,6 +34,7 @@ namespace MetroHome65.HomeScreen.TilesGrid
         public BufferedCanvas()
         {
             SizeChanged += (s, e) => CreateBuffer();
+            _needRepaint = true;
         }
 
         public override void AddElement(UIElement element)
@@ -72,19 +74,19 @@ namespace MetroHome65.HomeScreen.TilesGrid
 
         public override void Draw(IDrawingGraphics drawingGraphics)
         {
-            if (drawingGraphics == null)
-                return;
-
-            if (_buffer == null)
-                CreateBuffer();
+            if (drawingGraphics == null) return;
 
             if ((_needRepaint) && (!FreezeUpdate))
             {
-                RepaintBuffer();
+                var newbuffer = CreateBuffer();
+                RepaintBuffer(newbuffer);
+                _buffer = newbuffer;
                 _needRepaint = false;
             }
 
-            DrawBuffer(drawingGraphics);
+            // buffer may be null when staring
+            if (_buffer != null)
+                DrawBuffer(drawingGraphics);
         }
 
         private void DrawBuffer(IDrawingGraphics drawingGraphics)
@@ -96,58 +98,58 @@ namespace MetroHome65.HomeScreen.TilesGrid
             var srcTop = (drawingGraphics.VisibleRect.Top > 0) ? drawingGraphics.VisibleRect.Top : 0;
             var height = this.Parent.Size.Height;
 
-            lock (this)
-            {
 //drawingGraphics.DrawImage(_buffer.Image, 0, 0);
 //return;
-                /*
-                drawingGraphics.Graphics.DrawImage(_buffer.Image,
-                    new Rectangle(dstLeft, dstTop, dstWidth, height),
-                    new Rectangle(0, srcTop, dstWidth, height), GraphicsUnit.Pixel);
-                return;
-                 */ 
+            /*
+            drawingGraphics.Graphics.DrawImage(_buffer.Image,
+                new Rectangle(dstLeft, dstTop, dstWidth, height),
+                new Rectangle(0, srcTop, dstWidth, height), GraphicsUnit.Pixel);
+            return;
+             */ 
 
-                var hSrc = _buffer.Graphics.GetHdc();
-                var hDst = drawingGraphics.Graphics.GetHdc();
+            var hSrc = _buffer.Graphics.GetHdc();
+            var hDst = drawingGraphics.Graphics.GetHdc();
 
-                /*
-                var blendFunction = new BlendFunction
-                {
-                    BlendOp = (byte)BlendOperation.AcSrcOver,
-                    BlendFlags = (byte)BlendFlags.Zero,
-                    SourceConstantAlpha = 100,
-                    AlphaFormat = 0
-                };
+            /*
+            var blendFunction = new BlendFunction
+            {
+                BlendOp = (byte)BlendOperation.AcSrcOver,
+                BlendFlags = (byte)BlendFlags.Zero,
+                SourceConstantAlpha = 100,
+                AlphaFormat = 0
+            };
 
-                DrawingAPI.AlphaBlend(hDst, 0, -drawingGraphics.VisibleRect.Top, Size.Width, Size.Height, hSrc,
-                    0, 0, Size.Width, Size.Height, blendFunction);
+            DrawingAPI.AlphaBlend(hDst, 0, -drawingGraphics.VisibleRect.Top, Size.Width, Size.Height, hSrc,
+                0, 0, Size.Width, Size.Height, blendFunction);
 
-                 */
+             */
 
-                DrawingAPI.BitBlt(hDst, dstLeft, dstTop, dstWidth, height, 
-                                  hSrc, 0, srcTop, 
-                    DrawingAPI.SRCCOPY
-                    );
+            DrawingAPI.BitBlt(hDst, 
+                dstLeft, dstTop, 
+                dstWidth, height, 
+                hSrc, 
+                0, srcTop, 
+                DrawingAPI.SRCCOPY
+                );
 
-                
-                //DrawingAPI.BitBlt(hDst, 0, -drawingGraphics.VisibleRect.Top, Size.Width, Size.Height, 
-                //    hSrc, 0, 0, 
-                //    DrawingAPI.SRCCOPY
-                //    );
-                
-                /*
-                BitmapData a = _buffer.Image.LockBits(new Rectangle(0, 0, Size.Width, Size.Height), ImageLockMode.ReadOnly,
-                                               (PixelFormat) PixelFormatID.PixelFormat32bppARGB);
-                var factory = (IImagingFactory)Activator.CreateInstance(Type.GetTypeFromCLSID(new Guid("327ABDA8-072B-11D3-9D7B-0000F81EF32E")));
-                IImage image;
-                factory.CreateImageFromBuffer(a.Scan0, a., BufferDisposalFlag.BufferDisposalFlagNone, image);
+            
+            //DrawingAPI.BitBlt(hDst, 0, -drawingGraphics.VisibleRect.Top, Size.Width, Size.Height, 
+            //    hSrc, 0, 0, 
+            //    DrawingAPI.SRCCOPY
+            //    );
+            
+            /*
+            BitmapData a = _buffer.Image.LockBits(new Rectangle(0, 0, Size.Width, Size.Height), ImageLockMode.ReadOnly,
+                                           (PixelFormat) PixelFormatID.PixelFormat32bppARGB);
+            var factory = (IImagingFactory)Activator.CreateInstance(Type.GetTypeFromCLSID(new Guid("327ABDA8-072B-11D3-9D7B-0000F81EF32E")));
+            IImage image;
+            factory.CreateImageFromBuffer(a.Scan0, a., BufferDisposalFlag.BufferDisposalFlagNone, image);
 
-                _buffer.Image.UnlockBits(a);
-                */
+            _buffer.Image.UnlockBits(a);
+            */
 
-                _buffer.Graphics.ReleaseHdc(hSrc);
-                drawingGraphics.Graphics.ReleaseHdc(hDst);
-            }
+            _buffer.Graphics.ReleaseHdc(hSrc);
+            drawingGraphics.Graphics.ReleaseHdc(hDst);
         }
 
         #endregion
@@ -155,58 +157,44 @@ namespace MetroHome65.HomeScreen.TilesGrid
 
         #region methods
 
-        private void RepaintBuffer()
+        private void RepaintBuffer(DoubleBuffer buffer)
         {
-            lock (this)
-            {
-                if (_buffer == null) return;
+            if (buffer == null) return;
 
-                ClearBuffer(new Rectangle(0, 0, _buffer.Image.Width, _buffer.Image.Height));
-                Children
-                    .ToList()
-                    .ForEach(element =>
-                                 {
-                                     //!! todo не порождать дочерние графики рисовать прямо на одном
-                                     //_buffer.DrawingGraphics.MoveRel(e.Location.X, e.Location.Y);
-                                     //e.Draw(_buffer.DrawingGraphics);
-                                     //_buffer.DrawingGraphics.MoveRel(- e.Location.X, - e.Location.Y);
+            ClearBuffer(buffer, new Rectangle(0, 0, buffer.Image.Width, buffer.Image.Height));
+            Children
+                .ToList()
+                .ForEach(element =>
+                             {
+                                 //!! todo не порождать дочерние графики рисовать прямо на одном
+                                 //_buffer.DrawingGraphics.MoveRel(e.Location.X, e.Location.Y);
+                                 //e.Draw(_buffer.DrawingGraphics);
+                                 //_buffer.DrawingGraphics.MoveRel(- e.Location.X, - e.Location.Y);
 
-                                     element.Draw(_buffer.DrawingGraphics.CreateChild(element.Location, element.TransformationScaling, element.TransformationCenter));
-                                 });
-            }
+                                 element.Draw(buffer.DrawingGraphics.CreateChild(element.Location, element.TransformationScaling, element.TransformationCenter));
+                             });
         }
 
         private void RepaintElement(UIElement element)
         {
-            lock (this)
-            {
-                if (_buffer == null) return;
+            if (_buffer == null) return;
 
-                //var oldClip = _buffer.Graphics.Clip;
-                //_buffer.Graphics.Clip = new Region(element.Bounds);
-
-                ClearBuffer(element.Bounds);
-                element.Draw(_buffer.DrawingGraphics.CreateChild(
-                    element.Location, element.TransformationScaling, element.TransformationCenter));
-
-                //_buffer.Graphics.Clip = oldClip;
-            }
+            ClearBuffer(_buffer, element.Bounds);
+            element.Draw(_buffer.DrawingGraphics.CreateChild(
+                element.Location, element.TransformationScaling, element.TransformationCenter));
         }
 
-        private void ClearBuffer(Rectangle rect)
+        private void ClearBuffer(DoubleBuffer buffer, Rectangle rect)
         {
-            _buffer.Graphics.FillRectangle(new SolidBrush(Color.Transparent), rect);
+            buffer.Graphics.FillRectangle(new SolidBrush(MetroTheme.PhoneBackgroundBrush), rect);
         }
 
-        private void CreateBuffer()
+        private DoubleBuffer CreateBuffer()
         {
-            // re-create buffer with new size
-            lock (this)
-            {
-                _buffer = null;
-                _buffer = new DoubleBuffer(Size);
-            }
+            // create new buffer with new size
+            var buffer = new DoubleBuffer(Size);
             _needRepaint = true;
+            return buffer;
         }
 
         #endregion
