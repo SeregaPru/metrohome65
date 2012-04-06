@@ -94,18 +94,17 @@ namespace MetroHome65.HomeScreen.TilesGrid
             //var dstTop = (drawingGraphics.VisibleRect.Top > 0) ? 0 : drawingGraphics.VisibleRect.Top;
             var dstTop = Math.Max(0, drawingGraphics.CalculateY(0));
             var dstLeft = drawingGraphics.CalculateX(0);
-            var dstWidth = _buffer.Image.Width;
             var srcTop = (drawingGraphics.VisibleRect.Top > 0) ? drawingGraphics.VisibleRect.Top : 0;
+            var dstWidth = _buffer.Image.Width;
             var height = this.Parent.Size.Height;
 
 //drawingGraphics.DrawImage(_buffer.Image, 0, 0);
 //return;
-            /*
+            
             drawingGraphics.Graphics.DrawImage(_buffer.Image,
-                new Rectangle(dstLeft, dstTop, dstWidth, height),
+                dstLeft, dstTop,
                 new Rectangle(0, srcTop, dstWidth, height), GraphicsUnit.Pixel);
-            return;
-             */ 
+           return;
 
             var hSrc = _buffer.Graphics.GetHdc();
             var hDst = drawingGraphics.Graphics.GetHdc();

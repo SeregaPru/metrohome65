@@ -6,6 +6,7 @@ using System.Windows.Forms;
 using Fleux.Controls;
 using Fleux.Core.GraphicsHelpers;
 using Fleux.UIElements;
+using MetroHome65.HomeScreen.Tile;
 using MetroHome65.Interfaces;
 using MetroHome65.Interfaces.Events;
 using TinyIoC;
@@ -60,7 +61,7 @@ namespace MetroHome65.HomeScreen.TilesGrid
             parentControl.AddElement(_buttonSettings);
 
             // холст контейнер плиток
-            _tilesCanvas = new TilesCanvas { Size = new Size(400, 100) };
+            _tilesCanvas = new TilesCanvas { Size = new Size(400, 100), Location = new Point(TileConsts.TilesPaddingLeft, 0) };
 
             Content = _tilesCanvas;
 
