@@ -7,8 +7,8 @@ using Fleux.UIElements;
 namespace MetroHome65.HomeScreen.TilesGrid
 {
     public class TilesCanvas : 
-        FreezedCanvas  
-        //BufferedCanvas
+        //FreezedCanvas  
+        BufferedCanvas
     {
 
         public void DeleteElement(UIElement element)
