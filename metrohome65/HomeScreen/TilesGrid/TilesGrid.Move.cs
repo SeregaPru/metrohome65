@@ -63,6 +63,8 @@ namespace MetroHome65.HomeScreen.TilesGrid
                 _buttonSettings.Location = new Point(-100, -100);
                 _buttonUnpin.Location = new Point(-100, -100);
             }
+
+            Update();
         }
 
         /// <summary>

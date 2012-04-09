@@ -1,6 +1,7 @@
 ﻿using System;
 using System.ComponentModel;
 using System.Drawing;
+using Fleux.Controls;
 using Fleux.Styles;
 using Fleux.UIElements;
 using MetroHome65.Interfaces;

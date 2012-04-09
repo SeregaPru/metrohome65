@@ -15,25 +15,26 @@ namespace MetroHome65.HomeScreen.TilesGrid
         // because we know that height is the whole screen and we don't neet cropping
         public override void Draw(IDrawingGraphics drawingGraphics)
         {
-            Content.Draw(
-                drawingGraphics.CreateChild(new Point(0, VerticalOffset)));
-            //base.Draw(drawingGraphics);
+            Content.Draw(drawingGraphics.CreateChild(new Point(0, VerticalOffset)));
         }
 
+        // draw direct to screen instead of buffer
         protected override void OnUpdated(UIElement element)
         {
-            if ((_tilesCanvas != null) && (_tilesCanvas.FreezeUpdate))
+            if ((_tilesCanvas != null) 
+                /* && (_tilesCanvas.FreezeUpdate) */) 
                 _tilesCanvas.DirectDraw(this.VerticalOffset);
-            else
-            {
-                base.OnUpdated(element);
-                Application.DoEvents();
-            }
+            //else
+            //{
+            //    base.OnUpdated(element);
+            //    Application.DoEvents();
+            //}
         }
 
         public override bool IsShowing(UIElement child)
         {
-            return _active;
+            // allow redraw when page is active (current) or page is in moving mode (in moving mode active flag is off to prevent live tiles redraw)
+            return _active || MoveMode;
         }
 
         // don't stop tile's animation but simple turn off redraw during animation

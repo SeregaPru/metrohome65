@@ -49,7 +49,7 @@ namespace MetroHome65.HomeScreen.LockScreen
         private void UpdateTime()
         {
             _lblClock.Text = GetText();
-            _lblClock.Update();
+            // do not call update because change text property calls update inside
         }
 
         private string GetText()

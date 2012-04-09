@@ -16,7 +16,7 @@ using TinyMessenger;
 
 namespace MetroHome65.HomeScreen.ProgramsMenu
 {
-    sealed class ProgramsMenu : ListElement
+    sealed partial class ProgramsMenu : ListElement
     {
 
         // color for item icon background
@@ -29,6 +29,14 @@ namespace MetroHome65.HomeScreen.ProgramsMenu
             EntranceAnimation = null;
             ExitAnimation = null;
             VerticalScroll = true;
+
+            var parentControl = TinyIoCContainer.Current.Resolve<FleuxControlPage>().Control;
+            _controlGraphics = parentControl.CreateGraphics();
+
+            Size = new Size(100, 100);
+            SizeChanged += (s, e) => CreateBuffer();
+
+            _bgImage = TinyIoCContainer.Current.Resolve<HomeScreenBackground>();
 
             _refa = new FileRoutines.structa();
 
