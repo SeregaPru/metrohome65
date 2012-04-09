@@ -16,7 +16,7 @@ namespace MetroHome65.HomeScreen.TilesGrid
         #region Fields
 
         private int _verticalOffset;
-        private int _animationDuration = 500;
+        private int _animationDuration = 400;
 
         private Graphics _controlGraphics;
 
