@@ -2,10 +2,7 @@
 using System.Drawing;
 using System.Linq;
 using Fleux.Controls.Gestures;
-using Fleux.Core.GraphicsHelpers;
-using Fleux.Core.Scaling;
 using Fleux.UIElements;
-using Fleux.Animations;
 using MetroHome65.HomeScreen.Tile;
 using MetroHome65.Routines;
 

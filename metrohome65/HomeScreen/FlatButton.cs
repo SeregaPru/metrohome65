@@ -36,7 +36,7 @@ namespace MetroHome65.HomeScreen
 
         public override void Draw(Fleux.Core.GraphicsHelpers.IDrawingGraphics drawingGraphics)
         {
-            //drawingGraphics.DrawText("*");
+            //drawingGraphics.DrawText("*"); return;
 
             _image.PaintIcon(drawingGraphics.Graphics, drawingGraphics.CalculateX(0), drawingGraphics.CalculateY(0));
 

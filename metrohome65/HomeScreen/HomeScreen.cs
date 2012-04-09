@@ -48,6 +48,7 @@ namespace MetroHome65.HomeScreen
             // фон окна
             var background = new HomeScreenBackground() { Location = new Point(0, 0), };
             Control.AddElement(background);
+            TinyIoCContainer.Current.Register<HomeScreenBackground>(background);
 
             
             // холст главной страницы

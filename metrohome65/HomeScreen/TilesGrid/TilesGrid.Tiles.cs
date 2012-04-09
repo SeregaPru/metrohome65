@@ -50,7 +50,7 @@ namespace MetroHome65.HomeScreen.TilesGrid
             }
 
             tile.TapHandler = p => { return TileClickAt(p, tile); };
-            tile.HoldHandler = p => { return TileHoldAt(p, tile); };
+            tile.HoldHandler = p => { return TileHoldAt(tile); };
 
             return tile;
         }
@@ -86,5 +86,56 @@ namespace MetroHome65.HomeScreen.TilesGrid
             RealignTiles();
             WriteSettings();
         }
+
+
+        /// <summary>
+        /// Click at tile handler
+        /// </summary>
+        /// <param name="aLocation"></param>
+        /// <param name="tile"> </param>
+        private bool TileClickAt(Point aLocation, TileWrapper tile)
+        {
+            // if Move mode is enabled, place selected widget to the new position
+            // if we click at moving widget, exit from move mode
+            if (MoveMode)
+            {
+                // if click at moving tile - exit from moving mode
+                // if click at another tile - change moving tile to selected
+                MovingTile = (tile == MovingTile) ? null : tile;
+                return true;
+            }
+
+            // if tile launches external program, start exit animation for visible tiles
+            if (tile.Tile.DoExitAnimation)
+            {
+                Active = false;
+                _launching = true;
+                _tilesCanvas.AnimateExit();
+            }
+
+            var clickResult = tile.OnClick(aLocation);
+
+            // if tile's onClick action failed, play back entrance animation
+            if ((tile.Tile.DoExitAnimation) && (!clickResult))
+            {
+                // when page activate it plays entrance animation
+                Active = true;
+            }
+            return true;
+        }
+
+        /// <summary>
+        /// Long tap handler - entering to customizing mode
+        /// </summary>
+        private bool TileHoldAt(TileWrapper tile)
+        {
+            if (!MoveMode)
+            {
+                MovingTile = tile;
+                return true;
+            }
+            return false;
+        }
+
     }
 }

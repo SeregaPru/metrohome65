@@ -121,7 +121,7 @@ namespace MetroHome65.HomeScreen
         public Rectangle GetScreenRect()
         {
             return new Rectangle(
-                _gridPosition.X * (TileConsts.TileSize + TileConsts.TileSpacing),
+                _gridPosition.X * (TileConsts.TileSize + TileConsts.TileSpacing) + TileConsts.TilesPaddingLeft,
                 _gridPosition.Y * (TileConsts.TileSize + TileConsts.TileSpacing) + TileConsts.TilesPaddingTop,
                 _gridSize.Width * (TileConsts.TileSize + TileConsts.TileSpacing) - TileConsts.TileSpacing,
                 _gridSize.Height * (TileConsts.TileSize + TileConsts.TileSpacing) - TileConsts.TileSpacing);
@@ -192,6 +192,15 @@ namespace MetroHome65.HomeScreen
             set {
                 if (_tile is IActive)
                     (_tile as IActive).Active = value;
+            }
+        }
+
+        public Boolean Pause
+        {
+            set
+            {
+                if (_tile is IPause)
+                    (_tile as IPause).Pause = value;
             }
         }
 
@@ -351,7 +360,6 @@ namespace MetroHome65.HomeScreen
 
             // paint tile
             Update();
-            Application.DoEvents();
         }
 
         #endregion

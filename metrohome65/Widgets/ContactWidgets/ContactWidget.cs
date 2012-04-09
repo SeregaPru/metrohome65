@@ -15,7 +15,7 @@ using TinyMessenger;
 namespace MetroHome65.Widgets
 {
     [TileInfo("Contact")]
-    public class ContactWidget : BaseWidget, IActive
+    public class ContactWidget : BaseWidget, IActive, IPause
     {
         private int _contactId = -1;
         private String _alternatePicturePath = "";
@@ -164,8 +164,9 @@ namespace MetroHome65.Widgets
         {
             if ((_buffer == null) || (_needRepaint))
             {
-                _buffer = new DoubleBuffer(new Size(Size.Width, (_needAnimateTile) ? Size.Height + NameRectHeight : Size.Height));
-                PaintBuffer(_buffer.Graphics, new Rectangle(0, 0, Size.Width, Size.Height));
+                var newbuffer = new DoubleBuffer(new Size(Size.Width, (_needAnimateTile) ? Size.Height + NameRectHeight : Size.Height));
+                PaintBuffer(newbuffer.Graphics, new Rectangle(0, 0, Size.Width, Size.Height));
+                _buffer = newbuffer;
                 _needRepaint = false;
             }
 
@@ -189,7 +190,6 @@ namespace MetroHome65.Widgets
         {
             _needRepaint = true;
             Update();
-            Application.DoEvents();
         }
 
         #endregion
@@ -203,6 +203,19 @@ namespace MetroHome65.Widgets
         private bool _needAnimateTile;
 
         private static readonly StoryBoard _sb = new StoryBoard();
+
+        private bool _pause;
+
+        public bool Pause
+        {
+            get { return _pause; }
+            set
+            {
+                _pause = value;
+                if (_animation != null)
+                    _animation.Cancel();
+            }
+        }
 
         private bool _active;
 
@@ -242,7 +255,7 @@ namespace MetroHome65.Widgets
                 To = ((_offsetY <= 0) ? NameRectHeight : 0),
                 OnAnimation = v =>
                 {
-                    if (!Active) return;
+                    if (Pause || !Active) return;
 
                     _offsetY = v;
                     Update();
@@ -255,26 +268,26 @@ namespace MetroHome65.Widgets
             _animation = GetAnimation(); 
             lock (_sb)
             {
-                if (!Active) return;
+                if (Pause || !Active) return;
                 _sb.Clear();
                 _sb.AddAnimation(_animation);
                 _sb.AnimateSync();
             }
 
-            if (!Active) return;
+            if (Pause || !Active) return;
             _animateTimer.SafeSleep(5000 + (new Random()).Next(5000));
-            if (!Active) return;
+            if (Pause || !Active) return;
                        
             _animation = GetAnimation();
             lock (_sb)
             {
-                if (!Active) return;
+                if (Pause || !Active) return;
                 _sb.Clear();
                 _sb.AddAnimation(_animation);
                 _sb.AnimateSync();
             }
 
-            if (!Active) return;
+            if (Pause || !Active) return;
             _animateTimer.SafeSleep(10000 + (new Random()).Next(10000));
         }
 

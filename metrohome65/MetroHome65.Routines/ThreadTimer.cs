@@ -60,11 +60,11 @@ namespace MetroHome65.Routines
 
         public void SafeSleep(int timeoutMs)
         {
-            for (var i = 0; i < timeoutMs; i += 50)
+            for (var i = 0; i < timeoutMs; i += 100)
             {
                 if (!_active) return;
-                Thread.Sleep(50);
-                Application.DoEvents();
+                Thread.Sleep(100);
+                //Application.DoEvents();
             }
         }
 

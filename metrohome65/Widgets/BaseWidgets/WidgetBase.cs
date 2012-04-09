@@ -50,8 +50,9 @@ namespace MetroHome65.Widgets
 
             if ((_buffer == null) || (_needRepaint))
             {
-                _buffer = new DoubleBuffer(Size);
-                PaintBuffer(_buffer.Graphics, new Rectangle(0, 0, Size.Width, Size.Height));
+                var newbuffer = new DoubleBuffer(Size);
+                PaintBuffer(newbuffer.Graphics, new Rectangle(0, 0, Size.Width, Size.Height));
+                _buffer = newbuffer;
                 _needRepaint = false;
             }
 
@@ -65,7 +66,6 @@ namespace MetroHome65.Widgets
         {
             _needRepaint = true;
             Update();
-            Application.DoEvents();
         }
 
         #endregion

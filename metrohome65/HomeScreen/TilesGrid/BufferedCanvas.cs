@@ -17,7 +17,7 @@ namespace MetroHome65.HomeScreen.TilesGrid
 
         private bool _needRepaint;
 
-        private DoubleBuffer _buffer;
+        public DoubleBuffer _buffer;
 
         #endregion
 
@@ -60,12 +60,10 @@ namespace MetroHome65.HomeScreen.TilesGrid
         {
             if (!FreezeUpdate)
             {
-                // repaint in buffer only changed element
-                //RepaintBuffer();
-
                 if (element == this)
                     _needRepaint = true;
                 else
+                    // repaint in buffer only changed element
                     RepaintElement(element);
 
                 this.Updated(this);
@@ -89,22 +87,21 @@ namespace MetroHome65.HomeScreen.TilesGrid
                 DrawBuffer(drawingGraphics);
         }
 
-        private void DrawBuffer(IDrawingGraphics drawingGraphics)
+        public void DrawBuffer(IDrawingGraphics drawingGraphics)
         {
             //var dstTop = (drawingGraphics.VisibleRect.Top > 0) ? 0 : drawingGraphics.VisibleRect.Top;
             var dstTop = Math.Max(0, drawingGraphics.CalculateY(0));
-            var dstLeft = drawingGraphics.CalculateX(0);
+            var dstLeft = drawingGraphics.CalculateX(this.Location.X);
             var srcTop = (drawingGraphics.VisibleRect.Top > 0) ? drawingGraphics.VisibleRect.Top : 0;
             var dstWidth = _buffer.Image.Width;
             var height = this.Parent.Size.Height;
 
 //drawingGraphics.DrawImage(_buffer.Image, 0, 0);
 //return;
-            
             drawingGraphics.Graphics.DrawImage(_buffer.Image,
                 dstLeft, dstTop,
                 new Rectangle(0, srcTop, dstWidth, height), GraphicsUnit.Pixel);
-           return;
+            return;
 
             var hSrc = _buffer.Graphics.GetHdc();
             var hDst = drawingGraphics.Graphics.GetHdc();
