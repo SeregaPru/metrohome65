@@ -118,7 +118,7 @@
 
         public abstract void Draw(IDrawingGraphics drawingGraphics);
 
-        public bool IsShowing(UIElement child)
+        public virtual bool IsShowing(UIElement child)
         {
             if (this.Parent != null)
             {
@@ -137,7 +137,7 @@
             }
         }
 
-        public void Update()
+        public virtual void Update()
         {
             if (this.Updated != null && (this.Parent == null || this.Parent.IsShowing(this)))
             {

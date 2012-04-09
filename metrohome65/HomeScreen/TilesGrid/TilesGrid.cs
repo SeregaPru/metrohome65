@@ -1,10 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
-using System.Threading;
 using System.Windows.Forms;
 using Fleux.Controls;
-using Fleux.Core.GraphicsHelpers;
 using Fleux.UIElements;
 using MetroHome65.HomeScreen.Tile;
 using MetroHome65.Interfaces;
@@ -27,8 +25,8 @@ namespace MetroHome65.HomeScreen.TilesGrid
         public TilesGrid() : base()
         {
             // запрет перерисовки во время скроллирования
-            OnStartScroll = () => { FreezeUpdate(true); ActivateTilesAsync(false); };
-            OnStopScroll = () => { FreezeUpdate(false); ActivateTilesAsync(true); };
+            OnStartScroll = () => { FreezeUpdate(true); /*ActivateTilesAsync(false);*/ };
+            OnStopScroll = () => { FreezeUpdate(false); /*ActivateTilesAsync(true);*/ };
 
             VerticalScroll = true;
 
@@ -61,74 +59,10 @@ namespace MetroHome65.HomeScreen.TilesGrid
             parentControl.AddElement(_buttonSettings);
 
             // холст контейнер плиток
-            _tilesCanvas = new TilesCanvas { Size = new Size(400, 100), Location = new Point(TileConsts.TilesPaddingLeft, 0) };
-
+            _tilesCanvas = new TilesCanvas(parentControl.CreateGraphics());
             Content = _tilesCanvas;
 
             ReadSettings();
-        }
-
-        // fast drawind method instead of double bufferes scrollview's method
-        // because we know that height is the whole screen and we don't neet cropping
-        public override void Draw(IDrawingGraphics drawingGraphics)
-        {
-            Content.Draw(
-                drawingGraphics.CreateChild(new Point(0, this.VerticalOffset)));
-            //base.Draw(drawingGraphics);
-        }
-
-        // IActive
-        public Boolean Active
-        {
-            get { return _active; }
-            set
-            {
-                if (!value)
-                {
-                    // stop scroll animation
-                    Pressed(new Point(-1, -1));
-
-                    // stop moving animation
-                    MovingTile = null;
-                }
-
-                if (_active == value) return;
-                _active = value;
-
-                // когда активируем после запуска внешнего приложения - играем входящую анимацию
-                if ((_active) && (_launching))
-                {
-                    _launching = false;
-                    _tilesCanvas.AnimateEntrance();
-                }
-
-                FreezeUpdate(!_active);
-                ActivateTilesAsync(_active);
-            }
-        }
-
-        // don't stop tile's animation but simple turn off redraw during animation
-        // to speed-up scrolling (avoid tiles animation during scrolling)
-        private void FreezeUpdate(bool freeze)
-        {
-            _tilesCanvas.FreezeUpdate = freeze;
-            //ActivateTilesAsync(!freeze);
-        }
-
-        // start/stop updatable widgets
-        private void ActivateTilesAsync(bool active)
-        {
-            new Thread(() =>
-                            {
-                                // lock asynchronous activisation
-                                // for sequental runing activation - deactivation
-                                lock (this)
-                                {
-                                    foreach (var wsInfo in _tiles)
-                                        wsInfo.Active = active;
-                                }
-                            }
-            ).Start();
         }
 
         /// <summary>
@@ -158,55 +92,6 @@ namespace MetroHome65.HomeScreen.TilesGrid
             mainMenu.MenuItems.Add(menuExit);
 
             mainMenu.Show(TinyIoCContainer.Current.Resolve<FleuxControlPage>().Control, location);
-        }
-
-        /// <summary>
-        /// Click at tile handler
-        /// </summary>
-        /// <param name="aLocation"></param>
-        /// <param name="tile"> </param>
-        private bool TileClickAt(Point aLocation, TileWrapper tile)
-        {
-            // if Move mode is enabled, place selected widget to the new position
-            // if we click at moving widget, exit from move mode
-            if (MoveMode)
-            {
-                // if click at moving tile - exit from moving mode
-                // if click at another tile - change moving tile to selected
-                MovingTile = (tile == MovingTile) ? null : tile;
-                return true;
-            }
-
-            // if tile launches external program, start exit animation for visible tiles
-            if (tile.Tile.DoExitAnimation)
-            {
-                Active = false;
-                _launching = true;
-                _tilesCanvas.AnimateExit();
-            }
-
-            var clickResult = tile.OnClick(aLocation);
-
-            // if tile's onClick action failed, play back entrance animation
-            if ((tile.Tile.DoExitAnimation) && (!clickResult))
-            {
-                // when page activate it plays entrance animation
-                Active = true;
-            }
-            return true;
-        }
-
-        /// <summary>
-        /// Long tap handler - entering to customizing mode
-        /// </summary>
-        private bool TileHoldAt(Point aLocation, TileWrapper tile)
-        {
-            if (!MoveMode)
-            {
-                MovingTile = tile;
-                return true;
-            }
-            return false;
         }
 
         private bool ButtonSettingsClick(Point aLocation)

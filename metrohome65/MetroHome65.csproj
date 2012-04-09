@@ -73,6 +73,7 @@
     <Compile Include="HomeScreen\TilesGrid\FreezedCanvas.cs" />
     <Compile Include="HomeScreen\ThemedImageButton.cs" />
     <Compile Include="HomeScreen\TilesGrid\TilesCanvas.cs" />
+    <Compile Include="HomeScreen\TilesGrid\TilesGrid.Draw.cs" />
     <Compile Include="HomeScreen\Tile\FrmWidgetSettings.cs">
       <SubType>Form</SubType>
     </Compile>

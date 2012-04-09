@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Drawing;
 using System.Drawing.Imaging;
+using System.Windows.Forms;
 using Fleux.UIElements;
 using MetroHome65.HomeScreen.Settings;
 using MetroHome65.Interfaces.Events;
@@ -15,7 +16,7 @@ namespace MetroHome65.HomeScreen
 
         public HomeScreenBackground()
         {
-            Size = new Size(System.Windows.Forms.Screen.PrimaryScreen.Bounds.Width, System.Windows.Forms.Screen.PrimaryScreen.Bounds.Height);
+            Size = new Size(Screen.PrimaryScreen.Bounds.Width, Screen.PrimaryScreen.Bounds.Height);
 
             var messenger = TinyIoCContainer.Current.Resolve<ITinyMessengerHub>();
             messenger.Subscribe<SettingsChangedMessage>(OnSettingsChanged);
