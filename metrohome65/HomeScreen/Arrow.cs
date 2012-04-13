@@ -4,22 +4,22 @@ namespace MetroHome65.HomeScreen
 {
     public class Arrow : ThemedImageButton
     {
-        private const string NextImage = "next";
-        private const string PrevImage = "back";
+        private const string NextImageName = "next";
+        private const string PrevImageName = "back";
 
         public Arrow()
-            : base(NextImage)
+            : base(NextImageName)
         {
         }
 
         public void Next()
         {
-            ResourceName = GetImageRes(NextImage);
+            ResourceName = GetImageRes(NextImageName);
         }
 
         public void Prev()
         {
-            ResourceName = GetImageRes(PrevImage);
+            ResourceName = GetImageRes(PrevImageName);
         }
 
     }

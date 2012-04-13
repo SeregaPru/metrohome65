@@ -2,7 +2,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProductVersion>9.0.21022</ProductVersion>
+    <ProductVersion>9.0.30729</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{55BF769B-A219-4FCF-8B3C-4B87D0D147AF}</ProjectGuid>
     <OutputType>WinExe</OutputType>
@@ -69,9 +69,8 @@
     </Compile>
     <Compile Include="HomeScreen\LockScreen\LockScreen.cs" />
     <Compile Include="HomeScreen\ProgramsMenu\ProgramsMenuPage.cs" />
+    <Compile Include="HomeScreen\Settings\FrmMainSettings2.cs" />
     <Compile Include="HomeScreen\Settings\MainSettingsProvider.cs" />
-    <Compile Include="HomeScreen\TilesGrid\BufferedCanvas.cs" />
-    <Compile Include="HomeScreen\TilesGrid\FreezedCanvas.cs" />
     <Compile Include="HomeScreen\ThemedImageButton.cs" />
     <Compile Include="HomeScreen\TilesGrid\TilesCanvas.cs" />
     <Compile Include="HomeScreen\TilesGrid\TilesGrid.Draw.cs" />
@@ -331,6 +330,7 @@
     <Content Include="icons\small\small-world.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <EmbeddedResource Include="Images\cancel.bmp" />
     <Content Include="Images\home.ico" />
     <Content Include="icons\acrobat.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
@@ -408,6 +408,7 @@
     <EmbeddedResource Include="Images\settings_dark.png" />
     <EmbeddedResource Include="Images\next_dark.png" />
     <EmbeddedResource Include="Images\next_light.png" />
+    <EmbeddedResource Include="Images\ok.bmp" />
     <Content Include="wallpapers\berry.jpg">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>

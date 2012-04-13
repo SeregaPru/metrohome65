@@ -4,8 +4,11 @@ using System.Collections.Generic;
 using System.Windows.Forms;
 using Fleux.UIElements;
 using MetroHome65.HomeScreen.Settings;
+using MetroHome65.Interfaces.Events;
 using MetroHome65.Routines;
 using System.Xml.Serialization;
+using TinyIoC;
+using TinyMessenger;
 
 namespace MetroHome65.HomeScreen.TilesGrid
 {
@@ -171,8 +174,15 @@ namespace MetroHome65.HomeScreen.TilesGrid
         /// </summary>
         private Boolean ShowMainSettings()
         {
-            var mainSettingsForm = new FrmMainSettings { Owner = null };
-            return (mainSettingsForm.ShowDialog() == DialogResult.OK);
+            //var mainSettingsForm = new FrmMainSettings() { Owner = null };
+            //return (mainSettingsForm.ShowDialog() == DialogResult.OK);
+
+            var mainSettingsForm = new FrmMainSettings2();
+
+            var messenger = TinyIoCContainer.Current.Resolve<ITinyMessengerHub>();
+            messenger.Publish(new ShowPageMessage(mainSettingsForm));
+
+            return true;
         }
     }
 }

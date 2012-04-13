@@ -22,13 +22,12 @@ namespace MetroHome65.HomeScreen.TilesGrid
         protected override void OnUpdated(UIElement element)
         {
             if ((_tilesCanvas != null) 
-                /* && (_tilesCanvas.FreezeUpdate) */) 
+                && (_tilesCanvas.FreezeUpdate) ) 
                 _tilesCanvas.DirectDraw(this.VerticalOffset);
-            //else
-            //{
-            //    base.OnUpdated(element);
-            //    Application.DoEvents();
-            //}
+            else
+            {
+                base.OnUpdated(element);
+            }
         }
 
         public override bool IsShowing(UIElement child)

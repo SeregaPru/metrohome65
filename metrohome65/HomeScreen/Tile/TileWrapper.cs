@@ -195,10 +195,14 @@ namespace MetroHome65.HomeScreen
             }
         }
 
+        private bool _pause;
+
         public Boolean Pause
         {
+            get { return _pause; }
             set
             {
+                _pause = value;
                 if (_tile is IPause)
                     (_tile as IPause).Pause = value;
             }
@@ -310,7 +314,7 @@ namespace MetroHome65.HomeScreen
 
         public void ForceUpdate()
         {
-            if (Tile != null)
+            if ((Tile != null) && (! Pause))
                 Tile.ForceUpdate();
         }
 
