@@ -2,6 +2,7 @@
 using System.Drawing;
 using System.Linq;
 using Fleux.Animations;
+using Fleux.Controls;
 using Fleux.Core.GraphicsHelpers;
 using Fleux.Styles;
 using Fleux.UIElements;
@@ -16,15 +17,19 @@ namespace MetroHome65.HomeScreen.TilesGrid
         #region Fields
 
         private int _verticalOffset;
+
+        // duration for entrance or exit animation
         private int _animationDuration = 400;
 
+        // buffer and graphics for direct to screen draw
         private Graphics _controlGraphics;
-
         private IDrawingGraphics _drawingGraphics;
-
         private DoubleBuffer _buffer;
 
         private UIElement _bgImage;
+
+        // flag that we redraw now
+        private bool _updating;
 
         #endregion
 
@@ -36,9 +41,10 @@ namespace MetroHome65.HomeScreen.TilesGrid
         #endregion
 
 
-        public TilesCanvas(Graphics controlGraphics)
+        public TilesCanvas()
         {
-            _controlGraphics = controlGraphics;
+            var parentControl = TinyIoCContainer.Current.Resolve<FleuxControlPage>().Control;
+            _controlGraphics = parentControl.CreateGraphics();
             _bgImage = TinyIoCContainer.Current.Resolve<HomeScreenBackground>();
 
             Size = new Size(TileConsts.TilesPaddingLeft + TileConsts.TileSize * 4 + TileConsts.TileSpacing * 3, 100);
@@ -72,25 +78,72 @@ namespace MetroHome65.HomeScreen.TilesGrid
 
         public void DirectDraw(int verticalOffset)
         {
+            _verticalOffset = -verticalOffset;
+
             if (_buffer == null) return;
 
-            _verticalOffset = - verticalOffset;
+            if (_updating) return;
+            _updating = true;
 
-            // draw background
-            _buffer.Graphics.Clear(MetroTheme.PhoneBackgroundBrush);
-            _bgImage.Draw(_drawingGraphics);
-
-            // draw tiles
-            var rect = new Rectangle(0, - verticalOffset, Size.Width, Size.Height);
-            foreach (var e in Children)
+            try
             {
-                if (e.Bounds.IntersectsWith(rect))
-                    e.Draw(_drawingGraphics.CreateChild(
-                        new Point(e.Location.X, e.Location.Y + verticalOffset)));
-            }
+                // draw background
+                _buffer.Graphics.Clear(MetroTheme.PhoneBackgroundBrush);
+                _bgImage.Draw(_drawingGraphics);
 
-            // draw buffer directly to screen
-           _controlGraphics.DrawImage(_buffer.Image, 0, 0);
+                // draw tiles
+                var rect = new Rectangle(0, - verticalOffset, Size.Width, Size.Height);
+                foreach (var e in ChildrenEnumerable)
+                {
+                    if (e.Bounds.IntersectsWith(rect))
+                        e.Draw(_drawingGraphics.CreateChild(
+                            new Point(e.Location.X, e.Location.Y + verticalOffset)));
+                }
+
+                // draw buffer directly to screen
+               _controlGraphics.DrawImage(_buffer.Image, 0, 0);
+
+            }
+            catch (Exception) { }
+
+            _updating = false;
+        }
+
+        public void DirectDrawElement(int verticalOffset, UIElement element)
+        {
+            if (_buffer == null) return;
+
+            var rect = new Rectangle(0, -verticalOffset, Size.Width, Size.Height);
+            if (!element.Bounds.IntersectsWith(rect)) return;
+
+            if (_updating) return;
+            _updating = true;
+
+            var clipRect = new Rectangle(
+                element.Location.X, element.Location.Y + verticalOffset, element.Size.Width, element.Size.Height);
+            
+            try
+            {
+                // draw background
+                _buffer.Graphics.FillRectangle(new SolidBrush(MetroTheme.PhoneBackgroundBrush), clipRect);
+                var oldclip = _buffer.Graphics.Clip;
+                _buffer.Graphics.Clip = new Region(clipRect);
+                _bgImage.Draw(_drawingGraphics);
+                _buffer.Graphics.Clip = oldclip;
+
+                // draw tiles
+                element.Draw(_drawingGraphics.CreateChild(
+                    new Point(element.Location.X, element.Location.Y + verticalOffset)));
+
+                // draw buffer directly to screen
+                _controlGraphics.DrawImage(_buffer.Image, element.Location.X, element.Location.Y + verticalOffset, 
+                    clipRect, GraphicsUnit.Pixel);
+
+            }
+            catch (Exception) { }
+
+            //_buffer.Graphics.Clip = oldclip;
+            _updating = false;
         }
 
         /// <summary>
@@ -101,7 +154,12 @@ namespace MetroHome65.HomeScreen.TilesGrid
         protected override void OnUpdated(UIElement element)
         {
             if (FreezeUpdate) return;
-            base.Updated(this);
+
+            if (element == this)
+              base.Updated(this);
+            else
+                DirectDrawElement(- _verticalOffset, element);
+            
         }
 
 

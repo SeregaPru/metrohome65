@@ -20,6 +20,9 @@
             m_text = text;
             this.Style = MetroTheme.PhoneTextNormalStyle;
             this.Size = new Size(100, 25);
+
+            this.BorderColor = MetroTheme.PhoneForegroundBrush;
+            this.BackgroundColor = MetroTheme.PhoneBackgroundBrush;
         }
         #endregion
 
@@ -60,8 +63,13 @@
 
             set
             {
+                if (m_checked == value) return;
+
                 m_checked = value;
                 this.Update();
+
+                if (CheckStateChanged != null)
+                    CheckStateChanged(this, new EventArgs());
             }
         }
 
@@ -69,6 +77,9 @@
 
         public Color BackgroundColor { get; set; }
         public Color BorderColor { get; set; }
+
+        // Происходит при изменении значения свойства Checked
+        public event EventHandler CheckStateChanged;
 
         #endregion
 
@@ -101,18 +112,29 @@
         {
             if (m_pressed)
             {
-                drawingGraphics.Color(this.BackgroundColor);
+                drawingGraphics.Color(this.BorderColor);
                 drawingGraphics.FillRectangle(0, 0, 40, 40);
             }
-
+            else
             if (m_checked)
             {
-                drawingGraphics.Color(Color.Red);
+                drawingGraphics.Color(this.BorderColor);
+                drawingGraphics.PenWidth(2);
+                drawingGraphics.DrawRectangle(0, 0, 40, 40);
+
+                drawingGraphics.FillRectangle(5, 5, 35, 35);
+            }
+            else
+            {
+                // unchecked unpressed
+                drawingGraphics.Color(this.BackgroundColor);
                 drawingGraphics.FillRectangle(0, 0, 40, 40);
+
+                drawingGraphics.Color(this.BorderColor);
+                drawingGraphics.PenWidth(2);
+                drawingGraphics.DrawRectangle(0, 0, 40, 40);
             }
 
-            drawingGraphics.Color(this.BorderColor);
-            drawingGraphics.DrawRectangle(0, 0, 40, 40);
             drawingGraphics.Style(this.Style);
 
             switch (this.AutoSizeMode)

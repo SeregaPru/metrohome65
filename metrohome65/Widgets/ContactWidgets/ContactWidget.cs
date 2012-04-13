@@ -18,6 +18,7 @@ namespace MetroHome65.Widgets
     public class ContactWidget : BaseWidget, IActive, IPause
     {
         private int _contactId = -1;
+        private Contact _contact;
         private String _alternatePicturePath = "";
         private AlphaImage _alternateImage;
 
@@ -50,8 +51,8 @@ namespace MetroHome65.Widgets
                     // флаг анимировать ли плитку - анимируем только когда есть картинка
                     try
                     {
-                        var contact = FindContact(ContactId);
-                        _needAnimateTile = (contact != null) && ((contact.Picture != null) || (_alternateImage != null));
+                        _contact = FindContact(ContactId);
+                        _needAnimateTile = (_contact != null) && ((_contact.Picture != null) || (_alternateImage != null));
                     }
                     catch (Exception) { _needAnimateTile = false; }
 
@@ -87,17 +88,22 @@ namespace MetroHome65.Widgets
             // locked access to outlook session
             lock (this)
             {
-                var mySession = new OutlookSession();
-
-                var collection = mySession.Contacts.Items;
-                foreach (var contact in collection)
+                try
                 {
-                    if (contact.ItemId.GetHashCode().Equals(itemIdKey))
+                    var mySession = new OutlookSession();
+
+                    var collection = mySession.Contacts.Items;
+                    foreach (var contact in collection)
                     {
-                        findedContact = contact;
-                        break;
+                        if (contact.ItemId.GetHashCode().Equals(itemIdKey))
+                        {
+                            findedContact = contact;
+                            break;
+                        }
                     }
+
                 }
+                catch (Exception) { }
             }
 
             return findedContact;
@@ -116,48 +122,52 @@ namespace MetroHome65.Widgets
 
         public override void PaintBuffer(Graphics g, Rectangle rect)
         {
-            var contact = FindContact(ContactId);
-
-            if (contact == null)
+            try
             {
+
+                if (_contact == null)
+                {
+                    g.FillRectangle(new SolidBrush(MetroTheme.PhoneAccentBrush),
+                        new Rectangle(rect.Left, rect.Top, rect.Width, rect.Height));
+                    var errorFont = new Font(MetroTheme.TileTextStyle.FontFamily, 8, FontStyle.Regular);
+                    g.DrawString("Contact \n not \n found", errorFont, new SolidBrush(MetroTheme.TileTextStyle.Foreground), rect.Left + 10, rect.Top + 10);
+                    return;
+                }
+
+                var captionFont = new Font(MetroTheme.TileTextStyle.FontFamily, 11, FontStyle.Regular);
+                var pictureRect = new Rectangle(rect.Left, rect.Top, rect.Width, rect.Height);
+                var nameRectHeight = NameRectHeight;
+                var nameRectTop = rect.Height + 25;
+
+                // if assigned alternate picture - use it
+                if (_alternateImage != null)
+                {
+                    _alternateImage.PaintBackground(g, pictureRect);
+                }
+                else
+                // use picture from contact, if present
+                if (_contact.Picture != null)
+                {
+                    g.DrawImage(_contact.Picture,
+                                new Rectangle(0, 0, rect.Width, rect.Height),
+                                0, 0, _contact.Picture.Width, _contact.Picture.Height,
+                                GraphicsUnit.Pixel, new System.Drawing.Imaging.ImageAttributes());
+                }
+                else
+                {
+                    g.FillRectangle(new SolidBrush(MetroTheme.PhoneAccentBrush), pictureRect);
+                    nameRectHeight = 0;
+                    nameRectTop -= rect.Height;
+                }
+
+                // draw contact name - below picture
                 g.FillRectangle(new SolidBrush(MetroTheme.PhoneAccentBrush),
-                    new Rectangle(rect.Left, rect.Top, rect.Width, rect.Height));
-                var errorFont = new Font(MetroTheme.TileTextStyle.FontFamily, 8, FontStyle.Regular);
-                g.DrawString("Contact \n not \n found", errorFont, new SolidBrush(MetroTheme.TileTextStyle.Foreground), rect.Left + 10, rect.Top + 10);
-                return;
-            }
+                    new Rectangle(rect.Left, rect.Top + rect.Height, rect.Width, nameRectHeight));
+                var contactName = _contact.FileAs;
+                g.DrawString(contactName, captionFont, new SolidBrush(MetroTheme.TileTextStyle.Foreground), rect.Left + 10, rect.Top + nameRectTop);
 
-            var captionFont = new Font(MetroTheme.TileTextStyle.FontFamily, 11, FontStyle.Regular);
-            var pictureRect = new Rectangle(rect.Left, rect.Top, rect.Width, rect.Height);
-            var nameRectHeight = NameRectHeight;
-            var nameRectTop = rect.Height + 25;
-
-            // if assigned alternate picture - use it
-            if (_alternateImage != null)
-            {
-                _alternateImage.PaintBackground(g, pictureRect);
             }
-            else
-            // use picture from contact, if present
-            if (contact.Picture != null)
-            {
-                g.DrawImage(contact.Picture,
-                            new Rectangle(0, 0, rect.Width, rect.Height),
-                            0, 0, contact.Picture.Width, contact.Picture.Height,
-                            GraphicsUnit.Pixel, new System.Drawing.Imaging.ImageAttributes());
-            }
-            else
-            {
-                g.FillRectangle(new SolidBrush(MetroTheme.PhoneAccentBrush), pictureRect);
-                nameRectHeight = 0;
-                nameRectTop -= rect.Height;
-            }
-
-            // draw contact name - below picture
-            g.FillRectangle(new SolidBrush(MetroTheme.PhoneAccentBrush),
-                new Rectangle(rect.Left, rect.Top + rect.Height, rect.Width, nameRectHeight));
-            var contactName = contact.FileAs;
-            g.DrawString(contactName, captionFont, new SolidBrush(MetroTheme.TileTextStyle.Foreground), rect.Left + 10, rect.Top + nameRectTop);
+            catch (Exception) { }
         }
 
         public override void Draw(Fleux.Core.GraphicsHelpers.IDrawingGraphics drawingGraphics)
@@ -173,17 +183,6 @@ namespace MetroHome65.Widgets
             drawingGraphics.DrawImage(_buffer.Image,
                                       new Rectangle(0, 0, Size.Width, Size.Height),
                                       new Rectangle(0, _offsetY, Size.Width, Size.Height));
-
-            //drawingGraphics.Graphics.DrawImage(_buffer.Image, 
-            //    drawingGraphics.CalculateX(0), drawingGraphics.CalculateY(0),
-            //    new Rectangle(0, _offsetY, Size.Width, Size.Height), GraphicsUnit.Pixel);
-
-            // border around
-            /*
-            drawingGraphics.Color(MetroTheme.PhoneAccentBrush);
-            drawingGraphics.DrawRectangle(0, 0, Size.Width - 1, Size.Height - 1);
-            drawingGraphics.DrawRectangle(1, 1, Size.Width - 2, Size.Height - 2);
-            */ 
         }
 
         public override void ForceUpdate()
@@ -250,7 +249,7 @@ namespace MetroHome65.Widgets
         {
             return new FunctionBasedAnimation(FunctionBasedAnimation.Functions.Linear)
             {
-                Duration = 1000,
+                Duration = 500,
                 From = _offsetY,
                 To = ((_offsetY <= 0) ? NameRectHeight : 0),
                 OnAnimation = v =>
@@ -319,7 +318,7 @@ namespace MetroHome65.Widgets
         /// <param name="location"></param>
         public override bool OnClick(Point location)
         {
-            var contactPage = new ContactPage(FindContact(ContactId));
+            var contactPage = new ContactPage(_contact);
 
             var messenger = TinyIoCContainer.Current.Resolve<ITinyMessengerHub>();
             messenger.Publish(new ShowPageMessage(contactPage));

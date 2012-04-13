@@ -59,7 +59,7 @@ namespace MetroHome65.HomeScreen.TilesGrid
             parentControl.AddElement(_buttonSettings);
 
             // холст контейнер плиток
-            _tilesCanvas = new TilesCanvas(parentControl.CreateGraphics());
+            _tilesCanvas = new TilesCanvas();
             Content = _tilesCanvas;
 
             ReadSettings();

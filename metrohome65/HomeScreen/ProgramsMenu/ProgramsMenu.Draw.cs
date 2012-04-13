@@ -1,8 +1,4 @@
-﻿using System;
-using System.Drawing;
-using System.Linq;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Drawing;
 using Fleux.Core.GraphicsHelpers;
 using Fleux.Styles;
 using Fleux.UIElements;
@@ -16,11 +12,11 @@ namespace MetroHome65.HomeScreen.ProgramsMenu
 
         private DoubleBuffer _buffer;
 
-        private UIElement _bgImage;
+        private readonly UIElement _bgImage;
 
         private IDrawingGraphics _drawingGraphics;
 
-        private Graphics _controlGraphics;
+        private readonly Graphics _controlGraphics;
 
         #endregion
 
@@ -29,6 +25,7 @@ namespace MetroHome65.HomeScreen.ProgramsMenu
         // because we know that height is the whole screen and we don't neet cropping
         public override void Draw(IDrawingGraphics drawingGraphics)
         {
+            if (Content == null) return;
             Content.Draw(drawingGraphics.CreateChild(new Point(0, VerticalOffset)));
         }
 
@@ -50,7 +47,7 @@ namespace MetroHome65.HomeScreen.ProgramsMenu
             Content.Draw(_drawingGraphics.CreateChild(new Point(0, verticalOffset)));
 
             // draw buffer directly to screen
-            _controlGraphics.DrawImage(_buffer.Image, this.Location.X, this.Location.Y);
+            _controlGraphics.DrawImage(_buffer.Image, Location.X, Location.Y);
         }
 
         private void CreateBuffer()

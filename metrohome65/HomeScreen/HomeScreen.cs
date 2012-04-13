@@ -4,6 +4,7 @@ using System.Drawing;
 using System.Threading;
 using Fleux.Controls.Gestures;
 using MetroHome65.HomeScreen.Tile;
+using MetroHome65.HomeScreen.TilesGrid;
 using MetroHome65.Interfaces;
 using MetroHome65.Interfaces.Events;
 using MetroHome65.Routines;
@@ -22,7 +23,6 @@ namespace MetroHome65.HomeScreen
     {
         private readonly UIElement _lockScreen;
         private readonly Canvas _homeScreenCanvas;
-        private readonly Arrow _switchArrow;
 
         private readonly List<UIElement> _sections = new List<UIElement>();
         private int _curPage;
@@ -69,12 +69,19 @@ namespace MetroHome65.HomeScreen
             AddSection(tilesGrid, 1);
 
             // стрелка переключатель страниц
-            _switchArrow = new Arrow 
+            var switchArrowNext = new ThemedImageButton("next") 
                                {
                                    Location = new Point(ArrowPos1, TileConsts.TilesPaddingTop),
-                                   TapHandler = p => { CurrentPage = (_curPage == 1) ? 2 : 1; return true; },
+                                   TapHandler = p => { CurrentPage = 2; return true; },
                                };
-            _homeScreenCanvas.AddElement(_switchArrow);
+            _homeScreenCanvas.AddElement(switchArrowNext);
+
+            var switchArrowBack = new ThemedImageButton("back")
+            {
+                Location = new Point(ArrowPos2, TileConsts.TilesPaddingTop),
+                TapHandler = p => { CurrentPage = 1; return true; },
+            };
+            _homeScreenCanvas.AddElement(switchArrowBack);
 
             // список программ
             var programsSv = new ProgramsMenuPage();
@@ -150,7 +157,7 @@ namespace MetroHome65.HomeScreen
 
             //var animateArrow = (toPage + fromPage >= 2);
             //var ArrowPosFrom = (toPage == 1) ? ArrowPos2 : ArrowPos1;
-            var arrowPosTo = (toPage == 1) ? ArrowPos1 : ArrowPos2;
+            //var arrowPosTo = (toPage == 1) ? ArrowPos1 : ArrowPos2;
 
             var screenAnimation = new FunctionBasedAnimation(FunctionBasedAnimation.Functions.Linear)
                                        {
@@ -173,13 +180,15 @@ namespace MetroHome65.HomeScreen
                                                              },
                                            OnAnimationStop = () =>
                                                                  {
+                                                                     /*
                                                                      if (toPage == 1)
                                                                          _switchArrow.Next();
                                                                      else
                                                                          _switchArrow.Prev();
-
+                                                                     
                                                                      _switchArrow.Location = new Point(arrowPosTo, _switchArrow.Location.Y);
                                                                      _switchArrow.Update();
+                                                                     */
 
                                                                      OnActivated();
                                                                  },

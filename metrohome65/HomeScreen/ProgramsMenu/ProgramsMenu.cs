@@ -32,11 +32,10 @@ namespace MetroHome65.HomeScreen.ProgramsMenu
 
             var parentControl = TinyIoCContainer.Current.Resolve<FleuxControlPage>().Control;
             _controlGraphics = parentControl.CreateGraphics();
+            _bgImage = TinyIoCContainer.Current.Resolve<HomeScreenBackground>();
 
             Size = new Size(100, 100);
             SizeChanged += (s, e) => CreateBuffer();
-
-            _bgImage = TinyIoCContainer.Current.Resolve<HomeScreenBackground>();
 
             _refa = new FileRoutines.structa();
 
@@ -55,8 +54,7 @@ namespace MetroHome65.HomeScreen.ProgramsMenu
         /// </summary>
         private BindingList<object> GetProgramList()
         {
-            var folderInfo = new DirectoryInfo(Environment.GetFolderPath(
-                Environment.SpecialFolder.StartMenu));
+            var folderInfo = new DirectoryInfo(Environment.GetFolderPath(Environment.SpecialFolder.StartMenu));
             FillProgramsFromFolder(folderInfo);
 
             _fileList.SortByName();
@@ -95,10 +93,10 @@ namespace MetroHome65.HomeScreen.ProgramsMenu
         }
 
 
-        private static readonly int IconSize = 64;
-        private static readonly int PaddingHor = 10;
-        private static readonly int BorderSize = 5;
-        private static readonly int BlankSize = 5;
+        private const int IconSize = 64;
+        private const int PaddingHor = 10;
+        private const int BorderSize = 5;
+        private const int BlankSize = 5;
 
         private FileRoutines.structa _refa;
         private Rectangle _rect = new Rectangle(0, 0, IconSize + BorderSize * 2, IconSize + BorderSize * 2);
@@ -189,7 +187,7 @@ namespace MetroHome65.HomeScreen.ProgramsMenu
         {
             var messenger = TinyIoCContainer.Current.Resolve<ITinyMessengerHub>();
 
-            messenger.Publish(new PinProgramMessage() { Name = fileDescr.Name, Path = fileDescr.Path} );
+            messenger.Publish(new PinProgramMessage { Name = fileDescr.Name, Path = fileDescr.Path} );
         }
 
     }
