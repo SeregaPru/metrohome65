@@ -2,6 +2,7 @@
 using Fleux.Animations;
 using Fleux.Controls;
 using Fleux.Core;
+using Fleux.Styles;
 using Fleux.UIElements;
 using Fleux.UIElements.Events;
 using Fleux.UIElements.Pivot;
@@ -50,8 +51,8 @@ namespace MetroHome65.HomeScreen.Settings
         private PivotItem CreateThemeControls()
         {
             var page = new PivotItem { Title = "theme", };
-
             var stackPanel = new StackPanel { Size = new Size(Size.Width - PaddingHor * 2, 1), };
+            page.Body = stackPanel; 
 
             /*
             var scroller = new ScrollViewer
@@ -65,6 +66,21 @@ namespace MetroHome65.HomeScreen.Settings
             };
             */
             
+            // intro
+            var txtIntro =
+                new TextElement(
+                    "Change your phone's background and accent color to match your mood today, this week, or all month.")
+                    {
+                        Style = new TextStyle(MetroTheme.PhoneFontFamilyNormal, MetroTheme.PhoneFontSizeSmall, MetroTheme.PhoneForegroundBrush),
+                        Size = new Size(stackPanel.Size.Width - 10, 50),
+                        AutoSizeMode = TextElement.AutoSizeModeOptions.WrapText,
+                    };
+            stackPanel.AddElement(txtIntro);
+
+            // vertival span
+            stackPanel.AddElement(new TextElement(" "));
+
+            // light/dark theme switcher
             var ctrThemeType = new FlagSettingsControl
                                    {
                                         Caption = "Dark",
@@ -73,16 +89,25 @@ namespace MetroHome65.HomeScreen.Settings
             stackPanel.AddElement(ctrThemeType);
             _bindingManager.Bind(_editSettings, "ThemeIsDark", ctrThemeType, "Value");
 
-            page.Body = stackPanel; //scroller;
+            // theme background
+            var ctrThemeImage = new ImageSettingsControl
+            {
+                Caption = "Theme background",
+                Value = _editSettings.ThemeImage,
+            };
+            stackPanel.AddElement(ctrThemeImage);
+            _bindingManager.Bind(_editSettings, "ThemeImage", ctrThemeImage, "Value");
+
             return page;
         }
 
         private PivotItem CreateLockScreenControls()
         {
-            var page = new PivotItem { Title = "lock screen", };
+            var page = new PivotItem { Title = "lockscreen", };
             var stackPanel = new StackPanel();
             page.Body = stackPanel;
             
+            // lock screen bg image
             var ctrLockScreenImage = new ImageSettingsControl
             {
                 Caption = "Lock screen background",

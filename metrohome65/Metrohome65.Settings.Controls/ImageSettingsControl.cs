@@ -3,46 +3,81 @@ using System.ComponentModel;
 using System.Drawing;
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
+using Fleux.Styles;
 using Fleux.UIElements;
 using MetroHome65.Routines;
 using Microsoft.WindowsMobile.Forms;
 
 namespace Metrohome65.Settings.Controls
 {
-    public class ImageSettingsControl: Canvas, INotifyPropertyChanged
+    class SettingsImageElement: ImageElement
     {
-        private TextElement _lblCaption;
+        public SettingsImageElement(Image image): base(image) { }
 
-        private ImageElement _pictureBox;
+        public override void Draw(Fleux.Core.GraphicsHelpers.IDrawingGraphics drawingGraphics)
+        {
+            if (Image == null)
+            {
+                // draw crossed rectangle for empty image
+                drawingGraphics.PenWidth(MetroTheme.PhoneBorderThickness.BorderThickness.Pixels);
+                drawingGraphics.Color(MetroTheme.PhoneForegroundBrush);
 
-        private String _tileImage = null;
+                drawingGraphics.DrawRectangle(Bounds);
+                drawingGraphics.DrawLine(0, 0, Size.Width, Size.Height);
+                drawingGraphics.DrawLine(0, Size.Height, Size.Width, 0);
+            }
+            else
+                base.Draw(drawingGraphics);
+        }   
+    }
 
-        private OpenNETCF.Drawing.Imaging.ImagingFactoryClass _factory = new OpenNETCF.Drawing.Imaging.ImagingFactoryClass();
+    public sealed class ImageSettingsControl: Canvas, INotifyPropertyChanged
+    {
+        private readonly TextElement _lblCaption;
 
+        private readonly ImageElement _pictureBox;
+
+        private String _tileImage;
+
+        private readonly OpenNETCF.Drawing.Imaging.ImagingFactoryClass _factory = new OpenNETCF.Drawing.Imaging.ImagingFactoryClass();
+
+        private const int MaxWidth = 450;
 
         public ImageSettingsControl()
         {
-            Size = new Size(450, 300);
+            Size = new Size(MaxWidth, 300);
 
-            _lblCaption = new TextElement("<image parameter>");
+            _lblCaption = new TextElement("<image parameter>")
+            {
+                Size = new Size(MaxWidth, 40),
+                Location = new Point(0, 0),
+            };
             AddElement(_lblCaption);
 
-            _pictureBox = new ImageElement(new Bitmap(1, 1))
+            _pictureBox = new SettingsImageElement(new Bitmap(1, 1))
                               {
-                                  Size = new Size(427, 173),
-                                  Location = new Point(7, 6),
+                                  Size = new Size(MaxWidth, 175),
+                                  Location = new Point(0, _lblCaption.Bounds.Bottom + 10),
                               };
             AddElement(_pictureBox);
 
-            var buttonSelectImage = new Fleux.UIElements.Button("...")
+            var buttonSelectImage = new Fleux.UIElements.Button("select")
                                         {
-                                            Location = new Point(308, 67),
+                                            Size = new Size(MaxWidth / 2 - 10, 50),
+                                            Location = new Point(0, _pictureBox.Bounds.Bottom + 10),
+                                            TapHandler = p => ButtonSelectBgClick(),
+
                                         };
             AddElement(buttonSelectImage);
 
-            var buttonClearImage = new Fleux.UIElements.Button("x")
+            var buttonClearImage = new Fleux.UIElements.Button("clear")
                                        {
-                                           Location = new Point(416, 67),
+                                           Size = new Size(MaxWidth / 2 - 10, 50),
+                                           Location = new Point(MaxWidth / 2 + 10, _pictureBox.Bounds.Bottom + 10),
+                                           TapHandler = p => { 
+                                               Value = "";
+                                               return true;
+                                           },
                                        };
             AddElement(buttonClearImage);
         }
@@ -53,66 +88,64 @@ namespace Metrohome65.Settings.Controls
         public String Value
         {
             get { return _tileImage; }
-            set
-            {
-                SetTileImage(value);
-            }
+            set { SetTileImage(value); }
         }
 
         private void SetTileImage(String value)
         {
-            if (_tileImage != value)
+            if (_tileImage == value) return;
+
+            _tileImage = value;
+
+            try
             {
-                _tileImage = value;
+                if (_pictureBox.Image != null)
+                    _pictureBox.Image.Dispose();
 
-                try
+                if (_tileImage == "")
                 {
-                    if (_pictureBox.Image != null)
-                        _pictureBox.Image.Dispose();
+                    _pictureBox.Image = null;
+                }
+                else
 
-                    if (_tileImage == "")
+                    if (IsExecutableIcon())
                     {
-                        _pictureBox.Image = null;
+                        // get icon from file
+                        if (String.IsNullOrEmpty(_tileImage))
+                            return;
+
+                        var refa = new FileRoutines.structa();
+                        FileRoutines.SHGetFileInfo(ref _tileImage, 0, ref refa, Marshal.SizeOf(refa), 0x100);
+                        var icon = Icon.FromHandle(refa.a);
+                        _pictureBox.Image = GetBitmap(icon);
                     }
+
                     else
+                    {
+                        OpenNETCF.Drawing.Imaging.IImage img;
+                        _factory.CreateImageFromFile(_tileImage, out img);
 
-                        if (IsExecutableIcon())
-                        {
-                            // get icon from file
-                            if (String.IsNullOrEmpty(_tileImage))
-                                return;
+                        OpenNETCF.Drawing.Imaging.ImageInfo imageInfo;
+                        img.GetImageInfo(out imageInfo);
 
-                            FileRoutines.structa refa = new FileRoutines.structa();
-                            IntPtr ptr = FileRoutines.SHGetFileInfo(ref _tileImage, 0, ref refa, Marshal.SizeOf(refa), 0x100);
-                            Icon icon = Icon.FromHandle(refa.a);
-                            _pictureBox.Image = GetBitmap(icon);
-                        }
+                        OpenNETCF.Drawing.Imaging.IBitmapImage bmp;
+                        _factory.CreateBitmapFromImage(img, imageInfo.Width, imageInfo.Height,
+                                                       System.Drawing.Imaging.PixelFormat.Format24bppRgb,
+                                                       OpenNETCF.Drawing.Imaging.InterpolationHint.InterpolationHintDefault, out bmp);
 
-                        else
-                        {
-                            OpenNETCF.Drawing.Imaging.IImage _img;
-                            _factory.CreateImageFromFile(_tileImage, out _img);
+                        _pictureBox.Image =
+                            OpenNETCF.Drawing.Imaging.ImageUtils.IBitmapImageToBitmap(bmp);
+                    }
 
-                            OpenNETCF.Drawing.Imaging.ImageInfo imageInfo;
-                            _img.GetImageInfo(out imageInfo);
-
-                            OpenNETCF.Drawing.Imaging.IBitmapImage _bmp;
-                            _factory.CreateBitmapFromImage(_img, imageInfo.Width, imageInfo.Height,
-                                System.Drawing.Imaging.PixelFormat.Format24bppRgb,
-                                OpenNETCF.Drawing.Imaging.InterpolationHint.InterpolationHintDefault, out _bmp);
-
-                            _pictureBox.Image =
-                                OpenNETCF.Drawing.Imaging.ImageUtils.IBitmapImageToBitmap(_bmp);
-                        }
-
-                }
-                catch (Exception e)
-                {
-                    //!! write to log  (e.StackTrace, "SetIconPath")
-                }
-
-                NotifyPropertyChanged("Value");
             }
+            catch (Exception e)
+            {
+                //!! write to log  (e.StackTrace, "SetIconPath")
+            }
+
+            _pictureBox.Update();
+
+            NotifyPropertyChanged("Value");
         }
 
 
@@ -137,15 +170,22 @@ namespace Metrohome65.Settings.Controls
             return bmp;
         }
 
-        private void buttonSelectBG_Click(object sender, EventArgs e)
+        private bool ButtonSelectBgClick()
         {
-            SelectPictureDialog ImgDialog = new SelectPictureDialog();
-            ImgDialog.Filter = "Image files|*.jpg;*.png;*.bmp;*.gif";
-            ImgDialog.Title = "Select image";
-            ImgDialog.InitialDirectory = System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().GetName().CodeBase);
+            var imgDialog = new SelectPictureDialog
+                                {
+                                    Filter = "Image files|*.jpg;*.png;*.bmp;*.gif",
+                                    Title = "Select image",
+                                    InitialDirectory =
+                                        System.IO.Path.GetDirectoryName(
+                                            System.Reflection.Assembly.GetExecutingAssembly().GetName().CodeBase)
+                                };
 
-            if (ImgDialog.ShowDialog() == DialogResult.OK)
-                SetTileImage(ImgDialog.FileName);
+            if (imgDialog.ShowDialog() != DialogResult.OK)
+                return false;
+
+            SetTileImage(imgDialog.FileName);
+            return true;
         }
 
 
