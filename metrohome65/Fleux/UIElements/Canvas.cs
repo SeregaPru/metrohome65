@@ -1,4 +1,6 @@
-﻿namespace Fleux.UIElements
+﻿using Fleux.Controls;
+
+namespace Fleux.UIElements
 {
     using System;
     using System.Drawing;
@@ -27,6 +29,10 @@
         {
             this.Children.Add(element);
             element.Parent = this;
+
+            //! metrohome65
+            element.ParentControl = this.ParentControl;
+
             this.Size = new Size(Math.Max(element.Bounds.Right, this.Size.Width), Math.Max(element.Bounds.Bottom, this.Size.Height));
             element.Updated = this.OnUpdated;
         }
@@ -35,6 +41,10 @@
         {
             this.Children.Insert(index, element);
             element.Parent = this;
+
+            //! metrohome65
+            element.ParentControl = this.ParentControl;
+
             this.Size = new Size(Math.Max(element.Bounds.Right, this.Size.Width), Math.Max(element.Bounds.Bottom, this.Size.Height));
             element.Updated = this.OnUpdated;
         }
@@ -51,5 +61,13 @@
         {
             this.Children.Clear();
         }
+
+        //! metrohome65
+        protected override void SetParentControl(FleuxControl parentControl)
+        {
+            base.SetParentControl(parentControl);
+            this.Children.ToList().ForEach(e => e.ParentControl = parentControl);
+        }
+
     }
 }

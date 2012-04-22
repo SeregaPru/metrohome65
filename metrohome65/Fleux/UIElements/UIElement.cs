@@ -1,4 +1,6 @@
-﻿namespace Fleux.UIElements
+﻿using Fleux.Controls;
+
+namespace Fleux.UIElements
 {
     using System;
     using System.Collections.Generic;
@@ -81,6 +83,20 @@
         public Action ReleasedHandler { get; set; }
 
         public UIElement Parent { get; set; }
+
+
+        //! metrohome65
+        private FleuxControl _parentControl;
+        public FleuxControl ParentControl
+        {
+            get { return _parentControl; } 
+            set { SetParentControl(value); }
+        }
+        protected virtual void SetParentControl(FleuxControl parentControl)
+        {
+            _parentControl = parentControl;
+        }
+
 
         public IEnumerable<UIElement> ChildrenEnumerable
         {
