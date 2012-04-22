@@ -596,7 +596,8 @@
         // GIANNI added
         public int CalculateTextWidth(string text)
         {
-            return StringHelpers.MeasureString(this.Graphics, this.state.CurrenFont, text, 0).Width.ToLogic();
+            //return StringHelpers.MeasureString(this.Graphics, this.state.CurrenFont, text, 0).Width.ToLogic();
+            return ((int)this.Graphics.MeasureString(text, this.state.CurrenFont).Width).ToLogic();
         }
 
         public IDrawingGraphics DrawMultiLineText(string text, int width, int height)
