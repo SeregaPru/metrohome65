@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
-using System.Threading;
 using Fleux.Controls.Gestures;
 using MetroHome65.HomeScreen.Tile;
 using MetroHome65.HomeScreen.TilesGrid;
