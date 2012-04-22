@@ -621,6 +621,12 @@
         "Entry"
         {
         "MsmKey" = "8:_4170318371E95FF6F081BFCF4B2CCEB4"
+        "OwnerKey" = "8:_B69B4C7F916414BBAB96ED36499B3DFF"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_4170318371E95FF6F081BFCF4B2CCEB4"
         "OwnerKey" = "8:_CA33F18DEB3DC143AE901794748D59EB"
         "MsmSig" = "8:_UNDEFINED"
         }
@@ -1173,6 +1179,12 @@
         "Entry"
         {
         "MsmKey" = "8:_88EC60EF99236C4598735CF5A3CAAF34"
+        "OwnerKey" = "8:_B69B4C7F916414BBAB96ED36499B3DFF"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_88EC60EF99236C4598735CF5A3CAAF34"
         "OwnerKey" = "8:_CA33F18DEB3DC143AE901794748D59EB"
         "MsmSig" = "8:_UNDEFINED"
         }
@@ -1366,6 +1378,12 @@
         {
         "MsmKey" = "8:_A841E329CBE8B1790A9376895BC81DCA"
         "OwnerKey" = "8:_02A9450DC50A4CCF8DC9C1050D0FBF35"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_A841E329CBE8B1790A9376895BC81DCA"
+        "OwnerKey" = "8:_C3231FB4F414451C9D4359E1D43A1CC4"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -2157,6 +2175,18 @@
     }
     "Configurations"
     {
+        "ControlsTest"
+        {
+        "DisplayName" = "8:ControlsTest"
+        "IsDebugOnly" = "11:FALSE"
+        "IsReleaseOnly" = "11:FALSE"
+        "OutputFilename" = "8:ControlsTest\\Setup.cab"
+        "PackageFileSize" = "3:-2147483648"
+        "CabType" = "3:1"
+        "SignOutput" = "11:FALSE"
+        "CertificateHash" = "8:"
+        "TimeStampServer" = "8:"
+        }
         "Debug"
         {
         "DisplayName" = "8:Debug"
@@ -2597,7 +2627,7 @@
             "{E4F2F62A-3940-4BF5-A031-F7FA98CAAFFA}:_1FD79254AF9CDBC4ECBB44FA97FE7479"
             {
             "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:BaseWidgets, Version=1.0.4476.42046, Culture=neutral"
+            "AssemblyAsmDisplayName" = "8:BaseWidgets, Version=1.0.4494.18761, Culture=neutral"
                 "ScatterAssemblies"
                 {
                     "_1FD79254AF9CDBC4ECBB44FA97FE7479"
@@ -2751,7 +2781,7 @@
             "{E4F2F62A-3940-4BF5-A031-F7FA98CAAFFA}:_341D6BC651FBBBBAD168A82330D249E4"
             {
             "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:MetroHome65.Interfaces, Version=1.0.4476.42041, Culture=neutral"
+            "AssemblyAsmDisplayName" = "8:MetroHome65.Interfaces, Version=1.0.4494.13717, Culture=neutral"
                 "ScatterAssemblies"
                 {
                     "_341D6BC651FBBBBAD168A82330D249E4"
@@ -3567,7 +3597,7 @@
             "{E4F2F62A-3940-4BF5-A031-F7FA98CAAFFA}:_88EC60EF99236C4598735CF5A3CAAF34"
             {
             "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:Fleux, Version=1.0.4476.42035, Culture=neutral"
+            "AssemblyAsmDisplayName" = "8:Fleux, Version=1.0.4494.13710, Culture=neutral"
                 "ScatterAssemblies"
                 {
                     "_88EC60EF99236C4598735CF5A3CAAF34"
@@ -4003,7 +4033,7 @@
             "{E4F2F62A-3940-4BF5-A031-F7FA98CAAFFA}:_B69B4C7F916414BBAB96ED36499B3DFF"
             {
             "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:Metrohome65.Settings.Controls, Version=1.0.4476.42043, Culture=neutral"
+            "AssemblyAsmDisplayName" = "8:Metrohome65.Settings.Controls, Version=1.0.4494.18756, Culture=neutral"
                 "ScatterAssemblies"
                 {
                     "_B69B4C7F916414BBAB96ED36499B3DFF"
@@ -4341,7 +4371,7 @@
             "{E4F2F62A-3940-4BF5-A031-F7FA98CAAFFA}:_CA33F18DEB3DC143AE901794748D59EB"
             {
             "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:MetroHome65.Routines, Version=1.0.4476.42038, Culture=neutral"
+            "AssemblyAsmDisplayName" = "8:MetroHome65.Routines, Version=1.0.4494.13713, Culture=neutral"
                 "ScatterAssemblies"
                 {
                     "_CA33F18DEB3DC143AE901794748D59EB"
@@ -4967,7 +4997,7 @@
         {
             "{605BE39E-5046-48BD-AEC0-63C3A46626D5}:_02A9450DC50A4CCF8DC9C1050D0FBF35"
             {
-            "SourcePath" = "8:..\\metrohome65\\MetroHome65.Routines\\obj\\Debug\\MetroHome65.Routines.dll"
+            "SourcePath" = "8:..\\metrohome65\\MetroHome65.Routines\\obj\\ControlsTest\\MetroHome65.Routines.dll"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_3CFD983215674BA08819E551753CF7D6"
@@ -4993,7 +5023,7 @@
             }
             "{605BE39E-5046-48BD-AEC0-63C3A46626D5}:_0448BC82C2534DA382C99C32E6688C84"
             {
-            "SourcePath" = "8:..\\metrohome65\\Widgets\\ClockWidgets\\obj\\Debug\\ClockWidgets.dll"
+            "SourcePath" = "8:..\\metrohome65\\Widgets\\ClockWidgets\\obj\\ControlsTest\\ClockWidgets.dll"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_3CFD983215674BA08819E551753CF7D6"
@@ -5019,7 +5049,7 @@
             }
             "{605BE39E-5046-48BD-AEC0-63C3A46626D5}:_65C8A0B93CC745E78C7293132CCB5BE4"
             {
-            "SourcePath" = "8:..\\metrohome65\\Fleux\\obj\\Debug\\Fleux.dll"
+            "SourcePath" = "8:..\\metrohome65\\Fleux\\obj\\ControlsTest\\Fleux.dll"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_3CFD983215674BA08819E551753CF7D6"
@@ -5045,7 +5075,7 @@
             }
             "{605BE39E-5046-48BD-AEC0-63C3A46626D5}:_6AA05D93CF474FDF9BE00E0E1705C873"
             {
-            "SourcePath" = "8:..\\metrohome65\\Widgets\\ContactWidgets\\obj\\Debug\\ContactWidgets.dll"
+            "SourcePath" = "8:..\\metrohome65\\Widgets\\ContactWidgets\\obj\\ControlsTest\\ContactWidgets.dll"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_3CFD983215674BA08819E551753CF7D6"
@@ -5071,7 +5101,7 @@
             }
             "{605BE39E-5046-48BD-AEC0-63C3A46626D5}:_7118982A268B4F6D89380A269E95BC2C"
             {
-            "SourcePath" = "8:..\\metrohome65\\MetroHome65.Interfaces\\obj\\Debug\\MetroHome65.Interfaces.dll"
+            "SourcePath" = "8:..\\metrohome65\\MetroHome65.Interfaces\\obj\\ControlsTest\\MetroHome65.Interfaces.dll"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_3CFD983215674BA08819E551753CF7D6"
@@ -5097,7 +5127,7 @@
             }
             "{605BE39E-5046-48BD-AEC0-63C3A46626D5}:_A340E718DC0D47959CD8EDBBC4040738"
             {
-            "SourcePath" = "8:..\\metrohome65\\Widgets\\BaseWidgets\\obj\\Debug\\BaseWidgets.dll"
+            "SourcePath" = "8:..\\metrohome65\\Widgets\\BaseWidgets\\obj\\ControlsTest\\BaseWidgets.dll"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_3CFD983215674BA08819E551753CF7D6"
@@ -5123,7 +5153,7 @@
             }
             "{605BE39E-5046-48BD-AEC0-63C3A46626D5}:_A5675F4929344635B6C6BA7F62C925BC"
             {
-            "SourcePath" = "8:..\\MetroHome65\\obj\\Debug\\MetroHome65.exe"
+            "SourcePath" = "8:..\\MetroHome65\\obj\\ControlsTest\\MetroHome65.exe"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_3CFD983215674BA08819E551753CF7D6"
@@ -5149,7 +5179,7 @@
             }
             "{605BE39E-5046-48BD-AEC0-63C3A46626D5}:_A582D91E50094C1F907B846A680674F6"
             {
-            "SourcePath" = "8:..\\metrohome65\\Widgets\\StatusWidgets\\obj\\Debug\\StatusWidgets.dll"
+            "SourcePath" = "8:..\\metrohome65\\Widgets\\StatusWidgets\\obj\\ControlsTest\\StatusWidgets.dll"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_3CFD983215674BA08819E551753CF7D6"
@@ -5175,7 +5205,7 @@
             }
             "{605BE39E-5046-48BD-AEC0-63C3A46626D5}:_B2C832A40DB4428B8D418210118D182A"
             {
-            "SourcePath" = "8:..\\metrohome65\\Widgets\\PhoneWidgets\\obj\\Debug\\PhoneWidgets.dll"
+            "SourcePath" = "8:..\\metrohome65\\Widgets\\PhoneWidgets\\obj\\ControlsTest\\PhoneWidgets.dll"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_3CFD983215674BA08819E551753CF7D6"
@@ -5201,7 +5231,7 @@
             }
             "{605BE39E-5046-48BD-AEC0-63C3A46626D5}:_C3231FB4F414451C9D4359E1D43A1CC4"
             {
-            "SourcePath" = "8:..\\metrohome65\\Metrohome65.Settings.Controls\\obj\\Debug\\Metrohome65.Settings.Controls.dll"
+            "SourcePath" = "8:..\\metrohome65\\Metrohome65.Settings.Controls\\obj\\ControlsTest\\Metrohome65.Settings.Controls.dll"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_3CFD983215674BA08819E551753CF7D6"
