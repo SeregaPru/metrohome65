@@ -1,4 +1,6 @@
-﻿namespace Fleux.UIElements.Pivot
+﻿using Fleux.Controls;
+
+namespace Fleux.UIElements.Pivot
 {
     using System;
     using System.Collections.Generic;
@@ -78,6 +80,11 @@
             this.body.Size = new Size(this.Size.Width - 21, this.Size.Height - 150);
             item.Body.Size = this.body.Size;
             item.Body.Location = new Point(0, 0);
+
+            //! metrohome65
+            item.Body.Parent = this;
+            item.Body.ParentControl = this.ParentControl;
+
             this.RefreshHeaders();
             if (this.pivotItems.Count == 1)
             {
@@ -252,5 +259,14 @@
                 .DrawText(p)
                 .Right;
         }
+
+
+        //! metrohome65
+        protected override void SetParentControl(FleuxControl parentControl)
+        {
+            base.SetParentControl(parentControl);
+            this.pivotItems.ToList().ForEach(e => e.Body.ParentControl = parentControl);
+        }
+
     }
 }
