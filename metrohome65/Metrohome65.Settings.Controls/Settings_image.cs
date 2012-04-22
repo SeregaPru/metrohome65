@@ -109,13 +109,13 @@ namespace MetroHome65.Settings.Controls
 
         private void buttonSelectBG_Click(object sender, EventArgs e)
         {
-            SelectPictureDialog ImgDialog = new SelectPictureDialog();
-            ImgDialog.Filter = "Image files|*.jpg;*.png;*.bmp;*.gif";
-            ImgDialog.Title = "Select image";
-            ImgDialog.InitialDirectory = System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().GetName().CodeBase);
+            var imgDialog = new SelectPictureDialog();
+            imgDialog.Filter = "Image files|*.jpg;*.png;*.bmp;*.gif";
+            imgDialog.Title = "Select image";
+            imgDialog.InitialDirectory = System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().GetName().CodeBase);
 
-            if (ImgDialog.ShowDialog() == DialogResult.OK)
-                SetTileImage(ImgDialog.FileName);
+            if (imgDialog.ShowDialog() == DialogResult.OK)
+                SetTileImage(imgDialog.FileName);
         }
 
         private void buttonClear_Click(object sender, EventArgs e)

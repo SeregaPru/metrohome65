@@ -79,6 +79,9 @@ namespace Fleux.Controls
 
         public void AddElement(UIElement element)
         {
+            //! metrohome65
+            element.ParentControl = this;
+
             this.elements.Add(element);
             this.offUpdated = false;
             element.Updated = OnUpdated;
@@ -91,6 +94,10 @@ namespace Fleux.Controls
 
         public void RemoveElement(UIElement element)
         {
+            //! metrohome65
+            element.ParentControl = null;
+            element.Updated = null;
+
             this.elements.Remove(element);
             this.offUpdated = false;
         }

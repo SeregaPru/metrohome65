@@ -5,7 +5,7 @@ using Fleux.UIElements;
 
 namespace Metrohome65.Settings.Controls
 {
-    public class FlagSettingsControl : Canvas, INotifyPropertyChanged
+    public sealed class FlagSettingsControl : Canvas, INotifyPropertyChanged
     {
         private readonly CheckBox _cbFlag;
 
@@ -25,7 +25,7 @@ namespace Metrohome65.Settings.Controls
 
         public FlagSettingsControl()
         {
-            Size = new Size(450, 78);
+            Size = new Size(450, 85);
 
             _cbFlag = new CheckBox("<flag parameter>")
                          {
