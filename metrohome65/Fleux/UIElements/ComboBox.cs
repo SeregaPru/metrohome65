@@ -6,28 +6,17 @@ using Fleux.Styles;
 
 namespace Fleux.UIElements
 {
+
     public class ComboBoxPopup : ListElement
     {
         public ComboBoxPopup()
         {
             ThreadedFill = false;
         }
-
-        public override void Draw(IDrawingGraphics drawingGraphics)
-        {
-            drawingGraphics.Color(MetroTheme.PhoneTextBoxBrush);
-            drawingGraphics.FillRectangle(0, 0, Size.Width, Size.Height);
-
-            drawingGraphics.Color(MetroTheme.PhoneTextBoxBorderBrush);
-            drawingGraphics.PenWidth(MetroTheme.PhoneBorderThickness.BorderThickness.Pixels);
-            drawingGraphics.DrawRectangle(0, 0, Size.Width, Size.Height);
-
-            base.Draw(drawingGraphics.CreateChild(new Point(10, 0)));
-        }
     }
 
 
-    public class ComboBox: UIElement
+    public class ComboBox: Canvas
     {
         #region Fields
 
@@ -91,24 +80,6 @@ namespace Fleux.UIElements
             TapHandler = p => DropDown(); 
         }
 
-        public override void Draw(IDrawingGraphics drawingGraphics)
-        {
-            drawingGraphics.Color(MetroTheme.PhoneTextBoxBrush);
-            drawingGraphics.FillRectangle(0, 0, Size.Width, Size.Height);
-
-            drawingGraphics.Color(MetroTheme.PhoneTextBoxBorderBrush);
-            drawingGraphics.PenWidth(MetroTheme.PhoneBorderThickness.BorderThickness.Pixels);
-            drawingGraphics.DrawRectangle(0, 0, Size.Width, Size.Height);
-
-            drawingGraphics.Style(Style);
-            drawingGraphics.Color(Color.Black);
-
-            //drawingGraphics.MoveX(10).DrawText((string)_items[_selectedIndex]);
-            if (_selectedElement == null)
-                _selectedElement = BuildCustomItem(_items[_selectedIndex], false);
-            _selectedElement.Draw(drawingGraphics.CreateChild(new Point(10, 0)));
-        }
-
         private ComboBoxPopup CreatePopup()
         {
             var sourceItems = new BindingList<object>();
@@ -157,17 +128,15 @@ namespace Fleux.UIElements
         private bool DropDown()
         {
             if (_droppedDown) return false;
-            _droppedDown = true;
 
             _popupList = CreatePopup();
+            _popupList.Location = new Point(10, 0);
 
-            _popupList.Location = ScreenLocation(this);
-            if (_popupList.Size.Height > 750)
-                _popupList.Size = new Size(_popupList.Size.Width, 750);
-            if (_popupList.Bounds.Bottom > 750)
-                _popupList.Location = new Point(_popupList.Location.X, 750 - _popupList.Size.Height);
+            this.Clear();
+            AddElement(_popupList);
+            _droppedDown = true;
 
-            ParentControl.AddElement(_popupList);
+            //ParentControl.AddElement(_popupList);
             Update();
 
             return true;
@@ -178,7 +147,7 @@ namespace Fleux.UIElements
             if ((! _droppedDown) || (_popupList == null)) return false;
             _droppedDown = false;
 
-            ParentControl.RemoveElement(_popupList);
+            //ParentControl.RemoveElement(_popupList);
             Update();
             return true;
         }
@@ -194,12 +163,33 @@ namespace Fleux.UIElements
                 if (_items[i] == arg)
                 {
                     SelectedIndex = i;
-                    _selectedElement = null;
+
+                    _selectedElement = BuildCustomItem(_items[_selectedIndex], false);
+
                     if (CloseUp())
                         return true;
                 }
             }
             return false;
+        }
+
+        public override void Draw(IDrawingGraphics drawingGraphics)
+        {
+            drawingGraphics.Color(MetroTheme.PhoneTextBoxBrush);
+            drawingGraphics.FillRectangle(0, 0, Size.Width, Size.Height);
+
+            drawingGraphics.Color(MetroTheme.PhoneTextBoxBorderBrush);
+            drawingGraphics.PenWidth(MetroTheme.PhoneBorderThickness.BorderThickness.Pixels);
+            drawingGraphics.DrawRectangle(0, 0, Size.Width, Size.Height);
+
+            base.Draw(drawingGraphics);
+
+            /*
+            if (_droppedDown)
+                _popupList.Draw(drawingGraphics.CreateChild(new Point(10, 0)));
+            else
+                _selectedElement.Draw(drawingGraphics.CreateChild(new Point(10, 0)));
+             */ 
         }
 
         #endregion
