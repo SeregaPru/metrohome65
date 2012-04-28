@@ -47,8 +47,8 @@ namespace FleuxControls
 
             stackPanel.AddElement(new ComboBox()
                     {
-                        Items = new List<object>() { "11111", "222222", "333333", "444444", "5", "6", "7", "8" },
                         Size = new Size(300, 50),
+                        Items = new List<object>() { "11111", "222222", "333333", "444444", "5", "6", "7", "8" },
                         Style = MetroTheme.PhoneTextNormalStyle,
                     }
                 );
@@ -56,6 +56,7 @@ namespace FleuxControls
 
             stackPanel.AddElement(new ColorComboBox()
                     {
+                        Size = new Size(300, 50),
                         Items = new List<object>()
                                     {
                                         new ColorItem(Color.Magenta, "magenta"), 
@@ -69,7 +70,6 @@ namespace FleuxControls
                                         new ColorItem(Color.Red, "red"), 
                                         new ColorItem(Color.Green, "green")
                                     },
-                        Size = new Size(300, 50),
                         Style = MetroTheme.PhoneTextNormalStyle,
                     }
                 );
@@ -77,8 +77,8 @@ namespace FleuxControls
 
             stackPanel.AddElement(new ComboBox()
                     {
-                        Items = new List<object>() { "11111", "222222", "333333", "444444", "5", "6", "7", "8" },
                         Size = new Size(300, 50),
+                        Items = new List<object>() { "dark", "light" },
                         Style = MetroTheme.PhoneTextNormalStyle,
                     }
                 );
@@ -86,6 +86,7 @@ namespace FleuxControls
 
             stackPanel.AddElement(new ColorComboBox()
                     {
+                        Size = new Size(300, 50),
                         Items = new List<object>()
                                     {
                                         new ColorItem(Color.Magenta, "magenta"), 
@@ -99,7 +100,6 @@ namespace FleuxControls
                                         new ColorItem(Color.Red, "red"), 
                                         new ColorItem(Color.Green, "green")
                                     },
-                        Size = new Size(300, 50),
                         Style = MetroTheme.PhoneTextNormalStyle,
                     }
                 );

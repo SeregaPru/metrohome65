@@ -17,14 +17,6 @@ namespace Fleux.UIElements
             this.ExitAnimation = new ForwarderAnimation(() => new AnimationGroup(this.Children.Where(e => e.ExitAnimation != null).Select(e => e.ExitAnimation)));
         }
 
-        public override System.Drawing.Rectangle Bounds
-        {
-            get
-            {
-                return base.Bounds;
-            }
-        }
-
         public virtual void AddElement(UIElement element)
         {
             this.Children.Add(element);
