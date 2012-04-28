@@ -27,7 +27,7 @@ namespace Fleux.UIElements
 
         protected override UIElement BuildCustomItem(object arg, bool forList)
         {
-            var canvas = new Canvas() { Size = new Size(Size.Width - 10, ItemHeight), };
+            var canvas = new Canvas() { Size = new Size(Size.Width - 10, PopupItemHeight), };
             canvas.AddElement(
                 new TextElement(((ColorItem)arg).Caption)
                 {
@@ -38,7 +38,7 @@ namespace Fleux.UIElements
                         new TextStyle(
                             MetroTheme.PhoneFontFamilyNormal, MetroTheme.PhoneFontSizeNormal,
                             MetroTheme.PhoneBackgroundBrush),
-                    Size = new Size(Size.Width - 10, ItemHeight),
+                    Size = new Size(Size.Width - Padding - PopupItemHeight, PopupItemHeight),
                     Location = new Point(55, 0),
                 }
             );
@@ -46,7 +46,7 @@ namespace Fleux.UIElements
                 new DelegateUIElement()
                 {
                     DrawingAction = graphics => DrawColor(graphics, arg),
-                    Size = new Size(ItemHeight, ItemHeight),
+                    Size = new Size(PopupItemHeight, PopupItemHeight),
                     Location = new Point(0, 0),
                 }
                 );

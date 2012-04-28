@@ -16,12 +16,14 @@
         public override void AddElement(UIElement element)
         {
             base.AddElement(element);
+            element.SizeChanged += (s, e) => this.Relayout();
             this.Relayout();
         }
 
         public override void AddElementAt(int index, UIElement element)
         {
             base.AddElementAt(index, element);
+            element.SizeChanged += (s, e) => this.Relayout();
             this.Relayout();
         }
 

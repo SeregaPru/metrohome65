@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
 using Fleux.Core.GraphicsHelpers;
@@ -20,7 +21,9 @@ namespace Fleux.UIElements
     {
         #region Fields
 
-        protected const int ItemHeight = 60;
+        protected const int PopupItemHeight = 70;
+        protected const int EditItemHeight = 50;
+        protected const int Padding = 10;
 
         private List<object> _items;
 
@@ -29,6 +32,8 @@ namespace Fleux.UIElements
         private ComboBoxPopup _popupList;
 
         private bool _droppedDown;
+
+        private Size _prevSize;
 
         #endregion
 
@@ -43,9 +48,12 @@ namespace Fleux.UIElements
             set
             {
                 _items = value;
-                _selectedIndex = 0;
 
-                _popupList = null;
+                _selectedIndex = -1;
+                SelectedIndex = 0;
+
+                AddElement(_selectedElement);
+                Update();
             }
         }
 
@@ -62,6 +70,11 @@ namespace Fleux.UIElements
                 else
                 _selectedIndex = value;
 
+                _selectedElement = BuildCustomItem(_items[_selectedIndex], false);
+                _selectedElement.Location = new Point(Padding, 0);
+                _selectedElement.Size = new Size(Size.Width - Padding, Math.Min(this.Size.Height, EditItemHeight));
+                _selectedElement.TapHandler = p => DropDown();
+
                 Update();
             }
         }
@@ -75,9 +88,10 @@ namespace Fleux.UIElements
 
         public ComboBox()
         {
-            _items = new List<object> { "" };
             Style = MetroTheme.PhoneTextNormalStyle;
-            TapHandler = p => DropDown(); 
+            _items = new List<object> { "" };
+            _selectedIndex = 0;
+            TapHandler = p => DropDown();
         }
 
         private ComboBoxPopup CreatePopup()
@@ -88,7 +102,7 @@ namespace Fleux.UIElements
 
             return new ComboBoxPopup
                              {
-                                 Size = new Size(Size.Width, sourceItems.Count * ItemHeight),
+                                 Size = new Size(Size.Width - Padding, sourceItems.Count * PopupItemHeight),
                                  DataTemplateSelector = item => BuildItem,
                                  SourceItems = sourceItems,
                              };
@@ -112,17 +126,8 @@ namespace Fleux.UIElements
                     new TextStyle(
                         MetroTheme.PhoneFontFamilyNormal, MetroTheme.PhoneFontSizeNormal,
                         MetroTheme.PhoneBackgroundBrush),
-                Size = new Size(Size.Width - 10, ItemHeight),
+                Size = new Size(Size.Width - Padding, PopupItemHeight),
             };
-        }
-
-        private Point ScreenLocation(UIElement element)
-        {
-            var pos = new Point(element.Location.X, element.Location.Y);
-            var e = element;
-            while ((e = e.Parent) != null)
-                pos.Offset(e.Location.X, e.Location.Y);
-            return pos;
         }
 
         private bool DropDown()
@@ -130,13 +135,13 @@ namespace Fleux.UIElements
             if (_droppedDown) return false;
 
             _popupList = CreatePopup();
-            _popupList.Location = new Point(10, 0);
+            _popupList.Location = new Point(Padding, 0);
 
+            _prevSize = this.Size;
             this.Clear();
             AddElement(_popupList);
             _droppedDown = true;
 
-            //ParentControl.AddElement(_popupList);
             Update();
 
             return true;
@@ -144,10 +149,15 @@ namespace Fleux.UIElements
 
         private bool CloseUp()
         {
-            if ((! _droppedDown) || (_popupList == null)) return false;
-            _droppedDown = false;
+            if (! _droppedDown) return false;
 
-            //ParentControl.RemoveElement(_popupList);
+            this.Clear();
+            AddElement(_selectedElement);
+            this.Size = _prevSize;
+
+            _droppedDown = false;
+            _popupList = null;
+
             Update();
             return true;
         }
@@ -163,8 +173,6 @@ namespace Fleux.UIElements
                 if (_items[i] == arg)
                 {
                     SelectedIndex = i;
-
-                    _selectedElement = BuildCustomItem(_items[_selectedIndex], false);
 
                     if (CloseUp())
                         return true;
@@ -183,13 +191,6 @@ namespace Fleux.UIElements
             drawingGraphics.DrawRectangle(0, 0, Size.Width, Size.Height);
 
             base.Draw(drawingGraphics);
-
-            /*
-            if (_droppedDown)
-                _popupList.Draw(drawingGraphics.CreateChild(new Point(10, 0)));
-            else
-                _selectedElement.Draw(drawingGraphics.CreateChild(new Point(10, 0)));
-             */ 
         }
 
         #endregion
