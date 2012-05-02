@@ -1,4 +1,5 @@
-﻿using System.Drawing;
+﻿using System.Collections.Generic;
+using System.Drawing;
 using Fleux.Animations;
 using Fleux.Controls;
 using Fleux.Core;
@@ -18,7 +19,6 @@ namespace MetroHome65.HomeScreen.Settings
         private const int PaddingHor = 20;
 
         private BindingManager _bindingManager;
-        private ApplicationBar _appBar;
 
         public FrmMainSettings2() : base(true)
         {
@@ -29,19 +29,19 @@ namespace MetroHome65.HomeScreen.Settings
 
         public void CreateControls()
         {
-            _appBar = new ApplicationBar
+            var appBar = new ApplicationBar
             {
                 Size = new Size(Size.Width, 48 + 2 * 10),
                 Location = new Point(0, Size.Height - 48 - 2 * 10)
             };
-            _appBar.AddButton(ResourceManager.Instance.GetBitmapFromEmbeddedResource("MetroHome65.Images.ok.bmp"));
-            _appBar.AddButton(ResourceManager.Instance.GetBitmapFromEmbeddedResource("MetroHome65.Images.cancel.bmp"));
-            _appBar.ButtonTap += OnAppBarButtonTap;
-            Control.AddElement(_appBar.AnimateHorizontalEntrance(false));
+            appBar.AddButton(ResourceManager.Instance.GetBitmapFromEmbeddedResource("MetroHome65.Images.ok.bmp"));
+            appBar.AddButton(ResourceManager.Instance.GetBitmapFromEmbeddedResource("MetroHome65.Images.cancel.bmp"));
+            appBar.ButtonTap += OnAppBarButtonTap;
+            Control.AddElement(appBar.AnimateHorizontalEntrance(false));
 
             _bindingManager = new BindingManager();
 
-            var pivot = new Pivot("SETTINGS") { Size = new Size(Size.Width, Size.Height - 150 - _appBar.Size.Height) };
+            var pivot = new Pivot("SETTINGS") { Size = new Size(Size.Width, Size.Height - 150 - appBar.Size.Height) };
 
             pivot.AddPivotItem(CreateThemeControls());
             pivot.AddPivotItem(CreateLockScreenControls());
@@ -52,42 +52,58 @@ namespace MetroHome65.HomeScreen.Settings
         {
             var page = new PivotItem { Title = "theme", };
             var stackPanel = new StackPanel { Size = new Size(Size.Width - PaddingHor * 2, 1), };
-            page.Body = stackPanel; 
 
-            /*
             var scroller = new ScrollViewer
             {
                 Content = stackPanel,
                 Location = new Point(PaddingHor, 0),
-                Size = new Size(this.Size.Width - PaddingHor, this.Size.Height - _appBar.Size.Height),
+                //Size = new Size(this.Size.Width - PaddingHor, this.Size.Height - _appBar.Size.Height),
                 ShowScrollbars = true,
                 HorizontalScroll = false,
                 VerticalScroll = true,
             };
-            */
             
             // intro
             var txtIntro =
                 new TextElement(
                     "Change your phone's background and accent color to match your mood today, this week, or all month.")
                     {
-                        Style = new TextStyle(MetroTheme.PhoneFontFamilyNormal, MetroTheme.PhoneFontSizeSmall, MetroTheme.PhoneForegroundBrush),
                         Size = new Size(stackPanel.Size.Width - 10, 50),
+                        Style = new TextStyle(MetroTheme.PhoneFontFamilyNormal, MetroTheme.PhoneFontSizeSmall, MetroTheme.PhoneForegroundBrush),
                         AutoSizeMode = TextElement.AutoSizeModeOptions.WrapText,
                     };
             stackPanel.AddElement(txtIntro);
 
             // vertival span
-            stackPanel.AddElement(new TextElement(" "));
+            stackPanel.AddElement(new Canvas() { Size = new Size(10, 40), });
+
 
             // light/dark theme switcher
-            var ctrThemeType = new FlagSettingsControl
-                                   {
-                                        Caption = "Dark",
-                                        Value = _editSettings.ThemeIsDark,
-                                    };
-            stackPanel.AddElement(ctrThemeType);
-            _bindingManager.Bind(_editSettings, "ThemeIsDark", ctrThemeType, "Value");
+            var ctrTheme = new SelectSettingsControl
+            {
+                Caption = "Theme",
+                Items = new List<object> { "dark", "light" },
+                SelectedIndex = (_editSettings.ThemeIsDark ? 0 : 1),
+            };
+            stackPanel.AddElement(ctrTheme);
+            _bindingManager.Bind(_editSettings, "ThemeIsDark", ctrTheme, "SelectedIndex");
+
+            // vertival span
+            stackPanel.AddElement(new Canvas() { Size = new Size(10, 40), });
+
+
+            // accent coolor
+            var ctrAccent = new ColorSettingsControl
+            {
+                Caption = "Theme",
+                Value = _editSettings.AccentColor,
+            };
+            stackPanel.AddElement(ctrAccent);
+            _bindingManager.Bind(_editSettings, "AccentColor", ctrAccent, "Value");
+
+            // vertival span
+            stackPanel.AddElement(new Canvas() { Size = new Size(10, 40), });
+
 
             // theme background
             var ctrThemeImage = new ImageSettingsControl
@@ -98,6 +114,7 @@ namespace MetroHome65.HomeScreen.Settings
             stackPanel.AddElement(ctrThemeImage);
             _bindingManager.Bind(_editSettings, "ThemeImage", ctrThemeImage, "Value");
 
+            page.Body = scroller; 
             return page;
         }
 

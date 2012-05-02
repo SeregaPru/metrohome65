@@ -29,17 +29,13 @@ namespace Metrohome65.Settings.Controls
 
             _cbFlag = new CheckBox("<flag parameter>")
                          {
-                             Location = new Point(8, 20),
+                             Location = new Point(0, 20),
                              AutoSizeMode = CheckBox.AutoSizeModeOptions.WrapText,
                          };
-            _cbFlag.CheckStateChanged += CbFlagCheckStateChanged;
+            _cbFlag.CheckStateChanged += (s, e) => NotifyPropertyChanged("Value");
             AddElement(_cbFlag);
         }
 
-        private void CbFlagCheckStateChanged(object sender, EventArgs e)
-        {
-            NotifyPropertyChanged("Value");
-        }
 
         #region INotifyPropertyChanged
         public event PropertyChangedEventHandler PropertyChanged;
@@ -50,7 +46,6 @@ namespace Metrohome65.Settings.Controls
                 PropertyChanged(this, new PropertyChangedEventArgs(info));
         }
         #endregion
-
 
     }
 }
