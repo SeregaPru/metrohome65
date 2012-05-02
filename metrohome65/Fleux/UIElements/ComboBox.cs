@@ -76,6 +76,9 @@ namespace Fleux.UIElements
                 _selectedElement.TapHandler = p => DropDown();
 
                 Update();
+
+                if (SelectedIndexChanged != null)
+                    SelectedIndexChanged(this, new EventArgs());
             }
         }
 
@@ -192,6 +195,9 @@ namespace Fleux.UIElements
 
             base.Draw(drawingGraphics);
         }
+
+        // event triggered when selected item changed
+        public event EventHandler SelectedIndexChanged;
 
         #endregion
 

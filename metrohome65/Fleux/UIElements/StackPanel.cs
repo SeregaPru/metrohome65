@@ -1,10 +1,6 @@
 ﻿namespace Fleux.UIElements
 {
-    using System;
-    using System.Collections.Generic;
-    using System.ComponentModel;
     using System.Drawing;
-    using System.Linq;
 
     public class StackPanel : Canvas
     {
@@ -27,8 +23,16 @@
             this.Relayout();
         }
 
+        /// <summary>
+        /// flag that relayout is now performing. to prevent cyclyng
+        /// </summary>
+        private bool _processingRelayout;
+
         private void Relayout()
         {
+            if (_processingRelayout) return;
+            _processingRelayout = true;
+
             int y = 0;
             foreach (var i in this.Children)
             {
@@ -38,6 +42,8 @@
             }
 
             Size = new Size(Size.Width, y);
+
+            _processingRelayout = false;
         }
     }
 }

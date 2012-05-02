@@ -22,7 +22,7 @@ namespace Metrohome65.Settings.Controls
                 drawingGraphics.PenWidth(MetroTheme.PhoneBorderThickness.BorderThickness.Pixels);
                 drawingGraphics.Color(MetroTheme.PhoneForegroundBrush);
 
-                drawingGraphics.DrawRectangle(Bounds);
+                drawingGraphics.DrawRectangle(0, 0, Size.Width, Size.Height);
                 drawingGraphics.DrawLine(0, 0, Size.Width, Size.Height);
                 drawingGraphics.DrawLine(0, Size.Height, Size.Width, 0);
             }
@@ -31,8 +31,11 @@ namespace Metrohome65.Settings.Controls
         }   
     }
 
+
     public sealed class ImageSettingsControl: Canvas, INotifyPropertyChanged
     {
+        #region Fields
+
         private readonly TextElement _lblCaption;
 
         private readonly ImageElement _pictureBox;
@@ -41,29 +44,45 @@ namespace Metrohome65.Settings.Controls
 
         private readonly OpenNETCF.Drawing.Imaging.ImagingFactoryClass _factory = new OpenNETCF.Drawing.Imaging.ImagingFactoryClass();
 
-        private const int MaxWidth = 450;
+        #endregion
+
+
+        #region Properties
+
+        public String Caption { set { _lblCaption.Text = value; } }
+
+        public String Value
+        {
+            get { return _tileImage; }
+            set { SetTileImage(value); }
+        }
+
+        #endregion
+
+
+        #region Methods
 
         public ImageSettingsControl()
         {
-            Size = new Size(MaxWidth, 300);
+            Size = new Size(SettingsConsts.MaxWidth, 300);
 
             _lblCaption = new TextElement("<image parameter>")
             {
-                Size = new Size(MaxWidth, 40),
+                Size = new Size(SettingsConsts.MaxWidth, 40),
                 Location = new Point(0, 0),
             };
             AddElement(_lblCaption);
 
             _pictureBox = new SettingsImageElement(new Bitmap(1, 1))
                               {
-                                  Size = new Size(MaxWidth, 175),
+                                  Size = new Size(SettingsConsts.MaxWidth, 175),
                                   Location = new Point(0, _lblCaption.Bounds.Bottom + 10),
                               };
             AddElement(_pictureBox);
 
             var buttonSelectImage = new Fleux.UIElements.Button("select")
                                         {
-                                            Size = new Size(MaxWidth / 2 - 10, 50),
+                                            Size = new Size(SettingsConsts.MaxWidth / 2 - 10, 50),
                                             Location = new Point(0, _pictureBox.Bounds.Bottom + 10),
                                             TapHandler = p => ButtonSelectBgClick(),
 
@@ -72,23 +91,14 @@ namespace Metrohome65.Settings.Controls
 
             var buttonClearImage = new Fleux.UIElements.Button("clear")
                                        {
-                                           Size = new Size(MaxWidth / 2 - 10, 50),
-                                           Location = new Point(MaxWidth / 2 + 10, _pictureBox.Bounds.Bottom + 10),
+                                           Size = new Size(SettingsConsts.MaxWidth / 2 - 10, 50),
+                                           Location = new Point(SettingsConsts.MaxWidth / 2 + 10, _pictureBox.Bounds.Bottom + 10),
                                            TapHandler = p => { 
                                                Value = "";
                                                return true;
                                            },
                                        };
             AddElement(buttonClearImage);
-        }
-
-
-        public String Caption { set { _lblCaption.Text = value; } }
-
-        public String Value
-        {
-            get { return _tileImage; }
-            set { SetTileImage(value); }
         }
 
         private void SetTileImage(String value)
@@ -187,6 +197,8 @@ namespace Metrohome65.Settings.Controls
             SetTileImage(imgDialog.FileName);
             return true;
         }
+
+        #endregion
 
 
         #region INotifyPropertyChanged
