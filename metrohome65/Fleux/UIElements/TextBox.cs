@@ -174,11 +174,13 @@
 
         public override void ResizeForWidth(int width)
         {
+            /* !! metrohome65
             if (this.AutoSizeMode != AutoSizeModeOptions.None)
             {
                 this.Size = new Size(width, 10); // Height will be calculated later
                 this.Relayout();
             }
+            */
         }
 
         public override void Draw(IDrawingGraphics drawingGraphics)
@@ -193,23 +195,22 @@
 
             drawingGraphics.Color(MetroTheme.PhoneBackgroundBrush);
 
+            var text = (m_ShowCaret) ? String.Format("{0}|", m_Text) : m_Text;
             switch (this.AutoSizeMode)
             {
                 case AutoSizeModeOptions.None:
                 case AutoSizeModeOptions.OneLineAutoHeight:
-                    if (m_ShowCaret)
-                        drawingGraphics.DrawText(String.Format("{0}|", m_Text));
-                    else
-                        drawingGraphics.DrawText(m_Text);
+                    drawingGraphics.DrawText(text);
                     break;
                 case AutoSizeModeOptions.WrapText:
-                    drawingGraphics.DrawMultiLineText(m_Text, this.Size.Width, this.Size.Height);
+                    drawingGraphics.DrawMultiLineText(text, this.Size.Width, this.Size.Height);
                     break;
             }
         }
 
         private void Relayout()
         {
+            /* !! metrohome65
             if (this.AutoSizeMode != AutoSizeModeOptions.None)
             {
                 var height = 0;
@@ -226,6 +227,7 @@
                 }
                 this.Size = new Size(this.Size.Width, height);
             }
+            */
         }
 
         // event triggered when Text changes

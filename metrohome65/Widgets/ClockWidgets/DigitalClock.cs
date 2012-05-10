@@ -1,14 +1,11 @@
 ﻿using System;
 using System.Drawing;
 using System.Collections.Generic;
-using System.Reflection;
-using System.Windows.Forms;
 using Fleux.Controls;
 using Fleux.Styles;
 using Fleux.UIElements;
 using MetroHome65.Interfaces;
 using MetroHome65.Routines;
-using MetroHome65.Settings.Controls;
 using Metrohome65.Settings.Controls;
 
 namespace MetroHome65.Widgets
@@ -29,7 +26,7 @@ namespace MetroHome65.Widgets
         private readonly int _dotPaddingRight = ScreenRoutines.Scale(8);
         private readonly int _dotPaddingLeft = ScreenRoutines.Scale(6);
 
-        public DigitalClockWidget() : base()
+        public DigitalClockWidget() 
         {
             _brushCaption = new SolidBrush(MetroTheme.TileTextStyle.Foreground);
             _fntTime = new Font("Segoe WP Semibold", 36, FontStyle.Regular);
@@ -39,10 +36,9 @@ namespace MetroHome65.Widgets
 
         protected override Size[] GetSizes()
         {
-            var sizes = new Size[] { 
+            return new Size[] { 
                 new Size(4, 2) 
             };
-            return sizes;
         }
 
 
@@ -136,10 +132,17 @@ namespace MetroHome65.Widgets
 
             // hide control for icon / caption selection
             foreach (var control in controls)
-            {
-                //!!! if (control.Name.Contains("Icon") || control.Name.Contains("Caption"))
-                //!!!    controls.Remove(control);
-            }
+                if (control.Name.Contains("Icon"))
+                {
+                    controls.Remove(control);
+                    break;
+                }
+            foreach (var control in controls)
+                if (control.Name.Contains("Caption"))
+                {
+                    controls.Remove(control);
+                    break;
+                }
            
             return controls;
         }

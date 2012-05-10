@@ -22,7 +22,7 @@ namespace MetroHome65.HomeScreen.ProgramsMenu
         {
             _programsSv = new ProgramsMenu()
             {
-                Location = new Point(PaddingTop, 3),
+                Location = new Point(PaddingTop, 0),
                 Size = new Size(100, 100), // initial fake size
             };
             this.SizeChanged += (sender, args) => SetSize();
@@ -32,7 +32,7 @@ namespace MetroHome65.HomeScreen.ProgramsMenu
 
         private void SetSize()
         {
-            _programsSv.Size = new Size(this.Size.Width - PaddingTop, this.Size.Height - 3);
+            _programsSv.Size = new Size(this.Size.Width - PaddingTop, this.Size.Height);
         }
 
         // IActive

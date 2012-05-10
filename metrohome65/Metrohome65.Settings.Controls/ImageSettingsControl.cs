@@ -32,7 +32,7 @@ namespace Metrohome65.Settings.Controls
     }
 
 
-    public sealed class ImageSettingsControl: Canvas, INotifyPropertyChanged
+    public sealed class ImageSettingsControl : StackPanel, INotifyPropertyChanged
     {
         #region Fields
 
@@ -64,41 +64,38 @@ namespace Metrohome65.Settings.Controls
 
         public ImageSettingsControl()
         {
-            Size = new Size(SettingsConsts.MaxWidth, 300);
-
             _lblCaption = new TextElement("<image parameter>")
-            {
-                Size = new Size(SettingsConsts.MaxWidth, 40),
-                Location = new Point(0, 0),
-            };
+                {
+                    Size = new Size(SettingsConsts.MaxWidth, 50),
+                };
             AddElement(_lblCaption);
 
             _pictureBox = new SettingsImageElement(new Bitmap(1, 1))
-                              {
-                                  Size = new Size(SettingsConsts.MaxWidth, 175),
-                                  Location = new Point(0, _lblCaption.Bounds.Bottom + 10),
-                              };
+                {
+                  Size = new Size(SettingsConsts.MaxWidth, 175),
+                };
             AddElement(_pictureBox);
 
-            var buttonSelectImage = new Fleux.UIElements.Button("select")
-                                        {
-                                            Size = new Size(SettingsConsts.MaxWidth / 2 - 10, 50),
-                                            Location = new Point(0, _pictureBox.Bounds.Bottom + 10),
-                                            TapHandler = p => ButtonSelectBgClick(),
+            AddElement(new Canvas() { Size = new Size(SettingsConsts.MaxWidth, 10), });
 
-                                        };
-            AddElement(buttonSelectImage);
+            var buttonPanel = new Canvas() { Size = new Size(SettingsConsts.MaxWidth, 50), };
+            AddElement(buttonPanel);
+
+            var buttonSelectImage = new Fleux.UIElements.Button("select")
+                {
+                    Size = new Size(SettingsConsts.MaxWidth / 2 - 10, 50),
+                    Location = new Point(0, 0),
+                    TapHandler = p => ButtonSelectBgClick(),
+                };
+            buttonPanel.AddElement(buttonSelectImage);
 
             var buttonClearImage = new Fleux.UIElements.Button("clear")
-                                       {
-                                           Size = new Size(SettingsConsts.MaxWidth / 2 - 10, 50),
-                                           Location = new Point(SettingsConsts.MaxWidth / 2 + 10, _pictureBox.Bounds.Bottom + 10),
-                                           TapHandler = p => { 
-                                               Value = "";
-                                               return true;
-                                           },
-                                       };
-            AddElement(buttonClearImage);
+               {
+                   Size = new Size(SettingsConsts.MaxWidth / 2 - 10, 50),
+                   Location = new Point(SettingsConsts.MaxWidth / 2 + 10, 0),
+                   TapHandler = p => { Value = ""; return true; },
+               };
+            buttonPanel.AddElement(buttonClearImage);
         }
 
         private void SetTileImage(String value)

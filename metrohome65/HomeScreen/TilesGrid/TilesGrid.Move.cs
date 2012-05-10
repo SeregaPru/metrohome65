@@ -219,7 +219,7 @@ namespace MetroHome65.HomeScreen.TilesGrid
                     widgetsWidth = Math.Max(widgetsWidth, wsInfo.Bounds.Right);
                     //wsInfo.Update();
                 }
-                widgetsHeight += 50; // add padding at bottom and blank spaces at top and bottom
+                widgetsHeight += 10; // add padding at bottom and blank spaces at bottom
 
                 _tilesCanvas.Size = new Size(_tilesCanvas.Size.Width, widgetsHeight);
                 _tilesCanvas.Update();

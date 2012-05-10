@@ -65,7 +65,7 @@ namespace MetroHome65.Widgets
                                       Value = CommandLine,
                                   };
             controls.Add(fileControl);
-            bindingManager.Bind(this, "CommandLineForEdit", fileControl, "Value");
+            bindingManager.Bind(this, "CommandLine", fileControl, "Value");
 
             return controls;
         }

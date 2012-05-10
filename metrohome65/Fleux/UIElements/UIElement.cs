@@ -7,12 +7,9 @@ namespace Fleux.UIElements
     using System.Drawing;
     using System.Linq;
     using Animations;
-    using Controls.Gestures;
     using Core;
     using Core.Dim;
     using Core.GraphicsHelpers;
-    using Core.NativeHelpers;
-    using Core.Scaling;
     using Events;
 
     public abstract class UIElement
@@ -26,9 +23,15 @@ namespace Fleux.UIElements
             // Default transformation parameters
             this.TransformationScaling = 1.0;
             this.TransformationCenter = new Point(0, 0);
+
+            //!! metrohome65
+            this.Name = "";
         }
 
         public event EventHandler<SizeChangedEventArgs> SizeChanged;
+
+        //!! metrohome65
+        public String Name { get; set; }
 
         public Point Location { get; set; }
 

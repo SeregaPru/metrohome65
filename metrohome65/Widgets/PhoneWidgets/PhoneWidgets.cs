@@ -17,11 +17,10 @@ namespace MetroHome65.Widgets
 
         protected override Size[] GetSizes()
         {
-            Size[] sizes = new Size[] { 
+            return new Size[] { 
                 new Size(2, 2),
                 new Size(4, 2) 
             };
-            return sizes;
         }
 
 
