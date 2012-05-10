@@ -70,29 +70,28 @@ namespace Metrohome65.Settings.Controls
             };
             AddElement(_lblCaption);
 
+            // colors consts for wp7 - see http://msdn.microsoft.com/en-us/library/ff402557%28v=vs.92%29.aspx
+            var items = new List<object>()
+                            {
+                                new ColorItem(Color.FromArgb(216,0,115), "magenta"),
+                                new ColorItem(Color.FromArgb(162,0,255), "purple"),
+                                new ColorItem(Color.FromArgb(0,171,169), "teal"),
+                                new ColorItem(Color.FromArgb(162,193,57), "lime"),
+                                new ColorItem(Color.FromArgb(160,80,0), "brown"),
+                                new ColorItem(Color.FromArgb(230,113,184), "pink"),
+                                new ColorItem(Color.FromArgb(240,150,9), "orange"),
+                                new ColorItem(Color.FromArgb(27,161,226), "blue"),
+                                new ColorItem(Color.FromArgb(229,20,0), "red"),
+                                new ColorItem(Color.FromArgb(51,153,51), "green"),
+                            };
+            if (withDefaultColor)
+                _comboSelect.Items.Insert(0, new ColorItem(Color.Empty, "<default>"));
+
             _comboSelect = new ColorComboBox
             {
                 Size = new Size(SettingsConsts.MaxWidth, 50),
-                Items = new List<object>()
-                                    {
-                                        new ColorItem(Color.Magenta, "magenta"), 
-                                        new ColorItem(Color.Purple, "purple"),  
-                                        new ColorItem(Color.Teal, "teal"), 
-                                        new ColorItem(Color.Lime, "lime"), 
-                                        new ColorItem(Color.Brown, "brown"), 
-                                        new ColorItem(Color.Pink, "pink"), 
-                                        new ColorItem(Color.Orange, "orange"), 
-                                        new ColorItem(Color.Blue, "blue"), 
-                                        new ColorItem(Color.Red, "red"), 
-                                        new ColorItem(Color.Green, "green")
-                                    },
+                Items = items,
             };
-
-            if (withDefaultColor)
-            {
-                _comboSelect.Items.Insert(0, new ColorItem(Color.Empty, "<default>"));
-                _comboSelect.SelectedIndex = 0;
-            }
 
             _comboSelect.SelectedIndexChanged += (s, e) =>
                                                      {
