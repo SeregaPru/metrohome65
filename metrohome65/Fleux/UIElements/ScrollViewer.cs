@@ -179,6 +179,8 @@ namespace Fleux.UIElements
 
         public void DrawScrollBar(IDrawingGraphics drawingGr)
         {
+            if (this.Content.Size.Height == 0) return;
+
             drawingGr.DrawAlphaImage("verticalscrollbar.png", new Rectangle(this.Size.Width - 5, 0, 5, this.Size.Height));
             var scrollHeight = Math.Max(this.Size.Height * this.Size.Height / this.Content.Size.Height, 20);
             var scrollBegin = this.Size.Height * -this.VerticalOffset / this.Content.Size.Height;

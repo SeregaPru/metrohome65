@@ -43,6 +43,7 @@ namespace Metrohome65.Settings.Controls
                     _comboSelect.SelectedIndex = idx;
 
                     NotifyPropertyChanged("Value");
+                    NotifyPropertyChanged("ARGBValue");
                 }
             }
         }
@@ -53,6 +54,8 @@ namespace Metrohome65.Settings.Controls
             set
             {
                 Value = Color.FromArgb(value);
+
+                NotifyPropertyChanged("Value");
                 NotifyPropertyChanged("ARGBValue");
             }
         }
@@ -85,7 +88,7 @@ namespace Metrohome65.Settings.Controls
                                 new ColorItem(Color.FromArgb(51,153,51), "green"),
                             };
             if (withDefaultColor)
-                _comboSelect.Items.Insert(0, new ColorItem(Color.Empty, "<default>"));
+                items.Insert(0, new ColorItem(Color.Empty, "<default>"));
 
             _comboSelect = new ColorComboBox
             {

@@ -161,6 +161,7 @@ namespace MetroHome65.Widgets
                                      {
                                          Caption = "Caption", 
                                          Value = Caption,
+                                         Name = "Caption",
                                      };
             controls.Add(captionControl);
             bindingManager.Bind(this, "Caption", captionControl, "Value");
@@ -169,6 +170,7 @@ namespace MetroHome65.Widgets
                                  {
                                      Caption = "Icon image", 
                                      Value = IconPath,
+                                     Name = "Icon",
                                  };
             controls.Add(imgControl);
             bindingManager.Bind(this, "IconPath", imgControl, "Value");

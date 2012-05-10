@@ -50,7 +50,7 @@ namespace Metrohome65.Settings.Controls
             {
                 Size = new Size(SettingsConsts.MaxWidth, 150),
                 Style = MetroTheme.PhoneTextNormalStyle,
-                //!! access !! AutoSizeMode = TextBox.AutoSizeModeOptions.WrapText,
+                AutoSizeMode = TextBox.AutoSizeModeOptions.WrapText,
             };
             _inputBox.TextChanged += (s, e) => NotifyPropertyChanged("Value");
             AddElement(_inputBox);

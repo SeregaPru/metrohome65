@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
-using System.Windows.Forms;
 using Fleux.UIElements;
 using MetroHome65.Interfaces;
 using MetroHome65.Routines;
@@ -11,7 +10,7 @@ using ComboBox = Fleux.UIElements.ComboBox;
 
 namespace MetroHome65.HomeScreen.Tile
 {
-    public partial class FrmWidgetSettings : CustomSettingsPage
+    public class FrmWidgetSettings : CustomSettingsPage
     {
         private readonly TileWrapper _sourceTile;
         private ITile _selectedTile;
@@ -29,7 +28,10 @@ namespace MetroHome65.HomeScreen.Tile
             for (var i = 0; i < _widgetTypes.Count; i++ )
                 if (_widgetTypes[i].FullName == _sourceTile.Tile.GetType().FullName)
                 {
-                    _cbType.SelectedIndex = i;
+                    if (_cbType.SelectedIndex != i)
+                        _cbType.SelectedIndex = i;
+                    else
+                        ChangeTileType(); // manually call method if selectedindex not changed (=0)
                     break;
                 }
         }
@@ -58,14 +60,7 @@ namespace MetroHome65.HomeScreen.Tile
                 );
 
             _cbType = new ComboBox { Size = new Size(SettingsConsts.MaxWidth, 50), };
-            _cbType.SelectedIndexChanged += (s, e) =>
-                                               {
-                                                   if (_sourceTile == null) return;
-                                                   var widgetName = _widgetTypes[_cbType.SelectedIndex].FullName;
-                                                   var newTile = PluginManager.GetInstance().CreateTile(widgetName);
-                                                   CopyTileProperties(_sourceTile.Tile, newTile);
-                                                   SetWidgetType(newTile);
-                                               };
+            _cbType.SelectedIndexChanged += (s, e) => ChangeTileType();
             FillWidgetTypes();
             stackPanel.AddElement(_cbType);
 
@@ -81,6 +76,15 @@ namespace MetroHome65.HomeScreen.Tile
             // do not fill sizes here because tile is undefined. sizes will filled when tile assigned
 
             return scroller;
+        }
+
+        private void ChangeTileType()
+        {
+            if (_sourceTile == null) return;
+            var widgetName = _widgetTypes[_cbType.SelectedIndex].FullName;
+            var newTile = PluginManager.GetInstance().CreateTile(widgetName);
+            CopyTileProperties(_sourceTile.Tile, newTile);
+            SetWidgetType(newTile);
         }
 
         private void FillWidgetTypes()

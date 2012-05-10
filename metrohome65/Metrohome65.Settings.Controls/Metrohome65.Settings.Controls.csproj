@@ -90,43 +90,13 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SelectSettingsControl.cs" />
     <Compile Include="SettingsConsts.cs" />
-    <Compile Include="Settings_color.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="Settings_color.designer.cs">
-      <DependentUpon>Settings_color.cs</DependentUpon>
-    </Compile>
     <Compile Include="Settings_contact.cs">
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="Settings_contact.designer.cs">
       <DependentUpon>Settings_contact.cs</DependentUpon>
     </Compile>
-    <Compile Include="Settings_file.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="Settings_file.designer.cs">
-      <DependentUpon>Settings_file.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Settings_flag.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="Settings_flag.designer.cs">
-      <DependentUpon>Settings_flag.cs</DependentUpon>
-    </Compile>
     <Compile Include="FlagSettingsControl.cs" />
-    <Compile Include="Settings_image.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="Settings_image.designer.cs">
-      <DependentUpon>Settings_image.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Settings_string.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="Settings_string.designer.cs">
-      <DependentUpon>Settings_string.cs</DependentUpon>
-    </Compile>
     <Compile Include="StringSettingsControl.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -134,28 +104,8 @@
       <DependentUpon>OpenFileDialogEx.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="Settings_color.resx">
-      <DependentUpon>Settings_color.cs</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
     <EmbeddedResource Include="Settings_contact.resx">
       <DependentUpon>Settings_contact.cs</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Settings_file.resx">
-      <DependentUpon>Settings_file.cs</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Settings_flag.resx">
-      <DependentUpon>Settings_flag.cs</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Settings_image.resx">
-      <DependentUpon>Settings_image.cs</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Settings_string.resx">
-      <DependentUpon>Settings_string.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
   </ItemGroup>
