@@ -15,9 +15,5 @@ copy %srcfolder%\metrohome65\icons\small\*.* %destfolder%\icons\small\
 mkdir %destfolder%\wallpapers
 copy %srcfolder%\metrohome65\wallpapers\*.* %destfolder%\wallpapers\
 
-copy %srcfolder%\metrohome65\Widgets\ClockWidgets\bin\Debug\*.dll %destfolder%
-copy %srcfolder%\metrohome65\Widgets\PhoneWidgets\bin\Debug\*.dll %destfolder%
-copy %srcfolder%\metrohome65\Widgets\ContactWidgets\bin\Debug\*.dll %destfolder%
-copy %srcfolder%\metrohome65\Widgets\StatusWidgets\bin\Debug\*.dll %destfolder%
-copy %srcfolder%\metrohome65\bin\Debug\*.exe %destfolder%
-copy %srcfolder%\metrohome65\bin\Debug\*.dll %destfolder%
+copy %srcfolder%\metrohome65\_deploy\*.dll %destfolder%
+copy %srcfolder%\metrohome65\_deploy\*.exe %destfolder%

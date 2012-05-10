@@ -3,10 +3,12 @@ using System.Drawing;
 using System.Windows.Forms;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
+using Fleux.Controls;
 using Fleux.Styles;
+using Fleux.UIElements;
 using MetroHome65.Interfaces;
 using MetroHome65.Routines;
-using MetroHome65.Settings.Controls;
+using Metrohome65.Settings.Controls;
 
 namespace MetroHome65.Widgets
 {
@@ -18,7 +20,7 @@ namespace MetroHome65.Widgets
         //Эти переменные понядобятся для загрузки изображений при запуске приложения.
         private String _caption = "";
         private String _iconPath = "";
-        private AlphaImage _bgImage = null;
+        private AlphaImage _bgImage;
 
         protected static int CaptionLeftOffset = ScreenRoutines.Scale(10);
         protected static int CaptionBottomOffset = ScreenRoutines.Scale(4);
@@ -62,7 +64,7 @@ namespace MetroHome65.Widgets
 
         protected override Size[] GetSizes() 
         {
-            Size[] sizes = new Size[] { 
+            var sizes = new Size[] { 
                 new Size(1, 1), 
                 new Size(2, 2) 
             };
@@ -100,15 +102,14 @@ namespace MetroHome65.Widgets
             // draw main icon from executable file
             if (IsExecutableIcon())
             {
-                FileRoutines.structa refa = new FileRoutines.structa();
-                IntPtr ptr = FileRoutines.SHGetFileInfo(ref _iconPath, 0, ref refa, Marshal.SizeOf(refa), 0x100);
-                Icon icon = Icon.FromHandle(refa.a);
+                var refa = new FileRoutines.structa();
+                FileRoutines.SHGetFileInfo(ref _iconPath, 0, ref refa, Marshal.SizeOf(refa), 0x100);
+                var icon = Icon.FromHandle(refa.a);
 
                 g.DrawIcon(icon, (rect.Left + rect.Right - icon.Width) / 2,
                     rect.Top + (rect.Height - icon.Height - captionHeight) / 2);
 
                 icon.Dispose();
-                icon = null;
             }
         }
 
@@ -146,36 +147,33 @@ namespace MetroHome65.Widgets
 
         public override bool OnClick(Point location)
         {
-            MessageBox.Show(String.Format("Icon widget {0} at pos {1}:{2}",
-                this.Caption, location.X, location.Y));
+            MessageBox.Show(String.Format("Icon widget {0} at pos {1}:{2}", Caption, location.X, location.Y));
             return true;
         }
 
 
-        public override List<Control> EditControls
+        public override ICollection<UIElement> EditControls(FleuxControlPage settingsPage)
         {
-            get
-            {
-                List<Control> Controls = base.EditControls;
+            var controls = base.EditControls(settingsPage);
+            var bindingManager = new BindingManager();
 
-                Settings_string CaptionControl = new Settings_string();
-                CaptionControl.Name = "CaptionControl";
-                CaptionControl.Caption = "Caption";
-                CaptionControl.Value = Caption;
-                Controls.Add(CaptionControl);
+            var captionControl = new StringSettingsControl(settingsPage)
+                                     {
+                                         Caption = "Caption", 
+                                         Value = Caption,
+                                     };
+            controls.Add(captionControl);
+            bindingManager.Bind(this, "Caption", captionControl, "Value");
 
-                Settings_image ImgControl = new Settings_image();
-                ImgControl.Name = "IconControl";
-                ImgControl.Caption = "Icon image";
-                ImgControl.Value = IconPath;
-                Controls.Add(ImgControl);
+            var imgControl = new ImageSettingsControl()
+                                 {
+                                     Caption = "Icon image", 
+                                     Value = IconPath,
+                                 };
+            controls.Add(imgControl);
+            bindingManager.Bind(this, "IconPath", imgControl, "Value");
 
-                BindingManager BindingManager = new BindingManager();
-                BindingManager.Bind(this, "Caption", CaptionControl, "Value");
-                BindingManager.Bind(this, "IconPath", ImgControl, "Value");
-
-                return Controls;
-            }
+            return controls;
         }
 
     }

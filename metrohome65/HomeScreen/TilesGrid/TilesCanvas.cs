@@ -19,14 +19,14 @@ namespace MetroHome65.HomeScreen.TilesGrid
         private int _verticalOffset;
 
         // duration for entrance or exit animation
-        private int _animationDuration = 400;
+        private const int AnimationDuration = 400;
 
         // buffer and graphics for direct to screen draw
         private Graphics _controlGraphics;
         private IDrawingGraphics _drawingGraphics;
         private DoubleBuffer _buffer;
 
-        private UIElement _bgImage;
+        private readonly UIElement _bgImage;
 
         // flag that we redraw now
         private bool _updating;
@@ -43,12 +43,18 @@ namespace MetroHome65.HomeScreen.TilesGrid
 
         public TilesCanvas()
         {
-            var parentControl = TinyIoCContainer.Current.Resolve<FleuxControlPage>().Control;
-            _controlGraphics = parentControl.CreateGraphics();
             _bgImage = TinyIoCContainer.Current.Resolve<HomeScreenBackground>();
 
             Size = new Size(TileConsts.TilesPaddingLeft + TileConsts.TileSize * 4 + TileConsts.TileSpacing * 3, 100);
             SizeChanged += (s, e) => CreateBuffer();
+        }
+
+        protected override void SetParentControl(FleuxControl parentControl)
+        {
+            base.SetParentControl(parentControl);
+
+            if ((parentControl != null) && (_controlGraphics == null))
+                _controlGraphics = parentControl.CreateGraphics();
         }
 
         private void CreateBuffer()
@@ -198,7 +204,7 @@ namespace MetroHome65.HomeScreen.TilesGrid
                                 {
                                     From = 0,
                                     To = 100,
-                                    Duration = _animationDuration,
+                                    Duration = AnimationDuration,
                                     OnAnimation = v => DirectDraw(- _verticalOffset),
                                 });
             sb.AnimateSync();
@@ -217,7 +223,7 @@ namespace MetroHome65.HomeScreen.TilesGrid
                                 {
                                     From = 0,
                                     To = 100,
-                                    Duration = _animationDuration,
+                                    Duration = AnimationDuration,
                                     OnAnimation = v => DirectDraw(- _verticalOffset),
                                 });
             sb.AnimateSync();
@@ -235,7 +241,7 @@ namespace MetroHome65.HomeScreen.TilesGrid
             var random = new Random();
             return new FunctionBasedAnimation(FunctionBasedAnimation.Functions.Linear)
                        {
-                           Duration = _animationDuration,
+                           Duration = AnimationDuration,
                            To = -target.Size.Width - random.Next(1000),
                            From = target.Location.X,
                            OnAnimation = v => target.Location = new Point(v, target.Location.Y),
@@ -249,7 +255,7 @@ namespace MetroHome65.HomeScreen.TilesGrid
             var x = target.GetScreenRect().Left; // here use GetScreenRect instead Bounds because real coords are wrong
             return new FunctionBasedAnimation(FunctionBasedAnimation.Functions.Linear)
             {
-                Duration = _animationDuration,
+                Duration = AnimationDuration,
                 From = x - 1000 + random.Next(1000 - x - 173),
                 To = x,
                 OnAnimation = v => target.Location = new Point(v, target.Location.Y),

@@ -8,32 +8,27 @@ namespace MetroHome65.Routines
     {
         public class BindingInfo
         {
-            public INotifyPropertyChanged source;
-            public string sourcePropertyName;
-            public INotifyPropertyChanged target;
-            public string targetPropertyName;
+            public INotifyPropertyChanged Source;
+            public string SourcePropertyName;
+            public INotifyPropertyChanged Target;
+            public string TargetPropertyName;
         }
 
-        private List<BindingInfo> Binding = new List<BindingInfo>();
-
-        public BindingManager()
-        {
-        }
+        private readonly List<BindingInfo> _binding = new List<BindingInfo>();
 
         public void Bind(
             INotifyPropertyChanged source, string sourcePropertyName,
             INotifyPropertyChanged target, string targetPropertyName)
         {
-            BindingInfo BindingInfo = new BindingInfo();
-            BindingInfo.source = source;
-            BindingInfo.sourcePropertyName = sourcePropertyName;
-            BindingInfo.target = target;
-            BindingInfo.targetPropertyName = targetPropertyName;
+            var bindingInfo = new BindingInfo
+                                  {
+                                      Source = source,
+                                      SourcePropertyName = sourcePropertyName,
+                                      Target = target,
+                                      TargetPropertyName = targetPropertyName
+                                  };
 
-            Binding.Add(BindingInfo);
-
-            var sourceProperty = source.GetType().GetProperty(sourcePropertyName);
-            var targetProperty = target.GetType().GetProperty(targetPropertyName);
+            _binding.Add(bindingInfo);
 
             source.PropertyChanged += PropertyChangedEventHandler;
             target.PropertyChanged += PropertyChangedEventHandler;
@@ -41,30 +36,30 @@ namespace MetroHome65.Routines
 
         public void PropertyChangedEventHandler(object sender, PropertyChangedEventArgs e)
         {
-            foreach (BindingInfo BindingInfo in Binding)
+            foreach (var bindingInfo in _binding)
             {
-                if ((BindingInfo.source == sender) && (BindingInfo.sourcePropertyName == e.PropertyName))
+                if ((bindingInfo.Source == sender) && (bindingInfo.SourcePropertyName == e.PropertyName))
                 {
-                    var sourceProperty = BindingInfo.source.GetType().GetProperty(BindingInfo.sourcePropertyName);
-                    var sourceValue = sourceProperty.GetValue(BindingInfo.source, null);
-                    var targetProperty = BindingInfo.target.GetType().GetProperty(BindingInfo.targetPropertyName);
-                    var targetValue = targetProperty.GetValue(BindingInfo.target, null);
+                    var sourceProperty = bindingInfo.Source.GetType().GetProperty(bindingInfo.SourcePropertyName);
+                    var sourceValue = sourceProperty.GetValue(bindingInfo.Source, null);
+                    var targetProperty = bindingInfo.Target.GetType().GetProperty(bindingInfo.TargetPropertyName);
+                    var targetValue = targetProperty.GetValue(bindingInfo.Target, null);
                     if (!Object.Equals(sourceValue, targetValue))
                     {
-                        targetProperty.SetValue(BindingInfo.target, sourceValue, null);
+                        targetProperty.SetValue(bindingInfo.Target, sourceValue, null);
                     }
                     return;
                 }
 
-                if ((BindingInfo.target == sender) && (BindingInfo.targetPropertyName == e.PropertyName))
+                if ((bindingInfo.Target == sender) && (bindingInfo.TargetPropertyName == e.PropertyName))
                 {
-                    var sourceProperty = BindingInfo.source.GetType().GetProperty(BindingInfo.sourcePropertyName);
-                    var sourceValue = sourceProperty.GetValue(BindingInfo.source, null);
-                    var targetProperty = BindingInfo.target.GetType().GetProperty(BindingInfo.targetPropertyName);
-                    var targetValue = targetProperty.GetValue(BindingInfo.target, null);
+                    var sourceProperty = bindingInfo.Source.GetType().GetProperty(bindingInfo.SourcePropertyName);
+                    var sourceValue = sourceProperty.GetValue(bindingInfo.Source, null);
+                    var targetProperty = bindingInfo.Target.GetType().GetProperty(bindingInfo.TargetPropertyName);
+                    var targetValue = targetProperty.GetValue(bindingInfo.Target, null);
                     if (!Object.Equals(sourceValue, targetValue))
                     {
-                        sourceProperty.SetValue(BindingInfo.source, targetValue, null);
+                        sourceProperty.SetValue(bindingInfo.Source, targetValue, null);
                     }
                     return;
                 }

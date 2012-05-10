@@ -24,7 +24,7 @@
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
+    <OutputPath>..\_deploy\</OutputPath>
     <DefineConstants>DEBUG;TRACE;$(PlatformFamilyName)</DefineConstants>
     <NoStdLib>true</NoStdLib>
     <NoConfig>true</NoConfig>
@@ -78,6 +78,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ColorSettingsControl.cs" />
+    <Compile Include="CustomSettingsPage.cs" />
+    <Compile Include="FileSettingsControl.cs" />
     <Compile Include="ImageSettingsControl.cs" />
     <Compile Include="OpenFileDialogEx.cs">
       <SubType>Form</SubType>
@@ -125,6 +127,7 @@
     <Compile Include="Settings_string.designer.cs">
       <DependentUpon>Settings_string.cs</DependentUpon>
     </Compile>
+    <Compile Include="StringSettingsControl.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="OpenFileDialogEx.resx">
@@ -165,6 +168,12 @@
       <Project>{18D428A8-6722-4A69-B39D-F652AFA34D90}</Project>
       <Name>MetroHome65.Routines</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Images\cancel.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Images\ok.bmp" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CompactFramework.CSharp.targets" />
   <ProjectExtensions>

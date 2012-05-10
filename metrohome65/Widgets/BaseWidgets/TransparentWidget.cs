@@ -1,11 +1,12 @@
 ﻿using System;
 using System.Drawing;
-using System.Windows.Forms;
 using System.Collections.Generic;
+using Fleux.Controls;
 using Fleux.Styles;
+using Fleux.UIElements;
 using MetroHome65.Interfaces;
 using MetroHome65.Routines;
-using MetroHome65.Settings.Controls;
+using Metrohome65.Settings.Controls;
 
 namespace MetroHome65.Widgets
 {
@@ -42,7 +43,10 @@ namespace MetroHome65.Widgets
         public String TileImage
         {
             get { return _tileImage; }
-            set { SetTileImage(value); }
+            set
+            {
+                SetTileImage(value);
+            }
         }
 
         public void SetTileImage(String imagePath)
@@ -72,37 +76,35 @@ namespace MetroHome65.Widgets
             else
             {
                 // if image is not set, draw solid box with specified color
-                Brush bgBrush = new SolidBrush(Color.FromArgb(_tileColor));
-                g.FillRectangle(bgBrush, rect.Left, rect.Top, rect.Width, rect.Height);
+                var tileColor = (_tileColor == Color.Empty.ToArgb()) ? MetroTheme.PhoneAccentBrush : Color.FromArgb(_tileColor);
+                g.FillRectangle(new SolidBrush(tileColor), rect);
             }
         }
 
 
-        public override List<Control> EditControls
+        public override ICollection<UIElement> EditControls(FleuxControlPage settingsPage)
         {
-            get
-            {
-                var controls = base.EditControls;
+            var controls = base.EditControls(settingsPage);
 
-                var colorControl = new Settings_color
-                                       {
-                                           Value = _tileColor
-                                       };
-                controls.Add(colorControl);
+            var colorControl = new ColorSettingsControl(true)
+                                   {
+                                       Caption = "Tile color",
+                                       ARGBValue = _tileColor,
+                                   };
+            controls.Add(colorControl);
 
-                var imgControl = new Settings_image
-                                     {
-                                         Caption = "Button background", 
-                                         Value = TileImage
-                                     };
-                controls.Add(imgControl);
+            var imgControl = new ImageSettingsControl()
+                                 {
+                                     Caption = "Button background", 
+                                     Value = TileImage,
+                                 };
+            controls.Add(imgControl);
 
-                var bindingManager = new BindingManager();
-                bindingManager.Bind(this, "TileColor", colorControl, "Value");
-                bindingManager.Bind(this, "TileImage", imgControl, "Value");
+            var bindingManager = new BindingManager();
+            bindingManager.Bind(this, "TileColor", colorControl, "ARGBValue");
+            bindingManager.Bind(this, "TileImage", imgControl, "Value");
 
-                return controls;
-            }
+            return controls;
         }
 
     }

@@ -6,10 +6,10 @@ namespace MetroHome65.Widgets.StatusWidgets
 {
     public class WiFiStatus : CustomStatus
     {
-        private bool _WiFiPowerOn = false;
-        private bool _WiFiConnected = false;
+        private bool _wiFiPowerOn;
+        private bool _wiFiConnected;
 
-        public WiFiStatus() : base()
+        public WiFiStatus()
         {
             UpdateStatus();
         }
@@ -19,16 +19,16 @@ namespace MetroHome65.Widgets.StatusWidgets
         /// </summary>
         public override void PaintStatus(Graphics g, Rectangle rect)
         {
-            DrawStatus DrawStatus;
-            if (_WiFiConnected && _WiFiPowerOn)
-                DrawStatus = DrawStatus.On;
+            DrawStatus drawStatus;
+            if (_wiFiConnected && _wiFiPowerOn)
+                drawStatus = DrawStatus.On;
             else
-                if (!_WiFiConnected && !_WiFiPowerOn)
-                    DrawStatus = DrawStatus.Off;
+                if (!_wiFiConnected && !_wiFiPowerOn)
+                    drawStatus = DrawStatus.Off;
                 else 
-                    DrawStatus = DrawStatus.Error;
+                    drawStatus = DrawStatus.Error;
 
-            PaintStatus(g, rect, DrawStatus, "wifi", "");
+            PaintStatus(g, rect, drawStatus, "wifi", "");
         }
 
         /// <summary>
@@ -37,14 +37,14 @@ namespace MetroHome65.Widgets.StatusWidgets
         /// <returns>True if status was changed</returns>
         public override bool UpdateStatus()
         {
-            bool CurrentPowerOn = Microsoft.WindowsMobile.Status.SystemState.WiFiStatePowerOn;
-            bool CurrentConnected = Microsoft.WindowsMobile.Status.SystemState.WiFiStateConnected;
+            var currentPowerOn = Microsoft.WindowsMobile.Status.SystemState.WiFiStatePowerOn;
+            var currentConnected = Microsoft.WindowsMobile.Status.SystemState.WiFiStateConnected;
 
-            if ((CurrentPowerOn != _WiFiPowerOn) ||
-                (CurrentConnected != _WiFiConnected))
+            if ((currentPowerOn != _wiFiPowerOn) ||
+                (currentConnected != _wiFiConnected))
             {
-                _WiFiPowerOn = CurrentPowerOn;
-                _WiFiConnected = CurrentConnected;
+                _wiFiPowerOn = currentPowerOn;
+                _wiFiConnected = currentConnected;
                 return true;
             }
 
@@ -52,28 +52,28 @@ namespace MetroHome65.Widgets.StatusWidgets
         }
         
         /// <summary>
-        /// Switch WiFi status to another - on <--> off
+        /// Switch WiFi status to another - on / off
         /// </summary>
         public override void ChangeStatus()
         {
-            if (_WiFiPowerOn)
+            if (_wiFiPowerOn)
             {
                 // turn WiFi Off
                 string driver = FindDriverKey(); 
-                SetDevicePower(driver, POWER_NAME, DevicePowerState.D4);
+                SetDevicePower(driver, PowerName, DevicePowerState.D4);
             }
             else
             {
                 // turn WiFi On
                 string driver = FindDriverKey(); 
-                SetDevicePower(driver, POWER_NAME, DevicePowerState.D0);
+                SetDevicePower(driver, PowerName, DevicePowerState.D0);
             }
         }
 
         [DllImport("coredll.dll", SetLastError = true)] 
-        private static extern int SetDevicePower(string pvDevice, int dwDeviceFlags, DevicePowerState DeviceState); 
+        private static extern int SetDevicePower(string pvDevice, int dwDeviceFlags, DevicePowerState deviceState); 
 
-        private enum DevicePowerState : int 
+        private enum DevicePowerState
         { 
             Unspecified = -1, 
             D0 = 0, // Full On: full power, full functionality 
@@ -83,17 +83,17 @@ namespace MetroHome65.Widgets.StatusWidgets
             D4, // Off: unpowered 
         }
 
-        private const int POWER_NAME = 0x00000001;
+        private const int PowerName = 0x00000001;
 
         // simply a function that returns the whole registry key name of the key containing the NDIS MINIPORT class GUID defined in the SDK’s pm.h:
         private static string FindDriverKey() 
         { 
-            string ret = string.Empty; 
-            string WiFiDriverClass= "{98C5250D-C29A-4985-AE5F-AFE5367E5006}"; 
+            var ret = string.Empty; 
+            const string wiFiDriverClass = "{98C5250D-C29A-4985-AE5F-AFE5367E5006}"; 
 
-            foreach (string tmp in Registry.LocalMachine.OpenSubKey("System\\CurrentControlSet\\Control\\Power\\State", false).GetValueNames()) 
+            foreach (var tmp in Registry.LocalMachine.OpenSubKey("System\\CurrentControlSet\\Control\\Power\\State", false).GetValueNames()) 
             { 
-                if (tmp.Contains(WiFiDriverClass)) 
+                if (tmp.Contains(wiFiDriverClass)) 
                 { 
                     ret = tmp; 
                     break; 

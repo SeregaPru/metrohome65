@@ -1,173 +1,212 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Drawing;
-using System.Text;
+using System.Linq;
 using System.Windows.Forms;
-using System.Reflection;
+using Fleux.UIElements;
 using MetroHome65.Interfaces;
 using MetroHome65.Routines;
+using Metrohome65.Settings.Controls;
+using ComboBox = Fleux.UIElements.ComboBox;
 
-namespace MetroHome65.HomeScreen
+namespace MetroHome65.HomeScreen.Tile
 {
-    public partial class FrmWidgetSettings : Form
+    public partial class FrmWidgetSettings : CustomSettingsPage
     {
-        private TileWrapper _tile = null;
-        private ITile _selectedTile = null;
-        private List<Type> _WidgetTypes = new List<Type>();
+        private readonly TileWrapper _sourceTile;
+        private ITile _selectedTile;
+        private readonly List<Type> _widgetTypes = new List<Type>();
 
-        public FrmWidgetSettings()
+        private ComboBox _cbSize;
+        private ComboBox _cbType;
+        private StackPanel _controlsPanel;
+
+
+        public FrmWidgetSettings(TileWrapper sourceTile)
         {
-            InitializeComponent();
+            _sourceTile = sourceTile;
+
+            for (var i = 0; i < _widgetTypes.Count; i++ )
+                if (_widgetTypes[i].FullName == _sourceTile.Tile.GetType().FullName)
+                {
+                    _cbType.SelectedIndex = i;
+                    break;
+                }
         }
 
-        public TileWrapper Tile { set { SetWidget(value); } }
-
-        private void SetWidget(TileWrapper value)
+        protected override void CreateSettingsControls()
         {
-            _tile = value;
+            AddPage(CreateStyleSettings(), "style");
+            AddPage(CreateTileSettings(), "tile");
+        }
 
-            this.SuspendLayout();
+        private UIElement CreateTileSettings()
+        {
+            var stackPanel = new StackPanel { Size = new Size(Size.Width - SettingsConsts.PaddingHor * 2, 1), };
 
-            SetWidgetType(_tile.Tile);
+            var scroller = new ScrollViewer
+            {
+                Content = stackPanel,
+                Location = new Point(SettingsConsts.PaddingHor, 0),
+                ShowScrollbars = true,
+                HorizontalScroll = false,
+                VerticalScroll = true,
+            };
 
+            stackPanel.AddElement(
+                new TextElement("Tile type") { Size = new Size(SettingsConsts.MaxWidth, 50), }
+                );
+
+            _cbType = new ComboBox { Size = new Size(SettingsConsts.MaxWidth, 50), };
+            _cbType.SelectedIndexChanged += (s, e) =>
+                                               {
+                                                   if (_sourceTile == null) return;
+                                                   var widgetName = _widgetTypes[_cbType.SelectedIndex].FullName;
+                                                   var newTile = PluginManager.GetInstance().CreateTile(widgetName);
+                                                   CopyTileProperties(_sourceTile.Tile, newTile);
+                                                   SetWidgetType(newTile);
+                                               };
             FillWidgetTypes();
+            stackPanel.AddElement(_cbType);
 
-            this.ResumeLayout(false);
+            stackPanel.AddElement(Separator());
+
+
+            stackPanel.AddElement(
+                new TextElement("Tile size") { Size = new Size(SettingsConsts.MaxWidth, 50), }
+                );
+
+            _cbSize = new ComboBox { Size = new Size(SettingsConsts.MaxWidth, 50), };
+            stackPanel.AddElement(_cbSize);
+            // do not fill sizes here because tile is undefined. sizes will filled when tile assigned
+
+            return scroller;
         }
 
-        private void SetWidgetType(ITile value)
+        private void FillWidgetTypes()
+        {
+            _widgetTypes.Clear();
+            var items = new List<object>();
+
+            foreach (Type plugin in PluginManager.GetInstance()._plugins.Values)
+            {
+                // get human readable widget name for display in list
+                var widgetName = "";
+                var attributes = plugin.GetCustomAttributes(typeof(TileInfoAttribute), true);
+                if (attributes.Length > 0)
+                    widgetName = ((TileInfoAttribute)attributes[0]).Caption;
+                if (widgetName == "")
+                    widgetName = plugin.Name;
+
+                items.Add(widgetName);
+                _widgetTypes.Add(plugin);
+            }
+
+            _cbType.Items = items;
+        }
+
+        private void FillSizes()
+        {
+            var items = new List<object>();
+            var selectedIndex = 0;
+            var idx = 0;
+
+            foreach (var gridSize in _selectedTile.Sizes)
+            {
+                items.Add(gridSize.Width + " x " + gridSize.Height);
+
+                if (gridSize.Equals(_sourceTile.GridSize))
+                    selectedIndex = idx;
+
+                idx++;
+            }
+
+            _cbSize.Items = items;
+            _cbSize.SelectedIndex = selectedIndex;
+        }
+
+
+        private UIElement CreateStyleSettings()
+        {
+            _controlsPanel = new StackPanel { Size = new Size(Size.Width - SettingsConsts.PaddingHor * 2, 1), };
+
+            var scroller = new ScrollViewer
+            {
+                Content = _controlsPanel,
+                Location = new Point(SettingsConsts.PaddingHor, 0),
+                ShowScrollbars = true,
+                HorizontalScroll = false,
+                VerticalScroll = true,
+            };
+
+            return scroller;
+        }
+
+        private void SetWidgetType(ITile tile)
         {
             if ((_selectedTile == null) ||
-                (((object)_selectedTile).GetType() != ((object)value).GetType()) )
+                (((object)_selectedTile).GetType() != ((object)tile).GetType()) )
             {
-                _selectedTile = value;
+                _selectedTile = tile;
 
                 FillSizes();
                 FillWidgetProperties();
             }
         }
 
-        private void FillWidgetTypes()
-        {
-            cbType.Items.Clear();
-            _WidgetTypes.Clear();
-
-            int CurIndex;
-            String WidgetName;
-            foreach (Type Plugin in PluginManager.GetInstance()._plugins.Values)
-            {
-                // get human readable widget name for display in list
-                WidgetName = "";
-                object[] Attributes = Plugin.GetCustomAttributes(typeof(TileInfoAttribute), true);
-                if (Attributes.Length > 0)
-                    WidgetName = (Attributes[0] as TileInfoAttribute).Caption;
-                if (WidgetName == "")
-                    WidgetName = Plugin.Name;
-
-                CurIndex = cbType.Items.Add(WidgetName);
-                _WidgetTypes.Add(Plugin);
-
-                if (Plugin.FullName == _tile.Tile.GetType().FullName)
-                    cbType.SelectedIndex = CurIndex;
-            }
-            if (cbType.SelectedIndex == -1)
-                cbType.SelectedIndex = 0;
-        }
-
-        private void FillSizes()
-        {
-            cbSize.Items.Clear();
-
-            String SizeStr = "";
-            int CurIndex;
-            foreach (Size GridSize in _selectedTile.Sizes)
-            {
-                SizeStr = GridSize.Width + " x " + GridSize.Height;
-                CurIndex = cbSize.Items.Add(SizeStr);
-                if (GridSize.Equals(_tile.GridSize))
-                    cbSize.SelectedIndex = CurIndex;
-            }
-            if (cbSize.SelectedIndex == -1)
-                cbSize.SelectedIndex = 0;
-        }
-
-
         private void FillWidgetProperties()
         {
-            // first delete previous widget properties
-            foreach (Control Control in this.Controls)
-            {
-                if (Control.Name.StartsWith("__"))
-                    this.Controls.Remove(Control);
-            }
+            _controlsPanel.Clear();
 
-            List<Control> Controls = _selectedTile.EditControls;
-            if (Controls != null)
+            var controls = _selectedTile.EditControls(this);
+            if (controls != null)
             {
-                foreach (Control UserControl in Controls)
-                    PlaceControl(UserControl, true);
+                foreach (var userControl in controls)
+                {
+                    _controlsPanel.AddElement(userControl);
+                    _controlsPanel.AddElement(Separator());
+                }
             }
         }
 
-        private void PlaceControl(Control Control, Boolean UserParam)
-        {
-            if (Control != null)
-            {
-                int _ControlTop = 0;
-                foreach (Control ctrl in this.Controls)
-                    _ControlTop = Math.Max(_ControlTop, ctrl.Bottom);
-                
-                if (UserParam)
-                    Control.Name = "__Control_" + this.Controls.Count.ToString();
-
-                Control.Parent = this;
-                Control.Top = _ControlTop;
-
-                this.Controls.Add(Control);
-            }
-        }
-
-
-        // change widget type
-        private void cbType_SelectedValueChanged(object sender, EventArgs e)
-        {
-            String WidgetName = _WidgetTypes[(sender as ComboBox).SelectedIndex].FullName;
-            SetWidgetType(PluginManager.GetInstance().CreateTile(WidgetName));
-        }
-
-
-        private void menuCancel_Click(object sender, EventArgs e)
-        {
-            this.DialogResult = DialogResult.Cancel;
-        }
-
-        private void mnuApply_Click(object sender, EventArgs e)
+        private void CopyTileProperties(ITile srcTile, ITile dstTile)
         {
             try
             {
-                _tile.TileClass = ((object)_selectedTile).GetType().ToString();
-                _tile.GridSize = _selectedTile.Sizes[cbSize.SelectedIndex];
+                var srcProps = ((object)srcTile).GetType().GetProperties();
+                var dstProps = ((object)dstTile).GetType().GetProperties();
 
                 // apply custom widget parameters
-                foreach (PropertyInfo propertyInfo in ((object)_selectedTile).GetType().GetProperties())
+                foreach (var srcPropInfo in srcProps)
                 {
-                    object[] Attributes = propertyInfo.GetCustomAttributes(typeof(TileParameterAttribute), true);
-                    if (Attributes.Length > 0)
+                    var attributes = srcPropInfo.GetCustomAttributes(typeof(TileParameterAttribute), true);
+                    if (attributes.Length > 0)
                     {
-                        foreach (object Attribute in Attributes)
+                        foreach (var attribute in attributes)
                         {
-                            _tile.SetParameter(propertyInfo.Name, propertyInfo.GetValue((object)_selectedTile, null));
+                            foreach (var dstPropInfo in dstProps.Where(
+                                dstPropInfo => dstPropInfo.Name == srcPropInfo.Name))
+                            {
+                                dstPropInfo.SetValue(dstTile, Convert.ChangeType(
+                                    srcPropInfo.GetValue((object)srcTile, null), dstPropInfo.PropertyType, null), null);
+                                break;
+                            }
                         }
                     }
                 }
             }
             catch (Exception ex)
             {
-                Logger.WriteLog(ex.StackTrace, "Apply settings error");
+                Logger.WriteLog(ex.StackTrace, "Copy tile properties error");
             }
+        }
 
-            this.DialogResult = DialogResult.OK;
+        protected override void ApplySettings()
+        {
+            _sourceTile.TileClass = ((object)_selectedTile).GetType().ToString();
+            _sourceTile.GridSize = _selectedTile.Sizes[_cbSize.SelectedIndex];
+
+            CopyTileProperties(_selectedTile, _sourceTile.Tile);
         }
 
     }

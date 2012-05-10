@@ -42,15 +42,8 @@ namespace MetroHome65.HomeScreen.TilesGrid
             foreach (var settings in storedSettings)
             {
                 var tile = new TileWrapper();
-                try
-                {
-                    tile.DeserializeSettings(settings);
-                    AddTile(tile, false);
-                }
-                catch (Exception e)
-                {
-                    Logger.WriteLog(e.StackTrace, "DeserializeSettings error");
-                }
+                tile.DeserializeSettings(settings);
+                AddTile(tile, false);
             }
 
             RealignTiles();
@@ -174,15 +167,20 @@ namespace MetroHome65.HomeScreen.TilesGrid
         /// </summary>
         private Boolean ShowMainSettings()
         {
-            //var mainSettingsForm = new FrmMainSettings() { Owner = null };
-            //return (mainSettingsForm.ShowDialog() == DialogResult.OK);
+            try
+            {
+                var mainSettingsForm = new FrmMainSettings();
 
-            var mainSettingsForm = new FrmMainSettings2();
+                var messenger = TinyIoCContainer.Current.Resolve<ITinyMessengerHub>();
+                messenger.Publish(new ShowPageMessage(mainSettingsForm));
 
-            var messenger = TinyIoCContainer.Current.Resolve<ITinyMessengerHub>();
-            messenger.Publish(new ShowPageMessage(mainSettingsForm));
-
-            return true;
+                return true;
+            }
+            catch (Exception ex)
+            {
+                Logger.WriteLog(ex.StackTrace, "Tile settings dialog error");
+                return false;
+            }
         }
     }
 }

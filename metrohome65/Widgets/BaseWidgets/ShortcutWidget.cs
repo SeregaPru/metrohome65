@@ -1,11 +1,12 @@
 ﻿using System;
 using System.IO;
 using System.Drawing;
-using System.Windows.Forms;
 using System.Collections.Generic;
+using Fleux.Controls;
+using Fleux.UIElements;
 using MetroHome65.Interfaces;
 using MetroHome65.Routines;
-using MetroHome65.Settings.Controls;
+using Metrohome65.Settings.Controls;
 
 namespace MetroHome65.Widgets
 {
@@ -16,7 +17,7 @@ namespace MetroHome65.Widgets
     [TileInfo("Shortcut")]
     public class ShortcutWidget : IconWidget
     {
-        private String _CommandLine = "";
+        private String _commandLine = "";
 
         
         /// <summary>
@@ -25,11 +26,11 @@ namespace MetroHome65.Widgets
         [TileParameter]
         public String CommandLine
         {
-            get { return _CommandLine; }
+            get { return _commandLine; }
             set {
-                if (_CommandLine != value)
+                if (_commandLine != value)
                 {
-                    _CommandLine = value;
+                    _commandLine = value;
                     NotifyPropertyChanged("CommandLine");
                 }
             }
@@ -37,7 +38,7 @@ namespace MetroHome65.Widgets
 
         protected override Size[] GetSizes()
         {
-            Size[] sizes = new Size[] { 
+            var sizes = new[] { 
                 new Size(1, 1), 
                 new Size(2, 2),
                 new Size(4, 2)
@@ -47,43 +48,38 @@ namespace MetroHome65.Widgets
 
         public override bool OnClick(Point location)
         {
-            if (CommandLine != "")
-                return FileRoutines.StartProcess(CommandLine);
-            else
-                return false;
+            return (CommandLine != "") && FileRoutines.StartProcess(CommandLine);
         }
 
         // launch external application - play exit animation
         protected override bool GetDoExitAnimation() { return true; }
 
-        public override List<Control> EditControls
+        public override ICollection<UIElement> EditControls(FleuxControlPage settingsPage)
         {
-            get
-            {
-                List<Control> Controls = base.EditControls;
+            var controls = base.EditControls(settingsPage);
+            var bindingManager = new BindingManager();
 
-                Settings_file FileControl = new Settings_file();
-                FileControl.Caption = "Application";
-                FileControl.Value = CommandLine;
-                Controls.Add(FileControl);
+            var fileControl = new FileSettingsControl(settingsPage)
+                                  {
+                                      Caption = "Application", 
+                                      Value = CommandLine,
+                                  };
+            controls.Add(fileControl);
+            bindingManager.Bind(this, "CommandLineForEdit", fileControl, "Value");
 
-                BindingManager BindingManager = new BindingManager();
-                BindingManager.Bind(this, "CommandLineForEdit", FileControl, "Value");
-
-                return Controls;
-            }
+            return controls;
         }
 
         public String CommandLineForEdit
         {
-            get { return _CommandLine; }
+            get { return _commandLine; }
             set
             {
                 CommandLine = value;
 
                 // when CommandLine changed, we have to change Caption and icon
-                IconPath = _CommandLine;
-                Caption = Path.GetFileNameWithoutExtension(_CommandLine);
+                IconPath = _commandLine;
+                Caption = Path.GetFileNameWithoutExtension(_commandLine);
             }
         }
 

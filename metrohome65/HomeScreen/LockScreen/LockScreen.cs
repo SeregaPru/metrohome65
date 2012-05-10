@@ -15,7 +15,7 @@ namespace MetroHome65.HomeScreen.LockScreen
     {
         private readonly TextElement _lblClock;
 
-        private string _dateFormat = "HH:mm\ndddd\nMMMM d";
+        private const string DateFormat = "HH:mm\ndddd\nMMMM d";
 
         private ThreadTimer _updateTimer;
 
@@ -54,7 +54,7 @@ namespace MetroHome65.HomeScreen.LockScreen
 
         private string GetText()
         {
-            return DateTime.Now.ToString(_dateFormat);
+            return DateTime.Now.ToString(DateFormat);
         }
 
         public bool Active

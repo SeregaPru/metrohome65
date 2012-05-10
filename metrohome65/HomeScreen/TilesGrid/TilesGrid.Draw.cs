@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Drawing;
 using System.Threading;
-using System.Windows.Forms;
 using Fleux.Core.GraphicsHelpers;
-using Fleux.Styles;
 using Fleux.UIElements;
 using MetroHome65.Interfaces;
 

@@ -143,8 +143,7 @@ namespace Metrohome65.Settings.Controls
                                                        System.Drawing.Imaging.PixelFormat.Format24bppRgb,
                                                        OpenNETCF.Drawing.Imaging.InterpolationHint.InterpolationHintDefault, out bmp);
 
-                        _pictureBox.Image =
-                            OpenNETCF.Drawing.Imaging.ImageUtils.IBitmapImageToBitmap(bmp);
+                        _pictureBox.Image = OpenNETCF.Drawing.Imaging.ImageUtils.IBitmapImageToBitmap(bmp);
                     }
 
             }

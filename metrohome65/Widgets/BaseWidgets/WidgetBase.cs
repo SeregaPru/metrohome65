@@ -1,9 +1,10 @@
 ﻿using System;
 using System.Drawing;
-using System.Windows.Forms;
 using System.ComponentModel;
 using System.Collections.Generic;
+using Fleux.Controls;
 using Fleux.Core.GraphicsHelpers;
+using Fleux.Styles;
 using Fleux.UIElements;
 using MetroHome65.Interfaces;
 using MetroHome65.Routines;
@@ -31,11 +32,23 @@ namespace MetroHome65.Widgets
         protected virtual bool GetDoExitAnimation() { return false; }
         public virtual bool DoExitAnimation { get { return GetDoExitAnimation(); } }
 
-        public virtual List<Control> EditControls { get { return new List<Control>(); } }
+        public virtual ICollection<UIElement> EditControls(FleuxControlPage settingsPage) { return new List<UIElement>(); }
 
         #endregion
 
 
+        public BaseWidget()
+        {
+            MetroTheme.PropertyChanged += OnThemeSettingsChanged;
+        }
+
+        private void OnThemeSettingsChanged(PropertyChangedEventArgs e)
+        {
+            if ((e.PropertyName == "PhoneAccentBrush") || (e.PropertyName == "PhoneForegroundBrush"))
+            {
+                ForceUpdate();
+            }
+        }
 
         #region Draw
 

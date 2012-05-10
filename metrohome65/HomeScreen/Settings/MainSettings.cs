@@ -128,10 +128,17 @@ namespace MetroHome65.HomeScreen.Settings
 
         private bool SetField<T>(ref T field, T value, string propertyName)
         {
-            if (EqualityComparer<T>.Default.Equals(field, value)) return false;
-            field = value;
-            OnPropertyChanged(propertyName);
-            return true;
+            try
+            {
+                if (EqualityComparer<T>.Default.Equals(field, value)) return false;
+                field = value;
+                OnPropertyChanged(propertyName);
+                return true;
+            }
+            catch (Exception)
+            {
+                return false; 
+            }
         }
 
         #endregion

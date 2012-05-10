@@ -6,6 +6,10 @@ using Fleux.UIElements;
 
 namespace Metrohome65.Settings.Controls
 {
+    /// <summary>
+    /// Control panel with caption and combobox.
+    /// For use in settings forms
+    /// </summary>
     public sealed class SelectSettingsControl : StackPanel, INotifyPropertyChanged
     {
         #region Fields
@@ -57,7 +61,7 @@ namespace Metrohome65.Settings.Controls
             {
                 Size = new Size(SettingsConsts.MaxWidth, 50),
             };
-            _comboSelect.SelectedIndexChanged += (s, e) => NotifyPropertyChanged("Value"); 
+            _comboSelect.SelectedIndexChanged += (s, e) => NotifyPropertyChanged("SelectedIndex"); 
             AddElement(_comboSelect);
         }
 

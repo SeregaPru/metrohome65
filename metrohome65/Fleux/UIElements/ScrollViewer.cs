@@ -1,4 +1,5 @@
 ﻿using System.Drawing.Imaging;
+using Fleux.Controls;
 
 namespace Fleux.UIElements
 {
@@ -52,7 +53,10 @@ namespace Fleux.UIElements
                 //! Fork: fleuxdesktop2, Change Set bede1dc701a9
                 // allow content recreation
                 if (this.content != null)
-                    this.Children.Remove(this.content); 
+                {
+                    this.content.ParentControl = null; //! MetroHome65
+                    this.Children.Remove(this.content);
+                }
 
                 this.content = value;
                 this.content.Updated = this.OnUpdated;
@@ -64,8 +68,17 @@ namespace Fleux.UIElements
                 this.verticalInertia = null; 
 
                 //! MetroHome65
+                this.content.ParentControl = this.ParentControl;
                 this.content.SizeChanged += (v, e) => OnContentSizeChanged();
             }
+        }
+
+        //! MetroHome65
+        protected override void SetParentControl(FleuxControl parentControl)
+        {
+            base.SetParentControl(parentControl);
+            if (this.content != null)
+                this.content.ParentControl = parentControl;
         }
 
         private void OnContentSizeChanged()
@@ -75,6 +88,7 @@ namespace Fleux.UIElements
             if (this.horizontalInertia != null)
                 this.horizontalInertia.Min = -Math.Max(0, this.content.Size.Width - this.Size.Width);
         }
+
         public bool DrawShadows { get; set; }
 
         //! Fork: fleuxdesktop2, Change Set 8b81eb940370

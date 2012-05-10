@@ -29,6 +29,7 @@ namespace Metrohome65.Settings.Controls
 
             _cbFlag = new CheckBox("<flag parameter>")
                          {
+                             Size = new Size(SettingsConsts.MaxWidth, 50),
                              Location = new Point(0, 20),
                              AutoSizeMode = CheckBox.AutoSizeModeOptions.WrapText,
                          };

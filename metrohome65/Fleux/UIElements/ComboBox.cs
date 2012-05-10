@@ -29,6 +29,8 @@ namespace Fleux.UIElements
 
         private int _selectedIndex;
 
+        private UIElement _selectedElement;
+
         private ComboBoxPopup _popupList;
 
         private bool _droppedDown;
@@ -51,9 +53,6 @@ namespace Fleux.UIElements
 
                 _selectedIndex = -1;
                 SelectedIndex = 0;
-
-                AddElement(_selectedElement);
-                Update();
             }
         }
 
@@ -75,14 +74,17 @@ namespace Fleux.UIElements
                 _selectedElement.Size = new Size(Size.Width - Padding, Math.Min(this.Size.Height, EditItemHeight));
                 _selectedElement.TapHandler = p => DropDown();
 
-                Update();
+                if (!_droppedDown)
+                {
+                    this.Clear();
+                    AddElement(_selectedElement);
+                    Update();
+                }
 
                 if (SelectedIndexChanged != null)
                     SelectedIndexChanged(this, new EventArgs());
             }
         }
-
-        private UIElement _selectedElement;
 
         #endregion
 
@@ -122,7 +124,7 @@ namespace Fleux.UIElements
         {
             return new TextElement((string)arg)
             {
-                Style = ((forList) && ((arg as string) == Items[SelectedIndex])) ?
+                Style = ((forList) && ((arg as string) == (string) Items[SelectedIndex])) ?
                     new TextStyle(
                         MetroTheme.PhoneFontFamilyNormal, MetroTheme.PhoneFontSizeNormal,
                         MetroTheme.PhoneAccentBrush) :

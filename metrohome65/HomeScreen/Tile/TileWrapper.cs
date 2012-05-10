@@ -3,7 +3,6 @@ using System.Drawing;
 using System.Linq;
 using System.Collections.Generic;
 using System.Reflection;
-using System.Windows.Forms;
 using Fleux.Styles;
 using Fleux.UIElements;
 using Fleux.Core.GraphicsHelpers;
@@ -155,7 +154,7 @@ namespace MetroHome65.HomeScreen
         public String TileClass
         {
             // return Tile's class name
-            get { return (_tile != null) ? (Tile).GetType().ToString() : ""; }
+            get { return (_tile != null) ? _tile.GetType().ToString() : ""; }
 
             // create new tile instance by class name
             set
@@ -236,12 +235,19 @@ namespace MetroHome65.HomeScreen
         /// <param name="settings"></param>
         public void DeserializeSettings(TileWrapperSettings settings)
         {
-            TileClass = settings.TileClassName;
-            GridSize = settings.Size;
-            GridPosition = settings.Location;
+            try
+            {
+                TileClass = settings.TileClassName;
+                GridSize = settings.Size;
+                GridPosition = settings.Location;
 
-            foreach (var param in settings.Parameters)
-                SetParameter(param.Name, param.Value);
+                foreach (var param in settings.Parameters)
+                    SetParameter(param.Name, param.Value);
+            }
+            catch (Exception e)
+            {
+                Logger.WriteLog(e.StackTrace, "DeserializeSettings error");
+            }
         }
 
         public TileWrapper SetParameter(String name, object value)
@@ -249,7 +255,6 @@ namespace MetroHome65.HomeScreen
             foreach (var propertyInfo in _propertyInfos.Where(propertyInfo => propertyInfo.Name == name))
             {
                 propertyInfo.SetValue(Tile, Convert.ChangeType(value, propertyInfo.PropertyType, null), null);
-                //propertyInfo.SetValue((object)Tile, Value, null);
                 break;
             }
             return this;
@@ -320,7 +325,7 @@ namespace MetroHome65.HomeScreen
 
         #region Moving
 
-        private bool _moving = false;
+        private bool _moving;
 
         /// <summary>
         /// Flag when tile is in moving mode

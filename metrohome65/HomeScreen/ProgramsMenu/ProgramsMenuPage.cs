@@ -1,12 +1,9 @@
 ﻿using System;
 using System.ComponentModel;
 using System.Drawing;
-using Fleux.Controls;
 using Fleux.Styles;
 using Fleux.UIElements;
 using MetroHome65.Interfaces;
-using MetroHome65.Routines;
-using TinyIoC;
 
 namespace MetroHome65.HomeScreen.ProgramsMenu
 {
@@ -25,10 +22,17 @@ namespace MetroHome65.HomeScreen.ProgramsMenu
         {
             _programsSv = new ProgramsMenu()
             {
-                Location = new Point(PaddingTop, 5),
-                Size = new Size(ScreenConsts.ScreenWidth - PaddingTop, ScreenConsts.ScreenHeight - 5),
+                Location = new Point(PaddingTop, 3),
+                Size = new Size(100, 100), // initial fake size
             };
+            this.SizeChanged += (sender, args) => SetSize();
+
             AddElement(_programsSv);
+        }
+
+        private void SetSize()
+        {
+            _programsSv.Size = new Size(this.Size.Width - PaddingTop, this.Size.Height - 3);
         }
 
         // IActive
@@ -46,7 +50,7 @@ namespace MetroHome65.HomeScreen.ProgramsMenu
         }
 
         /// <summary>
-        /// e-create programs menu with new setings
+        /// re-create programs menu with new theme setings
         /// </summary>
         /// <param name="e"></param>
         private void OnThemeSettingsChanged(PropertyChangedEventArgs e)
@@ -55,6 +59,7 @@ namespace MetroHome65.HomeScreen.ProgramsMenu
             {
                 Clear();
                 CreateList();
+                SetSize();
             }
         }
 
