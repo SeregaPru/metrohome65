@@ -1,4 +1,4 @@
-﻿namespace MetroHome65.HomeScreen
+﻿namespace MetroHome65.HomeScreen.Tile
 {
     partial class FrmWidgetSettings
     {

@@ -78,7 +78,7 @@
         public Color BackgroundColor { get; set; }
         public Color BorderColor { get; set; }
 
-        // Происходит при изменении значения свойства Checked
+        // event triggered when Check state changes
         public event EventHandler CheckStateChanged;
 
         #endregion

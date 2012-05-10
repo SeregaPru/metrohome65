@@ -35,8 +35,6 @@ namespace MetroHome65.HomeScreen
 
         public HomeScreen() : base(false)
         {
-            TinyIoCContainer.Current.Register<FleuxControlPage>(this);
-
             theForm.Menu = null;
             theForm.Text = "";
 
@@ -53,7 +51,7 @@ namespace MetroHome65.HomeScreen
             // холст главной страницы
             _homeScreenCanvas = new Canvas 
                                     {
-                                        Size = new Size(ScreenConsts.ScreenWidth, Size.Height),
+                                        Size = this.Size,
                                         Location = new Point(0, 0),
                                     };
 
@@ -112,7 +110,7 @@ namespace MetroHome65.HomeScreen
 
         private void AddSection(UIElement section, int position)
         {
-            section.Size = new Size(ScreenConsts.ScreenWidth - 2, ScreenConsts.ScreenHeight);
+            section.Size = new Size(this.Size.Width - 2, this.Size.Height);
             section.Location = new Point(position * ScreenConsts.ScreenWidth + 1, 0);
 
             _homeScreenCanvas.AddElement(section);

@@ -7,6 +7,7 @@ using Fleux.UIElements;
 using MetroHome65.HomeScreen.Tile;
 using MetroHome65.Interfaces;
 using MetroHome65.Interfaces.Events;
+using MetroHome65.Routines;
 using TinyIoC;
 using TinyMessenger;
 
@@ -46,23 +47,30 @@ namespace MetroHome65.HomeScreen.TilesGrid
             // кнопка настроек            
             _buttonSettings = new ThemedImageButton("settings")
                                   {
-                                      TapHandler = ButtonSettingsClick,
+                                      TapHandler = (p) => { ShowTileSettings(); return true; },
                                   };
+
             // кнопка удаления плитки
             _buttonUnpin = new ThemedImageButton("cancel")
                                {
                                    TapHandler = ButtonUnpinClick,
                                };
             RealignSettingsButtons(false);
-            var parentControl = TinyIoCContainer.Current.Resolve<FleuxControlPage>().Control;
-            parentControl.AddElement(_buttonUnpin);
-            parentControl.AddElement(_buttonSettings);
-
+            
             // холст контейнер плиток
             _tilesCanvas = new TilesCanvas();
             Content = _tilesCanvas;
 
             ReadSettings();
+        }
+
+        protected override void SetParentControl(FleuxControl parentControl)
+        {
+            base.SetParentControl(parentControl);
+
+            if (parentControl == null) return;
+            parentControl.AddElement(_buttonUnpin);
+            parentControl.AddElement(_buttonSettings);
         }
 
         /// <summary>
@@ -91,30 +99,8 @@ namespace MetroHome65.HomeScreen.TilesGrid
             menuExit.Click += (s, e) => OnExit(); 
             mainMenu.MenuItems.Add(menuExit);
 
-            mainMenu.Show(TinyIoCContainer.Current.Resolve<FleuxControlPage>().Control, location);
-        }
-
-        private bool ButtonSettingsClick(Point aLocation)
-        {
-            if (MoveMode)
-            {
-                // when show setting dialog, stop selected widget animation
-                var tile = MovingTile;
-                MovingTile = null;
-                var prevGridSize = tile.GridSize;
-
-                if (ShowTileSettings(tile))
-                {
-                    tile.ForceUpdate(); // repaint widget with new style
-                    if (!prevGridSize.Equals(tile.GridSize))
-                        RealignTiles(); // if widget size changed - realign widgets
-                    WriteSettings();
-                }
-                else
-                    MovingTile = tile;
-
-            }
-            return true;
+            if (ParentControl != null)
+                mainMenu.Show(ParentControl, location);
         }
 
         private bool ButtonUnpinClick(Point aLocation)
@@ -125,15 +111,38 @@ namespace MetroHome65.HomeScreen.TilesGrid
         }
 
         /// <summary>
-        /// Shows widget settings dialog and applies changes in widget settings.
+        /// Displays widget settings dialog and applies changes in widget settings.
         /// </summary>
-        private bool ShowTileSettings(TileWrapper tile)
+        private void ShowTileSettings()
         {
-            var widgetSettingsForm = new FrmWidgetSettings
-                                         {
-                                             Tile = tile, Owner = null
-                                         };
-            return (widgetSettingsForm.ShowDialog() == DialogResult.OK);
+            if (!MoveMode) return;
+
+            // when show setting dialog, stop selected widget animation
+            var tile = MovingTile;
+            MovingTile = null;
+            var prevGridSize = tile.GridSize;
+
+            try
+            {
+                var widgetSettingsForm = new FrmWidgetSettings(tile);
+
+                widgetSettingsForm.OnApplySettings += (s, e) =>
+                  {
+                      tile.Pause = false; //!! todo ?????? может не надо
+                      tile.ForceUpdate(); // repaint widget with new style
+                      if (!prevGridSize.Equals(tile.GridSize))
+                          // if widget size changed - realign widgets
+                          RealignTiles();
+                      WriteSettings();
+                  };
+
+                var messenger = TinyIoCContainer.Current.Resolve<ITinyMessengerHub>();
+                messenger.Publish(new ShowPageMessage(widgetSettingsForm));
+            }
+            catch (Exception ex)
+            {
+                Logger.WriteLog(ex.StackTrace, "Tile settings dialog error");
+            }
         }
 
     }

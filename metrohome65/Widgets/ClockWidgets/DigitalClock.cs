@@ -1,11 +1,15 @@
 ﻿using System;
 using System.Drawing;
 using System.Collections.Generic;
+using System.Reflection;
 using System.Windows.Forms;
+using Fleux.Controls;
 using Fleux.Styles;
+using Fleux.UIElements;
 using MetroHome65.Interfaces;
 using MetroHome65.Routines;
 using MetroHome65.Settings.Controls;
+using Metrohome65.Settings.Controls;
 
 namespace MetroHome65.Widgets
 {
@@ -117,27 +121,27 @@ namespace MetroHome65.Widgets
         protected override void PaintCaption(Graphics g, Rectangle rect)
         { }
 
-        public override List<Control> EditControls
+        public override ICollection<UIElement> EditControls(FleuxControlPage settingsPage)
         {
-            get
+            var controls = base.EditControls(settingsPage);
+            var bindingManager = new BindingManager();
+
+            var flagControl = new FlagSettingsControl
+                                  {
+                                      Caption = "24-Hours", 
+                                      Value = Is24Hour,
+                                  };
+            controls.Add(flagControl);
+            bindingManager.Bind(this, "Is24Hour", flagControl, "Value");
+
+            // hide control for icon / caption selection
+            foreach (var control in controls)
             {
-                var controls = base.EditControls;
-
-                var flagControl = new Settings_flag { Caption = "24-Hours", Value = Is24Hour };
-                controls.Add(flagControl);
-
-                var bindingManager = new BindingManager();
-                bindingManager.Bind(this, "Is24Hour", flagControl, "Value");
-
-                // hide control for icon / caption selection
-                foreach (var control in controls)
-                {
-                    if (control.Name.Contains("Icon") || control.Name.Contains("Caption"))
-                      control.Height = 0;
-                }
-               
-                return controls;
+                //!!! if (control.Name.Contains("Icon") || control.Name.Contains("Caption"))
+                //!!!    controls.Remove(control);
             }
+           
+            return controls;
         }
 
         

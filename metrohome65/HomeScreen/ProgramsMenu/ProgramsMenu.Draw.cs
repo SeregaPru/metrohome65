@@ -1,4 +1,5 @@
 ﻿using System.Drawing;
+using Fleux.Controls;
 using Fleux.Core.GraphicsHelpers;
 using Fleux.Styles;
 using Fleux.UIElements;
@@ -16,15 +17,23 @@ namespace MetroHome65.HomeScreen.ProgramsMenu
 
         private IDrawingGraphics _drawingGraphics;
 
-        private readonly Graphics _controlGraphics;
+        private Graphics _controlGraphics;
 
         #endregion
 
+
+        protected override void SetParentControl(FleuxControl parentControl)
+        {
+            base.SetParentControl(parentControl);
+
+            _controlGraphics = parentControl == null ? null : parentControl.CreateGraphics();
+        }
 
         // fast drawind method instead of double bufferes scrollview's method
         // because we know that height is the whole screen and we don't neet cropping
         public override void Draw(IDrawingGraphics drawingGraphics)
         {
+            //base.Draw(drawingGraphics); return;
             if (Content == null) return;
             Content.Draw(drawingGraphics.CreateChild(new Point(0, VerticalOffset)));
         }
@@ -32,12 +41,14 @@ namespace MetroHome65.HomeScreen.ProgramsMenu
         // draw direct to screen instead of buffer
         protected override void OnUpdated(UIElement element)
         {
+            //base.OnUpdated(element); return;
             DirectDraw(this.VerticalOffset);
         }
         
         public void DirectDraw(int verticalOffset)
         {
             if (_buffer == null) return;
+            if (_controlGraphics == null) return;
 
             // draw background
             _buffer.Graphics.Clear(MetroTheme.PhoneBackgroundBrush);

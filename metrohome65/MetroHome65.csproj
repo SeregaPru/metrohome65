@@ -25,7 +25,7 @@
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>true</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
+    <OutputPath>_deploy\</OutputPath>
     <DefineConstants>DEBUG;TRACE;$(PlatformFamilyName)</DefineConstants>
     <NoStdLib>true</NoStdLib>
     <NoConfig>true</NoConfig>
@@ -37,7 +37,7 @@
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
-    <OutputPath>bin\Release\</OutputPath>
+    <OutputPath>_deploy\</OutputPath>
     <DefineConstants>TRACE;$(PlatformFamilyName)</DefineConstants>
     <NoStdLib>true</NoStdLib>
     <NoConfig>true</NoConfig>
@@ -51,7 +51,7 @@
     <NoConfig>true</NoConfig>
     <GenerateSerializationAssemblies>Off</GenerateSerializationAssemblies>
     <DebugSymbols>true</DebugSymbols>
-    <OutputPath>bin\ControlsTest\</OutputPath>
+    <OutputPath>_deploy\</OutputPath>
     <DefineConstants>DEBUG;TRACE;PocketPC</DefineConstants>
     <Optimize>true</Optimize>
     <DebugType>full</DebugType>
@@ -73,24 +73,14 @@
   <ItemGroup>
     <Compile Include="HomeScreen\LockScreen\LockScreenBackground.cs" />
     <Compile Include="HomeScreen\ProgramsMenu\ProgramsMenu.Draw.cs" />
-    <Compile Include="HomeScreen\Settings\FrmMainSettings.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="HomeScreen\Settings\FrmMainSettings.Designer.cs">
-      <DependentUpon>FrmMainSettings.cs</DependentUpon>
-    </Compile>
     <Compile Include="HomeScreen\LockScreen\LockScreen.cs" />
     <Compile Include="HomeScreen\ProgramsMenu\ProgramsMenuPage.cs" />
-    <Compile Include="HomeScreen\Settings\FrmMainSettings2.cs" />
+    <Compile Include="HomeScreen\Settings\FrmMainSettings.cs" />
     <Compile Include="HomeScreen\Settings\MainSettingsProvider.cs" />
     <Compile Include="HomeScreen\ThemedImageButton.cs" />
     <Compile Include="HomeScreen\TilesGrid\TilesCanvas.cs" />
     <Compile Include="HomeScreen\TilesGrid\TilesGrid.Draw.cs" />
     <Compile Include="HomeScreen\Tile\FrmWidgetSettings.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="HomeScreen\Tile\FrmWidgetSettings.Designer.cs">
-      <DependentUpon>FrmWidgetSettings.cs</DependentUpon>
     </Compile>
     <Compile Include="HomeScreen\Arrow.cs" />
     <Compile Include="HomeScreen\FlatButton.cs" />
@@ -108,10 +98,6 @@
     <Compile Include="PluginManager.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <EmbeddedResource Include="HomeScreen\Tile\FrmWidgetSettings.resx">
-      <DependentUpon>FrmWidgetSettings.cs</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
@@ -342,7 +328,6 @@
     <Content Include="icons\small\small-world.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <EmbeddedResource Include="Images\cancel.bmp" />
     <Content Include="Images\home.ico" />
     <Content Include="icons\acrobat.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
@@ -420,7 +405,6 @@
     <EmbeddedResource Include="Images\settings_dark.png" />
     <EmbeddedResource Include="Images\next_dark.png" />
     <EmbeddedResource Include="Images\next_light.png" />
-    <EmbeddedResource Include="Images\ok.bmp" />
     <Content Include="wallpapers\berry.jpg">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
@@ -439,10 +423,6 @@
     <Content Include="wallpapers\winter.jpg">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <EmbeddedResource Include="HomeScreen\Settings\FrmMainSettings.resx">
-      <DependentUpon>FrmMainSettings.cs</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
     <EmbeddedResource Include="Images\settings_light.png" />
   </ItemGroup>
   <ItemGroup>

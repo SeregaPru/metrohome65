@@ -39,7 +39,7 @@
             m_ShowCaret = false;
             m_TextboxTextChanged = false;
             m_UpdateCaretTimer = new System.Windows.Forms.Timer();
-            m_UpdateCaretTimer.Interval = 500;
+            m_UpdateCaretTimer.Interval = 250;
             m_UpdateCaretTimer.Enabled = false;
             m_UpdateCaretTimer.Tick += new EventHandler(m_UpdateCaretTimer_Tick);
         }
@@ -119,6 +119,9 @@
             {
                 m_TextboxTextChanged = true;
                 Text = m_InternalTextBox.Text;
+
+                if (TextChanged != null)
+                    TextChanged(this, new EventArgs());
             }
             
             m_UpdateCaretTimer.Enabled = true;
@@ -163,10 +166,7 @@
 
         public System.Windows.Forms.TextBox InternalTextBox
         {
-            get
-            {
-                return m_InternalTextBox;
-            }
+            get { return m_InternalTextBox;             }
         }
 
 
@@ -227,5 +227,9 @@
                 this.Size = new Size(this.Size.Width, height);
             }
         }
+
+        // event triggered when Text changes
+        public event EventHandler TextChanged;
+
     }
 }

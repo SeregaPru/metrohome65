@@ -20,25 +20,24 @@ namespace Fleux.UIElements
         public virtual void AddElement(UIElement element)
         {
             this.Children.Add(element);
-            element.Parent = this;
-
-            //! metrohome65
-            element.ParentControl = this.ParentControl;
-
-            this.Size = new Size(Math.Max(element.Bounds.Right, this.Size.Width), Math.Max(element.Bounds.Bottom, this.Size.Height));
-            element.Updated = this.OnUpdated;
+            CommonAddElement(element);
         }
 
         public virtual void AddElementAt(int index, UIElement element)
         {
             this.Children.Insert(index, element);
+            CommonAddElement(element);
+        }
+
+        private void CommonAddElement(UIElement element)
+        {
             element.Parent = this;
+            element.Updated = this.OnUpdated;
 
             //! metrohome65
             element.ParentControl = this.ParentControl;
 
             this.Size = new Size(Math.Max(element.Bounds.Right, this.Size.Width), Math.Max(element.Bounds.Bottom, this.Size.Height));
-            element.Updated = this.OnUpdated;
         }
 
         public override void Draw(IDrawingGraphics drawingGraphics)
@@ -51,6 +50,9 @@ namespace Fleux.UIElements
 
         public void Clear()
         {
+            //! metrohome65
+            this.Children.ToList().ForEach(e => e.ParentControl = null);
+
             this.Children.Clear();
         }
 

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Runtime.InteropServices;
+using System.Windows.Forms;
 
 namespace MetroHome65.Routines
 {
@@ -81,6 +82,19 @@ namespace MetroHome65.Routines
             //return (IsQVGA) ? (Size / 2) : Size;
             return Size;
         }
+
+        private static Cursor _oldCursor = Cursors.Default;
+
+        public static void CursorWait()
+        {
+            _oldCursor = Cursor.Current;
+            Cursor.Current = Cursors.WaitCursor;
+        }
+
+        public static void CursorNormal()
+        {
+            Cursor.Current = _oldCursor;
+        }
     }
 
     public static class ScreenConsts
@@ -90,5 +104,6 @@ namespace MetroHome65.Routines
         public const int ScreenHeight = 800;
 
     }
+
 
 }

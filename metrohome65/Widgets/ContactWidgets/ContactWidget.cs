@@ -3,9 +3,12 @@ using System.Drawing;
 using System.Windows.Forms;
 using System.Collections.Generic;
 using Fleux.Animations;
+using Fleux.Controls;
 using Fleux.Styles;
+using Fleux.UIElements;
 using MetroHome65.Interfaces;
 using MetroHome65.Interfaces.Events;
+using Metrohome65.Settings.Controls;
 using Microsoft.WindowsMobile.PocketOutlook;
 using MetroHome65.Settings.Controls;
 using MetroHome65.Routines;
@@ -292,23 +295,24 @@ namespace MetroHome65.Widgets
 
         #endregion
 
-        public override List<Control> EditControls
+        public override ICollection<UIElement> EditControls(FleuxControlPage settingsPage)
         {
-            get
-            {
-                List<Control> controls = base.EditControls;
-                var editControl = new Settings_contact {Value = ContactId};
-                controls.Add(editControl);
+            var controls = base.EditControls(settingsPage);
+            var bindingManager = new BindingManager();
 
-                var imgControl = new Settings_image {Caption = "Alternate picture", Value = AlternatePicturePath};
-                controls.Add(imgControl);
+            //!! var editControl = new Settings_contact {Value = ContactId};
+            //!! controls.Add(editControl);
+            //!! bindingManager.Bind(this, "ContactId", editControl, "Value");
 
-                var bindingManager = new BindingManager();
-                bindingManager.Bind(this, "ContactId", editControl, "Value");
-                bindingManager.Bind(this, "AlternatePicturePath", imgControl, "Value");
+            var imgControl = new ImageSettingsControl
+                                 {
+                                     Caption = "Alternate picture", 
+                                     Value = AlternatePicturePath,
+                                 };
+            controls.Add(imgControl);
+            bindingManager.Bind(this, "AlternatePicturePath", imgControl, "Value");
 
-                return controls;
-            }
+            return controls;
         }
 
 

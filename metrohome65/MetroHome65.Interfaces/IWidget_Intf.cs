@@ -1,7 +1,8 @@
 ﻿using System;
 using System.Drawing;
 using System.Collections.Generic;
-using System.Windows.Forms;
+using Fleux.Controls;
+using Fleux.UIElements;
 
 namespace MetroHome65.Interfaces
 {
@@ -67,9 +68,9 @@ namespace MetroHome65.Interfaces
 
         bool OnDblClick(Point location);
 
-        bool DoExitAnimation { get; } 
+        bool DoExitAnimation { get; }
 
-        List<Control> EditControls { get; }
+        ICollection<UIElement> EditControls(FleuxControlPage settingsPage);
     }
 
 }

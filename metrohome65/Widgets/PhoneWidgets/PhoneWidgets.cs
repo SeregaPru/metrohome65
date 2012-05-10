@@ -1,4 +1,5 @@
 ﻿using System.Drawing;
+using System.Globalization;
 using Fleux.Styles;
 using MetroHome65.Interfaces;
 using MetroHome65.Routines;
@@ -9,7 +10,7 @@ namespace MetroHome65.Widgets
     public class PhoneWidget : ShortcutWidget, IActive
     {
         private ThreadTimer _updateTimer;
-        private int _missedCount = 0;
+        private int _missedCount;
 
         private static readonly int PaddingRightCnt = ScreenRoutines.Scale(55); //todo comment
         private static readonly int PaddingRightIco = ScreenRoutines.Scale(160); //todo comment
@@ -38,11 +39,11 @@ namespace MetroHome65.Widgets
 
         private void PaintCount(Graphics g, Rectangle rect)
         {
-            var missedCountStr = _missedCount.ToString();
+            var missedCountStr = _missedCount.ToString(CultureInfo.InvariantCulture);
 
             var captionHeight = (Caption == "") ? 0 : (CaptionSize /*+ CaptionBottomOffset*/);
 
-            Font captionFont = new Font(MetroTheme.TileTextStyle.FontFamily, 24, FontStyle.Regular);
+            var captionFont = new Font(MetroTheme.TileTextStyle.FontFamily, 24, FontStyle.Regular);
             Brush captionBrush = new SolidBrush(MetroTheme.TileTextStyle.Foreground);
             g.DrawString(missedCountStr, captionFont, captionBrush,
                 rect.Right - PaddingRightCnt,
@@ -57,7 +58,7 @@ namespace MetroHome65.Widgets
                 if (value)
                 {
                     if (_updateTimer == null)
-                        _updateTimer = new ThreadTimer(2000, () => UpdateStatus());
+                        _updateTimer = new ThreadTimer(2000, UpdateStatus);
                 }
                 else
                 {

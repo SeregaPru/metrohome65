@@ -1,6 +1,5 @@
 ﻿namespace Fleux.Controls
 {
-    using System;
     using System.Drawing;
     using Core;
 

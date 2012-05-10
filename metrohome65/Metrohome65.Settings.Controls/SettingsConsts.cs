@@ -2,6 +2,8 @@
 {
     public static class SettingsConsts
     {
-        public const int MaxWidth = 450;
+        public const int PaddingHor = 20;
+
+        public const int MaxWidth = 480 - 2 * PaddingHor;
     }
 }

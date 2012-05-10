@@ -23,24 +23,37 @@ namespace Metrohome65.Settings.Controls
 
         public Color Value
         {
-            get { return ((ColorItem)_comboSelect.Items[_comboSelect.SelectedIndex]).Color; }
+            get
+            {
+                return ((ColorItem)_comboSelect.Items[_comboSelect.SelectedIndex]).Color;
+            }
             set
             {
                 if (((ColorItem)_comboSelect.Items[_comboSelect.SelectedIndex]).Color != value)
                 {
-                    var idx = -1;
+                    var idx = 0;
                     for (int i = 0; i < _comboSelect.Items.Count; i++)
                     {
-                        if (((ColorItem)_comboSelect.Items[i]).Color == value)
+                        if (((ColorItem)_comboSelect.Items[i]).Color.ToArgb() == value.ToArgb())
+                        {
                             idx = i;
-                        break;
+                            break;
+                        }
                     }
-                    if (idx == -1)
-                        idx = 0;
                     _comboSelect.SelectedIndex = idx;
 
                     NotifyPropertyChanged("Value");
                 }
+            }
+        }
+
+        public int ARGBValue
+        {
+            get { return Value.ToArgb(); }
+            set
+            {
+                Value = Color.FromArgb(value);
+                NotifyPropertyChanged("ARGBValue");
             }
         }
 
@@ -49,7 +62,7 @@ namespace Metrohome65.Settings.Controls
 
         #region Methods
 
-        public ColorSettingsControl()
+        public ColorSettingsControl(bool withDefaultColor)
         {
             _lblCaption = new TextElement("<select color>")
             {
@@ -74,7 +87,18 @@ namespace Metrohome65.Settings.Controls
                                         new ColorItem(Color.Green, "green")
                                     },
             };
-            _comboSelect.SelectedIndexChanged += (s, e) => NotifyPropertyChanged("Value");
+
+            if (withDefaultColor)
+            {
+                _comboSelect.Items.Insert(0, new ColorItem(Color.Empty, "<default>"));
+                _comboSelect.SelectedIndex = 0;
+            }
+
+            _comboSelect.SelectedIndexChanged += (s, e) =>
+                                                     {
+                                                         NotifyPropertyChanged("Value");
+                                                         NotifyPropertyChanged("ARGBValue");
+                                                     };
             AddElement(_comboSelect);
         }
 

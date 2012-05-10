@@ -30,8 +30,6 @@ namespace MetroHome65.HomeScreen.ProgramsMenu
             ExitAnimation = null;
             VerticalScroll = true;
 
-            var parentControl = TinyIoCContainer.Current.Resolve<FleuxControlPage>().Control;
-            _controlGraphics = parentControl.CreateGraphics();
             _bgImage = TinyIoCContainer.Current.Resolve<HomeScreenBackground>();
 
             Size = new Size(100, 100);
@@ -54,6 +52,8 @@ namespace MetroHome65.HomeScreen.ProgramsMenu
         /// </summary>
         private BindingList<object> GetProgramList()
         {
+            _fileList.Add(new FileDescr()); // first empty item for hor padding
+
             var folderInfo = new DirectoryInfo(Environment.GetFolderPath(Environment.SpecialFolder.StartMenu));
             FillProgramsFromFolder(folderInfo);
 
@@ -104,6 +104,12 @@ namespace MetroHome65.HomeScreen.ProgramsMenu
         private UIElement BuildItem(object aFileDescr)
         {
             var fileDescr = (FileDescr)aFileDescr;
+
+            // special processing for first empty item
+            if (fileDescr.Name == null)
+            {
+                return new Canvas() { Size = new Size(ScreenConsts.ScreenWidth, 50), };
+            }
 
             var canvas = new Canvas
             {
@@ -176,7 +182,8 @@ namespace MetroHome65.HomeScreen.ProgramsMenu
             menuPinProgram.Click += (s, e) => PinProgram(fileDescr);
             mainMenu.MenuItems.Add(menuPinProgram);
 
-            mainMenu.Show(TinyIoCContainer.Current.Resolve<FleuxControlPage>().Control, location);
+            if (ParentControl != null)
+                mainMenu.Show(ParentControl, location);
         }
 
         /// <summary>
