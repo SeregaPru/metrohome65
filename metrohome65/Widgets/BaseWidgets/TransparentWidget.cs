@@ -15,7 +15,7 @@ namespace MetroHome65.Widgets
     /// </summary>
     public abstract class TransparentWidget : BaseWidget
     {
-        private int _tileColor = MetroTheme.PhoneAccentBrush.ToArgb();
+        private int _tileColor = Color.Empty.ToArgb();
         private String _tileImage = "";
         private AlphaImage _bgImage;
 
