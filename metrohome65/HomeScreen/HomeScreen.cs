@@ -29,9 +29,9 @@ namespace MetroHome65.HomeScreen
         // system state for receiving notifications about system events
         private readonly SystemState _systemState = new SystemState(0);
 
-        private const int ArrowPos1 = ScreenConsts.ScreenWidth + TileConsts.ArrowPosX;
-        private const int ArrowPos2 = ScreenConsts.ScreenWidth * 2 + TileConsts.ArrowPadding;
-        
+        private static readonly int ArrowPos1 = ScreenConsts.ScreenWidth + TileConsts.ArrowPosX;
+        private static readonly int ArrowPos2 = ScreenConsts.ScreenWidth * 2 + TileConsts.ArrowPadding;
+
 
         public HomeScreen() : base(false)
         {

@@ -47,7 +47,20 @@ namespace Fleux.Styles
 
         public static Color PhoneTextBoxBrush
         {
-            get { return _phoneForegroundBrush; }
+            get
+            {
+                //return _phoneForegroundBrush;
+                return Color.White; //!! metrohome65
+            }
+        }
+
+        //!! metrohome65
+        public static Color PhoneTextBoxFontBrush
+        {
+            get
+            {
+                return Color.Black; 
+            }
         }
 
         // GIANNI added

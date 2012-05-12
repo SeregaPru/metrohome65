@@ -64,13 +64,10 @@ namespace MetroHome65.Routines
                 if (_IsQVGACalculated)
                     return _IsQVGA;
 
-                int ScreenHeight = System.Windows.Forms.Screen.PrimaryScreen.Bounds.Height;
-                int ScreenWidth = System.Windows.Forms.Screen.PrimaryScreen.Bounds.Width;
-
                 if (Microsoft.WindowsMobile.Status.SystemState.DisplayRotation % 180 == 0)
-                    _IsQVGA = (ScreenWidth < 245);
+                    _IsQVGA = (ScreenConsts.ScreenWidth < 245);
                 else
-                    _IsQVGA = (ScreenHeight < 245);
+                    _IsQVGA = (ScreenConsts.ScreenHeight < 245);
 
                 _IsQVGACalculated = true;
                 return _IsQVGA;
@@ -100,9 +97,8 @@ namespace MetroHome65.Routines
     public static class ScreenConsts
     {
         public const int TopBarSize = 36;
-        public const int ScreenWidth = 480;
-        public const int ScreenHeight = 800;
-
+        public static readonly int ScreenWidth = System.Windows.Forms.Screen.PrimaryScreen.Bounds.Width;
+        public static readonly int ScreenHeight = System.Windows.Forms.Screen.PrimaryScreen.Bounds.Height;
     }
 
 
