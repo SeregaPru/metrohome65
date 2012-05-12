@@ -21,10 +21,10 @@ namespace MetroHome65.Widgets
         private Boolean _showPoints = true;
         private Boolean _is24Hour = true;
 
-        private readonly int _paddingRight = ScreenRoutines.Scale(20);
-        private readonly int _dotWidth = ScreenRoutines.Scale(20);
-        private readonly int _dotPaddingRight = ScreenRoutines.Scale(8);
-        private readonly int _dotPaddingLeft = ScreenRoutines.Scale(6);
+        private readonly int _paddingRight = /*ScreenRoutines.Scale*/(20);
+        private readonly int _dotWidth = /*ScreenRoutines.Scale*/(20);
+        private readonly int _dotPaddingRight = /*ScreenRoutines.Scale*/(8);
+        private readonly int _dotPaddingLeft = /*ScreenRoutines.Scale*/(6);
 
         public DigitalClockWidget() 
         {

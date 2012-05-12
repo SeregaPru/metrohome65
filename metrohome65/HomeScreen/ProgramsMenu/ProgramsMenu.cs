@@ -6,10 +6,12 @@ using System.IO;
 using System.Runtime.InteropServices;
 using System.ComponentModel;
 using System.Windows.Forms;
-using MetroHome65.Interfaces.Events;
-using MetroHome65.Routines;
+using Fleux.Core;
+using Fleux.Core.Scaling;
 using Fleux.UIElements;
 using Fleux.Styles;
+using MetroHome65.Interfaces.Events;
+using MetroHome65.Routines;
 using TinyIoC;
 using TinyMessenger;
 
@@ -38,6 +40,7 @@ namespace MetroHome65.HomeScreen.ProgramsMenu
 
             _bgColor = MetroTheme.PhoneAccentBrush;
             _bgBrush = new SolidBrush(_bgColor);
+            _rect = new Rectangle(0, 0, IconSize + BorderSize * 2, IconSize + BorderSize * 2);
 
             DataTemplateSelector = item => BuildItem;
             SourceItems = GetProgramList();
@@ -93,12 +96,12 @@ namespace MetroHome65.HomeScreen.ProgramsMenu
 
 
         private const int IconSize = 64;
-        private const int PaddingHor = 10;
         private const int BorderSize = 5;
+        private const int PaddingHor = 10;
         private const int BlankSize = 5;
 
         private FileRoutines.structa _refa;
-        private Rectangle _rect = new Rectangle(0, 0, IconSize + BorderSize * 2, IconSize + BorderSize * 2);
+        private Rectangle _rect;
 
         private UIElement BuildItem(object aFileDescr)
         {
@@ -107,7 +110,7 @@ namespace MetroHome65.HomeScreen.ProgramsMenu
             // special processing for first empty item
             if (fileDescr.Name == null)
             {
-                return new Canvas() { Size = new Size(ScreenConsts.ScreenWidth, 50), };
+                return new Canvas { Size = new Size(ScreenConsts.ScreenWidth, 50), };
             }
 
             var canvas = new Canvas
@@ -115,33 +118,36 @@ namespace MetroHome65.HomeScreen.ProgramsMenu
                 Size = new Size(ScreenConsts.ScreenWidth, IconSize + BlankSize * 2 + BorderSize * 2)
             };
 
-            // draw icon with border
-            var image = new Bitmap(_rect.Width, _rect.Height, PixelFormat.Format16bppRgb565);
+            // draw solid bacground for icon
+            // direct draw to graphisc.image, so use scale from logic to pixels
+            var image = new Bitmap(_rect.Width.ToPixels(), _rect.Height.ToPixels(), PixelFormat.Format16bppRgb565);
             var graphics = Graphics.FromImage(image);
-            graphics.FillRectangle(_bgBrush, _rect);
+            graphics.FillRectangle(_bgBrush, _rect.ToPixels());
 
+            // draw icon
+            // direct draw to graphisc.image, so use scale from logic to pixels
             try
             {
                 FileRoutines.SHGetFileInfo(ref fileDescr.Path, 0, ref _refa, Marshal.SizeOf(_refa), 0x100);
                 var icon = Icon.FromHandle(_refa.a);
-                graphics.DrawIcon(icon, BorderSize, BorderSize);
+                graphics.DrawIcon(icon, BorderSize.ToPixels(), BorderSize.ToPixels());
             }
             catch (Exception) { }
 
             canvas.AddElement(new ImageElement(image)
                                   {
-                                      Size = image.Size,
+                                      Size = _rect.Size,
                                       Location = new Point(0, BlankSize),
                                   });
 
             // draw program name
-            var textHeight = ScreenRoutines.Scale(15);
+            const int textHeight = 15;
             canvas.AddElement(new TextElement(fileDescr.Name)
             {
                 AutoSizeMode = TextElement.AutoSizeModeOptions.None,
                 Style = new TextStyle(MetroTheme.PhoneFontFamilyNormal, 11, MetroTheme.PhoneForegroundBrush),
+                Size = new Size(ScreenConsts.ScreenWidth - _rect.Width + PaddingHor, _rect.Height - textHeight),
                 Location = new Point(_rect.Width + PaddingHor, textHeight),
-                Size = new Size(ScreenConsts.ScreenWidth - _rect.Width + PaddingHor, _rect.Height - textHeight)
             });
 
             // click handler = launch program

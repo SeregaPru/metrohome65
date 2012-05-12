@@ -1,6 +1,5 @@
 ﻿namespace Fleux.Core.Scaling
 {
-    using System;
     using System.Drawing;
 
     public static class PointExtensions

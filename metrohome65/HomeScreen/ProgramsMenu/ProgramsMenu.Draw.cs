@@ -1,5 +1,6 @@
 ﻿using System.Drawing;
 using Fleux.Controls;
+using Fleux.Core;
 using Fleux.Core.GraphicsHelpers;
 using Fleux.Styles;
 using Fleux.UIElements;
@@ -58,7 +59,7 @@ namespace MetroHome65.HomeScreen.ProgramsMenu
             Content.Draw(_drawingGraphics.CreateChild(new Point(0, verticalOffset)));
 
             // draw buffer directly to screen
-            _controlGraphics.DrawImage(_buffer.Image, Location.X, Location.Y);
+            _controlGraphics.DrawImage(_buffer.Image, FleuxApplication.ScaleFromLogic(Location.X), Location.Y);
         }
 
         private void CreateBuffer()

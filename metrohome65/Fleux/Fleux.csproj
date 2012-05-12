@@ -89,6 +89,7 @@
     <Compile Include="Core\NativeHelpers\StringHelpers.cs" />
     <Compile Include="Core\Scaling\PointExtensions.cs" />
     <Compile Include="Core\Scaling\RectExtensions.cs" />
+    <Compile Include="Core\Scaling\SizeExtensions.cs" />
     <Compile Include="Templates\TitledGroup.cs" />
     <Compile Include="Templates\WindowsPhone7Page.cs" />
     <Compile Include="UIElements\ApplicationBar.cs" />

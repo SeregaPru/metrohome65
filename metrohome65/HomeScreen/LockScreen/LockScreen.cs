@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Drawing;
 using Fleux.Animations;
+using Fleux.Core;
+using Fleux.Core.Scaling;
 using Fleux.Styles;
 using Fleux.UIElements;
 using MetroHome65.Interfaces;
@@ -19,24 +21,26 @@ namespace MetroHome65.HomeScreen.LockScreen
 
         private ThreadTimer _updateTimer;
 
+        private readonly TextStyle _style = new TextStyle(
+            MetroTheme.PhoneFontFamilyNormal,
+            MetroTheme.PhoneFontSizeExtraLarge,
+            MetroTheme.PhoneForegroundBrush);
 
         public LockScreen()
         {
-            var textHeight = 400;
-            var leftOffset = 20;
-            var rightOffset = 10;
-
             AddElement(new LockScreenBackground());
+
+            var lineHeight = FleuxApplication.DummyDrawingGraphics.Style(_style).CalculateMultilineTextHeight("0", 100);
+
+            const int leftOffset = 20;
+            const int rightOffset = 10;
 
             _lblClock = new TextElement(GetText())
                             {
-                                Size = new Size(ScreenConsts.ScreenWidth - leftOffset - rightOffset, textHeight),
-                                Location = new Point(leftOffset, ScreenConsts.ScreenHeight - textHeight),
+                                Style = _style,
                                 AutoSizeMode = TextElement.AutoSizeModeOptions.None,
-                                Style = new TextStyle(
-                                    MetroTheme.PhoneFontFamilyNormal,
-                                    MetroTheme.PhoneFontSizeExtraLarge,
-                                    MetroTheme.PhoneForegroundBrush),
+                                Size = new Size(ScreenConsts.ScreenWidth.ToLogic() - leftOffset - rightOffset, lineHeight * 4),
+                                Location = new Point(leftOffset, ScreenConsts.ScreenHeight.ToLogic() - lineHeight * 4),
                             };
             AddElement(_lblClock);
 

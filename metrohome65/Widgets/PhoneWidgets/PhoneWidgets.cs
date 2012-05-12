@@ -12,8 +12,8 @@ namespace MetroHome65.Widgets
         private ThreadTimer _updateTimer;
         private int _missedCount;
 
-        private static readonly int PaddingRightCnt = ScreenRoutines.Scale(55); //todo comment
-        private static readonly int PaddingRightIco = ScreenRoutines.Scale(160); //todo comment
+        private static readonly int PaddingRightCnt = /*ScreenRoutines.Scale*/(55); //todo comment
+        private static readonly int PaddingRightIco = /*ScreenRoutines.Scale*/(160); //todo comment
 
         protected override Size[] GetSizes()
         {
