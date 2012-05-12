@@ -102,13 +102,7 @@ namespace FleuxControls
                 IMAPIMessage msg = messages[i];
                 try
                 {
-                    msg.PopulateProperties(EMessageProperties.DeliveryTime | EMessageProperties.Sender |
-                                           EMessageProperties.Subject);
-
-                    IMAPIContact sender = msg.Sender;
-                    DateTime delivery = msg.LocalDeliveryTime;
-
-                    _stackPanel.AddElement(new SmsBox(msg.Subject, sender, delivery));
+                    _stackPanel.AddElement(new SmsBox(msg));
                 }
                 catch (Exception ex)
                 {
@@ -123,11 +117,17 @@ namespace FleuxControls
 
     public class SmsBox : StackPanel
     {
-        public SmsBox(string subject, IMAPIContact sender, DateTime delivery)
+        public SmsBox(IMAPIMessage msg)
         {
+            msg.PopulateProperties(EMessageProperties.DeliveryTime | EMessageProperties.Sender |
+                                   EMessageProperties.Subject);
+            IMAPIContact sender = msg.Sender;
+            DateTime delivery = msg.LocalDeliveryTime;
+
+
             // Subject:
             AddElement(
-                new TextElement(subject)
+                new TextElement(msg.Subject)
                 {
                     Size = new Size(450, 50),
                     AutoSizeMode = TextElement.AutoSizeModeOptions.WrapText,
@@ -147,6 +147,11 @@ namespace FleuxControls
             {
                 add += sender.FullAddress;
             }
+
+            if (( (uint)msg.Status & (uint)EMessageStatus.MSGSTATUS_RECTYPE_SMTP) == 0)
+                add += " (SMS) ";
+            
+            add += " " + msg.Flags.ToString() + " " + msg.Status.ToString();
 
             if (! string.IsNullOrEmpty(add))
                 AddElement( new TextElement(add)
