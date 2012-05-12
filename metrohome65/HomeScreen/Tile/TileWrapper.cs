@@ -34,10 +34,9 @@ namespace MetroHome65.HomeScreen
         #region Methods
 
         // empty constructor for deserialize
-        public TileWrapper() : base() {}
+        public TileWrapper() {}
 
         public TileWrapper(Size aGridSize, Point aGridPosition, String aTileName)
-            : base()
         {
             TileClass = aTileName;
             GridSize = aGridSize;

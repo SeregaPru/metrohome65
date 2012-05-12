@@ -76,9 +76,9 @@ namespace Metrohome65.Settings.Controls
                 };
             AddElement(_pictureBox);
 
-            AddElement(new Canvas() { Size = new Size(SettingsConsts.MaxWidth, 10), });
+            AddElement(new Canvas { Size = new Size(SettingsConsts.MaxWidth, 10), });
 
-            var buttonPanel = new Canvas() { Size = new Size(SettingsConsts.MaxWidth, 50), };
+            var buttonPanel = new Canvas { Size = new Size(SettingsConsts.MaxWidth, 50), };
             AddElement(buttonPanel);
 
             var buttonSelectImage = new Fleux.UIElements.Button("select")

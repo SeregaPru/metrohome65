@@ -47,7 +47,7 @@ namespace MetroHome65.HomeScreen.TilesGrid
             // кнопка настроек            
             _buttonSettings = new ThemedImageButton("settings")
                                   {
-                                      TapHandler = (p) => { ShowTileSettings(); return true; },
+                                      TapHandler = p => { ShowTileSettings(); return true; },
                                   };
 
             // кнопка удаления плитки

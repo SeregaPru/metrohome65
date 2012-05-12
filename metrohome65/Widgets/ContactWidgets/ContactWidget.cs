@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Drawing;
-using System.Windows.Forms;
 using System.Collections.Generic;
 using Fleux.Animations;
 using Fleux.Controls;
@@ -10,7 +9,6 @@ using MetroHome65.Interfaces;
 using MetroHome65.Interfaces.Events;
 using Metrohome65.Settings.Controls;
 using Microsoft.WindowsMobile.PocketOutlook;
-using MetroHome65.Settings.Controls;
 using MetroHome65.Routines;
 using TinyIoC;
 using TinyMessenger;
@@ -41,6 +39,9 @@ namespace MetroHome65.Widgets
         // launch external application - play exit animation
         protected override bool GetDoExitAnimation() { return true; }
 
+
+        private static OutlookSession _session = new OutlookSession();
+
         [TileParameter]
         public int ContactId
         {
@@ -55,13 +56,18 @@ namespace MetroHome65.Widgets
                     try
                     {
                         _contact = FindContact(ContactId);
-                        _needAnimateTile = (_contact != null) && ((_contact.Picture != null) || (_alternateImage != null));
+                        CalcNeedAnimate();
                     }
                     catch (Exception) { _needAnimateTile = false; }
 
                     NotifyPropertyChanged("ContactId");
                 }
             }
+        }
+
+        private void CalcNeedAnimate()
+        {
+            _needAnimateTile = (_contact != null) && ((_contact.Picture != null) || (_alternateImage != null));
         }
 
         /// <summary>
@@ -77,8 +83,9 @@ namespace MetroHome65.Widgets
                 if (_alternatePicturePath != value)
                 {
                     _alternatePicturePath = value;
+                    _alternateImage = _alternatePicturePath != "" ? new AlphaImage(_alternatePicturePath) : null;
+                    CalcNeedAnimate();
                     _needRepaint = true;
-                    UpdateAlternatePicture();
                     NotifyPropertyChanged("AlternatePicturePath");
                 }
             }
@@ -93,10 +100,7 @@ namespace MetroHome65.Widgets
             {
                 try
                 {
-                    var mySession = new OutlookSession();
-
-                    var collection = mySession.Contacts.Items;
-                    foreach (var contact in collection)
+                    foreach (var contact in (new OutlookSession()).Contacts.Items)
                     {
                         if (contact.ItemId.GetHashCode().Equals(itemIdKey))
                         {
@@ -118,16 +122,10 @@ namespace MetroHome65.Widgets
         private DoubleBuffer _buffer;
         private bool _needRepaint;
 
-        protected virtual void UpdateAlternatePicture()
-        {
-            _alternateImage = _alternatePicturePath != "" ? new AlphaImage(_alternatePicturePath) : null;
-        }
-
         public override void PaintBuffer(Graphics g, Rectangle rect)
         {
             try
             {
-
                 if (_contact == null)
                 {
                     g.FillRectangle(new SolidBrush(MetroTheme.PhoneAccentBrush),
@@ -180,6 +178,7 @@ namespace MetroHome65.Widgets
                 var newbuffer = new DoubleBuffer(new Size(Size.Width, (_needAnimateTile) ? Size.Height + NameRectHeight : Size.Height));
                 PaintBuffer(newbuffer.Graphics, new Rectangle(0, 0, Size.Width, Size.Height));
                 _buffer = newbuffer;
+                _offsetY = 0;
                 _needRepaint = false;
             }
 
@@ -300,17 +299,22 @@ namespace MetroHome65.Widgets
             var controls = base.EditControls(settingsPage);
             var bindingManager = new BindingManager();
 
-            //!! var editControl = new Settings_contact {Value = ContactId};
-            //!! controls.Add(editControl);
-            //!! bindingManager.Bind(this, "ContactId", editControl, "Value");
-
-            var imgControl = new ImageSettingsControl
+            var contactControl = new ContactSettingsControl
                                  {
-                                     Caption = "Alternate picture", 
-                                     Value = AlternatePicturePath,
+                                     Caption = "Contact", 
+                                     Value = ContactId,
                                  };
+            controls.Add(contactControl);
+            bindingManager.Bind(this, "ContactId", contactControl, "Value");
+
+            var imgControl = new ImageSettingsControl()
+            {
+                Caption = "Alternate image",
+                Value = AlternatePicturePath,
+            };
             controls.Add(imgControl);
             bindingManager.Bind(this, "AlternatePicturePath", imgControl, "Value");
+
 
             return controls;
         }
@@ -323,11 +327,22 @@ namespace MetroHome65.Widgets
         public override bool OnClick(Point location)
         {
             var contactPage = new ContactPage(_contact);
+            contactPage.ContactChanged += (s,e) => OnContactChanged();
 
             var messenger = TinyIoCContainer.Current.Resolve<ITinyMessengerHub>();
             messenger.Publish(new ShowPageMessage(contactPage));
 
             return true;
+        }
+
+        // update contact properties on any contact change
+        private void OnContactChanged()
+        {
+            var newContact = FindContact(_contactId);
+            _contact = newContact;
+
+            CalcNeedAnimate();
+            ForceUpdate();
         }
 
     }
