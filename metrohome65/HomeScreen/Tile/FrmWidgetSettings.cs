@@ -183,11 +183,11 @@ namespace MetroHome65.HomeScreen.Tile
                 // apply custom widget parameters
                 foreach (var srcPropInfo in srcProps)
                 {
-                    var attributes = srcPropInfo.GetCustomAttributes(typeof(TileParameterAttribute), true);
-                    if (attributes.Length > 0)
-                    {
-                        foreach (var attribute in attributes)
-                        {
+                    //var attributes = srcPropInfo.GetCustomAttributes(typeof(TileParameterAttribute), true);
+                    //if (attributes.Length > 0)
+                    //{
+                        //foreach (var attribute in attributes)
+                        //{
                             foreach (var dstPropInfo in dstProps.Where(
                                 dstPropInfo => dstPropInfo.Name == srcPropInfo.Name))
                             {
@@ -195,8 +195,8 @@ namespace MetroHome65.HomeScreen.Tile
                                     srcPropInfo.GetValue((object)srcTile, null), dstPropInfo.PropertyType, null), null);
                                 break;
                             }
-                        }
-                    }
+                        //}
+                    //}
                 }
             }
             catch (Exception ex)

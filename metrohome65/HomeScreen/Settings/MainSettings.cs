@@ -126,18 +126,18 @@ namespace MetroHome65.HomeScreen.Settings
             if (handler != null) handler(this, new PropertyChangedEventArgs(propertyName));
         }
 
-        private bool SetField<T>(ref T field, T value, string propertyName)
+        private void SetField<T>(ref T field, T value, string propertyName)
         {
             try
             {
-                if (EqualityComparer<T>.Default.Equals(field, value)) return false;
+                if (EqualityComparer<T>.Default.Equals(field, value)) return;
                 field = value;
                 OnPropertyChanged(propertyName);
-                return true;
+                return;
             }
             catch (Exception)
             {
-                return false; 
+                return;
             }
         }
 

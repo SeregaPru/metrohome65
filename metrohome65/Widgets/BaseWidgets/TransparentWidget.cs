@@ -85,6 +85,7 @@ namespace MetroHome65.Widgets
         public override ICollection<UIElement> EditControls(FleuxControlPage settingsPage)
         {
             var controls = base.EditControls(settingsPage);
+            var bindingManager = new BindingManager();
 
             var colorControl = new ColorSettingsControl(true)
                                    {
@@ -92,6 +93,7 @@ namespace MetroHome65.Widgets
                                        ARGBValue = _tileColor,
                                    };
             controls.Add(colorControl);
+            bindingManager.Bind(this, "TileColor", colorControl, "ARGBValue");
 
             var imgControl = new ImageSettingsControl()
                                  {
@@ -99,9 +101,6 @@ namespace MetroHome65.Widgets
                                      Value = TileImage,
                                  };
             controls.Add(imgControl);
-
-            var bindingManager = new BindingManager();
-            bindingManager.Bind(this, "TileColor", colorControl, "ARGBValue");
             bindingManager.Bind(this, "TileImage", imgControl, "Value");
 
             return controls;

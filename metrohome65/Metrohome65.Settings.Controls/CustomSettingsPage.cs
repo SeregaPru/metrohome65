@@ -28,6 +28,8 @@ namespace Metrohome65.Settings.Controls
             ScreenRoutines.CursorWait();
             try
             {
+                Control.ShadowedAnimationMode = FleuxControl.ShadowedAnimationOptions.FromRight;
+
                 var appBar = new ApplicationBar
                 {
                     Size = new Size(Size.Width, 48 + 2 * 10),

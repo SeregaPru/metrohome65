@@ -6,7 +6,6 @@ using System.IO;
 using System.Runtime.InteropServices;
 using System.ComponentModel;
 using System.Windows.Forms;
-using Fleux.Controls;
 using MetroHome65.Interfaces.Events;
 using MetroHome65.Routines;
 using Fleux.UIElements;

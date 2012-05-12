@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Drawing;
-using System.Reflection;
-using Fleux.Core;
-using Fleux.Core.NativeHelpers;
 using Fleux.UIElements;
 using MetroHome65.Routines;
 
@@ -29,7 +25,7 @@ namespace MetroHome65.HomeScreen
             }
         }
 
-        public FlatButton(string resourceName) : base()
+        public FlatButton(string resourceName)
         {
             ResourceName = resourceName;
         }

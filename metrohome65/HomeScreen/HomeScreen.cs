@@ -43,7 +43,7 @@ namespace MetroHome65.HomeScreen
             ReadThemeSettings();
 
             // фон окна
-            var background = new HomeScreenBackground() { Location = new Point(0, 0), };
+            var background = new HomeScreenBackground { Location = new Point(0, 0), };
             Control.AddElement(background);
             TinyIoCContainer.Current.Register<HomeScreenBackground>(background);
 
@@ -111,7 +111,7 @@ namespace MetroHome65.HomeScreen
         private void AddSection(UIElement section, int position)
         {
             section.Size = new Size(this.Size.Width - 2, this.Size.Height);
-            section.Location = new Point(position * ScreenConsts.ScreenWidth + 1, 0);
+            section.Location = new Point(position * this.Size.Width + 1, 0);
 
             _homeScreenCanvas.AddElement(section);
             _sections.Insert(position, section);
