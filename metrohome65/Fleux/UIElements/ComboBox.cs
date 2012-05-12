@@ -130,7 +130,7 @@ namespace Fleux.UIElements
                         MetroTheme.PhoneAccentBrush) :
                     new TextStyle(
                         MetroTheme.PhoneFontFamilyNormal, MetroTheme.PhoneFontSizeNormal,
-                        MetroTheme.PhoneBackgroundBrush),
+                        MetroTheme.PhoneTextBoxFontBrush),
                 Size = new Size(Size.Width - Padding, PopupItemHeight),
             };
         }

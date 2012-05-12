@@ -191,9 +191,10 @@
             drawingGraphics.FillRectangle(0, 0, this.Size.Width, this.Size.Height);
 
             drawingGraphics.Color(MetroTheme.PhoneTextBoxBorderBrush);
+            drawingGraphics.PenWidth(MetroTheme.PhoneBorderThickness.BorderThickness.Pixels);
             drawingGraphics.DrawRectangle(0, 0, this.Size.Width, this.Size.Height);
 
-            drawingGraphics.Color(MetroTheme.PhoneBackgroundBrush);
+            drawingGraphics.Color(MetroTheme.PhoneTextBoxFontBrush);
 
             var text = (m_ShowCaret) ? String.Format("{0}|", m_Text) : m_Text;
             switch (this.AutoSizeMode)

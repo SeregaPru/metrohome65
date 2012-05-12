@@ -20,7 +20,7 @@ namespace Metrohome65.Settings.Controls
             {
                 // draw crossed rectangle for empty image
                 drawingGraphics.PenWidth(MetroTheme.PhoneBorderThickness.BorderThickness.Pixels);
-                drawingGraphics.Color(MetroTheme.PhoneForegroundBrush);
+                drawingGraphics.Color(MetroTheme.PhoneTextBoxBorderBrush);
 
                 drawingGraphics.DrawRectangle(0, 0, Size.Width, Size.Height);
                 drawingGraphics.DrawLine(0, 0, Size.Width, Size.Height);
