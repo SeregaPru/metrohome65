@@ -22,9 +22,9 @@ namespace MetroHome65.Widgets
         private String _iconPath = "";
         private AlphaImage _bgImage;
 
-        protected static int CaptionLeftOffset = ScreenRoutines.Scale(10);
-        protected static int CaptionBottomOffset = ScreenRoutines.Scale(4);
-        protected static int CaptionSize = ScreenRoutines.Scale(28); // approx caption height in px. 
+        protected static int CaptionLeftOffset = /*ScreenRoutines.Scale*/(10);
+        protected static int CaptionBottomOffset = /*ScreenRoutines.Scale*/(4);
+        protected static int CaptionSize = /*ScreenRoutines.Scale*/(28); // approx caption height in px. 
 
         /// <summary>
         /// user defined caption for widget

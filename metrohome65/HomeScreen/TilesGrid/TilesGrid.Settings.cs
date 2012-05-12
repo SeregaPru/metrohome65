@@ -71,7 +71,7 @@ namespace MetroHome65.HomeScreen.TilesGrid
             }
         }
 
-        private String SettingsFile() { return FileRoutines.CoreDir + "\\widgets.xml"; }
+        private String SettingsFile() { return FileRoutines.CoreDir + @"\widgets.xml"; }
 
 
         // fill grid with debug values
@@ -79,7 +79,7 @@ namespace MetroHome65.HomeScreen.TilesGrid
         {
             _tiles.Clear();
 
-            String iconsDir = FileRoutines.CoreDir + @"\icons\" + ((ScreenRoutines.IsQVGA) ? @"small\small-" : "");
+            var iconsDir = FileRoutines.CoreDir + @"\icons\";
 
             AddTile(new Point(0, 0), new Size(2, 2), "MetroHome65.Widgets.SMSWidget", false).
                 SetParameter("CommandLine", @"\Windows\tmail.exe").
