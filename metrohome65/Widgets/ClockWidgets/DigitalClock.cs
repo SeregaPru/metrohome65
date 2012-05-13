@@ -21,16 +21,16 @@ namespace MetroHome65.Widgets
         private Boolean _showPoints = true;
         private Boolean _is24Hour = true;
 
-        private readonly int _paddingRight = /*ScreenRoutines.Scale*/(20);
-        private readonly int _dotWidth = /*ScreenRoutines.Scale*/(20);
-        private readonly int _dotPaddingRight = /*ScreenRoutines.Scale*/(8);
-        private readonly int _dotPaddingLeft = /*ScreenRoutines.Scale*/(6);
+        private readonly int _paddingRight = 20;
+        private readonly int _dotWidth = 20;
+        private readonly int _dotPaddingRight = 8;
+        private readonly int _dotPaddingLeft = 6;
 
         public DigitalClockWidget() 
         {
             _brushCaption = new SolidBrush(MetroTheme.TileTextStyle.Foreground);
-            _fntTime = new Font("Segoe WP Semibold", 36, FontStyle.Regular);
-            _fntDate = new Font("Segoe WP Semibold", 10, FontStyle.Regular);
+            _fntTime = new Font(MetroTheme.PhoneFontFamilySemiBold, 36, FontStyle.Regular);
+            _fntDate = new Font(MetroTheme.PhoneFontFamilySemiBold, 10, FontStyle.Regular);
         }
 
 
