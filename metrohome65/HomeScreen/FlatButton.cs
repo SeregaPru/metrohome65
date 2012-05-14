@@ -1,4 +1,7 @@
 ﻿using System;
+using System.Drawing;
+using Fleux.Core;
+using Fleux.Core.Scaling;
 using Fleux.UIElements;
 using MetroHome65.Routines;
 
@@ -18,7 +21,7 @@ namespace MetroHome65.HomeScreen
                     //_image = ResourceManager.Instance.GetBitmapFromEmbeddedResource(value);
                     _image = new AlphaImage(value, this.GetType().Assembly);
 
-                    this.Size = _image.Size;
+                    this.Size = _image.Size.ToPixels(); // scale original image according to screen factor
                 }
                 catch (Exception) { }
                 Update();
@@ -34,7 +37,11 @@ namespace MetroHome65.HomeScreen
         {
             //drawingGraphics.DrawText("*"); return;
 
-            _image.PaintIcon(drawingGraphics.Graphics, drawingGraphics.CalculateX(0), drawingGraphics.CalculateY(0));
+            if (FleuxApplication.ScaleToLogic(1) == 1) // no need scale
+                _image.PaintIcon(drawingGraphics.Graphics, drawingGraphics.CalculateX(0), drawingGraphics.CalculateY(0));
+            else
+                _image.PaintBackground(drawingGraphics.Graphics, new Rectangle(
+                    drawingGraphics.CalculateX(0), drawingGraphics.CalculateY(0), Size.Width, Size.Height));
 
             /*
             Color transparentKeyColor = Color.Black; // DEFAULT BLACK, IF IT IS NOT POSSIBLE TO READ FROM IMAGE

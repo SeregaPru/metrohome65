@@ -4,6 +4,7 @@ using System.Linq;
 using Fleux.Animations;
 using Fleux.Controls;
 using Fleux.Core.GraphicsHelpers;
+using Fleux.Core.Scaling;
 using Fleux.Styles;
 using Fleux.UIElements;
 using MetroHome65.HomeScreen.Tile;
@@ -45,7 +46,7 @@ namespace MetroHome65.HomeScreen.TilesGrid
         {
             _bgImage = TinyIoCContainer.Current.Resolve<HomeScreenBackground>();
 
-            Size = new Size(TileConsts.TilesPaddingLeft + TileConsts.TileSize * 4 + TileConsts.TileSpacing * 3, 100);
+            Size = new Size(TileConsts.TilesPaddingLeft + TileConsts.TileSize * 4 + TileConsts.TileSpacing * 3, 100).ToPixels();
             SizeChanged += (s, e) => CreateBuffer();
         }
 
@@ -60,7 +61,7 @@ namespace MetroHome65.HomeScreen.TilesGrid
         private void CreateBuffer()
         {
             // create new buffer with new size
-            _buffer = new DoubleBuffer(new Size(Size.Width, ScreenConsts.ScreenHeight));
+            _buffer = new DoubleBuffer(new Size(Size.Width.ToPixels(), ScreenConsts.ScreenHeight));
 
             _drawingGraphics = DrawingGraphics.FromGraphicsAndRect(
                 _buffer.Graphics, _buffer.Image,
@@ -119,14 +120,15 @@ namespace MetroHome65.HomeScreen.TilesGrid
         {
             if (_buffer == null) return;
 
-            var rect = new Rectangle(0, -verticalOffset, Size.Width, Size.Height);
+            var rect = new Rectangle(0, -verticalOffset, Size.Width, ScreenConsts.ScreenHeight.ToLogic());
             if (!element.Bounds.IntersectsWith(rect)) return;
 
             if (_updating) return;
             _updating = true;
 
+            // scale to real screen coords from logical
             var clipRect = new Rectangle(
-                element.Location.X, element.Location.Y + verticalOffset, element.Size.Width, element.Size.Height);
+                element.Location.X, element.Location.Y + verticalOffset, element.Size.Width, element.Size.Height).ToPixels();
             
             try
             {
@@ -137,13 +139,12 @@ namespace MetroHome65.HomeScreen.TilesGrid
                 _bgImage.Draw(_drawingGraphics);
                 _buffer.Graphics.Clip = oldclip;
 
-                // draw tiles
-                element.Draw(_drawingGraphics.CreateChild(
-                    new Point(element.Location.X, element.Location.Y + verticalOffset)));
+                // draw tile
+                // here use logical coords because Flueux will recalc coords inside
+                element.Draw(_drawingGraphics.CreateChild(new Point(element.Location.X, element.Location.Y + verticalOffset)));
 
                 // draw buffer directly to screen
-                _controlGraphics.DrawImage(_buffer.Image, element.Location.X, element.Location.Y + verticalOffset, 
-                    clipRect, GraphicsUnit.Pixel);
+                _controlGraphics.DrawImage(_buffer.Image, clipRect.Left, clipRect.Top, clipRect, GraphicsUnit.Pixel);
 
             }
             catch (Exception) { }

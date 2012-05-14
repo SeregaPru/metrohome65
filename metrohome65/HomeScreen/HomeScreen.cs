@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Drawing;
 using Fleux.Controls.Gestures;
+using Fleux.Core.Scaling;
 using MetroHome65.HomeScreen.Tile;
 using MetroHome65.HomeScreen.TilesGrid;
 using MetroHome65.Interfaces;
@@ -29,11 +30,11 @@ namespace MetroHome65.HomeScreen
         // system state for receiving notifications about system events
         private readonly SystemState _systemState = new SystemState(0);
 
-        private static readonly int ArrowPos1 = ScreenConsts.ScreenWidth + TileConsts.ArrowPosX;
-        private static readonly int ArrowPos2 = ScreenConsts.ScreenWidth * 2 + TileConsts.ArrowPadding;
+        private int ArrowPos1 { get { return Size.Width + TileConsts.ArrowPosX; } }
+        private int ArrowPos2 { get { return Size.Width * 2 + TileConsts.ArrowPadding; } }
 
 
-        public HomeScreen() : base(false)
+            public HomeScreen() : base(false)
         {
             theForm.Menu = null;
             theForm.Text = "";

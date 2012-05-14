@@ -12,7 +12,10 @@ namespace Metrohome65.Settings.Controls
 {
     class SettingsImageElement: ImageElement
     {
-        public SettingsImageElement(Image image): base(image) { }
+        public SettingsImageElement(Image image): base(image)
+        {
+            StretchType = StretchTypeOptions.Proportional;
+        }
 
         public override void Draw(Fleux.Core.GraphicsHelpers.IDrawingGraphics drawingGraphics)
         {
@@ -109,7 +112,7 @@ namespace Metrohome65.Settings.Controls
                 if (_pictureBox.Image != null)
                     _pictureBox.Image.Dispose();
 
-                if (_tileImage == "")
+                if (String.IsNullOrEmpty(_tileImage))
                 {
                     _pictureBox.Image = null;
                 }

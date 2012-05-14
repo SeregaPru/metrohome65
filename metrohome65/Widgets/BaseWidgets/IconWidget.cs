@@ -4,6 +4,7 @@ using System.Windows.Forms;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using Fleux.Controls;
+using Fleux.Core.Scaling;
 using Fleux.Styles;
 using Fleux.UIElements;
 using MetroHome65.Interfaces;
@@ -22,9 +23,9 @@ namespace MetroHome65.Widgets
         private String _iconPath = "";
         private AlphaImage _bgImage;
 
-        protected static int CaptionLeftOffset = /*ScreenRoutines.Scale*/(10);
-        protected static int CaptionBottomOffset = /*ScreenRoutines.Scale*/(4);
-        protected static int CaptionSize = /*ScreenRoutines.Scale*/(28); // approx caption height in px. 
+        protected static int CaptionLeftOffset = 10;
+        protected static int CaptionBottomOffset = 4;
+        protected static int CaptionSize = 28; // approx caption height in px. 
 
         /// <summary>
         /// user defined caption for widget
@@ -122,7 +123,10 @@ namespace MetroHome65.Widgets
         {
             if (Caption != "")
             {
-                var captionFont = new Font(MetroTheme.TileTextStyle.FontFamily, MetroTheme.TileTextStyle.FontSize, FontStyle.Regular);
+                var captionFont = new Font(
+                    MetroTheme.TileTextStyle.FontFamily, 
+                    MetroTheme.TileTextStyle.FontSize.ToLogic(), 
+                    FontStyle.Regular);
                 var captionBrush = new SolidBrush(MetroTheme.TileTextStyle.Foreground);
                 g.DrawString(Caption, captionFont, captionBrush,
                     rect.Left + CaptionLeftOffset, 
