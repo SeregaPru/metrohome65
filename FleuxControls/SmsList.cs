@@ -23,9 +23,39 @@ namespace FleuxControls
                 Size = new Size(480, 700),
             };
             pivot.AddPivotItem(CreateFirstPage());
+            pivot.AddPivotItem(CreateFontPage());
             Control.AddElement(pivot);
 
             FillStores();
+        }
+
+        private PivotItem CreateFontPage()
+        {
+            var page = new PivotItem { Title = "incoming", };
+            var stackPanel = new StackPanel { Size = new Size(480, 700) };
+
+            var scroller = new ScrollViewer
+            {
+                Content = stackPanel,
+                Location = new Point(0, 0),
+                ShowScrollbars = true,
+                HorizontalScroll = false,
+                VerticalScroll = true,
+            };
+
+            for (var fontSize = 8; fontSize < 24; fontSize += 2)
+            {
+                stackPanel.AddElement(
+                    new TextElement("Font " + fontSize.ToString())
+                        {
+                            Size = new Size(400, 50),
+                            Style = new TextStyle(MetroTheme.PhoneFontFamilyNormal, fontSize, Color.White),
+                        }
+                    );
+            }
+
+            page.Body = scroller;
+            return page;
         }
 
         private PivotItem CreateFirstPage()

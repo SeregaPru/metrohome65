@@ -46,8 +46,8 @@ namespace MetroHome65.HomeScreen
                 var srcImage = new Bitmap(imagePath);
 
                 // вычисляем общий коэффициент масштабирования изображения с учетом пропорций
-                var scaleX = 1.0*Size.Width/srcImage.Width;
-                var scaleY = 1.0*Size.Height/srcImage.Height;
+                var scaleX = 1.0 * Size.Width / srcImage.Width;
+                var scaleY = 1.0 * Size.Height / srcImage.Height;
                 var scale = Math.Max(scaleX, scaleY);
                 var destRect = new Rectangle(0, 0, (int) Math.Round(srcImage.Width*scale),
                                              (int) Math.Round(srcImage.Height*scale));

@@ -3,6 +3,7 @@ using System.Drawing;
 using System.Collections.Generic;
 using Fleux.Animations;
 using Fleux.Controls;
+using Fleux.Core.Scaling;
 using Fleux.Styles;
 using Fleux.UIElements;
 using MetroHome65.Interfaces;
@@ -130,12 +131,14 @@ namespace MetroHome65.Widgets
                 {
                     g.FillRectangle(new SolidBrush(MetroTheme.PhoneAccentBrush),
                         new Rectangle(rect.Left, rect.Top, rect.Width, rect.Height));
-                    var errorFont = new Font(MetroTheme.TileTextStyle.FontFamily, 8, FontStyle.Regular);
+                    var errorFont = new Font(
+                        MetroTheme.TileTextStyle.FontFamily, MetroTheme.TileTextStyle.FontSize.ToLogic(), FontStyle.Regular);
                     g.DrawString("Contact \n not \n found", errorFont, new SolidBrush(MetroTheme.TileTextStyle.Foreground), rect.Left + 10, rect.Top + 10);
                     return;
                 }
 
-                var captionFont = new Font(MetroTheme.TileTextStyle.FontFamily, 11, FontStyle.Regular);
+                var captionFont = new Font(
+                    MetroTheme.TileTextStyle.FontFamily, 11.ToLogic(), FontStyle.Regular);
                 var pictureRect = new Rectangle(rect.Left, rect.Top, rect.Width, rect.Height);
                 var nameRectHeight = NameRectHeight;
                 var nameRectTop = rect.Height + 25;

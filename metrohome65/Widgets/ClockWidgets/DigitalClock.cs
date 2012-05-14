@@ -2,6 +2,7 @@
 using System.Drawing;
 using System.Collections.Generic;
 using Fleux.Controls;
+using Fleux.Core.Scaling;
 using Fleux.Styles;
 using Fleux.UIElements;
 using MetroHome65.Interfaces;
@@ -29,8 +30,8 @@ namespace MetroHome65.Widgets
         public DigitalClockWidget() 
         {
             _brushCaption = new SolidBrush(MetroTheme.TileTextStyle.Foreground);
-            _fntTime = new Font(MetroTheme.PhoneFontFamilySemiBold, 36, FontStyle.Regular);
-            _fntDate = new Font(MetroTheme.PhoneFontFamilySemiBold, 10, FontStyle.Regular);
+            _fntTime = new Font(MetroTheme.PhoneFontFamilySemiBold, 36.ToLogic(), FontStyle.Regular);
+            _fntDate = new Font(MetroTheme.PhoneFontFamilySemiBold, 10.ToLogic(), FontStyle.Regular);
         }
 
 
