@@ -54,6 +54,13 @@ namespace FleuxControls
                     );
             }
 
+            stackPanel.AddElement(
+                new TextBox2(this.TheForm)
+                    {
+                        Size = new Size(300, 70),
+                        Text = "abc",
+                    });
+
             page.Body = scroller;
             return page;
         }
