@@ -6,6 +6,7 @@ using Fleux.Styles;
 using Fleux.UIElements;
 using Fleux.UIElements.Pivot;
 using MAPIdotnet;
+using Metrohome65.Settings.Controls;
 
 namespace FleuxControls
 {
@@ -50,12 +51,13 @@ namespace FleuxControls
                         {
                             Size = new Size(400, 50),
                             Style = new TextStyle(MetroTheme.PhoneFontFamilyNormal, fontSize, Color.White),
+                            AutoSizeMode = TextElement.AutoSizeModeOptions.OneLineAutoHeight,
                         }
                     );
             }
-
+            
             stackPanel.AddElement(
-                new TextBox2(this.TheForm)
+                new TextBox2(this)
                     {
                         Size = new Size(300, 70),
                         Text = "abc",
