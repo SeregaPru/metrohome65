@@ -132,7 +132,7 @@
 
             this.theForm.AutoScaleDimensions = new System.Drawing.SizeF(96F, 96F);
             this.theForm.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
-            this.theForm.AutoScroll = true;
+            this.theForm.AutoScroll = false; //!!
             this.theForm.BackColor = System.Drawing.Color.Black;
 #if WindowsCE
             this.theForm.ClientSize = new System.Drawing.Size(800, 600);

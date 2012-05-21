@@ -186,6 +186,8 @@ Global
 		{A6BFA5B1-E501-4588-BCF0-F07356F120E3}.ControlsTest|Mixed Platforms.Build.0 = ControlsTest|Any CPU
 		{A6BFA5B1-E501-4588-BCF0-F07356F120E3}.ControlsTest|Windows Mobile 6.ActiveCfg = ControlsTest|Any CPU
 		{A6BFA5B1-E501-4588-BCF0-F07356F120E3}.ControlsTest|Windows Mobile 6.5.3 Professional DTK (ARMV4I).ActiveCfg = ControlsTest|Any CPU
+		{A6BFA5B1-E501-4588-BCF0-F07356F120E3}.ControlsTest|Windows Mobile 6.5.3 Professional DTK (ARMV4I).Build.0 = ControlsTest|Any CPU
+		{A6BFA5B1-E501-4588-BCF0-F07356F120E3}.ControlsTest|Windows Mobile 6.5.3 Professional DTK (ARMV4I).Deploy.0 = ControlsTest|Any CPU
 		{A6BFA5B1-E501-4588-BCF0-F07356F120E3}.Debug (SmartPhone)|Any CPU.ActiveCfg = Debug|Any CPU
 		{A6BFA5B1-E501-4588-BCF0-F07356F120E3}.Debug (SmartPhone)|Any CPU.Build.0 = Debug|Any CPU
 		{A6BFA5B1-E501-4588-BCF0-F07356F120E3}.Debug (SmartPhone)|Mixed Platforms.ActiveCfg = Debug|Any CPU
@@ -214,6 +216,8 @@ Global
 		{18D428A8-6722-4A69-B39D-F652AFA34D90}.ControlsTest|Mixed Platforms.Build.0 = ControlsTest|Any CPU
 		{18D428A8-6722-4A69-B39D-F652AFA34D90}.ControlsTest|Windows Mobile 6.ActiveCfg = ControlsTest|Any CPU
 		{18D428A8-6722-4A69-B39D-F652AFA34D90}.ControlsTest|Windows Mobile 6.5.3 Professional DTK (ARMV4I).ActiveCfg = ControlsTest|Any CPU
+		{18D428A8-6722-4A69-B39D-F652AFA34D90}.ControlsTest|Windows Mobile 6.5.3 Professional DTK (ARMV4I).Build.0 = ControlsTest|Any CPU
+		{18D428A8-6722-4A69-B39D-F652AFA34D90}.ControlsTest|Windows Mobile 6.5.3 Professional DTK (ARMV4I).Deploy.0 = ControlsTest|Any CPU
 		{18D428A8-6722-4A69-B39D-F652AFA34D90}.Debug (SmartPhone)|Any CPU.ActiveCfg = Debug|Any CPU
 		{18D428A8-6722-4A69-B39D-F652AFA34D90}.Debug (SmartPhone)|Any CPU.Build.0 = Debug|Any CPU
 		{18D428A8-6722-4A69-B39D-F652AFA34D90}.Debug (SmartPhone)|Mixed Platforms.ActiveCfg = Debug|Any CPU

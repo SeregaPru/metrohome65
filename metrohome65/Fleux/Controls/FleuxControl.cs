@@ -20,16 +20,16 @@ namespace Fleux.Controls
         protected int shadowImageX;
 
         private readonly List<UIElement> elements = new List<UIElement>();
-        private readonly StoryBoard storyboard = new StoryBoard();
+        //!! not used   private readonly StoryBoard storyboard = new StoryBoard();
         private readonly GesturesEngine gestures = new GesturesEngine();
 
         private bool invalidating = false;
         private bool active;
-        private System.ComponentModel.IContainer components;
+        //!! not used   private System.ComponentModel.IContainer components;
         private UIElement pressedHandledBy;
 
         // GIANNI added
-        //private Microsoft.WindowsCE.Forms.InputPanel inputPanel1;
+        //!! private Microsoft.WindowsCE.Forms.InputPanel inputPanel1;
 
         public FleuxControl()
         {
@@ -55,7 +55,7 @@ namespace Fleux.Controls
         }
         
         // GIANNI added
-        //public Microsoft.WindowsCE.Forms.InputPanel VirtualKeyboard { get { return inputPanel1; } }
+        //!! public Microsoft.WindowsCE.Forms.InputPanel VirtualKeyboard { get { return inputPanel1; } }
 
         public ShadowedAnimationOptions ShadowedAnimationMode { get; set; }
 
