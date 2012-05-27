@@ -21,7 +21,7 @@ namespace MetroHome65.Widgets
         //Эти переменные понядобятся для загрузки изображений при запуске приложения.
         private String _caption = "";
         private String _iconPath = "";
-        private AlphaImage _bgImage;
+        private AlphaImage _iconImage;
 
         protected static int CaptionLeftOffset = 10;
         protected static int CaptionBottomOffset = 4;
@@ -75,9 +75,9 @@ namespace MetroHome65.Widgets
         protected virtual void UpdateIconImage()
         {
             if ((! String.IsNullOrEmpty(_iconPath)) && (!IsExecutableIcon()))
-                _bgImage = new AlphaImage(_iconPath);
+                _iconImage = new AlphaImage(_iconPath);
             else
-                _bgImage = null;
+                _iconImage = null;
         }
 
         private bool IsExecutableIcon()
@@ -94,9 +94,9 @@ namespace MetroHome65.Widgets
             int captionHeight = (Caption == "") ? 0 : (CaptionSize /* + CaptionBottomOffset */);
 
             // draw icon from external image file
-            if (_bgImage != null)
+            if (_iconImage != null)
             {
-                _bgImage.PaintIcon(g, new Rectangle(rect.Left, rect.Top, rect.Width, rect.Height - captionHeight/2));
+                _iconImage.PaintIcon(g, new Rectangle(rect.Left, rect.Top, rect.Width, rect.Height - captionHeight/2));
                 return;
             }
 

@@ -23,11 +23,11 @@ namespace FleuxControls
             {
                 Size = new Size(480, 700),
             };
-            pivot.AddPivotItem(CreateFirstPage());
             pivot.AddPivotItem(CreateFontPage());
+            //pivot.AddPivotItem(CreateFirstPage());
             Control.AddElement(pivot);
 
-            FillStores();
+            //FillStores();
         }
 
         private PivotItem CreateFontPage()
@@ -44,24 +44,37 @@ namespace FleuxControls
                 VerticalScroll = true,
             };
 
-            for (var fontSize = 8; fontSize < 24; fontSize += 2)
-            {
-                stackPanel.AddElement(
-                    new TextElement("Font " + fontSize.ToString())
-                        {
-                            Size = new Size(400, 50),
-                            Style = new TextStyle(MetroTheme.PhoneFontFamilyNormal, fontSize, Color.White),
-                            AutoSizeMode = TextElement.AutoSizeModeOptions.OneLineAutoHeight,
-                        }
-                    );
-            }
-            
             stackPanel.AddElement(
-                new TextBox2(this)
+                new TextBox(this)
                     {
-                        Size = new Size(300, 70),
+                        Size = new Size(300, 50),
+                        MultiLine = false,
                         Text = "abc",
                     });
+
+            stackPanel.AddElement(
+                new TextBox(this)
+                {
+                    Size = new Size(300, 150),
+                    MultiLine = true,
+                    Text = "abc\n123",
+                });
+
+            stackPanel.AddElement(
+                new FileSettingsControl(this)
+                {
+                }
+                );
+
+            stackPanel.AddElement(
+                new StringSettingsControl(this)
+                {
+                    Value = "123",
+                    Caption = "Name",
+                }
+                );
+            
+
 
             page.Body = scroller;
             return page;

@@ -2,9 +2,7 @@
 using System.ComponentModel;
 using System.Drawing;
 using Fleux.Controls;
-using Fleux.Styles;
 using Fleux.UIElements;
-using TextBox = Fleux.UIElements.TextBox;
 
 namespace Metrohome65.Settings.Controls
 {
@@ -40,10 +38,10 @@ namespace Metrohome65.Settings.Controls
             };
             AddElement(_lblCaption);
 
-            _inputBox = new TextBox(settingsPage.TheForm, settingsPage.Control) 
+            _inputBox = new TextBox(settingsPage) 
             {
                 Size = new Size(SettingsConsts.MaxWidth, 50),
-                Style = MetroTheme.PhoneTextNormalStyle,
+                MultiLine = false,
             };
             _inputBox.TextChanged += (s, e) => NotifyPropertyChanged("Value"); 
             AddElement(_inputBox);
