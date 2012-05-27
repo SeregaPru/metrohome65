@@ -13,6 +13,8 @@ syntax: regexp
 \.dsk$
 \.identcache$
 ^.*_ReSharper.*
+.*/bin/.*
+.*/obj/.*
 .*/[dD]ebug/.*
 .*/[rR]elease/.*
 .*/_deploy/.*
