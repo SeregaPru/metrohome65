@@ -5,8 +5,8 @@ using System.Windows.Forms;
 using Fleux.Controls;
 using Fleux.Styles;
 using Fleux.UIElements;
+using Microsoft.WindowsMobile.Forms;
 using MobilePractices.OpenFileDialogEx;
-using TextBox = Fleux.UIElements.TextBox;
 
 namespace Metrohome65.Settings.Controls
 {
@@ -46,11 +46,10 @@ namespace Metrohome65.Settings.Controls
             };
             AddElement(_lblCaption);
 
-            _inputBox = new TextBox(settingsPage.TheForm, settingsPage.Control)
+            _inputBox = new TextBox(settingsPage)
             {
                 Size = new Size(SettingsConsts.MaxWidth, 150),
-                Style = MetroTheme.PhoneTextNormalStyle,
-                AutoSizeMode = TextBox.AutoSizeModeOptions.WrapText,
+                MultiLine = true,
             };
             _inputBox.TextChanged += (s, e) => NotifyPropertyChanged("Value");
             AddElement(_inputBox);

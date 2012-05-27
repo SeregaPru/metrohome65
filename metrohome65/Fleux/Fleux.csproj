@@ -101,7 +101,6 @@
     <Compile Include="UIElements\ComboBox.cs" />
     <Compile Include="UIElements\WrapPanel.cs" />
     <Compile Include="UIElements\Events\ButtonTapEventArgs.cs" />
-    <Compile Include="UIElements\TextBox.cs" />
     <Compile Include="UIElements\ImageButton.cs" />
     <Compile Include="UIElements\DelegateUIElement.cs" />
     <Compile Include="UIElements\Events\NavigateRequestEventArgs.cs" />
