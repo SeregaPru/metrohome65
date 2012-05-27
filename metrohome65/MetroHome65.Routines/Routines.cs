@@ -1,6 +1,6 @@
 ﻿using System;
-using System.IO;
 using System.Runtime.InteropServices;
+using System.Windows.Forms;
 
 namespace MetroHome65.Routines
 {
@@ -9,8 +9,9 @@ namespace MetroHome65.Routines
     /// </summary>
     public static class FileRoutines
     {
+        public static String CoreDir = System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().GetName().CodeBase);
 
-        public static void StartProcess(string FileName)
+        public static bool StartProcess(string FileName)
         {
             try
             {
@@ -18,10 +19,12 @@ namespace MetroHome65.Routines
                 myProcess.StartInfo.UseShellExecute = true;
                 myProcess.StartInfo.FileName = FileName;
                 myProcess.Start();
+                return true;
             }
-            catch (Exception ex)
+            catch (Exception e)
             {
-                //!! write to log  (e.StackTrace, "StartProcess")
+                Logger.WriteLog(e.StackTrace, "StartProcess error");
+                return false;
             }
         }
 
@@ -51,8 +54,7 @@ namespace MetroHome65.Routines
     {
         private static Boolean _IsQVGA = true;
         private static Boolean _IsQVGACalculated = false;
-
-        /// <summary>
+                /// <summary>
         /// Flag, indicates when screen resolution is QVGA - 320*240
         /// </summary>
         public static Boolean IsQVGA
@@ -62,13 +64,10 @@ namespace MetroHome65.Routines
                 if (_IsQVGACalculated)
                     return _IsQVGA;
 
-                int ScreenHeight = System.Windows.Forms.Screen.PrimaryScreen.Bounds.Height;
-                int ScreenWidth = System.Windows.Forms.Screen.PrimaryScreen.Bounds.Width;
-
                 if (Microsoft.WindowsMobile.Status.SystemState.DisplayRotation % 180 == 0)
-                    _IsQVGA = (ScreenWidth < 245);
+                    _IsQVGA = (ScreenConsts.ScreenWidth < 245);
                 else
-                    _IsQVGA = (ScreenHeight < 245);
+                    _IsQVGA = (ScreenConsts.ScreenHeight < 245);
 
                 _IsQVGACalculated = true;
                 return _IsQVGA;
@@ -77,8 +76,30 @@ namespace MetroHome65.Routines
 
         public static int Scale(int Size)
         {
-            return (IsQVGA) ? (Size / 2) : Size;
+            //return (IsQVGA) ? (Size / 2) : Size;
+            return Size;
+        }
+
+        private static Cursor _oldCursor = Cursors.Default;
+
+        public static void CursorWait()
+        {
+            _oldCursor = Cursor.Current;
+            Cursor.Current = Cursors.WaitCursor;
+        }
+
+        public static void CursorNormal()
+        {
+            Cursor.Current = _oldCursor;
         }
     }
+
+    public static class ScreenConsts
+    {
+        public const int TopBarSize = 36;
+        public static readonly int ScreenWidth = System.Windows.Forms.Screen.PrimaryScreen.Bounds.Width;
+        public static readonly int ScreenHeight = System.Windows.Forms.Screen.PrimaryScreen.Bounds.Height;
+    }
+
 
 }

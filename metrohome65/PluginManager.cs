@@ -3,10 +3,9 @@ using System.Collections;
 using System.Reflection;
 using System.Linq;
 using System.IO;
+using MetroHome65.Interfaces;
 
-using MetroHome65.Widgets;
-
-namespace MetroHome65.Pages
+namespace MetroHome65.HomeScreen
 {
     /// <summary>
     /// Class for managing plugins assemblies:
@@ -33,7 +32,7 @@ namespace MetroHome65.Pages
 
         /// <summary>
         /// reads all .dll in Plugins folder and scans for plugins with 
-        /// IWidget interface.
+        /// ITile interface.
         /// Fill internal plugin map - plugin type by name.
         /// </summary>
         private void LoadPlugins()
@@ -57,7 +56,7 @@ namespace MetroHome65.Pages
             foreach (Type type in assembly.GetTypes())
             {
                 if ((type.IsClass) && 
-                    (type.GetInterfaces().Contains(typeof(IWidget))) &&
+                    (type.GetInterfaces().Contains(typeof(ITile))) &&
                     (! type.IsAbstract))
                 {
                     _plugins.Add(type.FullName, type);
@@ -65,13 +64,13 @@ namespace MetroHome65.Pages
             }
         }
 
-        public IWidget CreateWidget(String WidgetName)
+        public ITile CreateTile(String tileName)
         {
-            Type WidgetType = (Type)_plugins[WidgetName];
-            if (WidgetType == null) return null;
+            var widgetType = (Type)_plugins[tileName];
+            if (widgetType == null) return null;
 
-            IWidget Widget = (IWidget)Activator.CreateInstance(WidgetType);
-            return Widget;
+            ITile tile = (ITile)Activator.CreateInstance(widgetType);
+            return tile;
         }
 
     }
