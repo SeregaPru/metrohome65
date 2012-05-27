@@ -15,3 +15,4 @@ syntax: regexp
 ^.*_ReSharper.*
 .*/[dD]ebug/.*
 .*/[rR]elease/.*
+.*/_deploy/.*
