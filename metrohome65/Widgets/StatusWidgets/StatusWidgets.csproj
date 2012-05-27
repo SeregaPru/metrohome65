@@ -24,7 +24,7 @@
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
+    <OutputPath>..\..\_deploy\</OutputPath>
     <DefineConstants>DEBUG;TRACE;$(PlatformFamilyName)</DefineConstants>
     <NoStdLib>true</NoStdLib>
     <NoConfig>true</NoConfig>
@@ -36,7 +36,7 @@
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
-    <OutputPath>bin\Release\</OutputPath>
+    <OutputPath>..\..\_deploy\</OutputPath>
     <DefineConstants>TRACE;$(PlatformFamilyName)</DefineConstants>
     <NoStdLib>true</NoStdLib>
     <NoConfig>true</NoConfig>
@@ -45,6 +45,17 @@
     <WarningLevel>4</WarningLevel>
     <GenerateSerializationAssemblies>Off</GenerateSerializationAssemblies>
   </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'ControlsTest|AnyCPU' ">
+    <NoStdLib>true</NoStdLib>
+    <NoConfig>true</NoConfig>
+    <GenerateSerializationAssemblies>Off</GenerateSerializationAssemblies>
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>..\..\_deploy\</OutputPath>
+    <DefineConstants>DEBUG;TRACE;PocketPC</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="Microsoft.WindowsMobile, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35" />
     <Reference Include="Microsoft.WindowsMobile.Status, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35" />
@@ -52,7 +63,6 @@
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Drawing" />
-    <Reference Include="System.Windows.Forms" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Battery.cs" />
@@ -64,13 +74,17 @@
     <Compile Include="Wifi.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\Fleux\Fleux.csproj">
+      <Project>{8526293A-9C66-48F6-A90D-FB2B7128BF08}</Project>
+      <Name>Fleux</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\MetroHome65.Interfaces\MetroHome65.Interfaces.csproj">
+      <Project>{A0D38398-7B6A-45D8-B2C7-19120FEA68FC}</Project>
+      <Name>MetroHome65.Interfaces</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\MetroHome65.Routines\MetroHome65.Routines.csproj">
       <Project>{18D428A8-6722-4A69-B39D-F652AFA34D90}</Project>
       <Name>MetroHome65.Routines</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\Metrohome65.Settings.Controls\Metrohome65.Settings.Controls.csproj">
-      <Project>{A6BFA5B1-E501-4588-BCF0-F07356F120E3}</Project>
-      <Name>Metrohome65.Settings.Controls</Name>
     </ProjectReference>
     <ProjectReference Include="..\BaseWidgets\BaseWidgets.csproj">
       <Project>{B23D069D-4ED9-4F45-BE07-DA271A2106D4}</Project>

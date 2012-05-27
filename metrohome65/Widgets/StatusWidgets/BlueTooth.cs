@@ -1,31 +1,30 @@
-﻿using System;
-using System.Drawing;
+﻿using System.Drawing;
 using System.Runtime.InteropServices;
 
-namespace MetroHome65.Widgets.StatusWidget
+namespace MetroHome65.Widgets.StatusWidgets
 {
     public class BluetoothStatus : CustomStatus
     {
-        private bool _BluetoothPowerOn = false;
-        private bool _BluetoothConnected = false;
+        private bool _bluetoothPowerOn;
+        private bool _bluetoothConnected;
 
-        public BluetoothStatus() : base()
+        public BluetoothStatus()
         {
             UpdateStatus();
         }
 
-        public override void PaintStatus(Graphics g, Rectangle Rect)
+        public override void PaintStatus(Graphics g, Rectangle rect)
         {
-            DrawStatus DrawStatus;
-            if (_BluetoothConnected && _BluetoothPowerOn)
-                DrawStatus = DrawStatus.dsOn;
+            DrawStatus drawStatus;
+            if (_bluetoothConnected && _bluetoothPowerOn)
+                drawStatus = DrawStatus.On;
             else
-            if (! _BluetoothConnected && ! _BluetoothPowerOn)
-                DrawStatus = DrawStatus.dsOff;
+            if (! _bluetoothConnected && ! _bluetoothPowerOn)
+                drawStatus = DrawStatus.Off;
             else
-                DrawStatus = DrawStatus.dsError;
+                drawStatus = DrawStatus.Error;
 
-            PaintStatus(g, Rect, DrawStatus, "bluetooth", "");
+            PaintStatus(g, rect, drawStatus, "bluetooth", "");
         }
 
         /// <summary>
@@ -34,14 +33,14 @@ namespace MetroHome65.Widgets.StatusWidget
         /// <returns>True if status was changed</returns>
         public override bool UpdateStatus()
         {
-            bool CurrentPowerOn = Microsoft.WindowsMobile.Status.SystemState.BluetoothStatePowerOn;
-            bool CurrentConnected = Microsoft.WindowsMobile.Status.SystemState.BluetoothStateA2DPConnected;
+            var currentPowerOn = Microsoft.WindowsMobile.Status.SystemState.BluetoothStatePowerOn;
+            var currentConnected = Microsoft.WindowsMobile.Status.SystemState.BluetoothStateA2DPConnected;
 
-            if ((CurrentPowerOn != _BluetoothPowerOn) ||
-                (CurrentConnected != _BluetoothConnected))
+            if ((currentPowerOn != _bluetoothPowerOn) ||
+                (currentConnected != _bluetoothConnected))
             {
-                _BluetoothPowerOn = CurrentPowerOn;
-                _BluetoothConnected = CurrentConnected;
+                _bluetoothPowerOn = currentPowerOn;
+                _bluetoothConnected = currentConnected;
                 return true;
             }
 
@@ -49,21 +48,11 @@ namespace MetroHome65.Widgets.StatusWidget
         }
 
         /// <summary>
-        /// Switch Bluetooth status to another - on <--> off
+        /// Switch Bluetooth status to another - on / off
         /// </summary>
         public override void ChangeStatus()
         {
-            int ret;
-            if (_BluetoothPowerOn)
-            {
-                // turn Bluetooth Off
-                ret = BthSetMode(RadioMode.Off);
-            }
-            else
-            {
-                // turn Bluetooth On
-                ret = BthSetMode(RadioMode.Discoverable);
-            }
+            BthSetMode(_bluetoothPowerOn ? RadioMode.Off : RadioMode.Discoverable);
         }
 
 

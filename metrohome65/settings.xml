@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<MainSettings xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <ThemeIsDark>true</ThemeIsDark>
+  <ThemeImage />
+  <AccentColor>-14114596</AccentColor>
+  <LockScreenImage>\Program Files\MetroHome65\wallpapers\flower.jpg</LockScreenImage>
+</MainSettings>

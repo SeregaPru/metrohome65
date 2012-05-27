@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Drawing;
-using System.Windows.Forms;
-using System.ComponentModel;
 using System.Collections.Generic;
+using Fleux.Controls;
+using Fleux.Styles;
+using Fleux.UIElements;
+using MetroHome65.Interfaces;
 using MetroHome65.Routines;
-using MetroHome65.Settings.Controls;
+using Metrohome65.Settings.Controls;
 
 namespace MetroHome65.Widgets
 {
@@ -13,24 +15,21 @@ namespace MetroHome65.Widgets
     /// </summary>
     public abstract class TransparentWidget : BaseWidget
     {
-        private int _TileColor = System.Drawing.Color.DeepSkyBlue.ToArgb();
-        private String _TileImage = "";
-        private AlphaImage _BgImage = null;
-
-        protected override Boolean GetTransparent() { return true; }
-
+        private int _tileColor = Color.Empty.ToArgb();
+        private String _tileImage = "";
+        private AlphaImage _bgImage;
 
         /// <summary>
         /// backround button or solid box color
         /// </summary>
-        [WidgetParameter]
+        [TileParameter]
         public int TileColor
         {
-            get { return _TileColor; }
+            get { return _tileColor; }
             set {
-                if (_TileColor != value)
+                if (_tileColor != value)
                 {
-                    _TileColor = value;
+                    _tileColor = value;
                     NotifyPropertyChanged("TileColor");
                 }
             }
@@ -40,25 +39,24 @@ namespace MetroHome65.Widgets
         /// <summary>
         /// widget background image
         /// </summary>
-        [WidgetParameter]
+        [TileParameter]
         public String TileImage
         {
-            get { return _TileImage; }
-            set { SetTileImage(value); }
+            get { return _tileImage; }
+            set
+            {
+                SetTileImage(value);
+            }
         }
 
-        public void SetTileImage(String ImagePath)
+        public void SetTileImage(String imagePath)
         {
-            if (_TileImage != ImagePath)
-            {
-                _TileImage = ImagePath;
-                if (! String.IsNullOrEmpty(ImagePath))
-                    _BgImage = new AlphaImage(ImagePath);
-                else
-                    _BgImage = null;
+            if (_tileImage == imagePath) return;
 
-                NotifyPropertyChanged("TileImage");
-            }
+            _tileImage = imagePath;
+            _bgImage = String.IsNullOrEmpty(imagePath) ? null : new AlphaImage(imagePath);
+
+            NotifyPropertyChanged("TileImage");
         }
 
 
@@ -67,44 +65,45 @@ namespace MetroHome65.Widgets
         /// Style and color are user-defined.
         /// </summary>
         /// <param name="g"></param>
-        /// <param name="Rect"></param>
-        public override void Paint(Graphics g, Rectangle Rect)
+        /// <param name="rect"></param>
+        public override void PaintBuffer(Graphics g, Rectangle rect)
         {
             // if button image is set, draw button image
-            if (_BgImage != null)
+            if (_bgImage != null)
             {
-                _BgImage.PaintBackground(g, Rect);
+                _bgImage.PaintBackground(g, rect);
             }
             else
             {
                 // if image is not set, draw solid box with specified color
-                Brush bgBrush = new System.Drawing.SolidBrush(Color.FromArgb(_TileColor));
-                g.FillRectangle(bgBrush, Rect.Left, Rect.Top, Rect.Width, Rect.Height);
+                var tileColor = (_tileColor == Color.Empty.ToArgb()) ? MetroTheme.PhoneAccentBrush : Color.FromArgb(_tileColor);
+                g.FillRectangle(new SolidBrush(tileColor), rect);
             }
         }
 
 
-        public override List<Control> EditControls
+        public override ICollection<UIElement> EditControls(FleuxControlPage settingsPage)
         {
-            get
-            {
-                List<Control> Controls = base.EditControls;
+            var controls = base.EditControls(settingsPage);
+            var bindingManager = new BindingManager();
 
-                Settings_color ColorControl = new Settings_color();
-                ColorControl.Value = _TileColor;
-                Controls.Add(ColorControl);
+            var colorControl = new ColorSettingsControl(true)
+                                   {
+                                       Caption = "Tile color",
+                                       ARGBValue = _tileColor,
+                                   };
+            controls.Add(colorControl);
+            bindingManager.Bind(this, "TileColor", colorControl, "ARGBValue");
 
-                Settings_image ImgControl = new Settings_image();
-                ImgControl.Caption = "Button background";
-                ImgControl.Value = TileImage;
-                Controls.Add(ImgControl);
+            var imgControl = new ImageSettingsControl()
+                                 {
+                                     Caption = "Button background", 
+                                     Value = TileImage,
+                                 };
+            controls.Add(imgControl);
+            bindingManager.Bind(this, "TileImage", imgControl, "Value");
 
-                BindingManager BindingManager = new BindingManager();
-                BindingManager.Bind(this, "TileColor", ColorControl, "Value");
-                BindingManager.Bind(this, "TileImage", ImgControl, "Value");
-
-                return Controls;
-            }
+            return controls;
         }
 
     }

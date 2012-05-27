@@ -1,7 +1,5 @@
 ﻿using System;
-using System.Text;
 using System.Drawing;
-using OpenNETCF.Drawing;
 using System.Runtime.InteropServices;
 
 
@@ -12,21 +10,35 @@ namespace MetroHome65.Routines
     /// </summary>
     public class AlphaImage
     {
-        private OpenNETCF.Drawing.Imaging.IImage _img = null;
-        private String _ImagePath = "";
+        private OpenNETCF.Drawing.Imaging.IImage _img;
+        private String _imagePath = "";
 
-        public AlphaImage(String ImagePath)
+        public AlphaImage(String imagePath)
         {
-            this.ImagePath = ImagePath;
+            ImagePath = imagePath;
         }
 
-        public AlphaImage(System.IO.Stream Stream)
+        public AlphaImage(System.IO.Stream stream)
         {
             try
             {
-                OpenNETCF.Drawing.Imaging.StreamOnFile IconStream = new OpenNETCF.Drawing.Imaging.StreamOnFile(Stream);
-                OpenNETCF.Drawing.Imaging.ImagingFactoryClass _factory = new OpenNETCF.Drawing.Imaging.ImagingFactoryClass();
-                _factory.CreateImageFromStream(IconStream, out _img);
+                var iconStream = new OpenNETCF.Drawing.Imaging.StreamOnFile(stream);
+                var factory = new OpenNETCF.Drawing.Imaging.ImagingFactoryClass();
+                factory.CreateImageFromStream(iconStream, out _img);
+            }
+            catch (Exception e)
+            {
+                //!! write to log  (e.StackTrace, "SetBtnImg")
+            }
+        }
+
+        public AlphaImage(string resourceName, System.Reflection.Assembly assembly)
+        {
+            try
+            {
+                var iconStream = new OpenNETCF.Drawing.Imaging.StreamOnFile(assembly.GetManifestResourceStream(resourceName));
+                var factory = new OpenNETCF.Drawing.Imaging.ImagingFactoryClass();
+                factory.CreateImageFromStream(iconStream, out _img);
             }
             catch (Exception e)
             {
@@ -36,53 +48,80 @@ namespace MetroHome65.Routines
 
         public String ImagePath
         {
-            get { return _ImagePath; }
+            get { return _imagePath; }
             set
             {
-                if (_ImagePath != value)
+                if (_imagePath == value) return;
+
+                _imagePath = value;
+                try
                 {
-                    _ImagePath = value;
-                    try
+                    if (!String.IsNullOrEmpty(_imagePath))
                     {
-                        if (!String.IsNullOrEmpty(_ImagePath))
-                        {
-                            OpenNETCF.Drawing.Imaging.ImagingFactoryClass _factory = new OpenNETCF.Drawing.Imaging.ImagingFactoryClass();
-                            _factory.CreateImageFromFile(_ImagePath, out _img);
-                        }
-                        else
-                            _img = null;
+                        var factory = new OpenNETCF.Drawing.Imaging.ImagingFactoryClass();
+                        factory.CreateImageFromFile(_imagePath, out _img);
                     }
-                    catch (Exception e)
-                    {
-                        //!! write to log  (e.StackTrace, "SetBtnImg")
-                    }
+                    else
+                        _img = null;
+                }
+                catch (Exception e)
+                {
+                    //!! write to log  (e.StackTrace, "SetBtnImg")
                 }
             }
         }
 
+        public Size Size { get
+            {
+                OpenNETCF.Drawing.Imaging.ImageInfo imageInfo;
+                _img.GetImageInfo(out imageInfo);
+                return new Size((int) imageInfo.Width, (int) imageInfo.Height);
+            } 
+        }
 
-        public void PaintIcon(Graphics g, Rectangle Rect)
+        public void PaintIcon(Graphics g, int x, int y)
         {
             // draw icon from external image file
-            if (_img != null)
-            {
-                try
-                {
-                    OpenNETCF.Drawing.Imaging.ImageInfo ImageInfo;
-                    int tmp = _img.GetImageInfo(out ImageInfo);
+            if (_img == null) return;
 
-                    IntPtr hdc = g.GetHdc();
-                    OpenNETCF.Drawing.Imaging.RECT ImgRect = OpenNETCF.Drawing.Imaging.RECT.FromXYWH(
-                        (Rect.Left + Rect.Right - (int)ImageInfo.Width) / 2,
-                        Rect.Top + (Rect.Height - (int)ImageInfo.Height) / 2,
-                        (int)ImageInfo.Width, (int)ImageInfo.Height);
-                    _img.Draw(hdc, ImgRect, null);
-                    g.ReleaseHdc(hdc);
-                }
-                catch (Exception e)
-                {
-                    //!! write to log  (e.StackTrace, "PaintIcon")
-                }
+            try
+            {
+                OpenNETCF.Drawing.Imaging.ImageInfo imageInfo;
+                _img.GetImageInfo(out imageInfo);
+
+                var hdc = g.GetHdc();
+                OpenNETCF.Drawing.Imaging.RECT imgRect = OpenNETCF.Drawing.Imaging.RECT.FromXYWH(
+                    x, y, (int)imageInfo.Width, (int)imageInfo.Height);
+                _img.Draw(hdc, imgRect, null);
+                g.ReleaseHdc(hdc);
+            }
+            catch
+            {
+                //!! write to log  (e.StackTrace, "PaintIcon")
+            }
+        }
+
+        public void PaintIcon(Graphics g, Rectangle rect)
+        {
+            // draw icon from external image file
+            if (_img == null) return;
+
+            try
+            {
+                OpenNETCF.Drawing.Imaging.ImageInfo imageInfo;
+                _img.GetImageInfo(out imageInfo);
+
+                var hdc = g.GetHdc();
+                OpenNETCF.Drawing.Imaging.RECT imgRect = OpenNETCF.Drawing.Imaging.RECT.FromXYWH(
+                    (rect.Left + rect.Right - (int)imageInfo.Width) / 2,
+                    rect.Top + (rect.Height - (int)imageInfo.Height) / 2,
+                    (int)imageInfo.Width, (int)imageInfo.Height);
+                _img.Draw(hdc, imgRect, null);
+                g.ReleaseHdc(hdc);
+            }
+            catch
+            {
+                //!! write to log  (e.StackTrace, "PaintIcon")
             }
         }
 
@@ -91,81 +130,88 @@ namespace MetroHome65.Routines
         /// Paints image as backgroud for rect.
         /// </summary>
         /// <param name="g"></param>
-        /// <param name="Rect"></param>
-        public void PaintBackground(Graphics g, Rectangle Rect)
+        /// <param name="rect"></param>
+        public void PaintBackground(Graphics g, Rectangle rect)
         {
             // if button image is set, draw button image
-            if (_img != null)
+            if (_img == null) return;
+
+            try
             {
-                try
-                {
-                    IntPtr hdc = g.GetHdc();
-                    OpenNETCF.Drawing.Imaging.RECT ImgRect = OpenNETCF.Drawing.Imaging.RECT.FromXYWH(Rect.Left, Rect.Top, Rect.Width, Rect.Height);
-                    _img.Draw(hdc, ImgRect, null);
-                    g.ReleaseHdc(hdc);
-                    return;
-                }
-                catch (Exception e)
-                {
-                    //!! write to log  (e.StackTrace, "PaintBackground")
-                }
+                var hdc = g.GetHdc();
+                var imgRect = OpenNETCF.Drawing.Imaging.RECT.FromXYWH(rect.Left, rect.Top, rect.Width, rect.Height);
+                _img.Draw(hdc, imgRect, null);
+                g.ReleaseHdc(hdc);
+            }
+            catch
+            {
+                //!! write to log  (e.StackTrace, "PaintBackground")
             }
         }
 
-        public void PaintBackgroundAlpha(Graphics g, Rectangle Rect, byte Alpha)
+        public void PaintBackgroundAlpha(Graphics g, Rectangle rect, byte alpha)
         {
             //!! see _factory.CreateBitmapFromImage
 
-            Bitmap buffer = new Bitmap(Rect.Width, Rect.Height, System.Drawing.Imaging.PixelFormat.Format32bppRgb);
-            Graphics buffergx = Graphics.FromImage(buffer);
-            IntPtr hdcBuffer;
+            var buffer = new Bitmap(rect.Width, rect.Height, System.Drawing.Imaging.PixelFormat.Format32bppRgb);
+            var buffergx = Graphics.FromImage(buffer);
 
-            Rectangle BufferRect = new Rectangle(0, 0, Rect.Width, Rect.Height);
-            if (_img != null)
+            var bufferRect = new Rectangle(0, 0, rect.Width, rect.Height);
+            if (_img == null) return;
+
+            var hdcBuffer = buffergx.GetHdc();
+            try
             {
-                hdcBuffer = buffergx.GetHdc();
-                try
-                {
-                    OpenNETCF.Drawing.Imaging.RECT ImgRect = OpenNETCF.Drawing.Imaging.RECT.FromXYWH(
-                        BufferRect.Left, BufferRect.Top, BufferRect.Width, BufferRect.Height);
-                    _img.Draw(hdcBuffer, ImgRect, null);
-                    buffergx.ReleaseHdc(hdcBuffer);
-                }
-                catch (Exception e) { }
-
-                IntPtr hdcDst = g.GetHdc();
-                hdcBuffer = buffergx.GetHdc();
-                BlendFunction blendFunction = new BlendFunction();
-                blendFunction.BlendOp = (byte)BlendOperation.AC_SRC_OVER;   // Only supported blend operation
-                blendFunction.BlendFlags = (byte)BlendFlags.Zero;           // Documentation says put 0 here
-                blendFunction.SourceConstantAlpha = Alpha;                 // Constant alpha factor
-                blendFunction.AlphaFormat = (byte)AlphaFormat.AC_SRC_ALPHA;
-
-                DrawingAPI.AlphaBlend(hdcDst, Rect.Left, Rect.Top, Rect.Width, Rect.Height, hdcBuffer,
-                    0, 0, Rect.Width, Rect.Height, blendFunction);
-
-                g.ReleaseHdc(hdcDst);          // Required cleanup to GetHdc()
-                buffergx.ReleaseHdc(hdcBuffer);       // Required cleanup to GetHdc()
+                OpenNETCF.Drawing.Imaging.RECT imgRect = OpenNETCF.Drawing.Imaging.RECT.FromXYWH(
+                    bufferRect.Left, bufferRect.Top, bufferRect.Width, bufferRect.Height);
+                _img.Draw(hdcBuffer, imgRect, null);
+                buffergx.ReleaseHdc(hdcBuffer);
             }
+            catch
+            { }
 
+            var hdcDst = g.GetHdc();
+            hdcBuffer = buffergx.GetHdc();
+            var blendFunction = new BlendFunction
+                                    {
+                                        BlendOp = (byte) BlendOperation.AcSrcOver,
+                                        BlendFlags = (byte) BlendFlags.Zero,
+                                        SourceConstantAlpha = alpha,
+                                        AlphaFormat = (byte) AlphaFormat.AcSrcAlpha
+                                    };
+            // Only supported blend operation
+            // Documentation says put 0 here
+            // Constant alpha factor
+
+            DrawingAPI.AlphaBlend(hdcDst, rect.Left, rect.Top, rect.Width, rect.Height, hdcBuffer,
+                                  0, 0, rect.Width, rect.Height, blendFunction);
+
+            g.ReleaseHdc(hdcDst);          // Required cleanup to GetHdc()
+            buffergx.ReleaseHdc(hdcBuffer);       // Required cleanup to GetHdc()
         }
 
 
-        public static void DrawAlphaImage(Graphics g, Image Img, Rectangle Rect, byte Alpha)
+        public static void DrawAlphaImage(Graphics g, Image img, Rectangle rect, byte alpha)
         {
-            IntPtr hdcDst = g.GetHdc();
-            Graphics gSrc = Graphics.FromImage(Img);
-            IntPtr hdcSrc = gSrc.GetHdc();
+            var hdcDst = g.GetHdc();
+            var gSrc = Graphics.FromImage(img);
+            var hdcSrc = gSrc.GetHdc();
 
-            BlendFunction blendFunction = new BlendFunction();
-            blendFunction.BlendOp = (byte)BlendOperation.AC_SRC_OVER;   // Only supported blend operation
-            blendFunction.BlendFlags = (byte)BlendFlags.Zero;           // Documentation says put 0 here
-            blendFunction.SourceConstantAlpha = Alpha;                 // Constant alpha factor
-            blendFunction.AlphaFormat = (byte)0; // AlphaFormat.AC_SRC_ALPHA;
+            var blendFunction = new BlendFunction
+                                    {
+                                        BlendOp = (byte) BlendOperation.AcSrcOver,
+                                        BlendFlags = (byte) BlendFlags.Zero,
+                                        SourceConstantAlpha = alpha,
+                                        AlphaFormat = 0
+                                    };
+            // Only supported blend operation
+            // Documentation says put 0 here
+            // Constant alpha factor
+            // AlphaFormat.AC_SRC_ALPHA;
             //!!blendFunction.AlphaFormat = (byte)AlphaFormat.AC_SRC_ALPHA;
 
-            DrawingAPI.AlphaBlend(hdcDst, Rect.Left, Rect.Top, Rect.Width, Rect.Height, hdcSrc,
-                0, 0, Img.Width, Img.Height, blendFunction);
+            DrawingAPI.AlphaBlend(hdcDst, rect.Left, rect.Top, rect.Width, rect.Height, hdcSrc,
+                0, 0, img.Width, img.Height, blendFunction);
 
             g.ReleaseHdc(hdcDst);          // Required cleanup to GetHdc()
             gSrc.ReleaseHdc(hdcSrc);       // Required cleanup to GetHdc()
@@ -186,7 +232,7 @@ namespace MetroHome65.Routines
 
     public enum BlendOperation : byte
     {
-        AC_SRC_OVER = 0x00
+        AcSrcOver = 0x00
     }
 
     public enum BlendFlags : byte
@@ -202,7 +248,7 @@ namespace MetroHome65.Routines
 
     public enum AlphaFormat : byte
     {
-        AC_SRC_ALPHA = 0x01
+        AcSrcAlpha = 0x01
     }
 
     public class DrawingAPI
