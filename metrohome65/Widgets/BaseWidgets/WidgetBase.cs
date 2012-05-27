@@ -1,60 +1,87 @@
 ﻿using System;
 using System.Drawing;
-using System.Windows.Forms;
 using System.ComponentModel;
 using System.Collections.Generic;
+using Fleux.Controls;
+using Fleux.Core.GraphicsHelpers;
+using Fleux.Styles;
+using Fleux.UIElements;
+using MetroHome65.Interfaces;
+using MetroHome65.Routines;
 
 namespace MetroHome65.Widgets
 {
 
-    public abstract class BaseWidget : IWidget, INotifyPropertyChanged
+    public abstract class BaseWidget : UIElement, ITile, INotifyPropertyChanged
     {
-        private EventHandlerList _Events = new EventHandlerList();
-        private static readonly object _EventWidgetUpdate = new object();
+    
+        #region ITile
 
         protected virtual Size[] GetSizes() { return null; }
-        public Size[] Sizes { get { return GetSizes(); } }
+        public virtual Size[] Sizes { get { return GetSizes(); } }
 
-        protected Size _Size;
-        protected virtual void SetSize(Size value) { _Size = value; }
-        public Size Size { set { SetSize(value); } }
+        protected Size _gridSize;
+        public virtual Size GridSize { set { _gridSize = value; } }
 
-        protected virtual String[] GetMenuItems() { return null; } 
-        public String[] MenuItems { get { return GetMenuItems(); } }
-        
-        protected virtual Boolean GetTransparent() { return false; }
-        public Boolean Transparent { get { return GetTransparent(); } }
-        
-        public virtual void Paint(Graphics g, Rectangle Rect) { }
+        public virtual void PaintBuffer(Graphics g, Rectangle rect) { }
 
-        public virtual void OnClick(Point Location) { }
+        public virtual bool OnClick(Point location) { return false; }
 
-        public virtual void OnDblClick(Point Location) { }
+        public virtual bool OnDblClick(Point location) { return false; }
 
-        public virtual void OnMenuItemClick(String ItemName) { }
+        protected virtual bool GetDoExitAnimation() { return false; }
+        public virtual bool DoExitAnimation { get { return GetDoExitAnimation(); } }
+
+        public virtual ICollection<UIElement> EditControls(FleuxControlPage settingsPage) { return new List<UIElement>(); }
+
+        #endregion
 
 
-        /// <summary>
-        /// Event raised when Widget needs to be updated (repainted)
-        /// </summary>
-        public event WidgetUpdateEventHandler WidgetUpdate
+        public BaseWidget()
         {
-            add { _Events.AddHandler(_EventWidgetUpdate, value); }
-            remove { _Events.RemoveHandler(_EventWidgetUpdate, value); }       
+            MetroTheme.PropertyChanged += OnThemeSettingsChanged;
         }
 
-        protected void OnWidgetUpdate()
+        private void OnThemeSettingsChanged(PropertyChangedEventArgs e)
         {
-            var handler = _Events[_EventWidgetUpdate] as WidgetUpdateEventHandler;
-            if (handler != null)
+            if ((e.PropertyName == "PhoneAccentBrush") || (e.PropertyName == "PhoneForegroundBrush"))
             {
-                WidgetUpdateEventArgs e = new WidgetUpdateEventArgs(this);
-                handler(this, e);
+                ForceUpdate();
             }
         }
 
+        #region Draw
 
-        public virtual List<Control> EditControls { get { return new List<Control>(); } }
+        // double buffer
+        private DoubleBuffer _buffer;
+        private bool _needRepaint;
+
+        public override void Draw(IDrawingGraphics drawingGraphics)
+        {
+            if (drawingGraphics == null)
+                return;
+
+            if ((_buffer == null) || (_needRepaint))
+            {
+                var newbuffer = new DoubleBuffer(Size);
+                PaintBuffer(newbuffer.Graphics, new Rectangle(0, 0, Size.Width, Size.Height));
+                _buffer = newbuffer;
+                _needRepaint = false;
+            }
+
+            drawingGraphics.DrawImage(_buffer.Image, 0, 0);
+           
+            // draw direct to graphic for speed
+            //drawingGraphics.Graphics.DrawImage(_buffer.Image, drawingGraphics.CalculateX(0), drawingGraphics.CalculateY(0));
+        }
+
+        public virtual void ForceUpdate()
+        {
+            _needRepaint = true;
+            Update();
+        }
+
+        #endregion
 
 
         #region INotifyPropertyChanged

@@ -1,7 +1,5 @@
 ﻿using System;
-using System.Linq;
-using System.Collections.Generic;
-using System.Windows.Forms;
+using Fleux.Core;
 
 namespace MetroHome65
 {
@@ -13,7 +11,8 @@ namespace MetroHome65
         [MTAThread]
         static void Main()
         {
-            Application.Run(new MetroHome65.Main.MainForm());
+            FleuxApplication.TargetDesignDpi = 192; // Default HTC HD2 Res!
+            FleuxApplication.Run(new MetroHome65.HomeScreen.HomeScreen());
         }
     }
 }

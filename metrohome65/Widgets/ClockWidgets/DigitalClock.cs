@@ -1,148 +1,154 @@
 ﻿using System;
 using System.Drawing;
 using System.Collections.Generic;
-using System.Windows.Forms;
-using System.ComponentModel;
+using Fleux.Controls;
+using Fleux.Core.Scaling;
+using Fleux.Styles;
+using Fleux.UIElements;
+using MetroHome65.Interfaces;
 using MetroHome65.Routines;
-using MetroHome65.Settings.Controls;
+using Metrohome65.Settings.Controls;
 
 namespace MetroHome65.Widgets
 {
-    [WidgetInfo("Digital clock")]
-    public class DigitalClockWidget : ShortcutWidget, IWidgetUpdatable
+    [TileInfo("Digital clock")]
+    public class DigitalClockWidget : ShortcutWidget, IActive
     {
-        private System.Windows.Forms.Timer _Timer;
-        private Brush _brushCaption;
-        private Font _fntTime;
-        private Font _fntDate;
-        private Boolean _ShowPoints = true;
-        private Boolean _Is24Hour = true;
+        private ThreadTimer _updateTimer;
 
-        private int PaddingRight = ScreenRoutines.Scale(20);
-        private int DotWidth = ScreenRoutines.Scale(30); 
+        private readonly Brush _brushCaption;
+        private readonly Font _fntTime;
+        private readonly Font _fntDate;
+        private Boolean _showPoints = true;
+        private Boolean _is24Hour = true;
 
-        public DigitalClockWidget() : base()
+        private readonly int _paddingRight = 20;
+        private readonly int _dotWidth = 20;
+        private readonly int _dotPaddingRight = 8;
+        private readonly int _dotPaddingLeft = 6;
+
+        public DigitalClockWidget() 
         {
-            _brushCaption = new System.Drawing.SolidBrush(System.Drawing.Color.White);
-            _fntTime = new System.Drawing.Font("Verdana", 36, FontStyle.Regular);
-            _fntDate = new System.Drawing.Font("Helvetica", 12, FontStyle.Regular);
+            _brushCaption = new SolidBrush(MetroTheme.TileTextStyle.Foreground);
+            _fntTime = new Font(MetroTheme.PhoneFontFamilySemiBold, 36.ToLogic(), FontStyle.Regular);
+            _fntDate = new Font(MetroTheme.PhoneFontFamilySemiBold, 10.ToLogic(), FontStyle.Regular);
         }
 
 
         protected override Size[] GetSizes()
         {
-            Size[] sizes = new Size[] { 
+            return new Size[] { 
                 new Size(4, 2) 
             };
-            return sizes;
         }
 
 
         /// <summary>
         /// Digital clock style - 12/24 hour
         /// </summary>
-        [WidgetParameter]
+        [TileParameter]
         public Boolean Is24Hour
         {
-            get { return _Is24Hour; }
+            get { return _is24Hour; }
             set
             {
-                if (_Is24Hour != value)
+                if (_is24Hour != value)
                 {
-                    _Is24Hour = value;
+                    _is24Hour = value;
                     NotifyPropertyChanged("Is24Hour");
                 }
             }
         }
 
 
-        public override void Paint(Graphics g, Rectangle Rect)
+        public override void PaintBuffer(Graphics g, Rectangle rect)
         {
-            base.Paint(g, Rect);
+            base.PaintBuffer(g, rect);
 
-            String sTimeHour = (Is24Hour) ? DateTime.Now.ToString("HH") : DateTime.Now.ToString("hh");
-            String sTimeMins = DateTime.Now.ToString("mm");
-            String sDate = DateTime.Now.ToString("dddd, MMMM d");
+            var sTimeHour = (Is24Hour) ? DateTime.Now.ToString("HH") : DateTime.Now.ToString("hh");
+            var sTimeMins = DateTime.Now.ToString("mm");
+            var sDate = DateTime.Now.ToString("dddd, MMMM d");
 
-            SizeF TimeBoxHour = g.MeasureString(sTimeHour, _fntTime);
-            SizeF TimeBoxMins = g.MeasureString(sTimeMins, _fntTime);
-            SizeF DateBox = g.MeasureString(sDate, _fntDate);
+            var timeBox = g.MeasureString("99", _fntTime);
+            var dateBox = g.MeasureString(sDate, _fntDate);
 
             g.DrawString(sTimeMins, _fntTime, _brushCaption,
-                Rect.Right - TimeBoxMins.Width - PaddingRight,
-                Rect.Top + (Rect.Height - TimeBoxMins.Height - DateBox.Height) / 2);
-            if (_ShowPoints)
+                rect.Right - timeBox.Width - _paddingRight,
+                rect.Top + (rect.Height - timeBox.Height - dateBox.Height) / 2);
+            if (_showPoints)
                 g.DrawString(":", _fntTime, _brushCaption,
-                    Rect.Right - TimeBoxHour.Width - PaddingRight - DotWidth,
-                    Rect.Top + (Rect.Height - TimeBoxMins.Height - DateBox.Height) / 2 - ScreenRoutines.Scale(5));
+                    rect.Right - timeBox.Width - _paddingRight - _dotWidth - _dotPaddingRight,
+                    rect.Top + (rect.Height - timeBox.Height - dateBox.Height) / 2 - ScreenRoutines.Scale(5));
             g.DrawString(sTimeHour, _fntTime, _brushCaption,
-                Rect.Right - TimeBoxMins.Width - PaddingRight - DotWidth - TimeBoxHour.Width,
-                Rect.Top + (Rect.Height - TimeBoxMins.Height - DateBox.Height) / 2);
+                rect.Right - timeBox.Width - _paddingRight - _dotWidth - _dotPaddingRight - _dotPaddingLeft - timeBox.Width,
+                rect.Top + (rect.Height - timeBox.Height - dateBox.Height) / 2);
 
             g.DrawString(sDate, _fntDate, _brushCaption,
-                Rect.Right - DateBox.Width - PaddingRight,
-                Rect.Bottom - (Rect.Height - TimeBoxMins.Height - DateBox.Height) / 2 - DateBox.Height);
+                rect.Right - dateBox.Width - _paddingRight,
+                rect.Bottom - (rect.Height - timeBox.Height - dateBox.Height) / 2 - dateBox.Height);
         }
 
-        public void StartUpdate()
+        public bool Active
         {
-            // update widget just now
-            OnWidgetUpdate();
-
-            if (_Timer == null)
+            get { return (_updateTimer != null); }
+            set
             {
-                _Timer = new System.Windows.Forms.Timer();
-                _Timer.Tick += new EventHandler(OnTimer);
+                if (value)
+                {
+                    if (_updateTimer == null)
+                        _updateTimer = new ThreadTimer(2000, () => {
+                                                 _showPoints = !_showPoints;
+                                                 ForceUpdate();
+                                             });
+                }
+                else
+                {
+                    if (_updateTimer != null)
+                        _updateTimer.Stop();
+                    _updateTimer = null;
+                }
             }
-            _Timer.Interval = 2000;
-            _Timer.Enabled = true;
-        }
-
-        public void StopUpdate()
-        {
-            if (_Timer != null)
-                _Timer.Enabled = false;
-        }
-
-        private void OnTimer(object sender, EventArgs e)
-        {
-            _ShowPoints = !_ShowPoints;
-            OnWidgetUpdate();
         }
 
         // overriding paint icon method - don't paint icon
-        protected override void PaintIcon(Graphics g, Rectangle Rect)
+        protected override void PaintIcon(Graphics g, Rectangle rect)
         { }
 
         // overriding paint caption method - don't paint caption
-        protected override void PaintCaption(Graphics g, Rectangle Rect)
+        protected override void PaintCaption(Graphics g, Rectangle rect)
         { }
 
-        public override List<Control> EditControls
+        public override ICollection<UIElement> EditControls(FleuxControlPage settingsPage)
         {
-            get
-            {
-                List<Control> Controls = base.EditControls;
+            var controls = base.EditControls(settingsPage);
+            var bindingManager = new BindingManager();
 
-                Settings_flag FlagControl = new Settings_flag();
-                FlagControl.Caption = "24-Hours";
-                FlagControl.Value = Is24Hour;
-                Controls.Add(FlagControl);
+            var flagControl = new FlagSettingsControl
+                                  {
+                                      Caption = "24-Hours", 
+                                      Value = Is24Hour,
+                                  };
+            controls.Add(flagControl);
+            bindingManager.Bind(this, "Is24Hour", flagControl, "Value");
 
-                BindingManager BindingManager = new BindingManager();
-                BindingManager.Bind(this, "Is24Hour", FlagControl, "Value");
-
-                // hide control for icon / caption selection
-                foreach (Control control in Controls)
+            // hide control for icon / caption selection
+            foreach (var control in controls)
+                if (control.Name.Contains("Icon"))
                 {
-                    if (control.Name.Contains("Icon") || control.Name.Contains("Caption"))
-                      control.Height = 0;
+                    controls.Remove(control);
+                    break;
                 }
-               
-                return Controls;
-            }
+            foreach (var control in controls)
+                if (control.Name.Contains("Caption"))
+                {
+                    controls.Remove(control);
+                    break;
+                }
+           
+            return controls;
         }
 
+        
     }
 
 }
