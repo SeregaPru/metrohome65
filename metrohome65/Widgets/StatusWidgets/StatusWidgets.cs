@@ -1,33 +1,27 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Drawing;
+using MetroHome65.Interfaces;
 using MetroHome65.Routines;
-using MetroHome65.Widgets.StatusWidget;
-using System.Windows.Forms;
 
-namespace MetroHome65.Widgets.StatusWidget
+namespace MetroHome65.Widgets.StatusWidgets
 {
-    [WidgetInfo("Statuses")]
-    public class StatusWidget : ShortcutWidget, IWidgetUpdatable
+    [TileInfo("Statuses")]
+    public class StatusWidget : ShortcutWidget, IActive
     {
-        private System.Windows.Forms.Timer _Timer;
+        private ThreadTimer _updateTimer;
 
-        List<CustomStatus> _Statuses = new List<CustomStatus>();
+        readonly List<CustomStatus> _statuses = new List<CustomStatus>();
 
         /// <summary>
         /// minimal width for single status indicator for auto-layout
         /// </summary>
-        private static int _MinWidth = ScreenRoutines.Scale(49);
-
-        private Size _WidgetSize;
-
+        private static readonly int MinWidth = ScreenRoutines.Scale(49);
 
         public StatusWidget() : base()
         {
-            _Statuses.Add(new BatteryStatus());
-            _Statuses.Add(new BluetoothStatus());
-            _Statuses.Add(new WiFiStatus());
-//!!            _Statuses.Add(new RotationStatus());
+            _statuses.Add(new BatteryStatus());
+            _statuses.Add(new BluetoothStatus());
+            _statuses.Add(new WiFiStatus());
         }
 
         protected override Size[] GetSizes()
@@ -38,44 +32,41 @@ namespace MetroHome65.Widgets.StatusWidget
             return sizes;
         }
         
-        public override void Paint(Graphics g, Rectangle Rect)
+        public override void PaintBuffer(Graphics g, Rectangle rect)
         {
-            _WidgetSize = Rect.Size;
-
-            base.Paint(g, Rect);
-            PaintStatuses(g, Rect);
+            base.PaintBuffer(g, rect);
+            PaintStatuses(g);
         }
 
-        protected override void PaintIcon(Graphics g, Rectangle Rect) {}
+        protected override void PaintIcon(Graphics g, Rectangle rect) {}
 
-        private void PaintStatuses(Graphics g, Rectangle Rect)
+        private void PaintStatuses(Graphics g)
         {
-            Pen pen = new Pen(Color.Gray);
-            Rectangle StatusRect;
+            var pen = new Pen(Color.Gray);
 
-            for (int i = 0; i < _Statuses.Count; i++)
+            for (var i = 0; i < _statuses.Count; i++)
             {
-                StatusRect = GetStatusRect(i);
-                _Statuses[i].PaintStatus(g, StatusRect);
-                if (i < _Statuses.Count - 1)
-                    g.DrawLine(pen, StatusRect.Right, StatusRect.Top + 1, StatusRect.Right, StatusRect.Bottom - 1);
+                var statusRect = GetStatusRect(i);
+                _statuses[i].PaintStatus(g, statusRect);
+                if (i < _statuses.Count - 1)
+                    g.DrawLine(pen, statusRect.Right, statusRect.Top + 1, statusRect.Right, statusRect.Bottom - 1);
             }
         }
 
-        private Rectangle GetStatusRect(int Position)
+        private Rectangle GetStatusRect(int position)
         {
-            int StatusWidth = 0;
-            int StatusCount = StatusesCount();
-            while (StatusWidth < _MinWidth)
+            var statusWidth = 0;
+            var statusCount = StatusesCount();
+            while (statusWidth < MinWidth)
             {
-                StatusWidth = _WidgetSize.Width / StatusCount;
-                StatusCount--;
+                statusWidth = Bounds.Width / statusCount;
+                statusCount--;
             }
 
-            Rectangle StatusRect = new Rectangle(
-                StatusWidth * Position + Position, 0, 
-                StatusWidth, _WidgetSize.Height);
-            return StatusRect;
+            var statusRect = new Rectangle(
+                statusWidth * position + position, 0,
+                statusWidth, Bounds.Height);
+            return statusRect;
         }
 
         /// <summary>
@@ -84,58 +75,60 @@ namespace MetroHome65.Widgets.StatusWidget
         /// <returns></returns>
         private int StatusesCount()
         {
-            return _Statuses.Count;
+            return _statuses.Count;
         }
 
-        public void StartUpdate()
+        public bool Active
         {
-            if (_Timer == null)
+            get { return (_updateTimer != null); }
+            set
             {
-                _Timer = new System.Windows.Forms.Timer();
-                _Timer.Tick += new EventHandler(OnTimer);
-            }
-            _Timer.Interval = 3000;
-            _Timer.Enabled = true;
-        }
-
-        public void StopUpdate()
-        {
-            if (_Timer != null)
-                _Timer.Enabled = false;
-        }
-
-        private void OnTimer(object sender, EventArgs e)
-        {
-            if (UpdateStatuses())
-            {
-                OnWidgetUpdate();
+                if (value)
+                {
+                    if (_updateTimer == null)
+                        _updateTimer = new ThreadTimer(2000, () => {
+                                         if (UpdateStatuses())
+                                         {
+                                             ForceUpdate();
+                                         }
+                                     });
+                }
+                else
+                {
+                    if (_updateTimer != null)
+                        _updateTimer.Stop();
+                    _updateTimer = null;
+                }
             }
         }
 
         private bool UpdateStatuses()
         {
-            Boolean Result = false;
-            foreach(CustomStatus Status in _Statuses)
+            var result = false;
+            foreach(var status in _statuses)
             {
-                Result = Result || Status.UpdateStatus();
-                if (Result) break;
+                result = status.UpdateStatus();
+                if (result) break;
             }
-            return Result;
+            return result;
         }
 
-        public override void OnClick(Point Location)
+        public override bool OnClick(Point location)
         {
-            for (int i = 0; i < _Statuses.Count; i++)
+            for (var i = 0; i < _statuses.Count; i++)
             {
-                if (GetStatusRect(i).Contains(Location))
+                if (GetStatusRect(i).Contains(location))
                 {
-                    _Statuses[i].ChangeStatus();
-                    OnWidgetUpdate();
+                    _statuses[i].ChangeStatus();
+                    Update();
                     break;
                 }
             }
+            return true;
         }
 
+        // no external action - no animation
+        protected override bool GetDoExitAnimation() { return false; } 
 
     }
 

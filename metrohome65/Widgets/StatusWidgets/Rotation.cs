@@ -1,7 +1,6 @@
-﻿using System;
-using System.Drawing;
+﻿using System.Drawing;
 
-namespace MetroHome65.Widgets.StatusWidget
+namespace MetroHome65.Widgets.StatusWidgets
 {
     public class RotationStatus : CustomStatus
     {
@@ -12,18 +11,18 @@ namespace MetroHome65.Widgets.StatusWidget
             UpdateStatus();
         }
 
-        public override void PaintStatus(Graphics g, Rectangle Rect)
+        public override void PaintStatus(Graphics g, Rectangle rect)
         {
-            DrawStatus DrawStatus = (_RotationStatus) ? DrawStatus.dsOn : DrawStatus.dsOff;
-            PaintStatus(g, Rect, DrawStatus, "autorotate", "");
+            DrawStatus drawStatus = (_RotationStatus) ? DrawStatus.On : DrawStatus.Off;
+            PaintStatus(g, rect, drawStatus, "autorotate", "");
         }
 
         public override bool UpdateStatus()
         {
-            bool CurrentStatus = GetRotationStatus();
-            if (CurrentStatus != _RotationStatus)
+            bool currentStatus = GetRotationStatus();
+            if (currentStatus != _RotationStatus)
             {
-                _RotationStatus = CurrentStatus;
+                _RotationStatus = currentStatus;
                 return true;
             }
 

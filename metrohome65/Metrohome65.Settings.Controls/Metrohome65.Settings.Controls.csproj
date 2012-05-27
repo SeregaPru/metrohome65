@@ -24,7 +24,7 @@
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
+    <OutputPath>..\_deploy\</OutputPath>
     <DefineConstants>DEBUG;TRACE;$(PlatformFamilyName)</DefineConstants>
     <NoStdLib>true</NoStdLib>
     <NoConfig>true</NoConfig>
@@ -45,10 +45,20 @@
     <WarningLevel>4</WarningLevel>
     <GenerateSerializationAssemblies>Off</GenerateSerializationAssemblies>
   </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'ControlsTest|AnyCPU' ">
+    <NoStdLib>true</NoStdLib>
+    <NoConfig>true</NoConfig>
+    <GenerateSerializationAssemblies>Off</GenerateSerializationAssemblies>
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\ControlsTest\</OutputPath>
+    <DefineConstants>DEBUG;TRACE;PocketPC</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+  </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Microsoft.WindowsMobile, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35" />
+    <Reference Include="Microsoft.Windowsce.Forms" />
     <Reference Include="Microsoft.WindowsMobile.Forms, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35" />
-    <Reference Include="Microsoft.WindowsMobile.PocketOutlook, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35" />
     <Reference Include="mscorlib" />
     <Reference Include="OpenNETCF.Drawing, Version=2.3.0.39, Culture=neutral, PublicKeyToken=e60dbea84bb431b7, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -56,10 +66,16 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.XML" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ColorSettingsControl.cs" />
+    <Compile Include="CustomSettingsPage.cs" />
+    <Compile Include="FileSettingsControl.cs" />
+    <Compile Include="ImageSettingsControl.cs" />
     <Compile Include="OpenFileDialogEx.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -67,71 +83,43 @@
       <DependentUpon>OpenFileDialogEx.cs</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Settings_color.cs">
-      <SubType>UserControl</SubType>
+    <Compile Include="SelectSettingsControl.cs" />
+    <Compile Include="SettingsConsts.cs" />
+    <Compile Include="FlagSettingsControl.cs" />
+    <Compile Include="StringSettingsControl.cs" />
+    <Compile Include="TextBox.cs" />
+    <Compile Include="TextBoxInputPage.cs" />
+    <Compile Include="TextInputForm.cs">
+      <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Settings_color.designer.cs">
-      <DependentUpon>Settings_color.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Settings_contact.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="Settings_contact.designer.cs">
-      <DependentUpon>Settings_contact.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Settings_file.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="Settings_file.designer.cs">
-      <DependentUpon>Settings_file.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Settings_flag.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="Settings_flag.designer.cs">
-      <DependentUpon>Settings_flag.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Settings_image.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="Settings_image.designer.cs">
-      <DependentUpon>Settings_image.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Settings_string.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="Settings_string.designer.cs">
-      <DependentUpon>Settings_string.cs</DependentUpon>
+    <Compile Include="TextInputForm.Designer.cs">
+      <DependentUpon>TextInputForm.cs</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="OpenFileDialogEx.resx">
       <DependentUpon>OpenFileDialogEx.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Settings_color.resx">
-      <DependentUpon>Settings_color.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Settings_contact.resx">
-      <DependentUpon>Settings_contact.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Settings_file.resx">
-      <DependentUpon>Settings_file.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Settings_flag.resx">
-      <DependentUpon>Settings_flag.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Settings_image.resx">
-      <DependentUpon>Settings_image.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Settings_string.resx">
-      <DependentUpon>Settings_string.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Fleux\Fleux.csproj">
+      <Project>{8526293A-9C66-48F6-A90D-FB2B7128BF08}</Project>
+      <Name>Fleux</Name>
+    </ProjectReference>
     <ProjectReference Include="..\MetroHome65.Routines\MetroHome65.Routines.csproj">
       <Project>{18D428A8-6722-4A69-B39D-F652AFA34D90}</Project>
       <Name>MetroHome65.Routines</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Images\cancel.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Images\ok.bmp" />
+    <EmbeddedResource Include="TextInputForm.resx">
+      <DependentUpon>TextInputForm.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CompactFramework.CSharp.targets" />
   <ProjectExtensions>
