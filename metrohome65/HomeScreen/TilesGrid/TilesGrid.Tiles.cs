@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Drawing;
 using Fleux.UIElements;
+using MetroHome65.Tile;
 
 namespace MetroHome65.HomeScreen.TilesGrid
 {

@@ -3,7 +3,7 @@ using System.Drawing;
 using System.Collections.Generic;
 using System.Xml.Serialization;
 
-namespace MetroHome65.HomeScreen
+namespace MetroHome65.Tile
 {
     [XmlType("param")]
     public class StoredParameter

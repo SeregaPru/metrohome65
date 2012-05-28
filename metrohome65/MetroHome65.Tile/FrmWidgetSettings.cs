@@ -6,9 +6,8 @@ using Fleux.UIElements;
 using MetroHome65.Interfaces;
 using MetroHome65.Routines;
 using Metrohome65.Settings.Controls;
-using ComboBox = Fleux.UIElements.ComboBox;
 
-namespace MetroHome65.HomeScreen.Tile
+namespace MetroHome65.Tile
 {
     public class FrmWidgetSettings : CustomSettingsPage
     {
@@ -19,6 +18,8 @@ namespace MetroHome65.HomeScreen.Tile
         private ComboBox _cbSize;
         private ComboBox _cbType;
         private StackPanel _controlsPanel;
+
+        private IPluginManager _pluginManager;
 
 
         public FrmWidgetSettings(TileWrapper sourceTile)
@@ -38,6 +39,8 @@ namespace MetroHome65.HomeScreen.Tile
 
         protected override void CreateSettingsControls()
         {
+            _pluginManager = TinyIoC.TinyIoCContainer.Current.Resolve<IPluginManager>();
+
             AddPage(CreateStyleSettings(), "style");
             AddPage(CreateTileSettings(), "tile");
         }
@@ -82,7 +85,7 @@ namespace MetroHome65.HomeScreen.Tile
         {
             if (_sourceTile == null) return;
             var widgetName = _widgetTypes[_cbType.SelectedIndex].FullName;
-            var newTile = PluginManager.GetInstance().CreateTile(widgetName);
+            var newTile = _pluginManager.CreateTile(widgetName);
             CopyTileProperties(_sourceTile.Tile, newTile);
             SetWidgetType(newTile);
         }
@@ -92,7 +95,7 @@ namespace MetroHome65.HomeScreen.Tile
             _widgetTypes.Clear();
             var items = new List<object>();
 
-            foreach (Type plugin in PluginManager.GetInstance()._plugins.Values)
+            foreach (Type plugin in _pluginManager.GetTileTypes())
             {
                 // get human readable widget name for display in list
                 var widgetName = "";

@@ -40,6 +40,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FleuxControls", "FleuxContr
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MAPIdotnet", "FleuxControls\PocketMail\MAPIdotnet\MAPIdotnet.csproj", "{B33E06EC-E8C6-4A15-B3BF-93F351E3FEB5}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MetroHome65.Tile", "metrohome65\MetroHome65.Tile\MetroHome65.Tile.csproj", "{01BCB6DF-EBAC-4899-B03C-2E6C2BCBB93C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		ControlsTest|Any CPU = ControlsTest|Any CPU
@@ -452,6 +454,32 @@ Global
 		{B33E06EC-E8C6-4A15-B3BF-93F351E3FEB5}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{B33E06EC-E8C6-4A15-B3BF-93F351E3FEB5}.Release|Windows Mobile 6.ActiveCfg = Release|Any CPU
 		{B33E06EC-E8C6-4A15-B3BF-93F351E3FEB5}.Release|Windows Mobile 6.5.3 Professional DTK (ARMV4I).ActiveCfg = Release|Any CPU
+		{01BCB6DF-EBAC-4899-B03C-2E6C2BCBB93C}.ControlsTest|Any CPU.ActiveCfg = ControlsTest|Any CPU
+		{01BCB6DF-EBAC-4899-B03C-2E6C2BCBB93C}.ControlsTest|Any CPU.Build.0 = ControlsTest|Any CPU
+		{01BCB6DF-EBAC-4899-B03C-2E6C2BCBB93C}.ControlsTest|Mixed Platforms.ActiveCfg = ControlsTest|Any CPU
+		{01BCB6DF-EBAC-4899-B03C-2E6C2BCBB93C}.ControlsTest|Mixed Platforms.Build.0 = ControlsTest|Any CPU
+		{01BCB6DF-EBAC-4899-B03C-2E6C2BCBB93C}.ControlsTest|Windows Mobile 6.ActiveCfg = ControlsTest|Any CPU
+		{01BCB6DF-EBAC-4899-B03C-2E6C2BCBB93C}.ControlsTest|Windows Mobile 6.5.3 Professional DTK (ARMV4I).ActiveCfg = ControlsTest|Any CPU
+		{01BCB6DF-EBAC-4899-B03C-2E6C2BCBB93C}.Debug (SmartPhone)|Any CPU.ActiveCfg = Debug|Any CPU
+		{01BCB6DF-EBAC-4899-B03C-2E6C2BCBB93C}.Debug (SmartPhone)|Any CPU.Build.0 = Debug|Any CPU
+		{01BCB6DF-EBAC-4899-B03C-2E6C2BCBB93C}.Debug (SmartPhone)|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{01BCB6DF-EBAC-4899-B03C-2E6C2BCBB93C}.Debug (SmartPhone)|Mixed Platforms.Build.0 = Debug|Any CPU
+		{01BCB6DF-EBAC-4899-B03C-2E6C2BCBB93C}.Debug (SmartPhone)|Windows Mobile 6.ActiveCfg = Debug|Any CPU
+		{01BCB6DF-EBAC-4899-B03C-2E6C2BCBB93C}.Debug (SmartPhone)|Windows Mobile 6.5.3 Professional DTK (ARMV4I).ActiveCfg = Debug|Any CPU
+		{01BCB6DF-EBAC-4899-B03C-2E6C2BCBB93C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{01BCB6DF-EBAC-4899-B03C-2E6C2BCBB93C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{01BCB6DF-EBAC-4899-B03C-2E6C2BCBB93C}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{01BCB6DF-EBAC-4899-B03C-2E6C2BCBB93C}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{01BCB6DF-EBAC-4899-B03C-2E6C2BCBB93C}.Debug|Windows Mobile 6.ActiveCfg = Debug|Any CPU
+		{01BCB6DF-EBAC-4899-B03C-2E6C2BCBB93C}.Debug|Windows Mobile 6.5.3 Professional DTK (ARMV4I).ActiveCfg = Debug|Any CPU
+		{01BCB6DF-EBAC-4899-B03C-2E6C2BCBB93C}.Debug|Windows Mobile 6.5.3 Professional DTK (ARMV4I).Build.0 = Debug|Any CPU
+		{01BCB6DF-EBAC-4899-B03C-2E6C2BCBB93C}.Debug|Windows Mobile 6.5.3 Professional DTK (ARMV4I).Deploy.0 = Debug|Any CPU
+		{01BCB6DF-EBAC-4899-B03C-2E6C2BCBB93C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{01BCB6DF-EBAC-4899-B03C-2E6C2BCBB93C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{01BCB6DF-EBAC-4899-B03C-2E6C2BCBB93C}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{01BCB6DF-EBAC-4899-B03C-2E6C2BCBB93C}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{01BCB6DF-EBAC-4899-B03C-2E6C2BCBB93C}.Release|Windows Mobile 6.ActiveCfg = Release|Any CPU
+		{01BCB6DF-EBAC-4899-B03C-2E6C2BCBB93C}.Release|Windows Mobile 6.5.3 Professional DTK (ARMV4I).ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

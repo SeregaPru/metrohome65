@@ -6,11 +6,10 @@ using System.Reflection;
 using Fleux.Styles;
 using Fleux.UIElements;
 using Fleux.Core.GraphicsHelpers;
-using MetroHome65.HomeScreen.Tile;
 using MetroHome65.Interfaces;
 using MetroHome65.Routines;
 
-namespace MetroHome65.HomeScreen
+namespace MetroHome65.Tile
 {
   
     /// <summary>
@@ -168,7 +167,8 @@ namespace MetroHome65.HomeScreen
                 }
 
                 // create and insert new tile
-                _tile = PluginManager.GetInstance().CreateTile(value);
+                var pluginManager = TinyIoC.TinyIoCContainer.Current.Resolve<IPluginManager>();
+                _tile = pluginManager.CreateTile(value);
                 FillTileProperties();
 
                 TapHandler += p => { OnClick(p); return true; };

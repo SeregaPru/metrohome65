@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections;
+using System.Collections.Generic;
 using System.Reflection;
 using System.Linq;
 using System.IO;
@@ -7,28 +8,24 @@ using MetroHome65.Interfaces;
 
 namespace MetroHome65.HomeScreen
 {
+    
     /// <summary>
     /// Class for managing plugins assemblies:
     /// load plugins at sartup, create plugin by type etc.
     /// </summary>
-    class PluginManager
+    public class PluginManager : IPluginManager
     {
-        static private PluginManager _instance = null;
-
-        static public PluginManager GetInstance()
-        {
-            if (_instance == null)
-                _instance = new PluginManager();
-            return _instance;
-        }
-
         public PluginManager()
         {
             LoadPlugins();
         }
         
-        //!! todo потом сделать приватным а выставить итератор
-        public Hashtable _plugins = new Hashtable();
+        private Hashtable _plugins = new Hashtable();
+
+        public IEnumerable GetTileTypes()
+        {
+            return _plugins.Values;
+        }
 
         /// <summary>
         /// reads all .dll in Plugins folder and scans for plugins with 
@@ -74,4 +71,5 @@ namespace MetroHome65.HomeScreen
         }
 
     }
+
 }
