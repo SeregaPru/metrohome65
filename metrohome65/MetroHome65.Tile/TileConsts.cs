@@ -1,6 +1,6 @@
 ﻿using MetroHome65.Routines;
 
-namespace MetroHome65.HomeScreen.Tile
+namespace MetroHome65.Tile
 {
     public static class TileConsts
     {

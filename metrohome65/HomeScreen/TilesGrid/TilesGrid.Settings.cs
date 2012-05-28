@@ -5,6 +5,7 @@ using Fleux.UIElements;
 using MetroHome65.HomeScreen.Settings;
 using MetroHome65.Interfaces.Events;
 using MetroHome65.Routines;
+using MetroHome65.Tile;
 using System.Xml.Serialization;
 using TinyIoC;
 using TinyMessenger;

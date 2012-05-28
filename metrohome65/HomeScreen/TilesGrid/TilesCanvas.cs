@@ -7,8 +7,8 @@ using Fleux.Core.GraphicsHelpers;
 using Fleux.Core.Scaling;
 using Fleux.Styles;
 using Fleux.UIElements;
-using MetroHome65.HomeScreen.Tile;
 using MetroHome65.Routines;
+using MetroHome65.Tile;
 using TinyIoC;
 
 namespace MetroHome65.HomeScreen.TilesGrid

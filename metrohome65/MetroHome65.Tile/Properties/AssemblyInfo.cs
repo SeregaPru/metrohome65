@@ -5,11 +5,11 @@ using System.Runtime.InteropServices;
 // Общие сведения об этой сборке предоставляются следующим набором 
 // атрибутов. Отредактируйте значения этих атрибутов, чтобы изменить
 // общие сведения об этой сборке.
-[assembly: AssemblyTitle("Metrohome65.Settings.Controls")]
+[assembly: AssemblyTitle("MetroHome65.Tile")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("Metrohome65")]
+[assembly: AssemblyProduct("MetroHome65")]
 [assembly: AssemblyCopyright("Copyright ©  2012")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
@@ -20,7 +20,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // Следующий GUID служит для идентификации библиотеки типов, если этот проект будет видимым для COM
-[assembly: Guid("eac5178c-2a16-4f6b-bac9-813eb5fa1f0a")]
+[assembly: Guid("8bc8ee5e-f7b6-44a9-b396-7a5685a109b1")]
 
 // Сведения о версии сборки состоят из следующих четырех значений:
 //

@@ -3,8 +3,8 @@ using System.Drawing;
 using System.Linq;
 using Fleux.Controls.Gestures;
 using Fleux.UIElements;
-using MetroHome65.HomeScreen.Tile;
 using MetroHome65.Routines;
+using MetroHome65.Tile;
 
 namespace MetroHome65.HomeScreen.TilesGrid
 {

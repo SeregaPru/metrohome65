@@ -78,8 +78,6 @@
     <Compile Include="HomeScreen\ThemedImageButton.cs" />
     <Compile Include="HomeScreen\TilesGrid\TilesCanvas.cs" />
     <Compile Include="HomeScreen\TilesGrid\TilesGrid.Draw.cs" />
-    <Compile Include="HomeScreen\Tile\FrmWidgetSettings.cs">
-    </Compile>
     <Compile Include="HomeScreen\Arrow.cs" />
     <Compile Include="HomeScreen\FlatButton.cs" />
     <Compile Include="HomeScreen\HomeScreen.cs" />
@@ -91,8 +89,6 @@
     <Compile Include="HomeScreen\TilesGrid\TilesGrid.Settings.cs" />
     <Compile Include="HomeScreen\TilesGrid\TilesGrid.Tiles.cs" />
     <Compile Include="HomeScreen\TilesGrid\TilesGrid.Move.cs" />
-    <Compile Include="HomeScreen\Tile\TileConsts.cs" />
-    <Compile Include="HomeScreen\Tile\TileSettings.cs" />
     <Compile Include="PluginManager.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -105,8 +101,6 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
-    </Compile>
-    <Compile Include="HomeScreen\Tile\TileWrapper.cs">
     </Compile>
   </ItemGroup>
   <ItemGroup>
@@ -439,6 +433,10 @@
     <ProjectReference Include="Metrohome65.Settings.Controls\Metrohome65.Settings.Controls.csproj">
       <Project>{A6BFA5B1-E501-4588-BCF0-F07356F120E3}</Project>
       <Name>Metrohome65.Settings.Controls</Name>
+    </ProjectReference>
+    <ProjectReference Include="MetroHome65.Tile\MetroHome65.Tile.csproj">
+      <Project>{01BCB6DF-EBAC-4899-B03C-2E6C2BCBB93C}</Project>
+      <Name>MetroHome65.Tile</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CompactFramework.CSharp.targets" />

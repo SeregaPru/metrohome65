@@ -4,10 +4,10 @@ using System.Drawing;
 using System.Windows.Forms;
 using Fleux.Controls;
 using Fleux.UIElements;
-using MetroHome65.HomeScreen.Tile;
 using MetroHome65.Interfaces;
 using MetroHome65.Interfaces.Events;
 using MetroHome65.Routines;
+using MetroHome65.Tile;
 using TinyIoC;
 using TinyMessenger;
 

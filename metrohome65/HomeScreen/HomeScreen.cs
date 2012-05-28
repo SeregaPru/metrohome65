@@ -2,12 +2,11 @@
 using System.Collections.Generic;
 using System.Drawing;
 using Fleux.Controls.Gestures;
-using Fleux.Core.Scaling;
-using MetroHome65.HomeScreen.Tile;
 using MetroHome65.HomeScreen.TilesGrid;
 using MetroHome65.Interfaces;
 using MetroHome65.Interfaces.Events;
 using MetroHome65.Routines;
+using MetroHome65.Tile;
 using Microsoft.WindowsMobile.Status;
 using Fleux.Controls;
 using Fleux.UIElements;
@@ -34,7 +33,7 @@ namespace MetroHome65.HomeScreen
         private int ArrowPos2 { get { return Size.Width * 2 + TileConsts.ArrowPadding; } }
 
 
-            public HomeScreen() : base(false)
+        public HomeScreen() : base(false)
         {
             theForm.Menu = null;
             theForm.Text = "";
@@ -60,10 +59,15 @@ namespace MetroHome65.HomeScreen
             _lockScreen = new LockScreen.LockScreen();
             AddSection(_lockScreen, 0);
 
+            // загрузчик плагинов
+            TinyIoCContainer.Current.Register<IPluginManager>(new PluginManager());
+
+
             // прокрутчик холста плиток
-            //!! todo - потом вместо контрола передавать холст _homeScreenCanvas
-            var tilesGrid = new TilesGrid.TilesGrid();
-            tilesGrid.OnExit = ExitApp;
+            var tilesGrid = new TilesGrid.TilesGrid
+                                {
+                                    OnExit = ExitApp
+                                };
             AddSection(tilesGrid, 1);
 
             // стрелка переключатель страниц
