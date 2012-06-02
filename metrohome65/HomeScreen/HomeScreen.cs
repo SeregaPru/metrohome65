@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Drawing;
 using Fleux.Controls.Gestures;
+using MetroHome65.Controls;
 using MetroHome65.HomeScreen.TilesGrid;
 using MetroHome65.Interfaces;
 using MetroHome65.Interfaces.Events;
@@ -43,9 +44,9 @@ namespace MetroHome65.HomeScreen
             ReadThemeSettings();
 
             // фон окна
-            var background = new HomeScreenBackground { Location = new Point(0, 0), };
+            var background = new ScaledBackground { Location = new Point(0, 0), };
             Control.AddElement(background);
-            TinyIoCContainer.Current.Register<HomeScreenBackground>(background);
+            TinyIoCContainer.Current.Register<ScaledBackground>(background);
 
             
             // холст главной страницы
@@ -64,7 +65,7 @@ namespace MetroHome65.HomeScreen
 
 
             // прокрутчик холста плиток
-            var tilesGrid = new TilesGrid.TilesGrid
+            var tilesGrid = new TilesGrid.TilesGrid()
                                 {
                                     OnExit = ExitApp
                                 };

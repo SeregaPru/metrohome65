@@ -17,4 +17,4 @@ syntax: regexp
 .*/obj/.*
 .*/[dD]ebug/.*
 .*/[rR]elease/.*
-.*/_deploy/.*
+\_deploy/.*

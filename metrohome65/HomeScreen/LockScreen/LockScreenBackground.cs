@@ -1,10 +1,11 @@
-﻿using MetroHome65.HomeScreen.Settings;
+﻿using MetroHome65.Controls;
+using MetroHome65.HomeScreen.Settings;
 using MetroHome65.Interfaces.Events;
 using TinyIoC;
 
 namespace MetroHome65.HomeScreen.LockScreen
 {
-    public class LockScreenBackground : HomeScreenBackground
+    public class LockScreenBackground : ScaledBackground
     {
         protected override string GetImage()
         {

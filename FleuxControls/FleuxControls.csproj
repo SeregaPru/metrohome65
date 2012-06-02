@@ -84,11 +84,11 @@
     <Compile Include="SmsList.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\metrohome65\Fleux\Fleux.csproj">
+    <ProjectReference Include="..\Fleux\Fleux.csproj">
       <Project>{8526293A-9C66-48F6-A90D-FB2B7128BF08}</Project>
       <Name>Fleux</Name>
     </ProjectReference>
-    <ProjectReference Include="..\metrohome65\Metrohome65.Settings.Controls\Metrohome65.Settings.Controls.csproj">
+    <ProjectReference Include="..\Metrohome65.Settings.Controls\Metrohome65.Settings.Controls.csproj">
       <Project>{A6BFA5B1-E501-4588-BCF0-F07356F120E3}</Project>
       <Name>Metrohome65.Settings.Controls</Name>
     </ProjectReference>

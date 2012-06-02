@@ -10,6 +10,7 @@ using Fleux.Core;
 using Fleux.Core.Scaling;
 using Fleux.UIElements;
 using Fleux.Styles;
+using MetroHome65.Controls;
 using MetroHome65.Interfaces.Events;
 using MetroHome65.Routines;
 using TinyIoC;
@@ -31,7 +32,7 @@ namespace MetroHome65.HomeScreen.ProgramsMenu
             ExitAnimation = null;
             VerticalScroll = true;
 
-            _bgImage = TinyIoCContainer.Current.Resolve<HomeScreenBackground>();
+            _bgImage = TinyIoCContainer.Current.Resolve<ScaledBackground>();
 
             Size = new Size(100, 100);
             SizeChanged += (s, e) => CreateBuffer();

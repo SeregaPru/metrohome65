@@ -6,41 +6,41 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MetroHome65", "MetroHome65\
 		{8526293A-9C66-48F6-A90D-FB2B7128BF08} = {8526293A-9C66-48F6-A90D-FB2B7128BF08}
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BaseWidgets", "metrohome65\Widgets\BaseWidgets\BaseWidgets.csproj", "{B23D069D-4ED9-4F45-BE07-DA271A2106D4}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BaseWidgets", "Widgets\BaseWidgets\BaseWidgets.csproj", "{B23D069D-4ED9-4F45-BE07-DA271A2106D4}"
 	ProjectSection(ProjectDependencies) = postProject
 		{A6BFA5B1-E501-4588-BCF0-F07356F120E3} = {A6BFA5B1-E501-4588-BCF0-F07356F120E3}
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ClockWidgets", "metrohome65\Widgets\ClockWidgets\ClockWidgets.csproj", "{6EA956FA-6157-44EF-A9B4-FB43B4E18FAD}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ClockWidgets", "Widgets\ClockWidgets\ClockWidgets.csproj", "{6EA956FA-6157-44EF-A9B4-FB43B4E18FAD}"
 	ProjectSection(ProjectDependencies) = postProject
 		{B23D069D-4ED9-4F45-BE07-DA271A2106D4} = {B23D069D-4ED9-4F45-BE07-DA271A2106D4}
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PhoneWidgets", "metrohome65\Widgets\PhoneWidgets\PhoneWidgets.csproj", "{058BEB2E-C6A2-4B37-A734-6E3EDBFF8A5A}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PhoneWidgets", "Widgets\PhoneWidgets\PhoneWidgets.csproj", "{058BEB2E-C6A2-4B37-A734-6E3EDBFF8A5A}"
 	ProjectSection(ProjectDependencies) = postProject
 		{B23D069D-4ED9-4F45-BE07-DA271A2106D4} = {B23D069D-4ED9-4F45-BE07-DA271A2106D4}
 		{A6BFA5B1-E501-4588-BCF0-F07356F120E3} = {A6BFA5B1-E501-4588-BCF0-F07356F120E3}
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Metrohome65.Settings.Controls", "metrohome65\Metrohome65.Settings.Controls\Metrohome65.Settings.Controls.csproj", "{A6BFA5B1-E501-4588-BCF0-F07356F120E3}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Metrohome65.Settings.Controls", "Metrohome65.Settings.Controls\Metrohome65.Settings.Controls.csproj", "{A6BFA5B1-E501-4588-BCF0-F07356F120E3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MetroHome65.Routines", "metrohome65\MetroHome65.Routines\MetroHome65.Routines.csproj", "{18D428A8-6722-4A69-B39D-F652AFA34D90}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MetroHome65.Routines", "MetroHome65.Routines\MetroHome65.Routines.csproj", "{18D428A8-6722-4A69-B39D-F652AFA34D90}"
 EndProject
 Project("{B900F1C2-3D47-4FEC-85B3-04AAF18C3634}") = "Setup", "Setup\Setup.vddproj", "{6A342D7F-A61B-4835-A4BE-B0679AAD6D72}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StatusWidgets", "metrohome65\Widgets\StatusWidgets\StatusWidgets.csproj", "{C0BBBE1D-433E-4468-B401-647FC0578320}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StatusWidgets", "Widgets\StatusWidgets\StatusWidgets.csproj", "{C0BBBE1D-433E-4468-B401-647FC0578320}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Fleux", "metrohome65\Fleux\Fleux.csproj", "{8526293A-9C66-48F6-A90D-FB2B7128BF08}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Fleux", "Fleux\Fleux.csproj", "{8526293A-9C66-48F6-A90D-FB2B7128BF08}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MetroHome65.Interfaces", "metrohome65\MetroHome65.Interfaces\MetroHome65.Interfaces.csproj", "{A0D38398-7B6A-45D8-B2C7-19120FEA68FC}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MetroHome65.Interfaces", "MetroHome65.Interfaces\MetroHome65.Interfaces.csproj", "{A0D38398-7B6A-45D8-B2C7-19120FEA68FC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ContactWidgets", "metrohome65\Widgets\ContactWidgets\ContactWidgets.csproj", "{C0A7071D-9211-44ED-9DEF-47BD94C51BA2}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ContactWidgets", "Widgets\ContactWidgets\ContactWidgets.csproj", "{C0A7071D-9211-44ED-9DEF-47BD94C51BA2}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FleuxControls", "FleuxControls\FleuxControls.csproj", "{3EB3547E-EBC9-48FD-B7F7-F49844D8E42A}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MAPIdotnet", "FleuxControls\PocketMail\MAPIdotnet\MAPIdotnet.csproj", "{B33E06EC-E8C6-4A15-B3BF-93F351E3FEB5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MetroHome65.Tile", "metrohome65\MetroHome65.Tile\MetroHome65.Tile.csproj", "{01BCB6DF-EBAC-4899-B03C-2E6C2BCBB93C}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MetroHome65.Tile", "MetroHome65.Tile\MetroHome65.Tile.csproj", "{01BCB6DF-EBAC-4899-B03C-2E6C2BCBB93C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
