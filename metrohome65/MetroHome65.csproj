@@ -25,7 +25,7 @@
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>true</Optimize>
-    <OutputPath>_deploy\</OutputPath>
+    <OutputPath>..\_deploy\</OutputPath>
     <DefineConstants>DEBUG;TRACE;$(PlatformFamilyName)</DefineConstants>
     <NoStdLib>true</NoStdLib>
     <NoConfig>true</NoConfig>
@@ -75,20 +75,15 @@
     <Compile Include="HomeScreen\ProgramsMenu\ProgramsMenuPage.cs" />
     <Compile Include="HomeScreen\Settings\FrmMainSettings.cs" />
     <Compile Include="HomeScreen\Settings\MainSettingsProvider.cs" />
-    <Compile Include="HomeScreen\ThemedImageButton.cs" />
-    <Compile Include="HomeScreen\TilesGrid\TilesCanvas.cs" />
-    <Compile Include="HomeScreen\TilesGrid\TilesGrid.Draw.cs" />
-    <Compile Include="HomeScreen\Arrow.cs" />
-    <Compile Include="HomeScreen\FlatButton.cs" />
+    <Compile Include="Controls\ThemedImageButton.cs" />
+    <Compile Include="Controls\Arrow.cs" />
+    <Compile Include="Controls\FlatButton.cs" />
     <Compile Include="HomeScreen\HomeScreen.cs" />
-    <Compile Include="HomeScreen\HomeScreenBackground.cs" />
+    <Compile Include="Controls\ScaledBackground.cs" />
     <Compile Include="HomeScreen\Settings\MainSettings.cs" />
     <Compile Include="HomeScreen\ProgramsMenu\ProgramsMenu.cs" />
     <Compile Include="HomeScreen\ProgramsMenu\ProgramsMenu.Model.cs" />
     <Compile Include="HomeScreen\TilesGrid\TilesGrid.cs" />
-    <Compile Include="HomeScreen\TilesGrid\TilesGrid.Settings.cs" />
-    <Compile Include="HomeScreen\TilesGrid\TilesGrid.Tiles.cs" />
-    <Compile Include="HomeScreen\TilesGrid\TilesGrid.Move.cs" />
     <Compile Include="PluginManager.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -397,6 +392,9 @@
     <EmbeddedResource Include="Images\settings_dark.png" />
     <EmbeddedResource Include="Images\next_dark.png" />
     <EmbeddedResource Include="Images\next_light.png" />
+    <Content Include="settings.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="wallpapers\berry.jpg">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
@@ -415,26 +413,29 @@
     <Content Include="wallpapers\winter.jpg">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="widgets.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <EmbeddedResource Include="Images\settings_light.png" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="Fleux\Fleux.csproj">
+    <ProjectReference Include="..\Fleux\Fleux.csproj">
       <Project>{8526293A-9C66-48F6-A90D-FB2B7128BF08}</Project>
       <Name>Fleux</Name>
     </ProjectReference>
-    <ProjectReference Include="MetroHome65.Interfaces\MetroHome65.Interfaces.csproj">
+    <ProjectReference Include="..\MetroHome65.Interfaces\MetroHome65.Interfaces.csproj">
       <Project>{A0D38398-7B6A-45D8-B2C7-19120FEA68FC}</Project>
       <Name>MetroHome65.Interfaces</Name>
     </ProjectReference>
-    <ProjectReference Include="MetroHome65.Routines\MetroHome65.Routines.csproj">
+    <ProjectReference Include="..\MetroHome65.Routines\MetroHome65.Routines.csproj">
       <Project>{18D428A8-6722-4A69-B39D-F652AFA34D90}</Project>
       <Name>MetroHome65.Routines</Name>
     </ProjectReference>
-    <ProjectReference Include="Metrohome65.Settings.Controls\Metrohome65.Settings.Controls.csproj">
+    <ProjectReference Include="..\Metrohome65.Settings.Controls\Metrohome65.Settings.Controls.csproj">
       <Project>{A6BFA5B1-E501-4588-BCF0-F07356F120E3}</Project>
       <Name>Metrohome65.Settings.Controls</Name>
     </ProjectReference>
-    <ProjectReference Include="MetroHome65.Tile\MetroHome65.Tile.csproj">
+    <ProjectReference Include="..\MetroHome65.Tile\MetroHome65.Tile.csproj">
       <Project>{01BCB6DF-EBAC-4899-B03C-2E6C2BCBB93C}</Project>
       <Name>MetroHome65.Tile</Name>
     </ProjectReference>

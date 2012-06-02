@@ -1,10 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Drawing;
 using System.Windows.Forms;
 using Fleux.Controls;
 using Fleux.UIElements;
-using MetroHome65.Interfaces;
+using MetroHome65.Controls;
+using MetroHome65.HomeScreen.Settings;
 using MetroHome65.Interfaces.Events;
 using MetroHome65.Routines;
 using MetroHome65.Tile;
@@ -13,55 +13,39 @@ using TinyMessenger;
 
 namespace MetroHome65.HomeScreen.TilesGrid
 {
-    public partial class TilesGrid : ScrollViewer, IActive
+    public partial class TilesGrid : BaseTileGrid
     {
-        private readonly List<TileWrapper> _tiles = new List<TileWrapper>();
-        private readonly TilesCanvas _tilesCanvas;
         private readonly UIElement _buttonSettings;
         private readonly UIElement _buttonUnpin;
-        private Boolean _active = true;
 
         public Action OnExit;
 
-        public TilesGrid() : base()
+        public TilesGrid() : base(FileRoutines.CoreDir + @"\widgets.xml", 4, 100)
         {
-            // запрет перерисовки во время скроллирования
-            OnStartScroll = () => { FreezeUpdate(true); /*ActivateTilesAsync(false);*/ };
-            OnStopScroll = () => { FreezeUpdate(false); /*ActivateTilesAsync(true);*/ };
-
             VerticalScroll = true;
-
-            TapHandler = GridClickHandler;
-            HoldHandler = p =>
-            {
-                if (!MoveMode)
-                    ShowMainPopupMenu(p);
-                return true;
-            };
+            HorizontalScroll = false;
 
             // подписка на событие добавления программы из меню
             var messenger = TinyIoCContainer.Current.Resolve<ITinyMessengerHub>();
             messenger.Subscribe<PinProgramMessage>(msg => PinProgram(msg.Name, msg.Path));
 
-
             // кнопка настроек            
             _buttonSettings = new ThemedImageButton("settings")
-                                  {
-                                      TapHandler = p => { ShowTileSettings(); return true; },
-                                  };
+            {
+                TapHandler = p => { ShowTileSettings(); return true; },
+            };
 
             // кнопка удаления плитки
             _buttonUnpin = new ThemedImageButton("cancel")
-                               {
-                                   TapHandler = ButtonUnpinClick,
-                               };
-            RealignSettingsButtons(false);
-            
-            // холст контейнер плиток
-            _tilesCanvas = new TilesCanvas();
-            Content = _tilesCanvas;
+            {
+                TapHandler = ButtonUnpinClick,
+            };
+            ShowSettingsButtons(false);
+        }
 
-            ReadSettings();
+        override protected UIElement GetBackground()
+        {
+            return TinyIoCContainer.Current.Resolve<ScaledBackground>();
         }
 
         protected override void SetParentControl(FleuxControl parentControl)
@@ -77,20 +61,9 @@ namespace MetroHome65.HomeScreen.TilesGrid
         /// Fill popup menu for widget grid with grid settings
         /// </summary>
         /// <param name="location"> </param>
-        private void ShowMainPopupMenu(Point location)
+        override protected ContextMenu GetMainPopupMenu(Point location)
         {
-            var mainMenu = new ContextMenu();
-
-            var menuAddWidget = new MenuItem {Text = "Add widget"};
-            menuAddWidget.Click += (s, e) => AddTileHandler(location);
-            mainMenu.MenuItems.Add(menuAddWidget);
-
-            // add separator
-            mainMenu.MenuItems.Add(new MenuItem {Text = "-",});
-
-            var menuSetings = new MenuItem { Text = "Settings" };
-            menuSetings.Click += (s, e) => ShowMainSettings();
-            mainMenu.MenuItems.Add(menuSetings);
+            var mainMenu = base.GetMainPopupMenu(location);
 
             // add separator
             mainMenu.MenuItems.Add(new MenuItem { Text = "-", });
@@ -99,51 +72,69 @@ namespace MetroHome65.HomeScreen.TilesGrid
             menuExit.Click += (s, e) => OnExit(); 
             mainMenu.MenuItems.Add(menuExit);
 
-            if (ParentControl != null)
-                mainMenu.Show(ParentControl, location);
+            return mainMenu;
         }
 
         private bool ButtonUnpinClick(Point aLocation)
         {
-            if (MoveMode)
-                DeleteTile();
+            if (SelectionMode)
+                DeleteSelectedTile();
             return true;
         }
 
-        /// <summary>
-        /// Displays widget settings dialog and applies changes in widget settings.
-        /// </summary>
-        private void ShowTileSettings()
+        protected override void ShowSettingsButtons(bool visible)
         {
-            if (!MoveMode) return;
+            if (visible)
+            {
+                _buttonUnpin.Location = new Point(TileConsts.ArrowPosX, 150);
+                _buttonSettings.Location = new Point(TileConsts.ArrowPosX, 240);
+            }
+            else
+            {
+                _buttonSettings.Location = new Point(-100, -100);
+                _buttonUnpin.Location = new Point(-100, -100);
+            }
 
-            // when show setting dialog, stop selected widget animation
-            var tile = MovingTile;
-            MovingTile = null;
-            var prevGridSize = tile.GridSize;
+            Update();
+        }
 
+        /// <summary>
+        /// shows main settings dialog
+        /// </summary>
+        override protected Boolean ShowMainSettings()
+        {
             try
             {
-                var widgetSettingsForm = new FrmWidgetSettings(tile);
-
-                widgetSettingsForm.OnApplySettings += (s, e) =>
-                  {
-                      tile.Pause = false; //!! todo ?????? может не надо
-                      tile.ForceUpdate(); // repaint widget with new style
-                      if (!prevGridSize.Equals(tile.GridSize))
-                          // if widget size changed - realign widgets
-                          RealignTiles();
-                      WriteSettings();
-                  };
+                var mainSettingsForm = new FrmMainSettings();
 
                 var messenger = TinyIoCContainer.Current.Resolve<ITinyMessengerHub>();
-                messenger.Publish(new ShowPageMessage(widgetSettingsForm));
+                messenger.Publish(new ShowPageMessage(mainSettingsForm));
+
+                return true;
             }
             catch (Exception ex)
             {
                 Logger.WriteLog(ex.StackTrace, "Tile settings dialog error");
+                return false;
             }
         }
+
+        /// <summary>
+        /// pin program to start from programs menu
+        /// </summary>
+        /// <param name="name"></param>
+        /// <param name="path"></param>
+        private void PinProgram(string name, string path)
+        {
+            AddTile(new Point(0, 99), new Size(2, 2), "MetroHome65.Widgets.ShortcutWidget", false).
+                SetParameter("CommandLine", path).
+                SetParameter("Caption", name).
+                SetParameter("IconPath", path);
+
+            RealignTiles();
+            WriteSettings();
+        }
+
 
     }
 }
