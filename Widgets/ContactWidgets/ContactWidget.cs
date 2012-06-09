@@ -318,10 +318,10 @@ namespace MetroHome65.Widgets
             controls.Add(imgControl);
             bindingManager.Bind(this, "AlternatePicturePath", imgControl, "Value");
 
-
             return controls;
         }
 
+        private ContactPage _contactPage;
 
         /// <summary>
         /// on click open contact
@@ -329,11 +329,15 @@ namespace MetroHome65.Widgets
         /// <param name="location"></param>
         public override bool OnClick(Point location)
         {
-            var contactPage = new ContactPage(_contact);
-            contactPage.ContactChanged += (s,e) => OnContactChanged();
+            if (_contactPage == null)
+            {
+                _contactPage = new ContactPage();
+                _contactPage.ContactChanged += (s, e) => OnContactChanged();
+            }
+            _contactPage.Contact = _contact;
 
             var messenger = TinyIoCContainer.Current.Resolve<ITinyMessengerHub>();
-            messenger.Publish(new ShowPageMessage(contactPage));
+            messenger.Publish(new ShowPageMessage(_contactPage));
 
             return true;
         }
