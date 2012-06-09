@@ -21,7 +21,9 @@ namespace MetroHome65.Widgets
         private const int PaddingVer = 10;
         private const int PaddingHor = 30;
 
-        private readonly Contact _contact;
+        private Contact _contact;
+
+        private StackPanel _stackPanel;
 
         private readonly TextStyle _titleStyle = new TextStyle(
                 MetroTheme.PhoneFontFamilySemiLight,
@@ -33,12 +35,18 @@ namespace MetroHome65.Widgets
             MetroTheme.PhoneFontSizeSmall,
             MetroTheme.PhoneAccentBrush);
 
-        public ContactPage(Contact contact) : base("", "profile", false)
+
+        public Contact Contact
+        {
+            get { return _contact; }
+            set { SetContact(value); }
+        }
+
+        public ContactPage() : base("", "profile", false)
         {
             ScreenRoutines.CursorWait();
             try
             {
-                _contact = contact;
                 Control.ShadowedAnimationMode = Fleux.Controls.FleuxControl.ShadowedAnimationOptions.FromRight;
 
                 theForm.Menu = null;
@@ -54,75 +62,91 @@ namespace MetroHome65.Widgets
                 appBar.ButtonTap += OnAppBarButtonTap;
                 Content.AddElement(appBar.AnimateHorizontalEntrance(false));
 
-                if (_contact == null) return;
-
-                // write contact's name as title
-                title1.Text = string.Format("{0} {1}", contact.FirstName, contact.LastName).ToUpper();
-
-                var stackPanel = new StackPanel { Size = new Size(Content.Size.Width - PaddingHor * 2, 1), };
+                _stackPanel = new StackPanel { Size = new Size(Content.Size.Width - PaddingHor * 2, 1), };
 
                 var scroller = new ScrollViewer
-                                   {
-                                       Content = stackPanel,
-                                       Location = new Point(PaddingHor, 0),
-                                       Size = new Size(Content.Size.Width - PaddingHor, Content.Size.Height - appBar.Size.Height),
-                                       ShowScrollbars = true,
-                                       HorizontalScroll = false,
-                                       VerticalScroll = true,
-                                   };
+                {
+                    Content = _stackPanel,
+                    Location = new Point(PaddingHor, 0),
+                    Size = new Size(Content.Size.Width - PaddingHor, Content.Size.Height - appBar.Size.Height),
+                    ShowScrollbars = true,
+                    HorizontalScroll = false,
+                    VerticalScroll = true,
+                };
                 Content.AddElement(scroller.AnimateHorizontalEntrance(false));
 
+            }
+            finally
+            {
+                ScreenRoutines.CursorNormal();
+            }
+        }
+
+        private void SetContact(Contact value)
+        {
+            if (value == null) return;
+
+            ScreenRoutines.CursorWait();
+            try
+            {
+                _contact = value;
+
+                // write contact's name as title
+                title1.Text = string.Format("{0} {1}", _contact.FirstName, _contact.LastName).ToUpper();
+
+                _stackPanel.Clear();
+
                 // contact's picture
-                if (contact.Picture != null)
+                if (_contact.Picture != null)
                 {
-                    var img = new ImageElement(contact.Picture) { Size = new Size(180, 180), };
-                    stackPanel.AddElement(img);
-                    stackPanel.AddElement(new DelegateUIElement { Size = new Size(10, PaddingVer), });
+                    var img = new ImageElement(_contact.Picture) { Size = new Size(180, 180), };
+                    _stackPanel.AddElement(img);
+                    _stackPanel.AddElement(new DelegateUIElement { Size = new Size(10, PaddingVer), });
                 }
 
                 // call mobile
-                AddCallPanel(stackPanel, "mobile", _contact.MobileTelephoneNumber);
+                AddCallPanel(_stackPanel, "mobile", _contact.MobileTelephoneNumber);
 
                 // call home
-                AddCallPanel(stackPanel, "home", _contact.HomeTelephoneNumber);
+                AddCallPanel(_stackPanel, "home", _contact.HomeTelephoneNumber);
 
                 // call work
-                AddCallPanel(stackPanel, "work", _contact.BusinessTelephoneNumber);
+                AddCallPanel(_stackPanel, "work", _contact.BusinessTelephoneNumber);
 
                 // send sms to mobile
                 if (!string.IsNullOrEmpty(_contact.MobileTelephoneNumber))
                 {
-                    stackPanel.AddElement(new TextElement("text")
+                    _stackPanel.AddElement(new TextElement("text")
                     {
                         Style = _titleStyle,
                         AutoSizeMode = TextElement.AutoSizeModeOptions.OneLineAutoHeight,
                         TapHandler = p => SendSMS(_contact.MobileTelephoneNumber),
                     });
-                    stackPanel.AddElement(new TextElement("SMS")
+                    _stackPanel.AddElement(new TextElement("SMS")
                     {
                         Style = _subTitleStyle,
                         AutoSizeMode = TextElement.AutoSizeModeOptions.OneLineAutoHeight,
                         TapHandler = p => SendSMS(_contact.MobileTelephoneNumber),
                     });
-                    stackPanel.AddElement(new DelegateUIElement { Size = new Size(10, PaddingVer), });
+                    _stackPanel.AddElement(new DelegateUIElement { Size = new Size(10, PaddingVer), });
                 }
 
                 // send email to mobile
                 if (!string.IsNullOrEmpty(_contact.Email1Address))
                 {
-                    stackPanel.AddElement(new TextElement("send email")
+                    _stackPanel.AddElement(new TextElement("send email")
                     {
                         Style = _titleStyle,
                         AutoSizeMode = TextElement.AutoSizeModeOptions.OneLineAutoHeight,
                         TapHandler = p => SendEmail(_contact.Email1Address),
                     });
-                    stackPanel.AddElement(new TextElement(_contact.Email1Address)
+                    _stackPanel.AddElement(new TextElement(_contact.Email1Address)
                     {
                         Style = _subTitleStyle,
                         AutoSizeMode = TextElement.AutoSizeModeOptions.OneLineAutoHeight,
                         TapHandler = p => SendEmail(_contact.Email1Address),
                     });
-                    stackPanel.AddElement(new DelegateUIElement { Size = new Size(10, PaddingVer), });
+                    _stackPanel.AddElement(new DelegateUIElement { Size = new Size(10, PaddingVer), });
                 }
             }
             finally
@@ -130,6 +154,7 @@ namespace MetroHome65.Widgets
                 ScreenRoutines.CursorNormal();
             }
         }
+
 
         public event EventHandler ContactChanged;
 
@@ -165,6 +190,13 @@ namespace MetroHome65.Widgets
                 OpenContact();
             else
                 Close();
+        }
+
+        public override void Close()
+        {
+            _contact = null;
+            this.TheForm.Hide();
+            //base.Close();
         }
 
         private bool MakeCall(string number)
