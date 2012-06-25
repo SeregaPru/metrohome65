@@ -17,29 +17,64 @@ namespace MetroHome65.Widgets
         private ThreadTimer _updateTimer;
 
         private readonly Brush _brushCaption;
-        private readonly Font _fntTime;
         private readonly Font _fntDate;
+        private Font _fntTime;
         private Boolean _showPoints = true;
         private Boolean _is24Hour = true;
+        private string _dateFormat = _dateFormats[0];
 
-        private readonly int _paddingRight = 20;
-        private readonly int _dotWidth = 20;
-        private readonly int _dotPaddingRight = 8;
-        private readonly int _dotPaddingLeft = 6;
+        private int _paddingRight;
+        private int _dotWidth;
+        private int _dotPaddingRight;
+        private int _dotPaddingLeft;
 
         public DigitalClockWidget() 
         {
             _brushCaption = new SolidBrush(MetroTheme.TileTextStyle.Foreground);
-            _fntTime = new Font(MetroTheme.PhoneFontFamilySemiBold, 36.ToLogic(), FontStyle.Regular);
+
+            // fill date examples using current date and formats
+            var currentDate = DateTime.Now;
+            _dateSamples = new List<object>();
+            foreach (var format in _dateFormats)
+            {
+                _dateSamples.Add(currentDate.ToString(format));
+            }
+
             _fntDate = new Font(MetroTheme.PhoneFontFamilySemiBold, 10.ToLogic(), FontStyle.Regular);
+            ApplySizeSettings();
         }
 
+        private void ApplySizeSettings()
+        {
+            if (this.GridSize.Width == 4)
+            {
+                _fntTime = new Font(MetroTheme.PhoneFontFamilySemiBold, 36.ToLogic(), FontStyle.Regular);
+                _paddingRight = 20;
+                _dotWidth = 20;
+                _dotPaddingRight = 8;
+                _dotPaddingLeft = 5;
+            }
+            else
+            {
+                _fntTime = new Font(MetroTheme.PhoneFontFamilySemiBold, 24.ToLogic(), FontStyle.Regular);
+                _paddingRight = 8;
+                _dotWidth = 10;
+                _dotPaddingRight = 4;
+                _dotPaddingLeft = 0;
+            }
+        }
 
         protected override Size[] GetSizes()
         {
             return new Size[] { 
-                new Size(4, 2) 
+                new Size(2, 2), 
+                new Size(4, 2), 
             };
+        }
+
+        protected override void GridSizeChanged()
+        {
+            ApplySizeSettings();
         }
 
 
@@ -60,6 +95,55 @@ namespace MetroHome65.Widgets
             }
         }
 
+        /// <summary>
+        /// Format for date
+        /// </summary>
+        [TileParameter]
+        public String DateFormat
+        {
+            get { return _dateFormat; }
+            set
+            {
+                if (_dateFormat != value)
+                {
+                    _dateFormat = value;
+                    NotifyPropertyChanged("DateFormat");
+                }
+            }
+        }
+
+        public int DateSampleIndex
+        {
+            get 
+            { 
+                for (var i = 0; i < _dateFormats.Count; i++)
+                    if (_dateFormats[i] == DateFormat) return i;
+                return 0;
+            }
+            set
+            {
+                if ((value >= 0) && (value < _dateFormats.Count))
+                    DateFormat = _dateFormats[value];
+            }
+        }
+
+        /// <summary>
+        /// collection of formatted date with different foramts
+        /// for display in date format selection form
+        /// </summary>
+        private readonly List<object> _dateSamples;
+
+        private static readonly List<String> _dateFormats = new List<String>()
+                                               {
+                                                    "dddd, MMMM d", // monday, July 14
+                                                    "dddd, d MMMM", // monday, 14 July
+                                                    "MMMM d", // July 14
+                                                    "d MMMM", // 14 July 
+                                                    "MMMM d, dddd", // July 14, monday
+                                                    "d MMMM, dddd", // 14 July, monday
+                                                    "ddd, MMM d", // mon, Jul 14
+                                                    "ddd, d MMM", // mon, 14 Jul
+                                               };
 
         public override void PaintBuffer(Graphics g, Rectangle rect)
         {
@@ -67,7 +151,7 @@ namespace MetroHome65.Widgets
 
             var sTimeHour = (Is24Hour) ? DateTime.Now.ToString("HH") : DateTime.Now.ToString("hh");
             var sTimeMins = DateTime.Now.ToString("mm");
-            var sDate = DateTime.Now.ToString("dddd, MMMM d");
+            var sDate = DateTime.Now.ToString(DateFormat);
 
             var timeBox = g.MeasureString("99", _fntTime);
             var dateBox = g.MeasureString(sDate, _fntDate);
@@ -130,6 +214,14 @@ namespace MetroHome65.Widgets
                                   };
             controls.Add(flagControl);
             bindingManager.Bind(this, "Is24Hour", flagControl, "Value");
+
+            var formatControl = new SelectSettingsControl
+                                    {
+                                        Caption = "Date format",
+                                        Items = _dateSamples,
+                                    };
+            controls.Add(formatControl);
+            bindingManager.Bind(this, "DateSampleIndex", formatControl, "SelectedIndex");
 
             // hide control for icon / caption selection
             foreach (var control in controls)
