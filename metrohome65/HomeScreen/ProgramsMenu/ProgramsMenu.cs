@@ -13,6 +13,7 @@ using Fleux.Styles;
 using MetroHome65.Controls;
 using MetroHome65.Interfaces.Events;
 using MetroHome65.Routines;
+using MetroHome65.Routines.UIControls;
 using TinyIoC;
 using TinyMessenger;
 

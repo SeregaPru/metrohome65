@@ -1,16 +1,17 @@
 ﻿using System;
 using System.Drawing;
+using System.Reflection;
 using Fleux.Core;
 using Fleux.Core.Scaling;
 using Fleux.UIElements;
-using MetroHome65.Routines;
 
-namespace MetroHome65.Controls
+namespace MetroHome65.Routines.UIControls
 {
     public class FlatButton : UIElement
     {
         //private Bitmap _image;
         private AlphaImage _image;
+        private Assembly _assembly;
 
         public string ResourceName
         {
@@ -19,7 +20,7 @@ namespace MetroHome65.Controls
                 try
                 {
                     //_image = ResourceManager.Instance.GetBitmapFromEmbeddedResource(value);
-                    _image = new AlphaImage(value, this.GetType().Assembly);
+                    _image = new AlphaImage(value, _assembly);
 
                     this.Size = _image.Size.ToPixels(); // scale original image according to screen factor
                 }
@@ -30,6 +31,7 @@ namespace MetroHome65.Controls
 
         public FlatButton(string resourceName)
         {
+            _assembly = Assembly.GetCallingAssembly();
             ResourceName = resourceName;
         }
 

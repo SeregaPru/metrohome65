@@ -67,6 +67,7 @@
   <ItemGroup>
     <Compile Include="FolderWidet.cs" />
     <Compile Include="HubPage.cs" />
+    <Compile Include="HubPageTileGrid.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -86,13 +87,22 @@
       <Project>{A6BFA5B1-E501-4588-BCF0-F07356F120E3}</Project>
       <Name>Metrohome65.Settings.Controls</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\MetroHome65.Tile\MetroHome65.Tile.csproj">
+      <Project>{01BCB6DF-EBAC-4899-B03C-2E6C2BCBB93C}</Project>
+      <Name>MetroHome65.Tile</Name>
+    </ProjectReference>
     <ProjectReference Include="..\BaseWidgets\BaseWidgets.csproj">
       <Project>{B23D069D-4ED9-4F45-BE07-DA271A2106D4}</Project>
       <Name>BaseWidgets</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Images\cancel.bmp" />
+    <EmbeddedResource Include="Images\add.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Images\back.bmp" />
+    <EmbeddedResource Include="Images\del.bmp" />
+    <EmbeddedResource Include="Images\settings.bmp" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CompactFramework.CSharp.targets" />
   <ProjectExtensions>

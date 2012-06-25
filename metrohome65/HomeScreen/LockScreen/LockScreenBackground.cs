@@ -5,7 +5,7 @@ using TinyIoC;
 
 namespace MetroHome65.HomeScreen.LockScreen
 {
-    public class LockScreenBackground : ScaledBackground
+    public class LockScreenBackground : ThemedBackground
     {
         protected override string GetImage()
         {

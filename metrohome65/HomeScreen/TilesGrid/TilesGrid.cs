@@ -7,6 +7,7 @@ using MetroHome65.Controls;
 using MetroHome65.HomeScreen.Settings;
 using MetroHome65.Interfaces.Events;
 using MetroHome65.Routines;
+using MetroHome65.Routines.UIControls;
 using MetroHome65.Tile;
 using TinyIoC;
 using TinyMessenger;

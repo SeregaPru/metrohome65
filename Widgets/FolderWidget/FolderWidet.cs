@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Fleux.Controls;
 using Fleux.UIElements;
+using FolderWidget;
 using MetroHome65.Interfaces;
 using MetroHome65.Interfaces.Events;
 using MetroHome65.Routines;
