@@ -21,7 +21,17 @@ namespace MetroHome65.Widgets
         public virtual Size[] Sizes { get { return GetSizes(); } }
 
         protected Size _gridSize;
-        public virtual Size GridSize { set { _gridSize = value; } }
+        public virtual Size GridSize
+        {
+            get { return _gridSize; }
+            set
+            {
+                _gridSize = value;
+                GridSizeChanged();
+            }
+        }
+
+        protected virtual void GridSizeChanged() { }
 
         public virtual void PaintBuffer(Graphics g, Rectangle rect) { }
 
