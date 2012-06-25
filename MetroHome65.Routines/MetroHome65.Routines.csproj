@@ -86,6 +86,8 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="TinyMessenger.cs" />
+    <Compile Include="UIControls\FlatButton.cs" />
+    <Compile Include="UIControls\ScaledBackground.cs" />
     <Compile Include="XMLColor.cs" />
   </ItemGroup>
   <ItemGroup>

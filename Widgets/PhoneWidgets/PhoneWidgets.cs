@@ -39,9 +39,11 @@ namespace MetroHome65.Widgets
 
         private void PaintCount(Graphics g, Rectangle rect)
         {
+            if (_missedCount == 0) return; // don't display zero count
+
             var missedCountStr = _missedCount.ToString(CultureInfo.InvariantCulture);
 
-            var captionHeight = (Caption == "") ? 0 : (CaptionSize /*+ CaptionBottomOffset*/);
+            var captionHeight = (Caption == "") ? 0 : (CaptionSize);
 
             var captionFont = new Font(MetroTheme.TileTextStyle.FontFamily, 24.ToLogic(), FontStyle.Regular);
             Brush captionBrush = new SolidBrush(MetroTheme.TileTextStyle.Foreground);

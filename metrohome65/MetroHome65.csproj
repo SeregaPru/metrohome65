@@ -69,17 +69,16 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Controls\ThemedBackground.cs" />
+    <Compile Include="Controls\ThemedImageButton.cs" />
     <Compile Include="HomeScreen\LockScreen\LockScreenBackground.cs" />
     <Compile Include="HomeScreen\ProgramsMenu\ProgramsMenu.Draw.cs" />
     <Compile Include="HomeScreen\LockScreen\LockScreen.cs" />
     <Compile Include="HomeScreen\ProgramsMenu\ProgramsMenuPage.cs" />
     <Compile Include="HomeScreen\Settings\FrmMainSettings.cs" />
     <Compile Include="HomeScreen\Settings\MainSettingsProvider.cs" />
-    <Compile Include="Controls\ThemedImageButton.cs" />
     <Compile Include="Controls\Arrow.cs" />
-    <Compile Include="Controls\FlatButton.cs" />
     <Compile Include="HomeScreen\HomeScreen.cs" />
-    <Compile Include="Controls\ScaledBackground.cs" />
     <Compile Include="HomeScreen\Settings\MainSettings.cs" />
     <Compile Include="HomeScreen\ProgramsMenu\ProgramsMenu.cs" />
     <Compile Include="HomeScreen\ProgramsMenu\ProgramsMenu.Model.cs" />

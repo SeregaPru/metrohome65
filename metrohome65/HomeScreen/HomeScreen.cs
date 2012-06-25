@@ -7,6 +7,7 @@ using MetroHome65.HomeScreen.TilesGrid;
 using MetroHome65.Interfaces;
 using MetroHome65.Interfaces.Events;
 using MetroHome65.Routines;
+using MetroHome65.Routines.UIControls;
 using MetroHome65.Tile;
 using Microsoft.WindowsMobile.Status;
 using Fleux.Controls;
@@ -44,7 +45,7 @@ namespace MetroHome65.HomeScreen
             ReadThemeSettings();
 
             // фон окна
-            var background = new ScaledBackground { Location = new Point(0, 0), };
+            var background = new ThemedBackground { Location = new Point(0, 0), };
             Control.AddElement(background);
             TinyIoCContainer.Current.Register<ScaledBackground>(background);
 

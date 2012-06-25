@@ -3,23 +3,26 @@ using System.Drawing;
 using System.Drawing.Imaging;
 using System.Windows.Forms;
 using Fleux.UIElements;
-using MetroHome65.HomeScreen.Settings;
-using MetroHome65.Interfaces.Events;
-using TinyIoC;
-using TinyMessenger;
 
-namespace MetroHome65.Controls
+namespace MetroHome65.Routines.UIControls
 {
     public class ScaledBackground : UIElement
     {
         private Image _image;
+        private string _imagePath;
 
-        public ScaledBackground()
+        public string Image
+        {
+            get { return _imagePath; }
+            set { SetImage(value); }
+        }
+
+
+        public ScaledBackground(String imagePath)
         {
             Size = new Size(Screen.PrimaryScreen.Bounds.Width, Screen.PrimaryScreen.Bounds.Height);
 
-            var messenger = TinyIoCContainer.Current.Resolve<ITinyMessengerHub>();
-            messenger.Subscribe<SettingsChangedMessage>(OnSettingsChanged);
+            _imagePath = imagePath;
 
             SetImage(GetImage());
         }
@@ -74,17 +77,7 @@ namespace MetroHome65.Controls
 
         protected virtual string GetImage()
         {
-            var mainSettings = TinyIoCContainer.Current.Resolve<MainSettings>();
-            return mainSettings.ThemeImage;
-        }
-
-        protected virtual void OnSettingsChanged(SettingsChangedMessage settingsChangedMessage)
-        {
-            if (settingsChangedMessage.PropertyName == "ThemeImage")
-            {
-                SetImage(GetImage());
-                Update();
-            }
+            return _imagePath;
         }
 
     }

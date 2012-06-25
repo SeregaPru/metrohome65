@@ -7,16 +7,18 @@ using Fleux.Styles;
 using Fleux.UIElements;
 using Fleux.UIElements.Events;
 using MetroHome65.Routines;
+using MetroHome65.Routines.UIControls;
 
-namespace MetroHome65.Widgets
+namespace FolderWidget
 {
     public class HubPage : FleuxControlPage
     {
 
         public Canvas Content { get; set; }
 
-        public Canvas Background { get; set; }
+        public ScaledBackground Background { get; set; }
 
+        private ApplicationBar _appBar;
 
         public HubPage() : base(false)
         {
@@ -27,6 +29,9 @@ namespace MetroHome65.Widgets
 
                 Control.ShadowedAnimationMode = Fleux.Controls.FleuxControl.ShadowedAnimationOptions.FromRight;
 
+                this.Background = new ScaledBackground("") { Size = this.Size };
+                this.Control.AddElement(this.Background);
+
                 this.Content = new Canvas
                 {
                     Size = new Size(this.Size.Width, this.Size.Height),
@@ -34,17 +39,17 @@ namespace MetroHome65.Widgets
                 };
                 this.Control.AddElement(this.Content);
 
-                this.Background = new Canvas { Size = this.Size };
-                this.Control.AddElement(this.Background);
-
-                var appBar = new ApplicationBar
+                _appBar = new ApplicationBar
                 {
                     Size = new Size(Content.Size.Width, 48 + 2 * 10),
                     Location = new Point(0, Content.Size.Height - 48 - 2 * 10)
                 };
-                appBar.AddButton(ResourceManager.Instance.GetBitmapFromEmbeddedResource("FolderWidget.Images.cancel.bmp"));
-                appBar.ButtonTap += OnAppBarButtonTap;
-                Content.AddElement(appBar.AnimateHorizontalEntrance(false));
+                _appBar.ButtonTap += OnAppBarButtonTap;
+                _appBar.AddButton(ResourceManager.Instance.GetBitmapFromEmbeddedResource("FolderWidget.Images.back.bmp"));
+                _appBar.AddButton(ResourceManager.Instance.GetBitmapFromEmbeddedResource("FolderWidget.Images.add.bmp"));
+                _appBar.AddButton(ResourceManager.Instance.GetBitmapFromEmbeddedResource("FolderWidget.Images.settings.bmp"));
+                _appBar.AddButton(ResourceManager.Instance.GetBitmapFromEmbeddedResource("FolderWidget.Images.del.bmp"));
+                Content.AddElement(_appBar.AnimateHorizontalEntrance(false));
 
                 var title = new TextElement("Folder hub")
                 {
@@ -52,6 +57,13 @@ namespace MetroHome65.Widgets
                     Location = new Point(24 - 3, 5) // -3 is a correction for Segoe fonts
                 };
                 Content.AddElement(title);
+
+                var tileGrid = new HubPageTileGrid()
+                                    {
+                                        Location = new Point(0, 100),
+                                        Size = new Size(Content.Size.Width, 300),
+                                    };
+                Content.AddElement(tileGrid);
 
                 try
                 {
@@ -68,7 +80,8 @@ namespace MetroHome65.Widgets
 
         private void ReadSettings()
         {
-            
+            Background.Image = FileRoutines.CoreDir + @"\wallpapers\leaves.jpg";
+
         }
 
         private void OnAppBarButtonTap(object sender, ButtonTapEventArgs e)
