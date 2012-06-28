@@ -72,7 +72,7 @@ namespace MetroHome65.Routines.UIControls
         public override void Draw(Fleux.Core.GraphicsHelpers.IDrawingGraphics drawingGraphics)
         {
             if (_image != null)
-                drawingGraphics.Graphics.DrawImage(_image, drawingGraphics.CalculateX(0), 0);
+                drawingGraphics.Graphics.DrawImage(_image, drawingGraphics.CalculateX(0), drawingGraphics.CalculateY(0));
         }
 
         protected virtual string GetImage()

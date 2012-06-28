@@ -27,7 +27,7 @@ namespace MetroHome65.Tile
         protected TileWrapper AddTile(Point aGridPosition, Size aGridSize, String aWidgetName, bool doRealign)
         {
             return AddTile(
-                new TileWrapper(aGridSize, aGridPosition, aWidgetName), doRealign);
+                new TileWrapper(aGridSize, aGridPosition, aWidgetName, GetPadding()), doRealign);
         }
 
         /// <summary>

@@ -52,14 +52,19 @@ namespace MetroHome65.Tile
         {
             base.SetParentControl(parentControl);
 
-            if ((parentControl != null) && (_controlGraphics == null))
+            if (parentControl == null) return;
+
+            if (_controlGraphics == null)
                 _controlGraphics = parentControl.CreateGraphics();
+
+            Parent.SizeChanged += (s, e) => CreateBuffer();
+            CreateBuffer();
         }
 
         private void CreateBuffer()
         {
             // create new buffer with new size
-            _buffer = new DoubleBuffer(new Size(Size.Width.ToPixels(), ScreenConsts.ScreenHeight));
+            _buffer = new DoubleBuffer(new Size(Size.Width.ToPixels(), Math.Max(1, Parent.Size.Height)));
 
             _drawingGraphics = DrawingGraphics.FromGraphicsAndRect(
                 _buffer.Graphics, _buffer.Image,
@@ -92,9 +97,11 @@ namespace MetroHome65.Tile
 
             try
             {
+                var location = ScreenRoutines.ScreenLocaton(Parent);
+
                 // draw background
                 _buffer.Graphics.Clear(MetroTheme.PhoneBackgroundBrush);
-                _background.Draw(_drawingGraphics);
+                _background.Draw(_drawingGraphics.CreateChild(new Point(- location.X, - location.Y)));
 
                 // draw tiles
                 var rect = new Rectangle(0, - verticalOffset, Size.Width, Size.Height);
@@ -106,8 +113,7 @@ namespace MetroHome65.Tile
                 }
 
                 // draw buffer directly to screen
-               _controlGraphics.DrawImage(_buffer.Image, 0, 0);
-
+                _controlGraphics.DrawImage(_buffer.Image, location.X, location.Y);
             }
             catch (Exception) { }
 
@@ -118,11 +124,13 @@ namespace MetroHome65.Tile
         {
             if (_buffer == null) return;
 
-            var rect = new Rectangle(0, -verticalOffset, Size.Width, ScreenConsts.ScreenHeight.ToLogic());
+            var rect = new Rectangle(0, -verticalOffset, Size.Width, Parent.Size.Height.ToLogic());
             if (!element.Bounds.IntersectsWith(rect)) return;
 
             if (_updating) return;
             _updating = true;
+
+            var location = ScreenRoutines.ScreenLocaton(Parent);
 
             // scale to real screen coords from logical
             var clipRect = new Rectangle(
@@ -134,7 +142,7 @@ namespace MetroHome65.Tile
                 _buffer.Graphics.FillRectangle(new SolidBrush(MetroTheme.PhoneBackgroundBrush), clipRect);
                 var oldclip = _buffer.Graphics.Clip;
                 _buffer.Graphics.Clip = new Region(clipRect);
-                _background.Draw(_drawingGraphics);
+                _background.Draw(_drawingGraphics.CreateChild(new Point(-location.X, -location.Y)));
                 _buffer.Graphics.Clip = oldclip;
 
                 // draw tile
@@ -142,12 +150,11 @@ namespace MetroHome65.Tile
                 element.Draw(_drawingGraphics.CreateChild(new Point(element.Location.X, element.Location.Y + verticalOffset)));
 
                 // draw buffer directly to screen
-                _controlGraphics.DrawImage(_buffer.Image, clipRect.Left, clipRect.Top, clipRect, GraphicsUnit.Pixel);
+                _controlGraphics.DrawImage(_buffer.Image, location.X + clipRect.Left, location.Y + clipRect.Top, clipRect, GraphicsUnit.Pixel);
 
             }
             catch (Exception) { }
 
-            //_buffer.Graphics.Clip = oldclip;
             _updating = false;
         }
 

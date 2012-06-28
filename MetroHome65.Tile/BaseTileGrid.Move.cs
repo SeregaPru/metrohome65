@@ -158,9 +158,5 @@ namespace MetroHome65.Tile
             RealignTiles();
         }
 
-
-
-
-
     }
 }

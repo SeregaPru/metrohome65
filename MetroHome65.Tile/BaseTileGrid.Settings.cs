@@ -20,7 +20,7 @@ namespace MetroHome65.Tile
         /// <summary>
         /// Read widgets settings from XML file
         /// </summary>
-        protected void ReadSettings()
+        protected virtual void ReadSettings()
         {
             _tiles.Clear();
             var storedSettings = new StoredSettings();
@@ -39,7 +39,7 @@ namespace MetroHome65.Tile
 
             foreach (var settings in storedSettings)
             {
-                var tile = new TileWrapper();
+                var tile = new TileWrapper(GetPadding());
                 tile.DeserializeSettings(settings);
                 AddTile(tile, false);
             }
@@ -50,7 +50,7 @@ namespace MetroHome65.Tile
         /// <summary>
         /// Store widgets position and specific settings to XML file
         /// </summary>
-        protected void WriteSettings()
+        protected virtual void WriteSettings()
         {
             var storedSettings = new StoredSettings();
 
@@ -210,5 +210,9 @@ namespace MetroHome65.Tile
             return false;
         }
 
+        virtual protected Point GetPadding()
+        {
+            return new Point(0, 0);
+        }
     }
 }
