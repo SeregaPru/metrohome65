@@ -59,10 +59,8 @@
   <ItemGroup>
     <Reference Include="mscorlib" />
     <Reference Include="System" />
-    <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
-    <Reference Include="System.XML" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="FolderWidet.cs" />
@@ -82,10 +80,6 @@
     <ProjectReference Include="..\..\MetroHome65.Routines\MetroHome65.Routines.csproj">
       <Project>{18D428A8-6722-4A69-B39D-F652AFA34D90}</Project>
       <Name>MetroHome65.Routines</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\Metrohome65.Settings.Controls\Metrohome65.Settings.Controls.csproj">
-      <Project>{A6BFA5B1-E501-4588-BCF0-F07356F120E3}</Project>
-      <Name>Metrohome65.Settings.Controls</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\MetroHome65.Tile\MetroHome65.Tile.csproj">
       <Project>{01BCB6DF-EBAC-4899-B03C-2E6C2BCBB93C}</Project>

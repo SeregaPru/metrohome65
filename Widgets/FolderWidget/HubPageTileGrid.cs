@@ -16,12 +16,14 @@ namespace FolderWidget
         {
             base.ReadSettings();
 
-            AddTile(new Point(0, 0), new Size(2, 2), "MetroHome65.Widgets.ShortcutWidget", true);
-            AddTile(new Point(0, 2), new Size(2, 2), "MetroHome65.Widgets.ShortcutWidget", true);
-            AddTile(new Point(2, 2), new Size(2, 2), "MetroHome65.Widgets.ShortcutWidget", true);
-            AddTile(new Point(0, 4), new Size(2, 2), "MetroHome65.Widgets.ShortcutWidget", true);
-            AddTile(new Point(2, 6), new Size(2, 2), "MetroHome65.Widgets.ShortcutWidget", true);
-            AddTile(new Point(0, 8), new Size(2, 2), "MetroHome65.Widgets.ShortcutWidget", true);
+            AddTile(new Point(0, 0), new Size(2, 2), "MetroHome65.Widgets.ShortcutWidget", false);
+            AddTile(new Point(0, 2), new Size(2, 2), "MetroHome65.Widgets.ShortcutWidget", false);
+            AddTile(new Point(2, 2), new Size(2, 2), "MetroHome65.Widgets.ShortcutWidget", false);
+            AddTile(new Point(0, 4), new Size(2, 2), "MetroHome65.Widgets.ShortcutWidget", false);
+            AddTile(new Point(2, 6), new Size(2, 2), "MetroHome65.Widgets.ShortcutWidget", false);
+            AddTile(new Point(0, 8), new Size(2, 2), "MetroHome65.Widgets.ShortcutWidget", false);
+
+            RealignTiles();
         }
 
         override protected Point GetPadding()
