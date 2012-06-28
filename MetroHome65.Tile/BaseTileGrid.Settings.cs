@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Windows.Forms;
 using System.Xml.Serialization;
@@ -22,13 +23,15 @@ namespace MetroHome65.Tile
         /// </summary>
         protected virtual void ReadSettings()
         {
+            if (!File.Exists(_settingsFile)) return;
+
             _tiles.Clear();
             var storedSettings = new StoredSettings();
 
             try
             {
-                var serializer = new XmlSerializer(storedSettings.GetType());
                 System.IO.TextReader reader = new System.IO.StreamReader(_settingsFile);
+                var serializer = new XmlSerializer(storedSettings.GetType());
                 storedSettings = (StoredSettings)serializer.Deserialize(reader);
                 reader.Close();
             }

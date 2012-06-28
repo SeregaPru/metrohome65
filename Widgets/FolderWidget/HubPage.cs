@@ -3,7 +3,6 @@ using System.Drawing;
 using Fleux.Animations;
 using Fleux.Controls;
 using Fleux.Core;
-using Fleux.Core.Scaling;
 using Fleux.Styles;
 using Fleux.UIElements;
 using Fleux.UIElements.Events;
@@ -56,7 +55,7 @@ namespace FolderWidget
 
                 var title = new TextElement("Folder hub")
                 {
-                    Style = MetroTheme.PhoneTextPageTitle2Style,
+                    Style = MetroTheme.PhoneTextTitle1Style,
                     Location = new Point(24 - 3, 5), // -3 is a correction for Segoe fonts
                     AutoSizeMode = TextElement.AutoSizeModeOptions.OneLineAutoHeight,
                 };
