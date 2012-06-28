@@ -48,7 +48,6 @@ namespace MetroHome65.HomeScreen
             var background = new ThemedBackground { Location = new Point(0, 0), };
             Control.AddElement(background);
             TinyIoCContainer.Current.Register<ScaledBackground>(background);
-
             
             // холст главной страницы
             _homeScreenCanvas = new Canvas 

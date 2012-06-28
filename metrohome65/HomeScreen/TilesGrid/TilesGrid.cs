@@ -2,6 +2,7 @@
 using System.Drawing;
 using System.Windows.Forms;
 using Fleux.Controls;
+using Fleux.Core.GraphicsHelpers;
 using Fleux.UIElements;
 using MetroHome65.Controls;
 using MetroHome65.HomeScreen.Settings;
@@ -21,11 +22,9 @@ namespace MetroHome65.HomeScreen.TilesGrid
 
         public Action OnExit;
 
-        public TilesGrid() : base(FileRoutines.CoreDir + @"\widgets.xml", 4, 100)
+        public TilesGrid()
+            : base(GetBackground(), FileRoutines.CoreDir + @"\widgets.xml", 4, 100)
         {
-            VerticalScroll = true;
-            HorizontalScroll = false;
-
             // подписка на событие добавления программы из меню
             var messenger = TinyIoCContainer.Current.Resolve<ITinyMessengerHub>();
             messenger.Subscribe<PinProgramMessage>(msg => PinProgram(msg.Name, msg.Path));
@@ -44,7 +43,7 @@ namespace MetroHome65.HomeScreen.TilesGrid
             ShowSettingsButtons(false);
         }
 
-        override protected UIElement GetBackground()
+        private static UIElement GetBackground()
         {
             return TinyIoCContainer.Current.Resolve<ScaledBackground>();
         }
@@ -136,6 +135,17 @@ namespace MetroHome65.HomeScreen.TilesGrid
             WriteSettings();
         }
 
+        override protected Point GetPadding()
+        {
+            return new Point(TileConsts.TilesPaddingLeft, TileConsts.TilesPaddingTop);
+        }
+
+        // fast drawind method instead of double bufferes scrollview's method
+        // because we know that height is the whole screen and we don't neet cropping
+        public override void Draw(IDrawingGraphics drawingGraphics)
+        {
+            Content.Draw(drawingGraphics.CreateChild(new Point(0, VerticalOffset)));
+        }
 
     }
 }

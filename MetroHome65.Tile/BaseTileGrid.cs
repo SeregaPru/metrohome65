@@ -9,10 +9,10 @@ namespace MetroHome65.Tile
 {
     public partial class BaseTileGrid: ScrollViewer, IActive
     {
+        #region Fields
+
         private readonly int _gridWidth;
         private readonly int _gridHeight;
-
-        #region Fields
 
         private readonly List<TileWrapper> _tiles = new List<TileWrapper>();
 
@@ -33,7 +33,7 @@ namespace MetroHome65.Tile
         }
 
 
-        public BaseTileGrid(string settingsFile, int gridWidth, int gridHeight)
+        public BaseTileGrid(UIElement background, string settingsFile, int gridWidth, int gridHeight)
         {
             _gridWidth = gridWidth;
             _gridHeight = gridHeight;
@@ -44,7 +44,7 @@ namespace MetroHome65.Tile
             OnStopScroll = () => FreezeUpdate(false);
 
             VerticalScroll = true;
-            HorizontalScroll = true;
+            HorizontalScroll = false;
 
             TapHandler = GridClickHandler;
             HoldHandler = p =>
@@ -55,15 +55,10 @@ namespace MetroHome65.Tile
             };
 
             // холст контейнер плиток
-            _tilesCanvas = new TilesCanvas(GetBackground());
+            _tilesCanvas = new TilesCanvas(background);
             Content = _tilesCanvas;
 
             ReadSettings();
-        }
-
-        virtual protected UIElement GetBackground()
-        {
-            return null;
         }
 
         virtual protected void SetActive(Boolean active)

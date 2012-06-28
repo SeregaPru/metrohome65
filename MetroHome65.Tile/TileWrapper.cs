@@ -19,6 +19,7 @@ namespace MetroHome65.Tile
     {
         #region Fields
 
+        private Point _padding;
         private ITile _tile;
         private Point _gridPosition = new Point(0, 0);
         private Size _gridSize = new Size(1, 1);
@@ -33,9 +34,13 @@ namespace MetroHome65.Tile
         #region Methods
 
         // empty constructor for deserialize
-        public TileWrapper() {}
+        public TileWrapper(Point padding)
+        {
+            _padding = padding;
+        }
 
-        public TileWrapper(Size aGridSize, Point aGridPosition, String aTileName)
+        public TileWrapper(Size aGridSize, Point aGridPosition, String aTileName, Point padding)
+            : this(padding)
         {
             TileClass = aTileName;
             GridSize = aGridSize;
@@ -108,18 +113,19 @@ namespace MetroHome65.Tile
             Location = screenRect.Location;
             Size = screenRect.Size;
 
-            if (_tile != null)
+            UIElement tile;
+            if ((tile = (_tile as UIElement)) != null)
             {
-                (_tile as UIElement).Location = new Point(0, 0);
-                (_tile as UIElement).Size = this.Size;
+                tile.Location = new Point(0, 0);
+                tile.Size = this.Size;
             }
         }
 
         public Rectangle GetScreenRect()
         {
             return new Rectangle(
-                _gridPosition.X * (TileConsts.TileSize + TileConsts.TileSpacing) + TileConsts.TilesPaddingLeft,
-                _gridPosition.Y * (TileConsts.TileSize + TileConsts.TileSpacing) + TileConsts.TilesPaddingTop,
+                _gridPosition.X * (TileConsts.TileSize + TileConsts.TileSpacing) + _padding.X,
+                _gridPosition.Y * (TileConsts.TileSize + TileConsts.TileSpacing) + _padding.Y,
                 _gridSize.Width * (TileConsts.TileSize + TileConsts.TileSpacing) - TileConsts.TileSpacing,
                 _gridSize.Height * (TileConsts.TileSize + TileConsts.TileSpacing) - TileConsts.TileSpacing);
         }

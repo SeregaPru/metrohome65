@@ -3,6 +3,7 @@ using System.Drawing;
 using Fleux.Animations;
 using Fleux.Controls;
 using Fleux.Core;
+using Fleux.Core.Scaling;
 using Fleux.Styles;
 using Fleux.UIElements;
 using Fleux.UIElements.Events;
@@ -20,6 +21,8 @@ namespace FolderWidget
 
         private ApplicationBar _appBar;
 
+        private static readonly int AppBarHeight = 48 + 2 * 10;
+
         public HubPage() : base(false)
         {
             ScreenRoutines.CursorWait();
@@ -27,22 +30,22 @@ namespace FolderWidget
             {
                 theForm.Menu = null;
 
-                Control.ShadowedAnimationMode = Fleux.Controls.FleuxControl.ShadowedAnimationOptions.FromRight;
+                Control.ShadowedAnimationMode = FleuxControl.ShadowedAnimationOptions.FromRight;
 
-                this.Background = new ScaledBackground("") { Size = this.Size };
-                this.Control.AddElement(this.Background);
+                Background = new ScaledBackground("") { Size = this.Size };
+                Control.AddElement(Background);
 
-                this.Content = new Canvas
+                Content = new Canvas
                 {
                     Size = new Size(this.Size.Width, this.Size.Height),
                     Location = new Point(0, 0)
                 };
-                this.Control.AddElement(this.Content);
+                Control.AddElement(Content);
 
                 _appBar = new ApplicationBar
                 {
-                    Size = new Size(Content.Size.Width, 48 + 2 * 10),
-                    Location = new Point(0, Content.Size.Height - 48 - 2 * 10)
+                    Size = new Size(Content.Size.Width, AppBarHeight),
+                    Location = new Point(0, Content.Size.Height - AppBarHeight)
                 };
                 _appBar.ButtonTap += OnAppBarButtonTap;
                 _appBar.AddButton(ResourceManager.Instance.GetBitmapFromEmbeddedResource("FolderWidget.Images.back.bmp"));
@@ -54,14 +57,16 @@ namespace FolderWidget
                 var title = new TextElement("Folder hub")
                 {
                     Style = MetroTheme.PhoneTextPageTitle2Style,
-                    Location = new Point(24 - 3, 5) // -3 is a correction for Segoe fonts
+                    Location = new Point(24 - 3, 5), // -3 is a correction for Segoe fonts
+                    AutoSizeMode = TextElement.AutoSizeModeOptions.OneLineAutoHeight,
                 };
+                title.ResizeForWidth(Content.Size.Width);
                 Content.AddElement(title);
 
-                var tileGrid = new HubPageTileGrid()
+                var tileGrid = new HubPageTileGrid(Background, "", 4, 100)
                                     {
-                                        Location = new Point(0, 100),
-                                        Size = new Size(Content.Size.Width, 300),
+                                        Location = new Point(0, title.Bounds.Bottom + 50),
+                                        Size = new Size(Content.Size.Width, Content.Size.Height - title.Bounds.Bottom - 50 - _appBar.Size.Height),
                                     };
                 Content.AddElement(tileGrid);
 
@@ -80,8 +85,7 @@ namespace FolderWidget
 
         private void ReadSettings()
         {
-            Background.Image = FileRoutines.CoreDir + @"\wallpapers\leaves.jpg";
-
+            Background.Image = FileRoutines.CoreDir + @"\wallpapers\games.jpg";
         }
 
         private void OnAppBarButtonTap(object sender, ButtonTapEventArgs e)

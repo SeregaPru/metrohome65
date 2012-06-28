@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Drawing;
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
+using Fleux.UIElements;
 
 namespace MetroHome65.Routines
 {
@@ -91,6 +93,17 @@ namespace MetroHome65.Routines
         public static void CursorNormal()
         {
             Cursor.Current = _oldCursor;
+        }
+
+        public static Point ScreenLocaton(UIElement element)
+        {
+            var location = element.Location;
+            var curElement = element;
+
+            while ((curElement = curElement.Parent) != null)
+                location.Offset(curElement.Location.X, curElement.Location.Y);
+
+            return location;
         }
     }
 
