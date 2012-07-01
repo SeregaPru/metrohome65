@@ -1,4 +1,5 @@
-﻿using System.Drawing;
+﻿using System;
+using System.Drawing;
 using System.Collections.Generic;
 using Fleux.Controls;
 using Fleux.UIElements;
@@ -14,11 +15,7 @@ namespace MetroHome65.Widgets
     [TileInfo("Folder")]
     public class FolderWidget : IconWidget
     {
-
-        public FolderWidget() 
-        {
-        }
-
+        private string _folderGuid;
 
         protected override Size[] GetSizes()
         {
@@ -29,20 +26,28 @@ namespace MetroHome65.Widgets
             };
         }
 
+        /// <summary>
+        /// unique auto-generated GUID for folder
+        /// </summary>
+        [TileParameter]
+        public string FolderGuid
+        {
+            get
+            {
+                if (String.IsNullOrEmpty(_folderGuid))
+                    _folderGuid = Guid.NewGuid().ToString();
+                return _folderGuid;
+            }
+            set { _folderGuid = value; }
+        }
+
+
         // launch external application - play exit animation
         protected override bool GetDoExitAnimation() { return true; }
 
-        public override ICollection<UIElement> EditControls(FleuxControlPage settingsPage)
-        {
-            var controls = base.EditControls(settingsPage);
-            var bindingManager = new BindingManager();
-           
-            return controls;
-        }
-
         public override bool OnClick(Point location)
         {
-            var hubPage = new HubPage();
+            var hubPage = new HubPage(_folderGuid);
 
             var messenger = TinyIoCContainer.Current.Resolve<ITinyMessengerHub>();
             messenger.Publish(new ShowPageMessage(hubPage));

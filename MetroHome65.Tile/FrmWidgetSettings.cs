@@ -9,7 +9,8 @@ using Metrohome65.Settings.Controls;
 
 namespace MetroHome65.Tile
 {
-    public class FrmWidgetSettings : CustomSettingsPage
+    public class FrmWidgetSettings : CustomSettingsPage<TileWrapper> 
+        // TileWrapper doesn't really contain settings, that is stub
     {
         private readonly TileWrapper _sourceTile;
         private ITile _selectedTile;

@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Drawing;
+using System.IO;
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
+using System.Xml.Serialization;
 using Fleux.UIElements;
 
 namespace MetroHome65.Routines
@@ -45,7 +47,46 @@ namespace MetroHome65.Routines
             [MarshalAs(UnmanagedType.ByValTStr, SizeConst = 80)]
             public string e;
         }
-    
+
+    }
+
+
+    public static class XMLHelper<T>
+    {
+        public static T Read(String fileName)
+        {
+            if (!File.Exists(fileName)) return default(T);
+
+            var settings = default(T);
+            try
+            {
+                TextReader reader = new StreamReader(fileName);
+                var serializer = new XmlSerializer(typeof(T));
+                settings = (T)serializer.Deserialize(reader);
+                reader.Close();
+            }
+            catch (Exception e)
+            {
+                Logger.WriteLog(e.StackTrace, "Read XML error");
+            }
+
+            return settings;
+        }
+
+        public static void Write(T settings, String fileName)
+        {
+            try
+            {
+                var serializer = new XmlSerializer(typeof(T));
+                TextWriter writer = new StreamWriter(fileName, false);
+                serializer.Serialize(writer, settings);
+                writer.Close();
+            }
+            catch (Exception e)
+            {
+                Logger.WriteLog(e.StackTrace, "Write XML error");
+            }
+        }
     }
 
 

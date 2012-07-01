@@ -5,14 +5,14 @@ namespace MetroHome65.Tile
 {
     public partial class BaseTileGrid
     {
-        private void AddTileHandler(Point aLocation)
+        public void AddTile(Point location)
         {
-            Point cell = GetTileCell(aLocation);
+            var cell = GetTileCell(location);
             if (cell.X + 2 > _gridWidth)
                 cell.X = _gridWidth - 2;
             MoveTileTo(
                 AddTile(cell, new Size(2, 2), "MetroHome65.Widgets.ShortcutWidget", true),
-                aLocation);
+                location);
             WriteSettings();
         }
 
@@ -57,8 +57,10 @@ namespace MetroHome65.Tile
         /// Delete current widget from grid.
         /// Then widgets are realigned, if deleted widget was alone on its row.
         /// </summary>
-        protected void DeleteSelectedTile()
+        public void DeleteSelectedTile()
         {
+            if (SelectedTile == null) return;
+
             var deletingTile = SelectedTile;
             SelectedTile = null;
 

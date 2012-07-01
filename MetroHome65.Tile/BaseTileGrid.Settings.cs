@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
-using System.IO;
 using System.Linq;
 using System.Windows.Forms;
 using System.Xml.Serialization;
@@ -12,34 +11,56 @@ using TinyMessenger;
 
 namespace MetroHome65.Tile
 {
+    
     public partial class BaseTileGrid
     {
+        private readonly String _settingsFile;
+
+        public Action OnReadSettings;
+        public Action OnWriteSettings;
+        public Action OnShowMainSettings;
+
 
         [XmlType("ArrayOfWidgetWrapper")]
         public class StoredSettings : List<TileWrapperSettings> { };
+
+        public StoredSettings TileSettings
+        {
+            get
+            {
+                var storedSettings = new StoredSettings();
+
+                foreach (var tile in _tiles)
+                    storedSettings.Add(tile.SerializeSettings());
+
+                return storedSettings;
+            }
+            set
+            {
+                _tiles.Clear();
+                if (value != null)
+                    ApplySettings(value);
+            }
+        }
 
         /// <summary>
         /// Read widgets settings from XML file
         /// </summary>
         protected virtual void ReadSettings()
         {
-            if (!File.Exists(_settingsFile)) return;
-
-            _tiles.Clear();
-            var storedSettings = new StoredSettings();
-
-            try
+            if (OnReadSettings != null)
             {
-                System.IO.TextReader reader = new System.IO.StreamReader(_settingsFile);
-                var serializer = new XmlSerializer(storedSettings.GetType());
-                storedSettings = (StoredSettings)serializer.Deserialize(reader);
-                reader.Close();
-            }
-            catch (Exception e)
-            {
-                Logger.WriteLog(e.StackTrace, "ReadSettings error");
+                OnReadSettings();
+                return;
             }
 
+            var storedSettings = XMLHelper<StoredSettings>.Read(_settingsFile);
+            if (storedSettings != null)
+                TileSettings = storedSettings;
+        }
+
+        private void ApplySettings(StoredSettings storedSettings)
+        {
             foreach (var settings in storedSettings)
             {
                 var tile = new TileWrapper(GetPadding());
@@ -55,25 +76,16 @@ namespace MetroHome65.Tile
         /// </summary>
         protected virtual void WriteSettings()
         {
-            var storedSettings = new StoredSettings();
-
-            foreach (var tile in _tiles)
-                storedSettings.Add(tile.SerializeSettings());
-
-            try
+            if (OnWriteSettings != null)
             {
-                var serializer = new XmlSerializer(storedSettings.GetType());
-                System.IO.TextWriter writer = new System.IO.StreamWriter(_settingsFile, false);
-                serializer.Serialize(writer, storedSettings);
-                writer.Close();
+                OnWriteSettings();
+                return;
             }
-            catch (Exception e)
-            {
-                Logger.WriteLog(e.StackTrace, "WriteSettings error");
-            }
+
+            var storedSettings = TileSettings;
+            XMLHelper<StoredSettings>.Write(storedSettings, _settingsFile);
         }
 
-        private String _settingsFile;
 
         /// <summary>
         /// Update may be change widgets screen positions
@@ -123,7 +135,6 @@ namespace MetroHome65.Tile
                 }
                 widgetsHeight += 10; // add padding at bottom and blank spaces at bottom
 
-                //!!TileConsts.TilesPaddingLeft + TileConsts.TileSize * 4 + TileConsts.TileSpacing * 3
                 _tilesCanvas.Size = new Size(widgetsWidth, widgetsHeight);
                 _tilesCanvas.Update();
             }
@@ -144,9 +155,9 @@ namespace MetroHome65.Tile
         /// <summary>
         /// Displays widget settings dialog and applies changes in widget settings.
         /// </summary>
-        protected void ShowTileSettings()
+        public void ShowTileSettings()
         {
-            if (!SelectionMode) return;
+            if (SelectedTile == null) return;
 
             // when show setting dialog, stop selected widget animation
             var tile = SelectedTile;
@@ -162,7 +173,7 @@ namespace MetroHome65.Tile
                     tile.Pause = false; //!! todo ?????? может не надо
                     tile.ForceUpdate(); // repaint widget with new style
                     if (!prevGridSize.Equals(tile.GridSize))
-                        // if widget size changed - realign widgets
+                        // if widget size was changed - realign widgets
                         RealignTiles();
                     WriteSettings();
                 };
@@ -186,7 +197,7 @@ namespace MetroHome65.Tile
             var mainMenu = new ContextMenu();
 
             var menuAddWidget = new MenuItem { Text = "Add widget" };
-            menuAddWidget.Click += (s, e) => AddTileHandler(location);
+            menuAddWidget.Click += (s, e) => AddTile(location);
             mainMenu.MenuItems.Add(menuAddWidget);
 
             // add separator
@@ -210,6 +221,11 @@ namespace MetroHome65.Tile
         /// </summary>
         virtual protected Boolean ShowMainSettings()
         {
+            if (OnShowMainSettings != null)
+            {
+                OnShowMainSettings();
+                return true;
+            }
             return false;
         }
 

@@ -1,5 +1,4 @@
 using System;
-using System.Xml.Serialization;
 using MetroHome65.Routines;
 using TinyIoC;
 
@@ -18,11 +17,7 @@ namespace MetroHome65.HomeScreen.Settings
 
                 TinyIoCContainer.Current.Register<MainSettings>(settings);
 
-                var serializer = new XmlSerializer(settings.GetType());
-                System.IO.TextReader reader = new System.IO.StreamReader(SettingsFile());
-                settings = (MainSettings)serializer.Deserialize(reader);
-                reader.Close();
-
+                settings = XMLHelper<MainSettings>.Read(SettingsFile());
                 settings.ApplyTheme();
             }
             catch (Exception e)
@@ -36,11 +31,7 @@ namespace MetroHome65.HomeScreen.Settings
             try
             {
                 var settings = TinyIoCContainer.Current.Resolve<MainSettings>();
-
-                var serializer = new XmlSerializer(settings.GetType());
-                System.IO.TextWriter writer = new System.IO.StreamWriter(SettingsFile(), false);
-                serializer.Serialize(writer, settings);
-                writer.Close();
+                XMLHelper<MainSettings>.Write(settings, SettingsFile());
             }
             catch (Exception e)
             {

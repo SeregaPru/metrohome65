@@ -29,6 +29,8 @@ namespace MetroHome65.Routines.UIControls
 
         protected void SetImage(string imagePath)
         {
+            _imagePath = imagePath;
+
             if (_image != null)
                 _image.Dispose();
 

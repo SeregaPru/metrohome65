@@ -75,7 +75,7 @@
     <Compile Include="HomeScreen\ProgramsMenu\ProgramsMenu.Draw.cs" />
     <Compile Include="HomeScreen\LockScreen\LockScreen.cs" />
     <Compile Include="HomeScreen\ProgramsMenu\ProgramsMenuPage.cs" />
-    <Compile Include="HomeScreen\Settings\FrmMainSettings.cs" />
+    <Compile Include="HomeScreen\Settings\MainSettingsPage.cs" />
     <Compile Include="HomeScreen\Settings\MainSettingsProvider.cs" />
     <Compile Include="Controls\Arrow.cs" />
     <Compile Include="HomeScreen\HomeScreen.cs" />

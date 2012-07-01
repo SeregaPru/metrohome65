@@ -147,10 +147,7 @@ namespace Metrohome65.Settings.Controls
                     }
 
             }
-            catch (Exception e)
-            {
-                //!! write to log  (e.StackTrace, "SetIconPath")
-            }
+            catch (Exception) { }
 
             _pictureBox.Update();
 

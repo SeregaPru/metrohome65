@@ -36,34 +36,38 @@ namespace MetroHome65.Routines
 
         public void PropertyChangedEventHandler(object sender, PropertyChangedEventArgs e)
         {
-            foreach (var bindingInfo in _binding)
+            try
             {
-                if ((bindingInfo.Source == sender) && (bindingInfo.SourcePropertyName == e.PropertyName))
+                foreach (var bindingInfo in _binding)
                 {
-                    var sourceProperty = bindingInfo.Source.GetType().GetProperty(bindingInfo.SourcePropertyName);
-                    var sourceValue = sourceProperty.GetValue(bindingInfo.Source, null);
-                    var targetProperty = bindingInfo.Target.GetType().GetProperty(bindingInfo.TargetPropertyName);
-                    var targetValue = targetProperty.GetValue(bindingInfo.Target, null);
-                    if (!Object.Equals(sourceValue, targetValue))
+                    if ((bindingInfo.Source == sender) && (bindingInfo.SourcePropertyName == e.PropertyName))
                     {
-                        targetProperty.SetValue(bindingInfo.Target, sourceValue, null);
+                        var sourceProperty = bindingInfo.Source.GetType().GetProperty(bindingInfo.SourcePropertyName);
+                        var sourceValue = sourceProperty.GetValue(bindingInfo.Source, null);
+                        var targetProperty = bindingInfo.Target.GetType().GetProperty(bindingInfo.TargetPropertyName);
+                        var targetValue = targetProperty.GetValue(bindingInfo.Target, null);
+                        if (!Object.Equals(sourceValue, targetValue))
+                        {
+                            targetProperty.SetValue(bindingInfo.Target, sourceValue, null);
+                        }
+                        return;
                     }
-                    return;
-                }
 
-                if ((bindingInfo.Target == sender) && (bindingInfo.TargetPropertyName == e.PropertyName))
-                {
-                    var sourceProperty = bindingInfo.Source.GetType().GetProperty(bindingInfo.SourcePropertyName);
-                    var sourceValue = sourceProperty.GetValue(bindingInfo.Source, null);
-                    var targetProperty = bindingInfo.Target.GetType().GetProperty(bindingInfo.TargetPropertyName);
-                    var targetValue = targetProperty.GetValue(bindingInfo.Target, null);
-                    if (!Object.Equals(sourceValue, targetValue))
+                    if ((bindingInfo.Target == sender) && (bindingInfo.TargetPropertyName == e.PropertyName))
                     {
-                        sourceProperty.SetValue(bindingInfo.Source, targetValue, null);
+                        var sourceProperty = bindingInfo.Source.GetType().GetProperty(bindingInfo.SourcePropertyName);
+                        var sourceValue = sourceProperty.GetValue(bindingInfo.Source, null);
+                        var targetProperty = bindingInfo.Target.GetType().GetProperty(bindingInfo.TargetPropertyName);
+                        var targetValue = targetProperty.GetValue(bindingInfo.Target, null);
+                        if (!Object.Equals(sourceValue, targetValue))
+                        {
+                            sourceProperty.SetValue(bindingInfo.Source, targetValue, null);
+                        }
+                        return;
                     }
-                    return;
                 }
             }
+            catch (Exception) { }
         }
     }
 }
