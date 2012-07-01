@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
 using System.Drawing;
 using Fleux.Styles;
 using MetroHome65.Interfaces.Events;
@@ -14,7 +12,7 @@ namespace MetroHome65.HomeScreen.Settings
     /// Common settings for UI 
     /// </summary>
     [Serializable]
-    public class MainSettings : INotifyPropertyChanged
+    public class MainSettings : CustomSettings
     {
         /// <summary>
         /// Main screen background color
@@ -114,34 +112,6 @@ namespace MetroHome65.HomeScreen.Settings
                 messenger.Publish(new SettingsChangedMessage("LockScreenImage"));
             }
         }
-
-
-        #region INotifyPropertyChanged
-
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        protected virtual void OnPropertyChanged(string propertyName)
-        {
-            PropertyChangedEventHandler handler = PropertyChanged;
-            if (handler != null) handler(this, new PropertyChangedEventArgs(propertyName));
-        }
-
-        private void SetField<T>(ref T field, T value, string propertyName)
-        {
-            try
-            {
-                if (EqualityComparer<T>.Default.Equals(field, value)) return;
-                field = value;
-                OnPropertyChanged(propertyName);
-                return;
-            }
-            catch (Exception)
-            {
-                return;
-            }
-        }
-
-        #endregion
 
     }
 }

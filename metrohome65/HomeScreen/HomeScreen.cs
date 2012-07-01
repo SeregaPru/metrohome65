@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Drawing;
 using Fleux.Controls.Gestures;
 using MetroHome65.Controls;
-using MetroHome65.HomeScreen.TilesGrid;
 using MetroHome65.Interfaces;
 using MetroHome65.Interfaces.Events;
 using MetroHome65.Routines;
@@ -67,7 +66,8 @@ namespace MetroHome65.HomeScreen
             // прокрутчик холста плиток
             var tilesGrid = new TilesGrid.TilesGrid()
                                 {
-                                    OnExit = ExitApp
+                                    OnExit = ExitApp,
+                                    OnShowMainSettings = ShowMainSettings,
                                 };
             AddSection(tilesGrid, 1);
 
@@ -238,6 +238,30 @@ namespace MetroHome65.HomeScreen
                 str = str.Substring(str.Length - 7, 7);
             if (str.ToLower() == "desktop")
                 theForm.Activate();
+        }
+
+        /// <summary>
+        /// shows main settings dialog
+        /// </summary>
+        private void ShowMainSettings()
+        {
+            try
+            {
+                var mainSettingsForm = new MainSettingsPage(MainSettings.Clone());
+                mainSettingsForm.OnApplySettings += (sender, settings) =>
+                {
+                    settings.ApplyTheme();
+                    // write new settings to file
+                    (new MainSettingsProvider()).WriteSettings();
+                };
+
+                var messenger = TinyIoCContainer.Current.Resolve<ITinyMessengerHub>();
+                messenger.Publish(new ShowPageMessage(mainSettingsForm));
+            }
+            catch (Exception ex)
+            {
+                Logger.WriteLog(ex.StackTrace, "Tile settings dialog error");
+            }
         }
 
     }

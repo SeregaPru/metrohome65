@@ -86,11 +86,10 @@
     <Compile Include="FlagSettingsControl.cs" />
     <Compile Include="StringSettingsControl.cs" />
     <Compile Include="TextBox.cs" />
-    <Compile Include="TextBoxInputPage.cs" />
     <Compile Include="TextInputForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="TextInputForm.Designer.cs">
+    <Compile Include="TextInputForm.designer.cs">
       <DependentUpon>TextInputForm.cs</DependentUpon>
     </Compile>
   </ItemGroup>

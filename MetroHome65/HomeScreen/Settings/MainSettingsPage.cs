@@ -2,18 +2,16 @@
 using System.Drawing;
 using Fleux.Styles;
 using Fleux.UIElements;
-using MetroHome65.Routines;
 using Metrohome65.Settings.Controls;
 
 namespace MetroHome65.HomeScreen.Settings
 {
-    public sealed class FrmMainSettings : CustomSettingsPage
+    public sealed class MainSettingsPage : CustomSettingsPage<MainSettings>
     {
-        private MainSettings _editSettings;
+        public MainSettingsPage(MainSettings settings) : base(settings) { }
 
         protected override void CreateSettingsControls()
         {
-            _editSettings = MainSettings.Clone();
             AddPage(CreateThemeControls(), "theme");
             AddPage(CreateLockScreenControls(), "lockscreen");
         }
@@ -63,7 +61,7 @@ namespace MetroHome65.HomeScreen.Settings
             var ctrAccent = new ColorSettingsControl(false)
             {
                 Caption = "Accent Color",
-                Value = _editSettings.AccentColor,
+                Value = Settings.AccentColor,
             };
             stackPanel.AddElement(ctrAccent);
             BindingManager.Bind(this, "AccentColor", ctrAccent, "Value");
@@ -75,10 +73,10 @@ namespace MetroHome65.HomeScreen.Settings
             var ctrThemeImage = new ImageSettingsControl
             {
                 Caption = "Theme background",
-                Value = _editSettings.ThemeImage,
+                Value = Settings.ThemeImage,
             };
             stackPanel.AddElement(ctrThemeImage);
-            BindingManager.Bind(_editSettings, "ThemeImage", ctrThemeImage, "Value");
+            BindingManager.Bind(Settings, "ThemeImage", ctrThemeImage, "Value");
 
             return scroller;
         }
@@ -91,41 +89,25 @@ namespace MetroHome65.HomeScreen.Settings
             var ctrLockScreenImage = new ImageSettingsControl
             {
                 Caption = "Lock screen background",
-                Value = _editSettings.LockScreenImage,
+                Value = Settings.LockScreenImage,
             };
             stackPanel.AddElement(ctrLockScreenImage);
-            BindingManager.Bind(_editSettings, "LockScreenImage", ctrLockScreenImage, "Value");
+            BindingManager.Bind(Settings, "LockScreenImage", ctrLockScreenImage, "Value");
 
             return stackPanel;
-        }
-
-        protected override void ApplySettings()
-        {
-            ScreenRoutines.CursorWait();
-            try
-            {
-                _editSettings.ApplyTheme();
-
-                // write new settings to file
-                (new MainSettingsProvider()).WriteSettings();
-            }
-            finally
-            {
-                ScreenRoutines.CursorNormal();
-            }
         }
 
         // internal wrapper from combobox selectedindex to boolean value
         public int ThemeIndex
         {
-            get { return (_editSettings.ThemeIsDark ? 0 : 1); }
-            set { _editSettings.ThemeIsDark = (value == 0); }
+            get { return (Settings.ThemeIsDark ? 0 : 1); }
+            set { Settings.ThemeIsDark = (value == 0); }
         }
 
         public Color AccentColor
         {
-            get { return _editSettings.AccentColor; }
-            set { _editSettings.AccentColor = value; }
+            get { return Settings.AccentColor; }
+            set { Settings.AccentColor = value; }
         }
 
     }

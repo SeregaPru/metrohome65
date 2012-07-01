@@ -1,5 +1,4 @@
-﻿using System;
-using System.ComponentModel;
+﻿using System.ComponentModel;
 using System.Drawing;
 using Fleux.Animations;
 using Fleux.Controls;
@@ -11,17 +10,33 @@ using MetroHome65.Routines;
 
 namespace Metrohome65.Settings.Controls
 {
-    public class CustomSettingsPage : FleuxControlPage, INotifyPropertyChanged
+    public class CustomSettingsPage<T> : FleuxControlPage, INotifyPropertyChanged
     {
+        public delegate void ApplySettingsHandler(CustomSettingsPage<T> sender, T settings);
+
+        
         private Pivot _pivot;
+
+        private T _settings;
+
 
         protected BindingManager BindingManager { get; private set; }
 
-        
-        public CustomSettingsPage() : base(true)
+        protected T Settings
         {
+            get { return _settings; }
+            set { _settings = value; }
+        }
+
+
+        public CustomSettingsPage(T settings) : base(true)
+        {
+            _settings = settings;
+
             CreateControls();
         }
+
+        public CustomSettingsPage() : this(default(T)) { }
 
         private void CreateControls()
         {
@@ -75,17 +90,24 @@ namespace Metrohome65.Settings.Controls
         { }
 
         protected virtual void ApplySettings()
-        { }
+        {
+            ScreenRoutines.CursorWait();
+            try
+            {
+                if (OnApplySettings != null)
+                    OnApplySettings(this, Settings);
+            }
+            finally
+            {
+                ScreenRoutines.CursorNormal();
+            }
+        }
 
         private void OnAppBarButtonTap(object sender, ButtonTapEventArgs e)
         {
             if (e.ButtonID == 0) // ok button
             {
                 ApplySettings();
-
-                if (OnApplySettings != null)
-                    OnApplySettings(this, new EventArgs());
-
                 Close();
             }
             else
@@ -94,9 +116,9 @@ namespace Metrohome65.Settings.Controls
         }
 
         // event triggered when selected item changed
-        public event EventHandler OnApplySettings;
-        
-        
+        public event ApplySettingsHandler OnApplySettings;
+
+
         #region INotifyPropertyChanged
 
         public event PropertyChangedEventHandler PropertyChanged;

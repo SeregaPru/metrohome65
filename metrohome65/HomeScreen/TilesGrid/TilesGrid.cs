@@ -5,7 +5,6 @@ using Fleux.Controls;
 using Fleux.Core.GraphicsHelpers;
 using Fleux.UIElements;
 using MetroHome65.Controls;
-using MetroHome65.HomeScreen.Settings;
 using MetroHome65.Interfaces.Events;
 using MetroHome65.Routines;
 using MetroHome65.Routines.UIControls;
@@ -77,8 +76,7 @@ namespace MetroHome65.HomeScreen.TilesGrid
 
         private bool ButtonUnpinClick(Point aLocation)
         {
-            if (SelectionMode)
-                DeleteSelectedTile();
+            DeleteSelectedTile();
             return true;
         }
 
@@ -96,27 +94,6 @@ namespace MetroHome65.HomeScreen.TilesGrid
             }
 
             Update();
-        }
-
-        /// <summary>
-        /// shows main settings dialog
-        /// </summary>
-        override protected Boolean ShowMainSettings()
-        {
-            try
-            {
-                var mainSettingsForm = new FrmMainSettings();
-
-                var messenger = TinyIoCContainer.Current.Resolve<ITinyMessengerHub>();
-                messenger.Publish(new ShowPageMessage(mainSettingsForm));
-
-                return true;
-            }
-            catch (Exception ex)
-            {
-                Logger.WriteLog(ex.StackTrace, "Tile settings dialog error");
-                return false;
-            }
         }
 
         /// <summary>
