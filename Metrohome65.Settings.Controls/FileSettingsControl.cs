@@ -1,6 +1,7 @@
 ﻿using System;
 using System.ComponentModel;
 using System.Drawing;
+using System.IO;
 using System.Windows.Forms;
 using Fleux.Controls;
 using Fleux.Styles;
@@ -78,10 +79,25 @@ namespace Metrohome65.Settings.Controls
 
         private void BrowseFile()
         {
+            var folder = Path.GetDirectoryName(Value);
+            if (string.IsNullOrEmpty(folder))
+                folder = @"\Windows\Start Menu\Programs";
+
+            var dialog = new SelectPictureDialog
+            {
+                Filter = "Program files|*.exe;*.lnk",
+                Title = "Select program",
+                SortOrder = SortOrder.NameAscending,
+                InitialDirectory = folder,
+            };
+            if (dialog.ShowDialog() == DialogResult.OK)
+                Value = dialog.FileName;
+            /*
             var dialog = new OpenFileDialogEx { Filter = "*.exe;*.lnk", };
 
             if (dialog.ShowDialog() == DialogResult.OK)
                 Value = dialog.FileName;
+            */ 
         }
 
 

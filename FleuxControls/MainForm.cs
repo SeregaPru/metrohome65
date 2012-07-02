@@ -1,9 +1,12 @@
 ﻿using System.Collections.Generic;
 using System.Drawing;
+using System.Windows.Forms;
 using Fleux.Controls;
 using Fleux.Styles;
 using Fleux.UIElements;
 using Fleux.UIElements.Pivot;
+using Button = Fleux.UIElements.Button;
+using ComboBox = Fleux.UIElements.ComboBox;
 
 namespace FleuxControls
 {
@@ -33,10 +36,20 @@ namespace FleuxControls
                     {
                         Size = new Size(300, 50),
                         AutoSizeMode = Button.AutoSizeModeOptions.None,
+                        TapHandler = point => OpenFile(),
                     }
                 );
 
             return page;
+        }
+
+        private bool OpenFile()
+        {
+            var Dialog = new OpenFileDialog();
+            Dialog.Filter = "link files (*.lnk)|*.lnk|exe files (*.exe)|*.exe|All files (*.*)|*.*";
+            Dialog.ShowDialog();
+            return true;
+
         }
 
         private PivotItem CreateFirstPage()
