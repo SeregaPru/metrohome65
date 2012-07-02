@@ -216,6 +216,8 @@ namespace MetroHome65.Tile
             _sourceTile.GridSize = _selectedTile.Sizes[_cbSize.SelectedIndex];
 
             CopyTileProperties(_selectedTile, _sourceTile.Tile);
+
+            base.ApplySettings();
         }
 
     }

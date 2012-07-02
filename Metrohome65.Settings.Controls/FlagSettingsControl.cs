@@ -12,13 +12,14 @@ namespace Metrohome65.Settings.Controls
         public String Caption { set { _cbFlag.Text = value; } }
 
         public Boolean Value {
-            get { return _cbFlag.Checked; } 
+            get
+            {
+                return _cbFlag.Checked;
+            } 
             set {
-                if (_cbFlag.Checked != value)
-                {
-                    _cbFlag.Checked = value;
-                    NotifyPropertyChanged("Value");
-                }
+                if (_cbFlag.Checked == value) return;
+                _cbFlag.Checked = value;
+                NotifyPropertyChanged("Value");
             } 
         }
 
