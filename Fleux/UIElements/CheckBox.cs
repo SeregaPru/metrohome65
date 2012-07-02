@@ -103,8 +103,7 @@
         public override void Released()
         {
             m_pressed = false;
-            m_checked = !m_checked;
-            this.Update();
+            Checked = !Checked;
             base.Released();
         }
 
