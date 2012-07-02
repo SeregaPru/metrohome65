@@ -187,9 +187,10 @@ namespace MetroHome65.Tile
                 // apply custom widget parameters
                 foreach (var srcPropInfo in srcProps)
                 {
-                    //var attributes = srcPropInfo.GetCustomAttributes(typeof(TileParameterAttribute), true);
-                    //if (attributes.Length > 0)
-                    //{
+                    // set only properties that are marked as tile parameter
+                    var attributes = srcPropInfo.GetCustomAttributes(typeof(TileParameterAttribute), true);
+                    if (attributes.Length > 0)
+                    {
                         //foreach (var attribute in attributes)
                         //{
                             foreach (var dstPropInfo in dstProps.Where(
@@ -200,7 +201,7 @@ namespace MetroHome65.Tile
                                 break;
                             }
                         //}
-                    //}
+                    }
                 }
             }
             catch (Exception ex)
