@@ -87,11 +87,9 @@ namespace MetroHome65.Widgets
             get { return _is24Hour; }
             set
             {
-                if (_is24Hour != value)
-                {
-                    _is24Hour = value;
-                    NotifyPropertyChanged("Is24Hour");
-                }
+                if (_is24Hour == value) return;
+                _is24Hour = value;
+                NotifyPropertyChanged("Is24Hour");
             }
         }
 
