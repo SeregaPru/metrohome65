@@ -97,6 +97,12 @@ namespace FolderWidget
             }
         }
 
+        public override void Close()
+        {
+            _tileGrid.Clear();
+            base.Close();
+        }
+
         /// <summary>
         /// Places tiles grid according to user defined offset, and change its size to screen bottom
         /// </summary>

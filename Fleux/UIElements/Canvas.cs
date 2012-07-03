@@ -51,7 +51,11 @@ namespace Fleux.UIElements
         public void Clear()
         {
             //! metrohome65
-            this.Children.ToList().ForEach(e => e.ParentControl = null);
+            this.Children.ToList().ForEach(e => { 
+                e.ParentControl = null;
+                e.Parent = null;
+                e.Updated = null;
+            });
 
             this.Children.Clear();
         }

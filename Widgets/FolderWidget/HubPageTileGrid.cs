@@ -1,11 +1,6 @@
-using System;
 using System.Drawing;
 using Fleux.UIElements;
-using MetroHome65.Interfaces.Events;
-using MetroHome65.Routines;
 using MetroHome65.Tile;
-using TinyIoC;
-using TinyMessenger;
 
 namespace FolderWidget
 {
