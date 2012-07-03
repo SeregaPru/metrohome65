@@ -1,6 +1,9 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel;
 using System.Drawing;
 using Fleux.Animations;
+using Fleux.Controls;
 using Fleux.Core;
 using Fleux.Core.Scaling;
 using Fleux.Styles;
@@ -8,14 +11,17 @@ using Fleux.UIElements;
 using MetroHome65.Interfaces;
 using MetroHome65.Interfaces.Events;
 using MetroHome65.Routines;
+using Metrohome65.Settings.Controls;
 using TinyIoC;
 using TinyMessenger;
 
-namespace MetroHome65.HomeScreen.LockScreen
+namespace MetroHome65.SimpleLock
 {
-    public sealed class LockScreen : Canvas, IActive
+    [LockScreenInfo("Simple lock screen")]
+    public sealed class SimpleLock : Canvas, IActive, ILockScreen, INotifyPropertyChanged
     {
         private readonly TextElement _lblClock;
+        private string _background;
 
         private const string DateFormat = "HH:mm\ndddd\nMMMM d";
 
@@ -26,9 +32,21 @@ namespace MetroHome65.HomeScreen.LockScreen
             MetroTheme.PhoneFontSizeExtraLarge,
             MetroTheme.PhoneForegroundBrush);
 
-        public LockScreen()
+
+        /// <summary>
+        /// Background for lockscreen
+        /// </summary>
+        [LockScreenParameter]
+        public string Background
         {
-            AddElement(new LockScreenBackground());
+            get { return _background; }
+            set { _background = value; }
+        }
+
+
+        public SimpleLock()
+        {
+            //!!AddElement(new LockScreenBackground());
 
             var lineHeight = FleuxApplication.DummyDrawingGraphics.Style(_style).CalculateMultilineTextHeight("0", 100);
 
@@ -113,5 +131,34 @@ namespace MetroHome65.HomeScreen.LockScreen
             }
         }
 
+
+        public ICollection<UIElement> EditControls(FleuxControlPage settingsPage)
+        {
+            var bindingManager = new BindingManager();
+            var controls = new List<UIElement>();
+
+            // lock screen bg image
+            var ctrLockScreenImage = new ImageSettingsControl
+            {
+                Caption = "Lock screen background",
+                Value = Background,
+            };
+            controls.Add(ctrLockScreenImage);
+            bindingManager.Bind(this, "Background", ctrLockScreenImage, "Value");
+
+            return controls;
+        }
+
+
+        #region INotifyPropertyChanged
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        protected void NotifyPropertyChanged(String info)
+        {
+            if (PropertyChanged != null)
+                PropertyChanged(this, new PropertyChangedEventArgs(info));
+        }
+        #endregion
     }
+
 }

@@ -21,7 +21,6 @@ namespace MetroHome65.HomeScreen
 {
     public class HomeScreen : FleuxControlPage
     {
-        private readonly UIElement _lockScreen;
         private readonly Canvas _homeScreenCanvas;
 
         private readonly List<UIElement> _sections = new List<UIElement>();
@@ -56,8 +55,8 @@ namespace MetroHome65.HomeScreen
                                     };
 
             // экран блокировки
-            _lockScreen = new LockScreen.LockScreen();
-            AddSection(_lockScreen, 0);
+            var lockScreen = new SimpleLock.SimpleLock();
+            AddSection(lockScreen, 0);
 
             // загрузчик плагинов
             TinyIoCContainer.Current.Register<IPluginManager>(new PluginManager());

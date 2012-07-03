@@ -46,6 +46,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FolderWidget", "Widgets\Fol
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Widgets", "Widgets", "{0B797F7A-E0C8-48CD-878C-9DF1EB7F418B}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "LockScreens", "LockScreens", "{06846815-88AF-4DC8-B30A-951AA8864B87}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SimpleLock", "LockScreens\SimpleLock\SimpleLock\SimpleLock.csproj", "{45F5A97D-8487-4239-947C-0ED0DB434346}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		ControlsTest|Any CPU = ControlsTest|Any CPU
@@ -510,16 +514,43 @@ Global
 		{672996CA-3E35-4492-ACAB-F571F77F6FB5}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{672996CA-3E35-4492-ACAB-F571F77F6FB5}.Release|Windows Mobile 6.ActiveCfg = Release|Any CPU
 		{672996CA-3E35-4492-ACAB-F571F77F6FB5}.Release|Windows Mobile 6.5.3 Professional DTK (ARMV4I).ActiveCfg = Release|Any CPU
+		{45F5A97D-8487-4239-947C-0ED0DB434346}.ControlsTest|Any CPU.ActiveCfg = Release|Any CPU
+		{45F5A97D-8487-4239-947C-0ED0DB434346}.ControlsTest|Any CPU.Build.0 = Release|Any CPU
+		{45F5A97D-8487-4239-947C-0ED0DB434346}.ControlsTest|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{45F5A97D-8487-4239-947C-0ED0DB434346}.ControlsTest|Mixed Platforms.Build.0 = Release|Any CPU
+		{45F5A97D-8487-4239-947C-0ED0DB434346}.ControlsTest|Windows Mobile 6.ActiveCfg = Release|Any CPU
+		{45F5A97D-8487-4239-947C-0ED0DB434346}.ControlsTest|Windows Mobile 6.5.3 Professional DTK (ARMV4I).ActiveCfg = Release|Any CPU
+		{45F5A97D-8487-4239-947C-0ED0DB434346}.Debug (SmartPhone)|Any CPU.ActiveCfg = Debug|Any CPU
+		{45F5A97D-8487-4239-947C-0ED0DB434346}.Debug (SmartPhone)|Any CPU.Build.0 = Debug|Any CPU
+		{45F5A97D-8487-4239-947C-0ED0DB434346}.Debug (SmartPhone)|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{45F5A97D-8487-4239-947C-0ED0DB434346}.Debug (SmartPhone)|Mixed Platforms.Build.0 = Debug|Any CPU
+		{45F5A97D-8487-4239-947C-0ED0DB434346}.Debug (SmartPhone)|Windows Mobile 6.ActiveCfg = Debug|Any CPU
+		{45F5A97D-8487-4239-947C-0ED0DB434346}.Debug (SmartPhone)|Windows Mobile 6.5.3 Professional DTK (ARMV4I).ActiveCfg = Debug|Any CPU
+		{45F5A97D-8487-4239-947C-0ED0DB434346}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{45F5A97D-8487-4239-947C-0ED0DB434346}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{45F5A97D-8487-4239-947C-0ED0DB434346}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{45F5A97D-8487-4239-947C-0ED0DB434346}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{45F5A97D-8487-4239-947C-0ED0DB434346}.Debug|Windows Mobile 6.ActiveCfg = Debug|Any CPU
+		{45F5A97D-8487-4239-947C-0ED0DB434346}.Debug|Windows Mobile 6.5.3 Professional DTK (ARMV4I).ActiveCfg = Debug|Any CPU
+		{45F5A97D-8487-4239-947C-0ED0DB434346}.Debug|Windows Mobile 6.5.3 Professional DTK (ARMV4I).Build.0 = Debug|Any CPU
+		{45F5A97D-8487-4239-947C-0ED0DB434346}.Debug|Windows Mobile 6.5.3 Professional DTK (ARMV4I).Deploy.0 = Debug|Any CPU
+		{45F5A97D-8487-4239-947C-0ED0DB434346}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{45F5A97D-8487-4239-947C-0ED0DB434346}.Release|Any CPU.Build.0 = Release|Any CPU
+		{45F5A97D-8487-4239-947C-0ED0DB434346}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{45F5A97D-8487-4239-947C-0ED0DB434346}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{45F5A97D-8487-4239-947C-0ED0DB434346}.Release|Windows Mobile 6.ActiveCfg = Release|Any CPU
+		{45F5A97D-8487-4239-947C-0ED0DB434346}.Release|Windows Mobile 6.5.3 Professional DTK (ARMV4I).ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
-		{B23D069D-4ED9-4F45-BE07-DA271A2106D4} = {0B797F7A-E0C8-48CD-878C-9DF1EB7F418B}
 		{6EA956FA-6157-44EF-A9B4-FB43B4E18FAD} = {0B797F7A-E0C8-48CD-878C-9DF1EB7F418B}
+		{058BEB2E-C6A2-4B37-A734-6E3EDBFF8A5A} = {0B797F7A-E0C8-48CD-878C-9DF1EB7F418B}
+		{C0BBBE1D-433E-4468-B401-647FC0578320} = {0B797F7A-E0C8-48CD-878C-9DF1EB7F418B}
 		{C0A7071D-9211-44ED-9DEF-47BD94C51BA2} = {0B797F7A-E0C8-48CD-878C-9DF1EB7F418B}
 		{672996CA-3E35-4492-ACAB-F571F77F6FB5} = {0B797F7A-E0C8-48CD-878C-9DF1EB7F418B}
-		{C0BBBE1D-433E-4468-B401-647FC0578320} = {0B797F7A-E0C8-48CD-878C-9DF1EB7F418B}
-		{058BEB2E-C6A2-4B37-A734-6E3EDBFF8A5A} = {0B797F7A-E0C8-48CD-878C-9DF1EB7F418B}
+		{B23D069D-4ED9-4F45-BE07-DA271A2106D4} = {0B797F7A-E0C8-48CD-878C-9DF1EB7F418B}
+		{45F5A97D-8487-4239-947C-0ED0DB434346} = {06846815-88AF-4DC8-B30A-951AA8864B87}
 	EndGlobalSection
 EndGlobal
