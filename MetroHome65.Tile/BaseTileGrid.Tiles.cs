@@ -71,6 +71,17 @@ namespace MetroHome65.Tile
             WriteSettings();
         }
 
+        public void Clear()
+        {
+            foreach (var tile in _tiles)
+            {
+                tile.TapHandler = null;
+                tile.HoldHandler = null;
+            }
+            _tilesCanvas.Clear();
+            _tiles.Clear();
+        }
+
         /// <summary>
         /// Click at tile handler
         /// </summary>
