@@ -19,7 +19,7 @@ namespace FolderWidget
     {
         #region Fields
 
-        private string _folderGuid;
+        private readonly string _folderGuid;
         private readonly TextElement _title;
         private readonly HubPageTileGrid _tileGrid;
         private readonly ApplicationBar _appBar;
