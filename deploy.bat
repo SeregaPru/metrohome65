@@ -15,5 +15,5 @@ copy %srcfolder%\metrohome65\icons\small\*.* %destfolder%\icons\small\
 mkdir %destfolder%\wallpapers
 copy %srcfolder%\metrohome65\wallpapers\*.* %destfolder%\wallpapers\
 
-copy %srcfolder%\metrohome65\_deploy\*.dll %destfolder%
-copy %srcfolder%\metrohome65\_deploy\*.exe %destfolder%
+copy %srcfolder%\metrohome65\_deploy\*.dll %destfolder%\
+copy %srcfolder%\metrohome65\_deploy\*.exe %destfolder%\

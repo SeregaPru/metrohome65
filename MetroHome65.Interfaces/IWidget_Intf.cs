@@ -28,7 +28,7 @@ namespace MetroHome65.Interfaces
 
 
     /// <summary>
-    /// Signs field or property of tile, that it is user defined parameter,
+    /// Mark field or property of tile, that it is user defined parameter,
     /// and it should be stored in tile's user settings
     /// </summary>
     [AttributeUsage(AttributeTargets.Property | AttributeTargets.Field | AttributeTargets.Parameter | AttributeTargets.ReturnValue)]

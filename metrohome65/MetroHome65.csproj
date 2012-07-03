@@ -64,6 +64,7 @@
     <Reference Include="mscorlib" />
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
@@ -71,9 +72,7 @@
   <ItemGroup>
     <Compile Include="Controls\ThemedBackground.cs" />
     <Compile Include="Controls\ThemedImageButton.cs" />
-    <Compile Include="HomeScreen\LockScreen\LockScreenBackground.cs" />
     <Compile Include="HomeScreen\ProgramsMenu\ProgramsMenu.Draw.cs" />
-    <Compile Include="HomeScreen\LockScreen\LockScreen.cs" />
     <Compile Include="HomeScreen\ProgramsMenu\ProgramsMenuPage.cs" />
     <Compile Include="HomeScreen\Settings\MainSettingsPage.cs" />
     <Compile Include="HomeScreen\Settings\MainSettingsProvider.cs" />
@@ -83,6 +82,7 @@
     <Compile Include="HomeScreen\ProgramsMenu\ProgramsMenu.cs" />
     <Compile Include="HomeScreen\ProgramsMenu\ProgramsMenu.Model.cs" />
     <Compile Include="HomeScreen\TilesGrid\TilesGrid.cs" />
+    <Compile Include="LockScreen\LockScreenSettings.cs" />
     <Compile Include="PluginManager.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -447,6 +447,10 @@
     <ProjectReference Include="..\Fleux\Fleux.csproj">
       <Project>{8526293A-9C66-48F6-A90D-FB2B7128BF08}</Project>
       <Name>Fleux</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\LockScreens\SimpleLock\SimpleLock\SimpleLock.csproj">
+      <Project>{45F5A97D-8487-4239-947C-0ED0DB434346}</Project>
+      <Name>SimpleLock</Name>
     </ProjectReference>
     <ProjectReference Include="..\MetroHome65.Interfaces\MetroHome65.Interfaces.csproj">
       <Project>{A0D38398-7B6A-45D8-B2C7-19120FEA68FC}</Project>

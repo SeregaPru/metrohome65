@@ -2,6 +2,7 @@
 using System.Drawing;
 using Fleux.Styles;
 using Fleux.UIElements;
+using MetroHome65.LockScreen;
 using Metrohome65.Settings.Controls;
 
 namespace MetroHome65.HomeScreen.Settings
@@ -83,18 +84,7 @@ namespace MetroHome65.HomeScreen.Settings
 
         private UIElement CreateLockScreenControls()
         {
-            var stackPanel = new StackPanel();
-            
-            // lock screen bg image
-            var ctrLockScreenImage = new ImageSettingsControl
-            {
-                Caption = "Lock screen background",
-                Value = Settings.LockScreenImage,
-            };
-            stackPanel.AddElement(ctrLockScreenImage);
-            BindingManager.Bind(Settings, "LockScreenImage", ctrLockScreenImage, "Value");
-
-            return stackPanel;
+            return new LockScreenSettings();
         }
 
         // internal wrapper from combobox selectedindex to boolean value
