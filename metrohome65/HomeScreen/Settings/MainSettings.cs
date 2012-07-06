@@ -106,6 +106,7 @@ namespace MetroHome65.HomeScreen.Settings
                 messenger.Publish(new SettingsChangedMessage("ThemeImage"));
             }
 
+            // lock screen settings
             if (mainSettings.LockScreenImage != this.LockScreenImage)
             {
                 mainSettings.LockScreenImage = this.LockScreenImage;

@@ -177,9 +177,6 @@ namespace MetroHome65.Tile
                 _tile = pluginManager.CreateTile(value);
                 FillTileProperties();
 
-                //!!TapHandler += p => { OnClick(p); return true; };
-                //!!DoubleTapHandler += p => { OnDblClick(p); return true; };
-
                 // insert new tile
                 (_tile as UIElement).Parent = this;
                 (_tile as UIElement).Updated = this.OnUpdated;

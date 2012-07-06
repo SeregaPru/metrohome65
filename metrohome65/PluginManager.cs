@@ -1,30 +1,34 @@
 ﻿using System;
 using System.Collections;
-using System.Collections.Generic;
 using System.Reflection;
 using System.Linq;
 using System.IO;
 using MetroHome65.Interfaces;
 
-namespace MetroHome65.HomeScreen
+namespace MetroHome65
 {
-    
     /// <summary>
     /// Class for managing plugins assemblies:
     /// load plugins at sartup, create plugin by type etc.
     /// </summary>
     public class PluginManager : IPluginManager
     {
+        private readonly Hashtable _tilePlugins = new Hashtable();
+        private readonly Hashtable _lockScreenPlugins = new Hashtable();
+
         public PluginManager()
         {
             LoadPlugins();
         }
         
-        private Hashtable _plugins = new Hashtable();
-
         public IEnumerable GetTileTypes()
         {
-            return _plugins.Values;
+            return _tilePlugins.Values;
+        }
+
+        public IEnumerable GetLockScreenTypes()
+        {
+            return _lockScreenPlugins.Values;
         }
 
         /// <summary>
@@ -34,9 +38,9 @@ namespace MetroHome65.HomeScreen
         /// </summary>
         private void LoadPlugins()
         {
-            DirectoryInfo FolderInfo = new DirectoryInfo(
-                System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().GetName().CodeBase));
-            FileInfo[] files = FolderInfo.GetFiles();
+            var folderInfo = new DirectoryInfo(
+                Path.GetDirectoryName(Assembly.GetExecutingAssembly().GetName().CodeBase));
+            FileInfo[] files = folderInfo.GetFiles();
 
             foreach (FileInfo file in files)
             {
@@ -46,28 +50,39 @@ namespace MetroHome65.HomeScreen
             }
         }
 
-        private void LoadPlugin(String PluginPath)
+        private void LoadPlugin(String pluginPath)
         {
-            Assembly assembly = Assembly.LoadFrom(PluginPath);
+            var assembly = Assembly.LoadFrom(pluginPath);
 
-            foreach (Type type in assembly.GetTypes())
+            foreach (var type in assembly.GetTypes())
             {
-                if ((type.IsClass) && 
-                    (type.GetInterfaces().Contains(typeof(ITile))) &&
-                    (! type.IsAbstract))
+                if ((type.IsClass) && (! type.IsAbstract))
                 {
-                    _plugins.Add(type.FullName, type);
+                    if (type.GetInterfaces().Contains(typeof(ITile))) 
+                        _tilePlugins.Add(type.FullName, type);
+                    else
+                    if (type.GetInterfaces().Contains(typeof(ILockScreen)))
+                        _lockScreenPlugins.Add(type.FullName, type);
                 }
             }
         }
 
         public ITile CreateTile(String tileName)
         {
-            var widgetType = (Type)_plugins[tileName];
-            if (widgetType == null) return null;
+            var tileType = (Type)_tilePlugins[tileName];
+            if (tileType == null) return null;
 
-            ITile tile = (ITile)Activator.CreateInstance(widgetType);
+            var tile = (ITile)Activator.CreateInstance(tileType);
             return tile;
+        }
+
+        public ILockScreen CreateLockScreen(String lockScreenName)
+        {
+            var lockScreenType = (Type)_lockScreenPlugins[lockScreenName];
+            if (lockScreenType == null) return null;
+
+            var lockScreen = (ILockScreen)Activator.CreateInstance(lockScreenType);
+            return lockScreen;
         }
 
     }

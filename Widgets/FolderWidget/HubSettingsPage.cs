@@ -1,5 +1,6 @@
 ﻿using System.Drawing;
 using Fleux.UIElements;
+using MetroHome65.Routines.UIControls;
 using Metrohome65.Settings.Controls;
 
 namespace FolderWidget
@@ -35,7 +36,7 @@ namespace FolderWidget
             stackPanel.AddElement(ctrTitle);
             BindingManager.Bind(Settings, "Title", ctrTitle, "Value");
 
-            stackPanel.AddElement(Separator());
+            stackPanel.AddElement(new Separator());
 
             // hub background
             var ctrBackground = new ImageSettingsControl
@@ -46,7 +47,7 @@ namespace FolderWidget
             stackPanel.AddElement(ctrBackground);
             BindingManager.Bind(Settings, "Background", ctrBackground, "Value");
 
-            stackPanel.AddElement(Separator());
+            stackPanel.AddElement(new Separator());
 
             // tiles grid top offset
             var ctrOffset = new StringSettingsControl(this)
@@ -57,7 +58,7 @@ namespace FolderWidget
             stackPanel.AddElement(ctrOffset);
             BindingManager.Bind(Settings, "Offset", ctrOffset, "Value");
 
-            stackPanel.AddElement(Separator());
+            stackPanel.AddElement(new Separator());
 
             return scroller;
         }
