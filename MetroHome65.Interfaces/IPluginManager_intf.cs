@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections;
-using System.Collections.Generic;
 
 namespace MetroHome65.Interfaces
 {
@@ -9,6 +8,11 @@ namespace MetroHome65.Interfaces
         // creates tile of selected type
         ITile CreateTile(String tileName);
 
+        // creates lockscreen of selected type
+        ILockScreen CreateLockScreen(String lockScreenName);
+
         IEnumerable GetTileTypes();
+
+        IEnumerable GetLockScreenTypes();
     }
 }

@@ -3,6 +3,7 @@ using System.Drawing;
 using Fleux.Styles;
 using Fleux.UIElements;
 using MetroHome65.LockScreen;
+using MetroHome65.Routines.UIControls;
 using Metrohome65.Settings.Controls;
 
 namespace MetroHome65.HomeScreen.Settings
@@ -42,7 +43,7 @@ namespace MetroHome65.HomeScreen.Settings
             stackPanel.AddElement(txtIntro);
 
             // vertival span
-            stackPanel.AddElement(Separator());
+            stackPanel.AddElement(new Separator());
 
 
             // light/dark theme switcher
@@ -55,7 +56,7 @@ namespace MetroHome65.HomeScreen.Settings
             stackPanel.AddElement(ctrTheme);
             BindingManager.Bind(this, "ThemeIndex", ctrTheme, "SelectedIndex");
 
-            stackPanel.AddElement(Separator());
+            stackPanel.AddElement(new Separator());
 
 
             // accent coolor
@@ -67,7 +68,7 @@ namespace MetroHome65.HomeScreen.Settings
             stackPanel.AddElement(ctrAccent);
             BindingManager.Bind(this, "AccentColor", ctrAccent, "Value");
 
-            stackPanel.AddElement(Separator());
+            stackPanel.AddElement(new Separator());
 
 
             // theme background

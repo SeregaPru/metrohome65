@@ -5,6 +5,7 @@ using System.Linq;
 using Fleux.UIElements;
 using MetroHome65.Interfaces;
 using MetroHome65.Routines;
+using MetroHome65.Routines.UIControls;
 using Metrohome65.Settings.Controls;
 
 namespace MetroHome65.Tile
@@ -68,7 +69,7 @@ namespace MetroHome65.Tile
             FillWidgetTypes();
             stackPanel.AddElement(_cbType);
 
-            stackPanel.AddElement(Separator());
+            stackPanel.AddElement(new Separator());
 
 
             stackPanel.AddElement(
@@ -172,7 +173,7 @@ namespace MetroHome65.Tile
                 foreach (var userControl in controls)
                 {
                     _controlsPanel.AddElement(userControl);
-                    _controlsPanel.AddElement(Separator());
+                    _controlsPanel.AddElement(new Separator());
                 }
             }
         }

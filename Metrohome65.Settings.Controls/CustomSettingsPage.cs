@@ -81,11 +81,6 @@ namespace Metrohome65.Settings.Controls
             _pivot.AddPivotItem(pivotItem);
         }
 
-        protected UIElement Separator()
-        {
-            return new Canvas() {Size = new Size(10, 40),};
-        }
-
         protected virtual void CreateSettingsControls()
         { }
 

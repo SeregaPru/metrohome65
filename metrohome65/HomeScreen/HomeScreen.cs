@@ -2,9 +2,11 @@
 using System.Collections.Generic;
 using System.Drawing;
 using Fleux.Controls.Gestures;
+using Fleux.Core;
 using MetroHome65.Controls;
 using MetroHome65.Interfaces;
 using MetroHome65.Interfaces.Events;
+using MetroHome65.LockScreen;
 using MetroHome65.Routines;
 using MetroHome65.Routines.UIControls;
 using MetroHome65.Tile;
@@ -55,7 +57,7 @@ namespace MetroHome65.HomeScreen
                                     };
 
             // экран блокировки
-            var lockScreen = new SimpleLock.SimpleLock();
+            var lockScreen = LockScreenManager.CreateLockScreen();
             AddSection(lockScreen, 0);
 
             // загрузчик плагинов
@@ -63,7 +65,7 @@ namespace MetroHome65.HomeScreen
 
 
             // прокрутчик холста плиток
-            var tilesGrid = new TilesGrid.TilesGrid()
+            var tilesGrid = new TilesGrid.TilesGrid
                                 {
                                     OnExit = ExitApp,
                                     OnShowMainSettings = ShowMainSettings,
@@ -108,7 +110,7 @@ namespace MetroHome65.HomeScreen
         /// Shows user page with entrance animation
         /// </summary>
         /// <param name="page"></param>
-        private void OnShowPage(FleuxControlPage page)
+        private void OnShowPage(FleuxPage page)
         {
             NavigateTo(page);
         }
@@ -242,7 +244,7 @@ namespace MetroHome65.HomeScreen
         /// <summary>
         /// shows main settings dialog
         /// </summary>
-        private void ShowMainSettings()
+        private static void ShowMainSettings()
         {
             try
             {
