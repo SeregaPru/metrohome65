@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using Fleux.Controls;
 using Fleux.UIElements;
 
@@ -29,9 +30,8 @@ namespace MetroHome65.Interfaces
     /// and it should be stored in lockscreen settings
     /// </summary>
     [AttributeUsage(AttributeTargets.Property | AttributeTargets.Field | AttributeTargets.Parameter | AttributeTargets.ReturnValue)]
-    public class LockScreenParameterAttribute : Attribute
-    {
-    }
+    public class LockScreenSettingsAttribute : Attribute
+    { }
 
 
     /// <summary>
@@ -39,7 +39,7 @@ namespace MetroHome65.Interfaces
     /// </summary>
     public interface ILockScreen
     {
-        ICollection<UIElement> EditControls(FleuxControlPage settingsPage);
+        ICollection<UIElement> EditControls(FleuxControlPage settingsPage, INotifyPropertyChanged settings);
     }
 
 }

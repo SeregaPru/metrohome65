@@ -17,11 +17,16 @@ using TinyMessenger;
 
 namespace MetroHome65.SimpleLock
 {
+    public class SimpleLockSettings : CustomSettings
+    {
+        public string Background { get; set; }
+    }
+
+
     [LockScreenInfo("Simple lock screen")]
-    public sealed class SimpleLock : Canvas, IActive, ILockScreen, INotifyPropertyChanged
+    public sealed class SimpleLock : Canvas, IActive, ILockScreen
     {
         private readonly TextElement _lblClock;
-        private string _background;
 
         private const string DateFormat = "HH:mm\ndddd\nMMMM d";
 
@@ -33,16 +38,8 @@ namespace MetroHome65.SimpleLock
             MetroTheme.PhoneForegroundBrush);
 
 
-        /// <summary>
-        /// Background for lockscreen
-        /// </summary>
-        [LockScreenParameter]
-        public string Background
-        {
-            get { return _background; }
-            set { _background = value; }
-        }
-
+        [LockScreenSettings]
+        public SimpleLockSettings Settings = new SimpleLockSettings();
 
         public SimpleLock()
         {
@@ -132,7 +129,7 @@ namespace MetroHome65.SimpleLock
         }
 
 
-        public ICollection<UIElement> EditControls(FleuxControlPage settingsPage)
+        public ICollection<UIElement> EditControls(FleuxControlPage settingsPage, INotifyPropertyChanged settings)
         {
             var bindingManager = new BindingManager();
             var controls = new List<UIElement>();
@@ -141,24 +138,14 @@ namespace MetroHome65.SimpleLock
             var ctrLockScreenImage = new ImageSettingsControl
             {
                 Caption = "Lock screen background",
-                Value = Background,
+                //Value = Background,
             };
             controls.Add(ctrLockScreenImage);
-            bindingManager.Bind(this, "Background", ctrLockScreenImage, "Value");
+            bindingManager.Bind(settings, "Background", ctrLockScreenImage, "Value", true);
 
             return controls;
         }
 
-
-        #region INotifyPropertyChanged
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        protected void NotifyPropertyChanged(String info)
-        {
-            if (PropertyChanged != null)
-                PropertyChanged(this, new PropertyChangedEventArgs(info));
-        }
-        #endregion
     }
 
 }

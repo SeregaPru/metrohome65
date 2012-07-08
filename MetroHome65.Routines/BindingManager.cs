@@ -14,6 +14,7 @@ namespace MetroHome65.Routines
             public string TargetPropertyName;
         }
 
+
         private readonly List<BindingInfo> _binding = new List<BindingInfo>();
 
         public void Bind(
@@ -32,6 +33,17 @@ namespace MetroHome65.Routines
 
             source.PropertyChanged += PropertyChangedEventHandler;
             target.PropertyChanged += PropertyChangedEventHandler;
+        }
+
+        public void Bind(
+            INotifyPropertyChanged source, string sourcePropertyName,
+            INotifyPropertyChanged target, string targetPropertyName, bool initialSet)
+        {
+            Bind(source, sourcePropertyName, target, targetPropertyName);
+
+            // initial set target property value to source value
+            if (initialSet)
+                PropertyChangedEventHandler(source, new PropertyChangedEventArgs(sourcePropertyName));
         }
 
         public void PropertyChangedEventHandler(object sender, PropertyChangedEventArgs e)
@@ -69,5 +81,6 @@ namespace MetroHome65.Routines
             }
             catch (Exception) { }
         }
+
     }
 }
