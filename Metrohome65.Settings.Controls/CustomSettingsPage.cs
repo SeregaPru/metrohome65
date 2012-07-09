@@ -20,9 +20,9 @@ namespace Metrohome65.Settings.Controls
         private T _settings;
 
 
-        protected BindingManager BindingManager { get; private set; }
+        public BindingManager BindingManager { get; private set; }
 
-        protected T Settings
+        public T Settings
         {
             get { return _settings; }
             set { _settings = value; }
@@ -83,6 +83,17 @@ namespace Metrohome65.Settings.Controls
 
         protected virtual void CreateSettingsControls()
         { }
+
+        protected virtual void ClearSettingsControls()
+        {
+            Control.RemoveElement(_pivot);
+        }
+
+        public override void Close()
+        {
+            ClearSettingsControls();
+            base.Close();
+        }
 
         protected virtual void ApplySettings()
         {

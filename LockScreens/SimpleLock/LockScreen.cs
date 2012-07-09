@@ -17,16 +17,33 @@ using TinyMessenger;
 
 namespace MetroHome65.SimpleLock
 {
-    public class SimpleLockSettings : CustomSettings
+    public class SimpleLockSettings : CustomSettings, ILockScreenSettings
     {
+        [LockScreenParameter]
         public string Background { get; set; }
+
+        public ICollection<UIElement> EditControls(FleuxControlPage settingsPage, BindingManager bindingManager)
+        {
+            var controls = new List<UIElement>();
+
+            // lock screen bg image
+            var ctrLockScreenImage = new ImageSettingsControl
+            {
+                Caption = "Lock screen background",
+                //!!Value = Settings.LockScreenImage,
+            };
+            controls.Add(ctrLockScreenImage);
+            bindingManager.Bind(this, "Background", ctrLockScreenImage, "Value");
+
+            return controls;
+        }
     }
 
 
     [LockScreenInfo("Simple lock screen")]
     public sealed class SimpleLock : Canvas, IActive, ILockScreen
     {
-        private readonly TextElement _lblClock;
+        private TextElement _lblClock;
 
         private const string DateFormat = "HH:mm\ndddd\nMMMM d";
 
@@ -39,28 +56,35 @@ namespace MetroHome65.SimpleLock
 
 
         [LockScreenSettings]
-        public SimpleLockSettings Settings = new SimpleLockSettings();
+        public SimpleLockSettings Settings { get; set; } 
 
         public SimpleLock()
         {
-            //!!AddElement(new LockScreenBackground());
+            Settings = new SimpleLockSettings();
 
-            var lineHeight = FleuxApplication.DummyDrawingGraphics.Style(_style).CalculateMultilineTextHeight("0", 100);
+            CreateVisual();
+
+            var messenger = TinyIoCContainer.Current.Resolve<ITinyMessengerHub>();
+            messenger.Subscribe<SettingsChangedMessage>(OnSettingsChanged);
+        }
+
+        private void CreateVisual()
+        {
+            //!!AddElement(new LockScreenBackground());
 
             const int leftOffset = 20;
             const int rightOffset = 10;
 
-            _lblClock = new TextElement(GetText())
-                            {
-                                Style = _style,
-                                AutoSizeMode = TextElement.AutoSizeModeOptions.None,
-                                Size = new Size(ScreenConsts.ScreenWidth.ToLogic() - leftOffset - rightOffset, lineHeight * 4),
-                                Location = new Point(leftOffset, ScreenConsts.ScreenHeight.ToLogic() - lineHeight * 4),
-                            };
-            AddElement(_lblClock);
+            var lineHeight = FleuxApplication.DummyDrawingGraphics.Style(_style).CalculateMultilineTextHeight("0", 100);
 
-            var messenger = TinyIoCContainer.Current.Resolve<ITinyMessengerHub>();
-            messenger.Subscribe<SettingsChangedMessage>(OnSettingsChanged);
+            _lblClock = new TextElement(GetText())
+            {
+                Style = _style,
+                AutoSizeMode = TextElement.AutoSizeModeOptions.None,
+                Size = new Size(ScreenConsts.ScreenWidth.ToLogic() - leftOffset - rightOffset, lineHeight * 4),
+                Location = new Point(leftOffset, ScreenConsts.ScreenHeight.ToLogic() - lineHeight * 4),
+            };
+            AddElement(_lblClock);
 
             this.TapHandler = OnTap;
         }
@@ -126,24 +150,6 @@ namespace MetroHome65.SimpleLock
                 _lblClock.Style.Foreground = MetroTheme.PhoneForegroundBrush;
                 Update();
             }
-        }
-
-
-        public ICollection<UIElement> EditControls(FleuxControlPage settingsPage, INotifyPropertyChanged settings)
-        {
-            var bindingManager = new BindingManager();
-            var controls = new List<UIElement>();
-
-            // lock screen bg image
-            var ctrLockScreenImage = new ImageSettingsControl
-            {
-                Caption = "Lock screen background",
-                //Value = Background,
-            };
-            controls.Add(ctrLockScreenImage);
-            bindingManager.Bind(settings, "Background", ctrLockScreenImage, "Value", true);
-
-            return controls;
         }
 
     }

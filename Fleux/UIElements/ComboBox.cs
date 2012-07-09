@@ -65,9 +65,9 @@ namespace Fleux.UIElements
 
                 if (value <= 0) _selectedIndex = 0;
                 else
-                if (value >= _items.Count) _selectedIndex = _items.Count;
+                if (value >= _items.Count) _selectedIndex = _items.Count - 1;
                 else
-                _selectedIndex = value;
+                    _selectedIndex = value;
 
                 _selectedElement = BuildCustomItem(_items[_selectedIndex], false);
                 _selectedElement.Location = new Point(Padding, 0);
