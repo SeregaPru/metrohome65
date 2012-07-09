@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Drawing;
 using Fleux.Styles;
+using MetroHome65.Interfaces;
 using MetroHome65.Interfaces.Events;
 using MetroHome65.Routines;
 using TinyIoC;
@@ -44,16 +45,27 @@ namespace MetroHome65.HomeScreen.Settings
             set { SetField(ref _accentColor, value, "AccentColor"); }
         }
 
+
         /// <summary>
-        /// special background image for lock screen
+        /// ...
         /// </summary>
-        private string _lockScreenImage;
-        public string LockScreenImage
+        private string _lockScreenClass;
+        public string LockScreenClass
         {
-            get { return _lockScreenImage; }
-            set { SetField(ref _lockScreenImage, value, "LockScreenImage"); }
+            get { return _lockScreenClass; }
+            set { SetField(ref _lockScreenClass, value, "LockScreenClass"); }
         }
-        
+
+        /// <summary>
+        /// ...
+        /// </summary>
+        private object _lockScreenSettings;
+        public object LockScreenSettings
+        {
+            get { return _lockScreenSettings; }
+            set { SetField(ref _lockScreenSettings, value, "LockScreenSettings"); }
+        }
+
 
         public MainSettings()
         {
@@ -68,7 +80,8 @@ namespace MetroHome65.HomeScreen.Settings
 
             // setting additional properties that are not stored in main theme
             cloneSettings.ThemeImage = mainSettings.ThemeImage;
-            cloneSettings.LockScreenImage = mainSettings.LockScreenImage;
+
+            cloneSettings.LockScreenClass = mainSettings.LockScreenClass;
 
             return cloneSettings;
         }
@@ -107,10 +120,10 @@ namespace MetroHome65.HomeScreen.Settings
             }
 
             // lock screen settings
-            if (mainSettings.LockScreenImage != this.LockScreenImage)
+            if (mainSettings.LockScreenClass != this.LockScreenClass)
             {
-                mainSettings.LockScreenImage = this.LockScreenImage;
-                messenger.Publish(new SettingsChangedMessage("LockScreenImage"));
+                mainSettings.LockScreenClass = this.LockScreenClass;
+                messenger.Publish(new SettingsChangedMessage("LockScreenClass"));
             }
         }
 

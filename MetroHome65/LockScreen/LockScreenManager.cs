@@ -9,7 +9,7 @@ namespace MetroHome65.LockScreen
         {
             var pluginManager = TinyIoC.TinyIoCContainer.Current.Resolve<IPluginManager>();
 
-            return pluginManager.CreateLockScreen("SimpleLock.SimpleLock") as UIElement;
+            return pluginManager.CreateLockScreen("MetroHome65.SimpleLock.SimpleLock") as UIElement;
         }
     }
 }

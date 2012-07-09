@@ -48,6 +48,9 @@ namespace MetroHome65.HomeScreen
             var background = new ThemedBackground { Location = new Point(0, 0), };
             Control.AddElement(background);
             TinyIoCContainer.Current.Register<ScaledBackground>(background);
+
+            // загрузчик плагинов
+            TinyIoCContainer.Current.Register<IPluginManager>(new PluginManager());
             
             // холст главной страницы
             _homeScreenCanvas = new Canvas 
@@ -59,10 +62,6 @@ namespace MetroHome65.HomeScreen
             // экран блокировки
             var lockScreen = LockScreenManager.CreateLockScreen();
             AddSection(lockScreen, 0);
-
-            // загрузчик плагинов
-            TinyIoCContainer.Current.Register<IPluginManager>(new PluginManager());
-
 
             // прокрутчик холста плиток
             var tilesGrid = new TilesGrid.TilesGrid

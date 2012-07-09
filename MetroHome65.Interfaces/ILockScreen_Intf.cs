@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using Fleux.Controls;
 using Fleux.UIElements;
+using MetroHome65.Routines;
 
 namespace MetroHome65.Interfaces
 {
@@ -26,20 +27,30 @@ namespace MetroHome65.Interfaces
     }
 
     /// <summary>
-    /// Mark field or property of lockscreen, that it is user defined parameter,
-    /// and it should be stored in lockscreen settings
+    /// Mark field or property of lockscreen, that holds settings for this plugin
     /// </summary>
     [AttributeUsage(AttributeTargets.Property | AttributeTargets.Field | AttributeTargets.Parameter | AttributeTargets.ReturnValue)]
     public class LockScreenSettingsAttribute : Attribute
     { }
 
+    /// <summary>
+    /// Mark field or property of settings that should be stored in file
+    /// </summary>
+    [AttributeUsage(AttributeTargets.Property | AttributeTargets.Field | AttributeTargets.Parameter | AttributeTargets.ReturnValue)]
+    public class LockScreenParameterAttribute : Attribute
+    { }
+
+
+    public interface ILockScreenSettings : INotifyPropertyChanged
+    {
+        ICollection<UIElement> EditControls(FleuxControlPage settingsPage, BindingManager bindingManager);
+    }
 
     /// <summary>
     /// Lock screen base interface
     /// </summary>
     public interface ILockScreen
     {
-        ICollection<UIElement> EditControls(FleuxControlPage settingsPage, INotifyPropertyChanged settings);
     }
 
 }

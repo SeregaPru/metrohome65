@@ -80,12 +80,22 @@ namespace MetroHome65.HomeScreen.Settings
             stackPanel.AddElement(ctrThemeImage);
             BindingManager.Bind(Settings, "ThemeImage", ctrThemeImage, "Value");
 
+            stackPanel.AddElement(new Separator());
+
             return scroller;
         }
 
         private UIElement CreateLockScreenControls()
         {
-            return new LockScreenSettings();
+            var scroller = new ScrollViewer
+            {
+                Content = new LockScreenSettings(this),
+                Location = new Point(SettingsConsts.PaddingHor, 0),
+                ShowScrollbars = true,
+                HorizontalScroll = false,
+                VerticalScroll = true,
+            };
+            return scroller;
         }
 
         // internal wrapper from combobox selectedindex to boolean value
