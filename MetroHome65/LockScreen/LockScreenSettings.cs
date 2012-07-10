@@ -4,7 +4,6 @@ using System.Drawing;
 using Fleux.UIElements;
 using MetroHome65.HomeScreen.Settings;
 using MetroHome65.Interfaces;
-using MetroHome65.Routines;
 using MetroHome65.Routines.UIControls;
 using Metrohome65.Settings.Controls;
 
@@ -18,6 +17,8 @@ namespace MetroHome65.LockScreen
         private readonly IPluginManager _pluginManager;
 
         private List<Type> _lockScreenTypes = new List<Type>();
+
+        private StackPanel _settingsPanel;
 
 
 
@@ -39,6 +40,8 @@ namespace MetroHome65.LockScreen
             this.AddElement(new Separator());
 
             // add current lockscreen settings
+            _settingsPanel = new StackPanel();
+            this.AddElement(_settingsPanel);
             ChangeLockScreenType();
         }
 
@@ -77,6 +80,7 @@ namespace MetroHome65.LockScreen
 
             // get selected plugin type
             var type = _lockScreenTypes[_lockScreenTypeCombo.SelectedIndex];
+            _page.Settings.LockScreenClass = type.FullName;
 
             Type settingsType = null;
             var props = type.GetProperties();
@@ -101,15 +105,17 @@ namespace MetroHome65.LockScreen
 
         private void CreateSettingsControls()
         {
+            _settingsPanel.Clear();
+
             var lockScreenSettings = _page.Settings.LockScreenSettings as ILockScreenSettings;
             if (lockScreenSettings == null) return;
 
             var controls = lockScreenSettings.EditControls(_page, _page.BindingManager);
             foreach (var uiElement in controls)
             {
-                this.AddElement(uiElement);
+                _settingsPanel.AddElement(uiElement);
 
-                this.AddElement(new Separator());
+                _settingsPanel.AddElement(new Separator());
             }
 
         }

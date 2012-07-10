@@ -60,7 +60,7 @@ namespace MetroHome65.HomeScreen
                                     };
 
             // экран блокировки
-            var lockScreen = LockScreenManager.CreateLockScreen();
+            var lockScreen = new LockScreenManager();
             AddSection(lockScreen, 0);
 
             // прокрутчик холста плиток
