@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Drawing;
 using Fleux.Animations;
 using Fleux.Controls;
@@ -11,6 +10,7 @@ using Fleux.UIElements;
 using MetroHome65.Interfaces;
 using MetroHome65.Interfaces.Events;
 using MetroHome65.Routines;
+using MetroHome65.Routines.UIControls;
 using Metrohome65.Settings.Controls;
 using TinyIoC;
 using TinyMessenger;
@@ -22,11 +22,10 @@ namespace MetroHome65.SimpleLock
         [LockScreenParameter]
         public string Background { get; set; }
 
-        public ICollection<UIElement> EditControls(FleuxControlPage settingsPage, BindingManager bindingManager)
+        public virtual ICollection<UIElement> EditControls(FleuxControlPage settingsPage, BindingManager bindingManager)
         {
             var controls = new List<UIElement>();
 
-            // lock screen bg image
             var ctrLockScreenImage = new ImageSettingsControl
             {
                 Caption = "Lock screen background",
@@ -41,7 +40,7 @@ namespace MetroHome65.SimpleLock
 
 
     [LockScreenInfo("Simple lock screen")]
-    public sealed class SimpleLock : Canvas, IActive, ILockScreen
+    public class SimpleLock : Canvas, IActive, ILockScreen
     {
         private TextElement _lblClock;
 
@@ -60,7 +59,7 @@ namespace MetroHome65.SimpleLock
 
         public SimpleLock()
         {
-            Settings = new SimpleLockSettings();
+            CreateSettings();
 
             CreateVisual();
 
@@ -68,9 +67,14 @@ namespace MetroHome65.SimpleLock
             messenger.Subscribe<SettingsChangedMessage>(OnSettingsChanged);
         }
 
+        protected virtual void CreateSettings()
+        {
+            Settings = new SimpleLockSettings();
+        }
+
         private void CreateVisual()
         {
-            //!!AddElement(new LockScreenBackground());
+            AddElement(new ScaledBackground(Settings.Background));
 
             const int leftOffset = 20;
             const int rightOffset = 10;
@@ -95,7 +99,7 @@ namespace MetroHome65.SimpleLock
             // do not call update because change text property calls update inside
         }
 
-        private string GetText()
+        protected virtual string GetText()
         {
             return DateTime.Now.ToString(DateFormat);
         }
@@ -153,5 +157,47 @@ namespace MetroHome65.SimpleLock
         }
 
     }
+
+
+    public class AdvancedLockSettings : SimpleLockSettings
+    {
+        [LockScreenParameter]
+        public string DateFormat { get; set; }
+
+        public override ICollection<UIElement> EditControls(FleuxControlPage settingsPage, BindingManager bindingManager)
+        {
+            var controls = base.EditControls(settingsPage, bindingManager);
+
+            var ctrDateFormat = new StringSettingsControl(settingsPage)
+            {
+                Caption = "Date format",
+                //!!Value = Settings.LockScreenImage,
+            };
+            controls.Add(ctrDateFormat);
+            bindingManager.Bind(this, "DateFormat", ctrDateFormat, "Value");
+
+            return controls;
+        }
+    }
+
+
+    [LockScreenInfo("Advanced lock screen")]
+    public class AdvancedLock : SimpleLock
+    {
+        [LockScreenSettings]
+        public AdvancedLockSettings Settings { get; set; }
+
+        protected override void CreateSettings()
+        {
+            Settings = new AdvancedLockSettings();
+        }
+
+        protected override string GetText()
+        {
+            return DateTime.Now.ToString(Settings.DateFormat);
+        }
+
+    }
+
 
 }

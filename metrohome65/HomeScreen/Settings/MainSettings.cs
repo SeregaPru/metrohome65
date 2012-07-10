@@ -120,7 +120,7 @@ namespace MetroHome65.HomeScreen.Settings
             }
 
             // lock screen settings
-            if (mainSettings.LockScreenClass != this.LockScreenClass)
+            if (! String.Equals(mainSettings.LockScreenClass, this.LockScreenClass))
             {
                 mainSettings.LockScreenClass = this.LockScreenClass;
                 messenger.Publish(new SettingsChangedMessage("LockScreenClass"));
