@@ -3,44 +3,44 @@ using System.Collections;
 using System.Reflection;
 using System.Linq;
 using System.IO;
+using MetroHome65.Interfaces;
 
-using MetroHome65.Widgets;
-
-namespace MetroHome65.Pages
+namespace MetroHome65
 {
     /// <summary>
     /// Class for managing plugins assemblies:
     /// load plugins at sartup, create plugin by type etc.
     /// </summary>
-    class PluginManager
+    public class PluginManager : IPluginManager
     {
-        static private PluginManager _instance = null;
-
-        static public PluginManager GetInstance()
-        {
-            if (_instance == null)
-                _instance = new PluginManager();
-            return _instance;
-        }
+        private readonly Hashtable _tilePlugins = new Hashtable();
+        private readonly Hashtable _lockScreenPlugins = new Hashtable();
 
         public PluginManager()
         {
             LoadPlugins();
         }
         
-        //!! todo потом сделать приватным а выставить итератор
-        public Hashtable _plugins = new Hashtable();
+        public IEnumerable GetTileTypes()
+        {
+            return _tilePlugins.Values;
+        }
+
+        public IEnumerable GetLockScreenTypes()
+        {
+            return _lockScreenPlugins.Values;
+        }
 
         /// <summary>
         /// reads all .dll in Plugins folder and scans for plugins with 
-        /// IWidget interface.
+        /// ITile interface.
         /// Fill internal plugin map - plugin type by name.
         /// </summary>
         private void LoadPlugins()
         {
-            DirectoryInfo FolderInfo = new DirectoryInfo(
-                System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().GetName().CodeBase));
-            FileInfo[] files = FolderInfo.GetFiles();
+            var folderInfo = new DirectoryInfo(
+                Path.GetDirectoryName(Assembly.GetExecutingAssembly().GetName().CodeBase));
+            FileInfo[] files = folderInfo.GetFiles();
 
             foreach (FileInfo file in files)
             {
@@ -50,29 +50,41 @@ namespace MetroHome65.Pages
             }
         }
 
-        private void LoadPlugin(String PluginPath)
+        private void LoadPlugin(String pluginPath)
         {
-            Assembly assembly = Assembly.LoadFrom(PluginPath);
+            var assembly = Assembly.LoadFrom(pluginPath);
 
-            foreach (Type type in assembly.GetTypes())
+            foreach (var type in assembly.GetTypes())
             {
-                if ((type.IsClass) && 
-                    (type.GetInterfaces().Contains(typeof(IWidget))) &&
-                    (! type.IsAbstract))
+                if ((type.IsClass) && (! type.IsAbstract))
                 {
-                    _plugins.Add(type.FullName, type);
+                    if (type.GetInterfaces().Contains(typeof(ITile))) 
+                        _tilePlugins.Add(type.FullName, type);
+                    else
+                    if (type.GetInterfaces().Contains(typeof(ILockScreen)))
+                        _lockScreenPlugins.Add(type.FullName, type);
                 }
             }
         }
 
-        public IWidget CreateWidget(String WidgetName)
+        public ITile CreateTile(String tileName)
         {
-            Type WidgetType = (Type)_plugins[WidgetName];
-            if (WidgetType == null) return null;
+            var tileType = (Type)_tilePlugins[tileName];
+            if (tileType == null) return null;
 
-            IWidget Widget = (IWidget)Activator.CreateInstance(WidgetType);
-            return Widget;
+            var tile = (ITile)Activator.CreateInstance(tileType);
+            return tile;
+        }
+
+        public ILockScreen CreateLockScreen(String lockScreenName)
+        {
+            var lockScreenType = (Type)_lockScreenPlugins[lockScreenName];
+            if (lockScreenType == null) return null;
+
+            var lockScreen = (ILockScreen)Activator.CreateInstance(lockScreenType);
+            return lockScreen;
         }
 
     }
+
 }
