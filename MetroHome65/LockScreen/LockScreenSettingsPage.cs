@@ -4,8 +4,11 @@ using System.Drawing;
 using Fleux.UIElements;
 using MetroHome65.HomeScreen.Settings;
 using MetroHome65.Interfaces;
+using MetroHome65.Interfaces.Events;
 using MetroHome65.Routines.UIControls;
 using Metrohome65.Settings.Controls;
+using TinyIoC;
+using TinyMessenger;
 
 namespace MetroHome65.LockScreen
 {
@@ -13,19 +16,16 @@ namespace MetroHome65.LockScreen
     {
         private readonly CustomSettingsPage<MainSettings> _page;
         private readonly ComboBox _lockScreenTypeCombo;
+        private readonly StackPanel _settingsPanel;
 
-        private readonly IPluginManager _pluginManager;
-
-        private List<Type> _lockScreenTypes = new List<Type>();
-
-        private StackPanel _settingsPanel;
-
+        private readonly List<Type> _lockScreenTypes = new List<Type>();
+        private ILockScreenSettings _lockScreenSettings;
 
 
         public LockScreenSettingsPage(CustomSettingsPage<MainSettings> page)
         {
             _page = page;
-            _pluginManager = TinyIoC.TinyIoCContainer.Current.Resolve<IPluginManager>();
+            _page.OnApplySettings += (sender, settings) => OnApplySettings(settings);
 
             // selection for lockscreen plugin
             this.AddElement(
@@ -53,6 +53,8 @@ namespace MetroHome65.LockScreen
             _lockScreenTypeCombo.Items.Clear();
             _lockScreenTypes.Clear();
 
+            var _pluginManager = TinyIoC.TinyIoCContainer.Current.Resolve<IPluginManager>();
+
             var selectedIndex = -1;
             foreach (Type plugin in _pluginManager.GetLockScreenTypes())
             {
@@ -67,7 +69,7 @@ namespace MetroHome65.LockScreen
                 _lockScreenTypeCombo.Items.Add(lockScreenName);
                 _lockScreenTypes.Add(plugin);
 
-                if (_page.Settings.LockScreenClass == plugin.Name)
+                if (_page.Settings.LockScreenClass == plugin.FullName)
                     selectedIndex = _lockScreenTypeCombo.Items.Count - 1;
             }
 
@@ -104,27 +106,46 @@ namespace MetroHome65.LockScreen
 
             // create empty settings object for selected lockscreen type
             if (settingsType == null) return;
-            var settings = Activator.CreateInstance(settingsType);
 
-            _page.Settings.LockScreenSettings = settings as ILockScreenSettings;
+            var settings = Activator.CreateInstance(settingsType);
+            _lockScreenSettings = settings as ILockScreenSettings;
+            if (_lockScreenSettings == null) return;
+
             CreateSettingsControls();
         }
 
+        /// <summary>
+        /// create controls for selected lockscreen settings
+        /// </summary>
         private void CreateSettingsControls()
         {
             _settingsPanel.Clear();
 
-            var lockScreenSettings = _page.Settings.LockScreenSettings as ILockScreenSettings;
-            if (lockScreenSettings == null) return;
-
-            var controls = lockScreenSettings.EditControls(_page, _page.BindingManager);
+            var controls = _lockScreenSettings.EditControls(_page, _page.BindingManager);
             foreach (var uiElement in controls)
             {
                 _settingsPanel.AddElement(uiElement);
-
                 _settingsPanel.AddElement(new Separator());
             }
-
         }
+
+        /// <summary>
+        /// notify about change lockscreen settings
+        /// </summary>
+        /// <param name="settings"></param>
+        private void OnApplySettings(MainSettings settings)
+        {
+            var mainSettings = TinyIoCContainer.Current.Resolve<MainSettings>();
+            var messenger = TinyIoCContainer.Current.Resolve<ITinyMessengerHub>();
+
+            if (!String.Equals(mainSettings.LockScreenClass, settings.LockScreenClass))
+            {
+                mainSettings.LockScreenClass = settings.LockScreenClass;
+                messenger.Publish(new SettingsChangedMessage("LockScreenClass", settings.LockScreenClass));
+            }
+
+            messenger.Publish(new SettingsChangedMessage("LockScreenSettings", _lockScreenSettings));
+        }
+
     }
 }

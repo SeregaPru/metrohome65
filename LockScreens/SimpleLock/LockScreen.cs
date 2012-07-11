@@ -42,9 +42,10 @@ namespace MetroHome65.SimpleLock
     [LockScreenInfo("Simple lock screen")]
     public class SimpleLock : Canvas, IActive, ILockScreen
     {
-        private TextElement _lblClock;
-
         private const string DateFormat = "HH:mm\ndddd\nMMMM d";
+
+        private TextElement _lblClock;
+        private ScaledBackground _background;
 
         private ThreadTimer _updateTimer;
 
@@ -55,16 +56,13 @@ namespace MetroHome65.SimpleLock
 
 
         [LockScreenSettings]
-        public SimpleLockSettings Settings { get; set; } 
+        public SimpleLockSettings Settings { get; private set; }
 
         public SimpleLock()
         {
             CreateSettings();
 
             CreateVisual();
-
-            var messenger = TinyIoCContainer.Current.Resolve<ITinyMessengerHub>();
-            messenger.Subscribe<SettingsChangedMessage>(OnSettingsChanged);
         }
 
         protected virtual void CreateSettings()
@@ -72,9 +70,16 @@ namespace MetroHome65.SimpleLock
             Settings = new SimpleLockSettings();
         }
 
+        // ILockScreen
+        public virtual void ApplySettings(ILockScreenSettings settings)
+        {
+            _background.Image = (settings as SimpleLockSettings).Background;
+        }
+
         private void CreateVisual()
         {
-            AddElement(new ScaledBackground(Settings.Background));
+            _background = new ScaledBackground(Settings.Background);
+            AddElement(_background);
 
             const int leftOffset = 20;
             const int rightOffset = 10;
@@ -145,15 +150,6 @@ namespace MetroHome65.SimpleLock
             StoryBoard.BeginPlay(screenAnimation);
 
             return true;
-        }
-
-        private void OnSettingsChanged(SettingsChangedMessage settingsChangedMessage)
-        {
-            if (settingsChangedMessage.PropertyName == "ThemeIsDark")
-            {
-                _lblClock.Style.Foreground = MetroTheme.PhoneForegroundBrush;
-                Update();
-            }
         }
 
     }

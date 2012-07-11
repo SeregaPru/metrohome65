@@ -248,12 +248,8 @@ namespace MetroHome65.HomeScreen
             try
             {
                 var mainSettingsForm = new MainSettingsForm(MainSettings.Clone());
-                mainSettingsForm.OnApplySettings += (sender, settings) =>
-                {
-                    settings.ApplyTheme();
-                    // write new settings to file
+                mainSettingsForm.OnApplySettings += (sender, settings) => 
                     (new MainSettingsProvider()).WriteSettings();
-                };
 
                 var messenger = TinyIoCContainer.Current.Resolve<ITinyMessengerHub>();
                 messenger.Publish(new ShowPageMessage(mainSettingsForm));

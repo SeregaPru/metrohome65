@@ -104,26 +104,19 @@ namespace MetroHome65.HomeScreen.Settings
             if (mainSettings.ThemeIsDark != this.ThemeIsDark)
             {
                 mainSettings.ThemeIsDark = this.ThemeIsDark;
-                messenger.Publish(new SettingsChangedMessage("ThemeIsDark"));
+                messenger.Publish(new SettingsChangedMessage("ThemeIsDark", this.ThemeIsDark));
             }
 
             if (mainSettings.AccentColor != this.AccentColor)
             {
                 mainSettings.AccentColor = this.AccentColor;
-                messenger.Publish(new SettingsChangedMessage("AccentColor"));
+                messenger.Publish(new SettingsChangedMessage("AccentColor", this.AccentColor));
             }
 
             if (mainSettings.ThemeImage != this.ThemeImage)
             {
                 mainSettings.ThemeImage = this.ThemeImage;
-                messenger.Publish(new SettingsChangedMessage("ThemeImage"));
-            }
-
-            // lock screen settings
-            if (! String.Equals(mainSettings.LockScreenClass, this.LockScreenClass))
-            {
-                mainSettings.LockScreenClass = this.LockScreenClass;
-                messenger.Publish(new SettingsChangedMessage("LockScreenClass"));
+                messenger.Publish(new SettingsChangedMessage("ThemeImage", this.ThemeImage));
             }
         }
 

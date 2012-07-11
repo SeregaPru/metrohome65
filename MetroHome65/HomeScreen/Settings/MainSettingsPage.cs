@@ -28,6 +28,7 @@ namespace MetroHome65.HomeScreen.Settings
         public MainSettingsPage(CustomSettingsPage<MainSettings> page)
         {
             _page = page;
+            _page.OnApplySettings += (sender, settings) => OnApplySettings(settings);
 
             //!!Size = new Size(Size.Width - SettingsConsts.PaddingHor * 2, 1);
 
@@ -80,6 +81,11 @@ namespace MetroHome65.HomeScreen.Settings
             this.AddElement(new Separator());
         }
 
+
+        private void OnApplySettings(MainSettings settings)
+        {
+            settings.ApplyTheme();
+        }
 
         #region INotifyPropertyChanged
 

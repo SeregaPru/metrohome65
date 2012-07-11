@@ -51,6 +51,7 @@ namespace MetroHome65.Interfaces
     /// </summary>
     public interface ILockScreen
     {
+        void ApplySettings(ILockScreenSettings settings);
     }
 
 }
