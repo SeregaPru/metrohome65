@@ -14,13 +14,27 @@ namespace Metrohome65.Settings.Controls
     {
         public delegate void ApplySettingsHandler(CustomSettingsPage<T> sender, T settings);
 
-        
+
+        #region Fields
+
         private Pivot _pivot;
 
         private T _settings;
 
+        #endregion
+
+
+
+        #region Properties
 
         public BindingManager BindingManager { get; private set; }
+
+        // event triggered when selected item changed
+        public event ApplySettingsHandler OnApplySettings;
+
+        #endregion
+
+
 
         public T Settings
         {
@@ -120,9 +134,6 @@ namespace Metrohome65.Settings.Controls
                 // close button
                 Close();
         }
-
-        // event triggered when selected item changed
-        public event ApplySettingsHandler OnApplySettings;
 
 
         #region INotifyPropertyChanged
