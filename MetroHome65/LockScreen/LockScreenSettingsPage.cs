@@ -9,7 +9,7 @@ using Metrohome65.Settings.Controls;
 
 namespace MetroHome65.LockScreen
 {
-    public class LockScreenSettings: StackPanel
+    public class LockScreenSettingsPage: StackPanel
     {
         private readonly CustomSettingsPage<MainSettings> _page;
         private readonly ComboBox _lockScreenTypeCombo;
@@ -22,7 +22,7 @@ namespace MetroHome65.LockScreen
 
 
 
-        public LockScreenSettings(CustomSettingsPage<MainSettings> page)
+        public LockScreenSettingsPage(CustomSettingsPage<MainSettings> page)
         {
             _page = page;
             _pluginManager = TinyIoC.TinyIoCContainer.Current.Resolve<IPluginManager>();
@@ -45,6 +45,9 @@ namespace MetroHome65.LockScreen
             ChangeLockScreenType();
         }
 
+        /// <summary>
+        /// Fill combobox with lockscreen types from loaded plugins
+        /// </summary>
         private void FillLockScreenTypes()
         {
             _lockScreenTypeCombo.Items.Clear();
@@ -74,6 +77,10 @@ namespace MetroHome65.LockScreen
                 _lockScreenTypeCombo.SelectedIndex = 2; // hack
         }
 
+        /// <summary>
+        /// Handler for change of lockscreen type.
+        /// Rebuild settings page with settings for new selected lockscreen type.
+        /// </summary>
         private void ChangeLockScreenType()
         {
             if (_lockScreenTypeCombo.SelectedIndex == -1) return;

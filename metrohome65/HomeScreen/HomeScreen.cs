@@ -247,7 +247,7 @@ namespace MetroHome65.HomeScreen
         {
             try
             {
-                var mainSettingsForm = new MainSettingsPage(MainSettings.Clone());
+                var mainSettingsForm = new MainSettingsForm(MainSettings.Clone());
                 mainSettingsForm.OnApplySettings += (sender, settings) =>
                 {
                     settings.ApplyTheme();
