@@ -1,49 +1,49 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
+using System.ComponentModel;
 using System.Drawing;
 using Fleux.Styles;
 using Fleux.UIElements;
-using MetroHome65.LockScreen;
 using MetroHome65.Routines.UIControls;
 using Metrohome65.Settings.Controls;
 
 namespace MetroHome65.HomeScreen.Settings
 {
-    public sealed class MainSettingsPage : CustomSettingsPage<MainSettings>
+    public class MainSettingsPage: StackPanel, INotifyPropertyChanged
     {
-        public MainSettingsPage(MainSettings settings) : base(settings) { }
+        private readonly CustomSettingsPage<MainSettings> _page;
 
-        protected override void CreateSettingsControls()
+        // internal wrapper from combobox selectedindex to boolean value
+        public int ThemeIndex
         {
-            AddPage(CreateThemeControls(), "theme");
-            AddPage(CreateLockScreenControls(), "lockscreen");
+            get { return (_page.Settings.ThemeIsDark ? 0 : 1); }
+            set { _page.Settings.ThemeIsDark = (value == 0); }
         }
 
-        private UIElement CreateThemeControls()
+        public Color AccentColor
         {
-            var stackPanel = new StackPanel { Size = new Size(Size.Width - SettingsConsts.PaddingHor * 2, 1), };
+            get { return _page.Settings.AccentColor; }
+            set { _page.Settings.AccentColor = value; }
+        }
 
-            var scroller = new ScrollViewer
-            {
-                Content = stackPanel,
-                Location = new Point(SettingsConsts.PaddingHor, 0),
-                ShowScrollbars = true,
-                HorizontalScroll = false,
-                VerticalScroll = true,
-            };
-            
+        public MainSettingsPage(CustomSettingsPage<MainSettings> page)
+        {
+            _page = page;
+
+            //!!Size = new Size(Size.Width - SettingsConsts.PaddingHor * 2, 1);
+
             // intro
             var txtIntro =
                 new TextElement(
                     "Change your phone's background and accent color to match your mood today, this week, or all month.")
-                    {
-                        Size = new Size(stackPanel.Size.Width - 10, 50),
-                        Style = new TextStyle(MetroTheme.PhoneFontFamilyNormal, MetroTheme.PhoneFontSizeSmall, MetroTheme.PhoneForegroundBrush),
-                        AutoSizeMode = TextElement.AutoSizeModeOptions.WrapText,
-                    };
-            stackPanel.AddElement(txtIntro);
+                {
+                    Size = new Size(this.Size.Width - 10, 50),
+                    Style = new TextStyle(MetroTheme.PhoneFontFamilyNormal, MetroTheme.PhoneFontSizeSmall, MetroTheme.PhoneForegroundBrush),
+                    AutoSizeMode = TextElement.AutoSizeModeOptions.WrapText,
+                };
+            this.AddElement(txtIntro);
 
             // vertival span
-            stackPanel.AddElement(new Separator());
+            this.AddElement(new Separator());
 
 
             // light/dark theme switcher
@@ -51,65 +51,41 @@ namespace MetroHome65.HomeScreen.Settings
             {
                 Caption = "Theme",
                 Items = new List<object> { "dark", "light" },
-                SelectedIndex = this.ThemeIndex,
             };
-            stackPanel.AddElement(ctrTheme);
-            BindingManager.Bind(this, "ThemeIndex", ctrTheme, "SelectedIndex");
+            this.AddElement(ctrTheme);
+            _page.BindingManager.Bind(this, "ThemeIndex", ctrTheme, "SelectedIndex", true);
 
-            stackPanel.AddElement(new Separator());
+            this.AddElement(new Separator());
 
 
             // accent coolor
             var ctrAccent = new ColorSettingsControl(false)
             {
                 Caption = "Accent Color",
-                Value = Settings.AccentColor,
             };
-            stackPanel.AddElement(ctrAccent);
-            BindingManager.Bind(this, "AccentColor", ctrAccent, "Value");
+            this.AddElement(ctrAccent);
+            _page.BindingManager.Bind(this, "AccentColor", ctrAccent, "Value", true);
 
-            stackPanel.AddElement(new Separator());
+            this.AddElement(new Separator());
 
 
             // theme background
             var ctrThemeImage = new ImageSettingsControl
             {
                 Caption = "Theme background",
-                Value = Settings.ThemeImage,
             };
-            stackPanel.AddElement(ctrThemeImage);
-            BindingManager.Bind(Settings, "ThemeImage", ctrThemeImage, "Value");
+            this.AddElement(ctrThemeImage);
+            _page.BindingManager.Bind(_page.Settings, "ThemeImage", ctrThemeImage, "Value", true);
 
-            stackPanel.AddElement(new Separator());
-
-            return scroller;
+            this.AddElement(new Separator());
         }
 
-        private UIElement CreateLockScreenControls()
-        {
-            var scroller = new ScrollViewer
-            {
-                Content = new LockScreenSettings(this),
-                Location = new Point(SettingsConsts.PaddingHor, 0),
-                ShowScrollbars = true,
-                HorizontalScroll = false,
-                VerticalScroll = true,
-            };
-            return scroller;
-        }
 
-        // internal wrapper from combobox selectedindex to boolean value
-        public int ThemeIndex
-        {
-            get { return (Settings.ThemeIsDark ? 0 : 1); }
-            set { Settings.ThemeIsDark = (value == 0); }
-        }
+        #region INotifyPropertyChanged
 
-        public Color AccentColor
-        {
-            get { return Settings.AccentColor; }
-            set { Settings.AccentColor = value; }
-        }
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        #endregion
 
     }
 }
