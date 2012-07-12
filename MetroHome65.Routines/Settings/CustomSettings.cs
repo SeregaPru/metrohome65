@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 
-namespace MetroHome65.Routines
+namespace MetroHome65.Routines.Settings
 {
     [Serializable]
     public class CustomSettings : INotifyPropertyChanged

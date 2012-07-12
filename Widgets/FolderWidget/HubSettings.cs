@@ -1,4 +1,4 @@
-using MetroHome65.Routines;
+using MetroHome65.Routines.Settings;
 using MetroHome65.Tile;
 
 namespace FolderWidget

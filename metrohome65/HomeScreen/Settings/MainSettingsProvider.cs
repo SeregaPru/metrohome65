@@ -1,5 +1,5 @@
 using System;
-using MetroHome65.Routines;
+using MetroHome65.Routines.File;
 using TinyIoC;
 
 namespace MetroHome65.HomeScreen.Settings
@@ -17,7 +17,7 @@ namespace MetroHome65.HomeScreen.Settings
 
                 TinyIoCContainer.Current.Register<MainSettings>(settings);
 
-                settings = XMLHelper<MainSettings>.Read(SettingsFile());
+                settings = XmlHelper<MainSettings>.Read(SettingsFile());
                 settings.ApplyTheme();
             }
             catch (Exception e)
@@ -31,7 +31,7 @@ namespace MetroHome65.HomeScreen.Settings
             try
             {
                 var settings = TinyIoCContainer.Current.Resolve<MainSettings>();
-                XMLHelper<MainSettings>.Write(settings, SettingsFile());
+                XmlHelper<MainSettings>.Write(settings, SettingsFile());
             }
             catch (Exception e)
             {

@@ -8,6 +8,8 @@ using MetroHome65.Interfaces;
 using MetroHome65.Interfaces.Events;
 using MetroHome65.LockScreen;
 using MetroHome65.Routines;
+using MetroHome65.Routines.File;
+using MetroHome65.Routines.Screen;
 using MetroHome65.Routines.UIControls;
 using MetroHome65.Tile;
 using Microsoft.WindowsMobile.Status;

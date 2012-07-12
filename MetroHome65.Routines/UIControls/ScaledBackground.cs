@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Drawing;
 using System.Drawing.Imaging;
-using System.Windows.Forms;
 using Fleux.UIElements;
+using FormsScreen = System.Windows.Forms.Screen;
 
 namespace MetroHome65.Routines.UIControls
 {
@@ -20,7 +20,7 @@ namespace MetroHome65.Routines.UIControls
 
         public ScaledBackground(String imagePath)
         {
-            Size = new Size(Screen.PrimaryScreen.Bounds.Width, Screen.PrimaryScreen.Bounds.Height);
+            Size = new Size(FormsScreen.PrimaryScreen.Bounds.Width, FormsScreen.PrimaryScreen.Bounds.Height);
 
             _imagePath = imagePath;
 

@@ -8,6 +8,8 @@ using Fleux.UIElements;
 using Fleux.Core.GraphicsHelpers;
 using MetroHome65.Interfaces;
 using MetroHome65.Routines;
+using MetroHome65.Routines.File;
+using MetroHome65.Routines.Settings;
 
 namespace MetroHome65.Tile
 {

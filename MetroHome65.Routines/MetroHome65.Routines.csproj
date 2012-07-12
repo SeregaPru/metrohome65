@@ -2,7 +2,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProductVersion>9.0.21022</ProductVersion>
+    <ProductVersion>9.0.30729</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{18D428A8-6722-4A69-B39D-F652AFA34D90}</ProjectGuid>
     <OutputType>Library</OutputType>
@@ -70,19 +70,22 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
-    <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AlphaImage.cs" />
+    <Compile Include="Screen\AlphaImage.cs" />
     <Compile Include="BindingManager.cs" />
-    <Compile Include="CustomSettings.cs" />
-    <Compile Include="DoubleBuffer.cs" />
-    <Compile Include="Logger.cs" />
-    <Compile Include="Routines.cs" />
+    <Compile Include="Settings\CustomSettings.cs" />
+    <Compile Include="Screen\DoubleBuffer.cs" />
+    <Compile Include="File\FileRoutines.cs" />
+    <Compile Include="File\Logger.cs" />
+    <Compile Include="Screen\ScreenConsts.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Screen\ScreenRoutines.cs" />
+    <Compile Include="Settings\StoredParameter.cs" />
+    <Compile Include="Settings\StoredSettingsHelper.cs" />
     <Compile Include="ThreadTimer.cs" />
     <Compile Include="TinyIoC.cs">
       <SubType>Code</SubType>
@@ -92,6 +95,7 @@
     <Compile Include="UIControls\ScaledBackground.cs" />
     <Compile Include="UIControls\Separator.cs" />
     <Compile Include="XMLColor.cs" />
+    <Compile Include="File\XMLHelper.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Fleux\Fleux.csproj">

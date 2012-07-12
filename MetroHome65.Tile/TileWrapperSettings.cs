@@ -2,28 +2,10 @@
 using System.Drawing;
 using System.Collections.Generic;
 using System.Xml.Serialization;
+using MetroHome65.Routines.Settings;
 
 namespace MetroHome65.Tile
 {
-    [XmlType("param")]
-    public class StoredParameter
-    {
-        [XmlAttribute]
-        public String Name;
-
-        [XmlAttribute]
-        public String Value;
-
-        public StoredParameter() { }
-
-        public StoredParameter(String name, String value)
-        {
-            this.Name = name;
-            this.Value = value;
-        }
-    }
-
-
     /// <summary>
     /// struct for serialize Tile settings
     /// </summary>

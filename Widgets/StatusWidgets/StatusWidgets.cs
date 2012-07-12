@@ -2,6 +2,7 @@
 using System.Drawing;
 using MetroHome65.Interfaces;
 using MetroHome65.Routines;
+using MetroHome65.Routines.Screen;
 
 namespace MetroHome65.Widgets.StatusWidgets
 {

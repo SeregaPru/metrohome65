@@ -69,11 +69,11 @@
     <Compile Include="BaseTileGrid.Draw.cs" />
     <Compile Include="BaseTileGrid.Settings.cs" />
     <Compile Include="BaseTileGrid.Move.cs" />
-    <Compile Include="FrmWidgetSettings.cs" />
+    <Compile Include="TileSettingsForm.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TileConsts.cs" />
     <Compile Include="TilesCanvas.cs" />
-    <Compile Include="TileSettings.cs" />
+    <Compile Include="TileWrapperSettings.cs" />
     <Compile Include="BaseTileGrid.Tiles.cs" />
     <Compile Include="TileWrapper.cs" />
   </ItemGroup>

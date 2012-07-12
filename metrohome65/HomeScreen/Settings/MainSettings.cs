@@ -1,9 +1,10 @@
 ﻿using System;
 using System.Drawing;
 using Fleux.Styles;
-using MetroHome65.Interfaces;
 using MetroHome65.Interfaces.Events;
+using MetroHome65.LockScreen;
 using MetroHome65.Routines;
+using MetroHome65.Routines.Settings;
 using TinyIoC;
 using TinyMessenger;
 
@@ -45,24 +46,18 @@ namespace MetroHome65.HomeScreen.Settings
             set { SetField(ref _accentColor, value, "AccentColor"); }
         }
 
-
         /// <summary>
         /// ...
         /// </summary>
-        private string _lockScreenClass;
-        public string LockScreenClass
+        private LockScreenSettings _lockScreenSettings;
+        public LockScreenSettings LockScreenSettings
         {
-            get { return _lockScreenClass; }
-            set { SetField(ref _lockScreenClass, value, "LockScreenClass"); }
-        }
-
-        /// <summary>
-        /// ...
-        /// </summary>
-        private object _lockScreenSettings;
-        public object LockScreenSettings
-        {
-            get { return _lockScreenSettings; }
+            get
+            {
+                if (_lockScreenSettings == null)
+                    _lockScreenSettings = new LockScreenSettings();
+                return _lockScreenSettings;
+            }
             set { SetField(ref _lockScreenSettings, value, "LockScreenSettings"); }
         }
 
@@ -81,7 +76,7 @@ namespace MetroHome65.HomeScreen.Settings
             // setting additional properties that are not stored in main theme
             cloneSettings.ThemeImage = mainSettings.ThemeImage;
 
-            cloneSettings.LockScreenClass = mainSettings.LockScreenClass;
+            cloneSettings.LockScreenSettings = mainSettings.LockScreenSettings;
 
             return cloneSettings;
         }

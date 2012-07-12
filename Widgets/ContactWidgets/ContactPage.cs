@@ -6,7 +6,7 @@ using Fleux.Styles;
 using Fleux.Templates;
 using Fleux.UIElements;
 using Fleux.UIElements.Events;
-using MetroHome65.Routines;
+using MetroHome65.Routines.Screen;
 using Microsoft.WindowsMobile.PocketOutlook;
 
 namespace MetroHome65.Widgets

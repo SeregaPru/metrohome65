@@ -1,7 +1,10 @@
-﻿using System.Drawing;
+﻿using System;
+using System.Drawing;
 using Fleux.UIElements;
+using MetroHome65.HomeScreen.Settings;
 using MetroHome65.Interfaces;
 using MetroHome65.Interfaces.Events;
+using MetroHome65.Routines.File;
 using TinyIoC;
 using TinyMessenger;
 
@@ -13,12 +16,13 @@ namespace MetroHome65.LockScreen
 
         public LockScreenManager()
         {
-            CreateLockScreen("MetroHome65.SimpleLock.SimpleLock");
+            var mainSettings = TinyIoCContainer.Current.Resolve<MainSettings>();
+            CreateLockScreen(mainSettings.LockScreenSettings.LockScreenClass);
+
             this.SizeChanged += (sender, args) => OnSizeChanged();
 
             var messenger = TinyIoCContainer.Current.Resolve<ITinyMessengerHub>();
             messenger.Subscribe<SettingsChangedMessage>(OnSettingsChanged);
-
         }
 
         private void CreateLockScreen(string lockScreenClass)
@@ -27,8 +31,15 @@ namespace MetroHome65.LockScreen
 
             var pluginManager = TinyIoC.TinyIoCContainer.Current.Resolve<IPluginManager>();
 
-            _lockScreen = pluginManager.CreateLockScreen(lockScreenClass) as UIElement;
-            if (_lockScreen != null) return;
+            try
+            {
+                _lockScreen = pluginManager.CreateLockScreen(lockScreenClass) as UIElement;
+            }
+            catch (Exception ex)
+            {
+                Logger.WriteLog(ex.StackTrace, ex.Message);
+                return;
+            }
 
             _lockScreen.Location = new Point(0, 0);
             AddElement(_lockScreen);
@@ -36,20 +47,28 @@ namespace MetroHome65.LockScreen
 
         private void OnSizeChanged()
         {
+            if (_lockScreen == null) return;
             _lockScreen.Size = this.Size;
         }
 
         private void OnSettingsChanged(SettingsChangedMessage settingsChangedMessage)
         {
-            if (settingsChangedMessage.PropertyName == "LockScreenClass")
+            try
             {
-                CreateLockScreen(settingsChangedMessage.Value as string);
-            }
+                if (settingsChangedMessage.PropertyName == "LockScreenClass")
+                {
+                    CreateLockScreen(settingsChangedMessage.Value as string);
+                }
 
-            if (settingsChangedMessage.PropertyName == "LockScreenSettings")
-            {
-                if (_lockScreen != null)
+                if (settingsChangedMessage.PropertyName == "LockScreenSettings")
+                {
+                    if (_lockScreen == null) return;
                     (_lockScreen as ILockScreen).ApplySettings(settingsChangedMessage.Value as ILockScreenSettings);
+                }
+            }
+            catch (Exception ex)
+            {
+                Logger.WriteLog(ex.StackTrace, ex.Message);
             }
         }
 

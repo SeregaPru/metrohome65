@@ -8,7 +8,8 @@ using Fleux.Styles;
 using Fleux.UIElements;
 using Fleux.UIElements.Events;
 using MetroHome65.Interfaces.Events;
-using MetroHome65.Routines;
+using MetroHome65.Routines.File;
+using MetroHome65.Routines.Screen;
 using MetroHome65.Routines.UIControls;
 using TinyIoC;
 using TinyMessenger;
@@ -120,13 +121,13 @@ namespace FolderWidget
 
         private void ReadSettings()
         {
-            var hubSettings = XMLHelper<HubSettings>.Read(GetSettingsFileName());
+            var hubSettings = XmlHelper<HubSettings>.Read(GetSettingsFileName());
             ApplyHubSettings(hubSettings);
         }
 
         private void WriteSettings()
         {
-            XMLHelper<HubSettings>.Write(HubSettings, GetSettingsFileName());
+            XmlHelper<HubSettings>.Write(HubSettings, GetSettingsFileName());
         }
 
         public HubSettings HubSettings

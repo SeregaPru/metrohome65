@@ -1,9 +1,8 @@
 ﻿using System.Drawing;
 using System.Drawing.Imaging;
 using Fleux.Core.GraphicsHelpers;
-using Fleux.Core.NativeHelpers;
 
-namespace MetroHome65.Routines
+namespace MetroHome65.Routines.Screen
 {
 
     public class DoubleBuffer

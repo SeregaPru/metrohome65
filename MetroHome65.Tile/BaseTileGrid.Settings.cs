@@ -5,7 +5,7 @@ using System.Linq;
 using System.Windows.Forms;
 using System.Xml.Serialization;
 using MetroHome65.Interfaces.Events;
-using MetroHome65.Routines;
+using MetroHome65.Routines.File;
 using TinyIoC;
 using TinyMessenger;
 
@@ -54,7 +54,7 @@ namespace MetroHome65.Tile
                 return;
             }
 
-            var storedSettings = XMLHelper<StoredSettings>.Read(_settingsFile);
+            var storedSettings = XmlHelper<StoredSettings>.Read(_settingsFile);
             if (storedSettings != null)
                 TileSettings = storedSettings;
         }
@@ -83,7 +83,7 @@ namespace MetroHome65.Tile
             }
 
             var storedSettings = TileSettings;
-            XMLHelper<StoredSettings>.Write(storedSettings, _settingsFile);
+            XmlHelper<StoredSettings>.Write(storedSettings, _settingsFile);
         }
 
 
@@ -166,9 +166,9 @@ namespace MetroHome65.Tile
 
             try
             {
-                var widgetSettingsForm = new FrmWidgetSettings(tile);
+                var tileSettingsForm = new TileSettingsForm(tile);
 
-                widgetSettingsForm.OnApplySettings += (s, e) =>
+                tileSettingsForm.OnApplySettings += (s, e) =>
                 {
                     tile.Pause = false; //!! todo ?????? может не надо
                     tile.ForceUpdate(); // repaint widget with new style
@@ -179,7 +179,7 @@ namespace MetroHome65.Tile
                 };
 
                 var messenger = TinyIoCContainer.Current.Resolve<ITinyMessengerHub>();
-                messenger.Publish(new ShowPageMessage(widgetSettingsForm));
+                messenger.Publish(new ShowPageMessage(tileSettingsForm));
             }
             catch (Exception ex)
             {

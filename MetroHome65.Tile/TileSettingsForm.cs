@@ -4,13 +4,13 @@ using System.Drawing;
 using System.Linq;
 using Fleux.UIElements;
 using MetroHome65.Interfaces;
-using MetroHome65.Routines;
+using MetroHome65.Routines.File;
 using MetroHome65.Routines.UIControls;
 using Metrohome65.Settings.Controls;
 
 namespace MetroHome65.Tile
 {
-    public class FrmWidgetSettings : CustomSettingsPage<TileWrapper> 
+    public class TileSettingsForm : CustomSettingsPage<TileWrapper> 
         // TileWrapper doesn't really contain settings, that is stub
     {
         private readonly TileWrapper _sourceTile;
@@ -24,7 +24,7 @@ namespace MetroHome65.Tile
         private IPluginManager _pluginManager;
 
 
-        public FrmWidgetSettings(TileWrapper sourceTile)
+        public TileSettingsForm(TileWrapper sourceTile)
         {
             _sourceTile = sourceTile;
 

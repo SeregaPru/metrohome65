@@ -83,6 +83,7 @@
     <Compile Include="HomeScreen\ProgramsMenu\ProgramsMenu.Model.cs" />
     <Compile Include="HomeScreen\TilesGrid\TilesGrid.cs" />
     <Compile Include="LockScreen\LockScreenManager.cs" />
+    <Compile Include="LockScreen\LockScreenSettings.cs" />
     <Compile Include="LockScreen\LockScreenSettingsPage.cs" />
     <Compile Include="PluginManager.cs" />
     <Compile Include="Program.cs" />
