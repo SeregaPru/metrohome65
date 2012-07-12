@@ -1,0 +1,4929 @@
+"DeployProject"
+{
+"VSVersion" = "3:701"
+"ProjectType" = "8:{AB322303-2255-48EF-A496-5904EB18DA55}"
+"IsWebType" = "8:FALSE"
+"ProjectName" = "8:Setup"
+"LanguageId" = "3:1049"
+"CodePage" = "3:1251"
+"SccProjectName" = "8:"
+"SccLocalPath" = "8:"
+"SccAuxPath" = "8:"
+"SccProvider" = "8:"
+    "Hierarchy"
+    {
+        "Entry"
+        {
+        "MsmKey" = "8:_00FF5462C02D45FA85EE8515DF1DF10F"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_0143080A3F42413FB0549EC949B68DFD"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_02590F41F42B496C8F06EF7B0525BF48"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_02A9450DC50A4CCF8DC9C1050D0FBF35"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_02FB39934E854F398CCED9C5295DD258"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_0448BC82C2534DA382C99C32E6688C84"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_05AA5A8F8AF34B2782EF3270BEF917A9"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_05BC4B0BE0645AE66ECA9869E5F16B67"
+        "OwnerKey" = "8:_02A9450DC50A4CCF8DC9C1050D0FBF35"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_05BC4B0BE0645AE66ECA9869E5F16B67"
+        "OwnerKey" = "8:_C3231FB4F414451C9D4359E1D43A1CC4"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_05BC4B0BE0645AE66ECA9869E5F16B67"
+        "OwnerKey" = "8:_B2C832A40DB4428B8D418210118D182A"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_05BC4B0BE0645AE66ECA9869E5F16B67"
+        "OwnerKey" = "8:_A582D91E50094C1F907B846A680674F6"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_05BC4B0BE0645AE66ECA9869E5F16B67"
+        "OwnerKey" = "8:_A5675F4929344635B6C6BA7F62C925BC"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_05BC4B0BE0645AE66ECA9869E5F16B67"
+        "OwnerKey" = "8:_A340E718DC0D47959CD8EDBBC4040738"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_05BC4B0BE0645AE66ECA9869E5F16B67"
+        "OwnerKey" = "8:_7118982A268B4F6D89380A269E95BC2C"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_05BC4B0BE0645AE66ECA9869E5F16B67"
+        "OwnerKey" = "8:_6AA05D93CF474FDF9BE00E0E1705C873"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_05BC4B0BE0645AE66ECA9869E5F16B67"
+        "OwnerKey" = "8:_0448BC82C2534DA382C99C32E6688C84"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_05BC4B0BE0645AE66ECA9869E5F16B67"
+        "OwnerKey" = "8:_19F03FC8F79AAD67386F7613F07DD2C1"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_0728487ABDB5496D906C1F784B3E1AAA"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_089CED14B95A4063B74AB2F1225AC8E6"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_0BF640C178C14BA8BF773A4127340C8B"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_0CED63CE978340F5B656C1704FFD3F0D"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_0E00DD9F8786426087397D0557A43B88"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_0EFB86B9CB784E45BF1026F6B6736812"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_120F4BD5485A4924BF83687CB9D601F1"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_12FFF124B4AA90C7B19095D62C3456D0"
+        "OwnerKey" = "8:_C0936D06EC5658BC8E203E7FAF4FAAA1"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_12FFF124B4AA90C7B19095D62C3456D0"
+        "OwnerKey" = "8:_A841E329CBE8B1790A9376895BC81DCA"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_12FFF124B4AA90C7B19095D62C3456D0"
+        "OwnerKey" = "8:_C3231FB4F414451C9D4359E1D43A1CC4"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_12FFF124B4AA90C7B19095D62C3456D0"
+        "OwnerKey" = "8:_B2C832A40DB4428B8D418210118D182A"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_12FFF124B4AA90C7B19095D62C3456D0"
+        "OwnerKey" = "8:_A582D91E50094C1F907B846A680674F6"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_12FFF124B4AA90C7B19095D62C3456D0"
+        "OwnerKey" = "8:_A5675F4929344635B6C6BA7F62C925BC"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_12FFF124B4AA90C7B19095D62C3456D0"
+        "OwnerKey" = "8:_A340E718DC0D47959CD8EDBBC4040738"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_12FFF124B4AA90C7B19095D62C3456D0"
+        "OwnerKey" = "8:_7118982A268B4F6D89380A269E95BC2C"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_12FFF124B4AA90C7B19095D62C3456D0"
+        "OwnerKey" = "8:_6AA05D93CF474FDF9BE00E0E1705C873"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_12FFF124B4AA90C7B19095D62C3456D0"
+        "OwnerKey" = "8:_65C8A0B93CC745E78C7293132CCB5BE4"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_12FFF124B4AA90C7B19095D62C3456D0"
+        "OwnerKey" = "8:_4C9360DEE99161A910C5DBDF5FE4B29A"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_12FFF124B4AA90C7B19095D62C3456D0"
+        "OwnerKey" = "8:_DEB8C2D47F6EA24B0BF0B3680D9E1AB8"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_12FFF124B4AA90C7B19095D62C3456D0"
+        "OwnerKey" = "8:_78BC1FA3B03C6E496C6AA7FB99333FE7"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_12FFF124B4AA90C7B19095D62C3456D0"
+        "OwnerKey" = "8:_D1961C9AB8D63DD2DFDF971A7AA6129A"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_12FFF124B4AA90C7B19095D62C3456D0"
+        "OwnerKey" = "8:_19F03FC8F79AAD67386F7613F07DD2C1"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_12FFF124B4AA90C7B19095D62C3456D0"
+        "OwnerKey" = "8:_0448BC82C2534DA382C99C32E6688C84"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_12FFF124B4AA90C7B19095D62C3456D0"
+        "OwnerKey" = "8:_525990912567A088943F235B2E12BF07"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_12FFF124B4AA90C7B19095D62C3456D0"
+        "OwnerKey" = "8:_4170318371E95FF6F081BFCF4B2CCEB4"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_12FFF124B4AA90C7B19095D62C3456D0"
+        "OwnerKey" = "8:_02A9450DC50A4CCF8DC9C1050D0FBF35"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_12FFF124B4AA90C7B19095D62C3456D0"
+        "OwnerKey" = "8:_C881869C1F18144399BA858E152D3AB4"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_12FFF124B4AA90C7B19095D62C3456D0"
+        "OwnerKey" = "8:_826E9AA2AA2D9547706D1B0CF0C50B13"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_12FFF124B4AA90C7B19095D62C3456D0"
+        "OwnerKey" = "8:_ED7AA74A244C526A027ACE6FDD552DDD"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_1397EBE468C244829DB894DDEFE8ECAA"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_14BE74C3E89F4A3E9CC39073D1A217CA"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_161861E1F08842B9B2035939E2CD9F22"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_17B115561DEB4F4187DC106733E445B4"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_19F03FC8F79AAD67386F7613F07DD2C1"
+        "OwnerKey" = "8:_C3231FB4F414451C9D4359E1D43A1CC4"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_19F03FC8F79AAD67386F7613F07DD2C1"
+        "OwnerKey" = "8:_B2C832A40DB4428B8D418210118D182A"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_19F03FC8F79AAD67386F7613F07DD2C1"
+        "OwnerKey" = "8:_A582D91E50094C1F907B846A680674F6"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_19F03FC8F79AAD67386F7613F07DD2C1"
+        "OwnerKey" = "8:_A5675F4929344635B6C6BA7F62C925BC"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_19F03FC8F79AAD67386F7613F07DD2C1"
+        "OwnerKey" = "8:_A340E718DC0D47959CD8EDBBC4040738"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_19F03FC8F79AAD67386F7613F07DD2C1"
+        "OwnerKey" = "8:_7118982A268B4F6D89380A269E95BC2C"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_19F03FC8F79AAD67386F7613F07DD2C1"
+        "OwnerKey" = "8:_6AA05D93CF474FDF9BE00E0E1705C873"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_19F03FC8F79AAD67386F7613F07DD2C1"
+        "OwnerKey" = "8:_0448BC82C2534DA382C99C32E6688C84"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_19F03FC8F79AAD67386F7613F07DD2C1"
+        "OwnerKey" = "8:_4C9360DEE99161A910C5DBDF5FE4B29A"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_19F03FC8F79AAD67386F7613F07DD2C1"
+        "OwnerKey" = "8:_D1961C9AB8D63DD2DFDF971A7AA6129A"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_19F03FC8F79AAD67386F7613F07DD2C1"
+        "OwnerKey" = "8:_DEB8C2D47F6EA24B0BF0B3680D9E1AB8"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_1A8E69600CC3BAC8B287E8D79E72F470"
+        "OwnerKey" = "8:_6AA05D93CF474FDF9BE00E0E1705C873"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_1BF7CE80821A42FBA1A91F53BAD484F0"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_1F1DA801792146379E2974D369D1C50A"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_225D5C3BEE1246358611FADD98B08B67"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_23F095D502DA423AA2E51FB01D0351E0"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_24F5284D81AA42B68972A4D01D17A997"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_29E9C579CB824026886368515A695194"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_30061D3363DC4DC2B35C3E04249F16B2"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_30387CDAA9C3423080AB89A0C9D680EF"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_317D18E1741B48579D4EFACDDA02D866"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_39C6364EFD3C4A48AF5B78B24F5050E2"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_3C6BEAEC88C646308033FC1C837E34CA"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_3FB82A92238AEDF8887C859B308809E5"
+        "OwnerKey" = "8:_02A9450DC50A4CCF8DC9C1050D0FBF35"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_3FB82A92238AEDF8887C859B308809E5"
+        "OwnerKey" = "8:_C3231FB4F414451C9D4359E1D43A1CC4"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_3FB82A92238AEDF8887C859B308809E5"
+        "OwnerKey" = "8:_B2C832A40DB4428B8D418210118D182A"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_3FB82A92238AEDF8887C859B308809E5"
+        "OwnerKey" = "8:_A582D91E50094C1F907B846A680674F6"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_3FB82A92238AEDF8887C859B308809E5"
+        "OwnerKey" = "8:_A5675F4929344635B6C6BA7F62C925BC"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_3FB82A92238AEDF8887C859B308809E5"
+        "OwnerKey" = "8:_A340E718DC0D47959CD8EDBBC4040738"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_3FB82A92238AEDF8887C859B308809E5"
+        "OwnerKey" = "8:_7118982A268B4F6D89380A269E95BC2C"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_3FB82A92238AEDF8887C859B308809E5"
+        "OwnerKey" = "8:_6AA05D93CF474FDF9BE00E0E1705C873"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_3FB82A92238AEDF8887C859B308809E5"
+        "OwnerKey" = "8:_0448BC82C2534DA382C99C32E6688C84"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_3FB82A92238AEDF8887C859B308809E5"
+        "OwnerKey" = "8:_05BC4B0BE0645AE66ECA9869E5F16B67"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_3FB82A92238AEDF8887C859B308809E5"
+        "OwnerKey" = "8:_5584F8F1678FF86AC737B4A2D0BB394D"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_4016659CDDC446BFB938D9FA0A05E06E"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_4170318371E95FF6F081BFCF4B2CCEB4"
+        "OwnerKey" = "8:_02A9450DC50A4CCF8DC9C1050D0FBF35"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_4170318371E95FF6F081BFCF4B2CCEB4"
+        "OwnerKey" = "8:_C3231FB4F414451C9D4359E1D43A1CC4"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_4170318371E95FF6F081BFCF4B2CCEB4"
+        "OwnerKey" = "8:_B2C832A40DB4428B8D418210118D182A"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_4170318371E95FF6F081BFCF4B2CCEB4"
+        "OwnerKey" = "8:_A582D91E50094C1F907B846A680674F6"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_4170318371E95FF6F081BFCF4B2CCEB4"
+        "OwnerKey" = "8:_A5675F4929344635B6C6BA7F62C925BC"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_4170318371E95FF6F081BFCF4B2CCEB4"
+        "OwnerKey" = "8:_A340E718DC0D47959CD8EDBBC4040738"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_4170318371E95FF6F081BFCF4B2CCEB4"
+        "OwnerKey" = "8:_7118982A268B4F6D89380A269E95BC2C"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_4170318371E95FF6F081BFCF4B2CCEB4"
+        "OwnerKey" = "8:_6AA05D93CF474FDF9BE00E0E1705C873"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_4170318371E95FF6F081BFCF4B2CCEB4"
+        "OwnerKey" = "8:_65C8A0B93CC745E78C7293132CCB5BE4"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_4170318371E95FF6F081BFCF4B2CCEB4"
+        "OwnerKey" = "8:_4C9360DEE99161A910C5DBDF5FE4B29A"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_4170318371E95FF6F081BFCF4B2CCEB4"
+        "OwnerKey" = "8:_78BC1FA3B03C6E496C6AA7FB99333FE7"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_4170318371E95FF6F081BFCF4B2CCEB4"
+        "OwnerKey" = "8:_19F03FC8F79AAD67386F7613F07DD2C1"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_4170318371E95FF6F081BFCF4B2CCEB4"
+        "OwnerKey" = "8:_0448BC82C2534DA382C99C32E6688C84"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_43392A399F7B4838A9DACD712A3EB2BA"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_465110EEBC4C4C378DAD1289D6254C6F"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_465EA758F0614A55A104E95D727B18AB"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_478288E2407A4EEE830558AB66E4B0A0"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_4C9360DEE99161A910C5DBDF5FE4B29A"
+        "OwnerKey" = "8:_D1961C9AB8D63DD2DFDF971A7AA6129A"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_4C9360DEE99161A910C5DBDF5FE4B29A"
+        "OwnerKey" = "8:_B2C832A40DB4428B8D418210118D182A"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_4C9360DEE99161A910C5DBDF5FE4B29A"
+        "OwnerKey" = "8:_A582D91E50094C1F907B846A680674F6"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_4C9360DEE99161A910C5DBDF5FE4B29A"
+        "OwnerKey" = "8:_6AA05D93CF474FDF9BE00E0E1705C873"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_4C9360DEE99161A910C5DBDF5FE4B29A"
+        "OwnerKey" = "8:_0448BC82C2534DA382C99C32E6688C84"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_4FFD928FAD5F42538EE49EB9824EE4FB"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_525990912567A088943F235B2E12BF07"
+        "OwnerKey" = "8:_02A9450DC50A4CCF8DC9C1050D0FBF35"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_525990912567A088943F235B2E12BF07"
+        "OwnerKey" = "8:_C3231FB4F414451C9D4359E1D43A1CC4"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_525990912567A088943F235B2E12BF07"
+        "OwnerKey" = "8:_A841E329CBE8B1790A9376895BC81DCA"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_525990912567A088943F235B2E12BF07"
+        "OwnerKey" = "8:_B2C832A40DB4428B8D418210118D182A"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_525990912567A088943F235B2E12BF07"
+        "OwnerKey" = "8:_A582D91E50094C1F907B846A680674F6"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_525990912567A088943F235B2E12BF07"
+        "OwnerKey" = "8:_A5675F4929344635B6C6BA7F62C925BC"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_525990912567A088943F235B2E12BF07"
+        "OwnerKey" = "8:_A340E718DC0D47959CD8EDBBC4040738"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_525990912567A088943F235B2E12BF07"
+        "OwnerKey" = "8:_7118982A268B4F6D89380A269E95BC2C"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_525990912567A088943F235B2E12BF07"
+        "OwnerKey" = "8:_6AA05D93CF474FDF9BE00E0E1705C873"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_525990912567A088943F235B2E12BF07"
+        "OwnerKey" = "8:_19F03FC8F79AAD67386F7613F07DD2C1"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_525990912567A088943F235B2E12BF07"
+        "OwnerKey" = "8:_0448BC82C2534DA382C99C32E6688C84"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_53F5683A41504D429F46C28ECF9FEA09"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_5584F8F1678FF86AC737B4A2D0BB394D"
+        "OwnerKey" = "8:_02A9450DC50A4CCF8DC9C1050D0FBF35"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_5584F8F1678FF86AC737B4A2D0BB394D"
+        "OwnerKey" = "8:_C3231FB4F414451C9D4359E1D43A1CC4"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_5584F8F1678FF86AC737B4A2D0BB394D"
+        "OwnerKey" = "8:_B2C832A40DB4428B8D418210118D182A"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_5584F8F1678FF86AC737B4A2D0BB394D"
+        "OwnerKey" = "8:_A582D91E50094C1F907B846A680674F6"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_5584F8F1678FF86AC737B4A2D0BB394D"
+        "OwnerKey" = "8:_A5675F4929344635B6C6BA7F62C925BC"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_5584F8F1678FF86AC737B4A2D0BB394D"
+        "OwnerKey" = "8:_A340E718DC0D47959CD8EDBBC4040738"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_5584F8F1678FF86AC737B4A2D0BB394D"
+        "OwnerKey" = "8:_7118982A268B4F6D89380A269E95BC2C"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_5584F8F1678FF86AC737B4A2D0BB394D"
+        "OwnerKey" = "8:_6AA05D93CF474FDF9BE00E0E1705C873"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_5584F8F1678FF86AC737B4A2D0BB394D"
+        "OwnerKey" = "8:_0448BC82C2534DA382C99C32E6688C84"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_5584F8F1678FF86AC737B4A2D0BB394D"
+        "OwnerKey" = "8:_87AFB96B53F1C673D71FCD44D7BC4A92"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_5584F8F1678FF86AC737B4A2D0BB394D"
+        "OwnerKey" = "8:_05BC4B0BE0645AE66ECA9869E5F16B67"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_587C657A31E4464B8B4D177902FA22FA"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_5C828CB4D9FC4BAE976408215564C405"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_5EA39DA38E064868B73015E286B0B03C"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_5EE46A1D1DFB465A969675DC755C561E"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_5FCCF90EE12E48F4A5AF3DB33F554BAE"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_612B326F4B5A497A976A87BB29A85A73"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_61CF37B01421430293BB8AEA77AFEFA2"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_62990E6FC08C416BA33F801068CE7C42"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_65C8A0B93CC745E78C7293132CCB5BE4"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_66D68FD584284FCCBFB7064354CC8508"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_6823EE40FCF24D619DA18A22E259EAD0"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_69C6A357599B4DC59C608BEF4E9F4241"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_6A086D31FB2D4294823745EA5DC6451E"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_6AA05D93CF474FDF9BE00E0E1705C873"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_70E00AFC93DA406E9C1261CBCDC8195B"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_7118982A268B4F6D89380A269E95BC2C"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_7139D341C94D41FA8E1C97EAE3FD6FDB"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_71DFEB67347F4803B04149C4187F378B"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_735C3EA70BCC4E7AADEA4EEBD49934DF"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_7443FF8545F94B0DB7ED9AC2E5F8A036"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_75CC6E8F318D422FB1D63B2A15700F66"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_776CC82A8D7446DB94128FF6C686622C"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_78BC1FA3B03C6E496C6AA7FB99333FE7"
+        "OwnerKey" = "8:_D1961C9AB8D63DD2DFDF971A7AA6129A"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_78BC1FA3B03C6E496C6AA7FB99333FE7"
+        "OwnerKey" = "8:_19F03FC8F79AAD67386F7613F07DD2C1"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_78BC1FA3B03C6E496C6AA7FB99333FE7"
+        "OwnerKey" = "8:_C3231FB4F414451C9D4359E1D43A1CC4"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_78BC1FA3B03C6E496C6AA7FB99333FE7"
+        "OwnerKey" = "8:_B2C832A40DB4428B8D418210118D182A"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_78BC1FA3B03C6E496C6AA7FB99333FE7"
+        "OwnerKey" = "8:_A582D91E50094C1F907B846A680674F6"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_78BC1FA3B03C6E496C6AA7FB99333FE7"
+        "OwnerKey" = "8:_A5675F4929344635B6C6BA7F62C925BC"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_78BC1FA3B03C6E496C6AA7FB99333FE7"
+        "OwnerKey" = "8:_A340E718DC0D47959CD8EDBBC4040738"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_78BC1FA3B03C6E496C6AA7FB99333FE7"
+        "OwnerKey" = "8:_7118982A268B4F6D89380A269E95BC2C"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_78BC1FA3B03C6E496C6AA7FB99333FE7"
+        "OwnerKey" = "8:_6AA05D93CF474FDF9BE00E0E1705C873"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_78BC1FA3B03C6E496C6AA7FB99333FE7"
+        "OwnerKey" = "8:_0448BC82C2534DA382C99C32E6688C84"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_78BC1FA3B03C6E496C6AA7FB99333FE7"
+        "OwnerKey" = "8:_4C9360DEE99161A910C5DBDF5FE4B29A"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_78BC1FA3B03C6E496C6AA7FB99333FE7"
+        "OwnerKey" = "8:_DEB8C2D47F6EA24B0BF0B3680D9E1AB8"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_7AB4472B168A48A49534286AB588C707"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_7AE20AA42A0B4D26B60A1026084B79EB"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_7BB557AC29134783B99C349692E8EA4D"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_8023D43B87EE467EB20359C816D54D28"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_826E9AA2AA2D9547706D1B0CF0C50B13"
+        "OwnerKey" = "8:_C0936D06EC5658BC8E203E7FAF4FAAA1"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_826E9AA2AA2D9547706D1B0CF0C50B13"
+        "OwnerKey" = "8:_C3231FB4F414451C9D4359E1D43A1CC4"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_826E9AA2AA2D9547706D1B0CF0C50B13"
+        "OwnerKey" = "8:_B2C832A40DB4428B8D418210118D182A"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_826E9AA2AA2D9547706D1B0CF0C50B13"
+        "OwnerKey" = "8:_A582D91E50094C1F907B846A680674F6"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_826E9AA2AA2D9547706D1B0CF0C50B13"
+        "OwnerKey" = "8:_A5675F4929344635B6C6BA7F62C925BC"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_826E9AA2AA2D9547706D1B0CF0C50B13"
+        "OwnerKey" = "8:_A340E718DC0D47959CD8EDBBC4040738"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_826E9AA2AA2D9547706D1B0CF0C50B13"
+        "OwnerKey" = "8:_7118982A268B4F6D89380A269E95BC2C"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_826E9AA2AA2D9547706D1B0CF0C50B13"
+        "OwnerKey" = "8:_6AA05D93CF474FDF9BE00E0E1705C873"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_826E9AA2AA2D9547706D1B0CF0C50B13"
+        "OwnerKey" = "8:_65C8A0B93CC745E78C7293132CCB5BE4"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_826E9AA2AA2D9547706D1B0CF0C50B13"
+        "OwnerKey" = "8:_4C9360DEE99161A910C5DBDF5FE4B29A"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_826E9AA2AA2D9547706D1B0CF0C50B13"
+        "OwnerKey" = "8:_DEB8C2D47F6EA24B0BF0B3680D9E1AB8"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_826E9AA2AA2D9547706D1B0CF0C50B13"
+        "OwnerKey" = "8:_78BC1FA3B03C6E496C6AA7FB99333FE7"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_826E9AA2AA2D9547706D1B0CF0C50B13"
+        "OwnerKey" = "8:_D1961C9AB8D63DD2DFDF971A7AA6129A"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_826E9AA2AA2D9547706D1B0CF0C50B13"
+        "OwnerKey" = "8:_19F03FC8F79AAD67386F7613F07DD2C1"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_826E9AA2AA2D9547706D1B0CF0C50B13"
+        "OwnerKey" = "8:_0448BC82C2534DA382C99C32E6688C84"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_826E9AA2AA2D9547706D1B0CF0C50B13"
+        "OwnerKey" = "8:_02A9450DC50A4CCF8DC9C1050D0FBF35"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_826E9AA2AA2D9547706D1B0CF0C50B13"
+        "OwnerKey" = "8:_C881869C1F18144399BA858E152D3AB4"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_829CC3C865454F95A4A3C2D60EB554CE"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_82B9DEBC5D27454AA93AD5D4A7917932"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_8518499960874C4D9E0C15B43479A6BC"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_87AFB96B53F1C673D71FCD44D7BC4A92"
+        "OwnerKey" = "8:_C3231FB4F414451C9D4359E1D43A1CC4"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_87AFB96B53F1C673D71FCD44D7BC4A92"
+        "OwnerKey" = "8:_B2C832A40DB4428B8D418210118D182A"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_87AFB96B53F1C673D71FCD44D7BC4A92"
+        "OwnerKey" = "8:_A582D91E50094C1F907B846A680674F6"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_87AFB96B53F1C673D71FCD44D7BC4A92"
+        "OwnerKey" = "8:_6AA05D93CF474FDF9BE00E0E1705C873"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_87AFB96B53F1C673D71FCD44D7BC4A92"
+        "OwnerKey" = "8:_4C9360DEE99161A910C5DBDF5FE4B29A"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_87AFB96B53F1C673D71FCD44D7BC4A92"
+        "OwnerKey" = "8:_0448BC82C2534DA382C99C32E6688C84"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_8853CCDA6B1F45C2AB1F110796162173"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_8BA5B319C650421BAA0A1E625394DF74"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_8C6CB0B7EBF74CEF90AD9072BEA15149"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_8DA80C119CEF424E982662C2F6BA652A"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_8EA16C0C1E0C4D7DA7DF0621A2932AEC"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_9112AC0DD26B4E76A159D133BFEBBCD1"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_91180FAE3D64446BBDAC205DF689CA9A"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_914164C329B24CF8AAD4DF1A824C86FD"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_93775CBF5EF1493793B601B9D10431D7"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_981CD92A04D8DC2A1D281600BC170ED5"
+        "OwnerKey" = "8:_02A9450DC50A4CCF8DC9C1050D0FBF35"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_981CD92A04D8DC2A1D281600BC170ED5"
+        "OwnerKey" = "8:_C3231FB4F414451C9D4359E1D43A1CC4"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_981CD92A04D8DC2A1D281600BC170ED5"
+        "OwnerKey" = "8:_19F03FC8F79AAD67386F7613F07DD2C1"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_981CD92A04D8DC2A1D281600BC170ED5"
+        "OwnerKey" = "8:_F770C7BD3256B9CC3EC9A087FB08D7FD"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_9860647CA71B416C990726BE4FA517D6"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_99D93A31C42940A99C24E83CC8D02357"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_9C83F5FDD10543B7996498ECB7304A98"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_9DD701FB440F418C8E5122514CFC8435"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_9E1921085761400A9C6D4DA9BB31DFB3"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_A340E718DC0D47959CD8EDBBC4040738"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_A5384D84DFCB4E7387053712ACB9DE15"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_A5675F4929344635B6C6BA7F62C925BC"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_A582D91E50094C1F907B846A680674F6"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_A841E329CBE8B1790A9376895BC81DCA"
+        "OwnerKey" = "8:_C3231FB4F414451C9D4359E1D43A1CC4"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_A8C6196D9C92433D91F15C672880EB36"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_ABC5590375B14AB693BCEC337D6BC17E"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_AF4AF0A52DD544ABA654042AAB58AB27"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_AF4B9B9CB13443F99C13F54E92073A99"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_B2C832A40DB4428B8D418210118D182A"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_B7556E3B80D14056996103192A1B0BFD"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_B89318EF817C47A3B99793F2C007E8C6"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_B92FD75FDE7C497B9DF03FE5A11C4AC1"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_BA7B56E0180C40779D889D69D404A6A1"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_C0936D06EC5658BC8E203E7FAF4FAAA1"
+        "OwnerKey" = "8:_C3231FB4F414451C9D4359E1D43A1CC4"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_C0936D06EC5658BC8E203E7FAF4FAAA1"
+        "OwnerKey" = "8:_4C9360DEE99161A910C5DBDF5FE4B29A"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_C0936D06EC5658BC8E203E7FAF4FAAA1"
+        "OwnerKey" = "8:_B2C832A40DB4428B8D418210118D182A"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_C0936D06EC5658BC8E203E7FAF4FAAA1"
+        "OwnerKey" = "8:_A582D91E50094C1F907B846A680674F6"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_C0936D06EC5658BC8E203E7FAF4FAAA1"
+        "OwnerKey" = "8:_A5675F4929344635B6C6BA7F62C925BC"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_C0936D06EC5658BC8E203E7FAF4FAAA1"
+        "OwnerKey" = "8:_A340E718DC0D47959CD8EDBBC4040738"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_C0936D06EC5658BC8E203E7FAF4FAAA1"
+        "OwnerKey" = "8:_7118982A268B4F6D89380A269E95BC2C"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_C0936D06EC5658BC8E203E7FAF4FAAA1"
+        "OwnerKey" = "8:_6AA05D93CF474FDF9BE00E0E1705C873"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_C0936D06EC5658BC8E203E7FAF4FAAA1"
+        "OwnerKey" = "8:_65C8A0B93CC745E78C7293132CCB5BE4"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_C0936D06EC5658BC8E203E7FAF4FAAA1"
+        "OwnerKey" = "8:_78BC1FA3B03C6E496C6AA7FB99333FE7"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_C0936D06EC5658BC8E203E7FAF4FAAA1"
+        "OwnerKey" = "8:_0448BC82C2534DA382C99C32E6688C84"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_C0C31E24CFAB433983EDB14A49C267E9"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_C3231FB4F414451C9D4359E1D43A1CC4"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_C46EDB738CED4A85990DF3755C2A2C6C"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_C54EA0F23BDE4177A081F08922D49436"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_C5580C1744084818942E9B1D35DEFEDD"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_C78B2964F24949D8BDF99D56F7C8623E"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_C881869C1F18144399BA858E152D3AB4"
+        "OwnerKey" = "8:_C0936D06EC5658BC8E203E7FAF4FAAA1"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_C881869C1F18144399BA858E152D3AB4"
+        "OwnerKey" = "8:_C3231FB4F414451C9D4359E1D43A1CC4"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_C881869C1F18144399BA858E152D3AB4"
+        "OwnerKey" = "8:_B2C832A40DB4428B8D418210118D182A"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_C881869C1F18144399BA858E152D3AB4"
+        "OwnerKey" = "8:_A582D91E50094C1F907B846A680674F6"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_C881869C1F18144399BA858E152D3AB4"
+        "OwnerKey" = "8:_A5675F4929344635B6C6BA7F62C925BC"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_C881869C1F18144399BA858E152D3AB4"
+        "OwnerKey" = "8:_A340E718DC0D47959CD8EDBBC4040738"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_C881869C1F18144399BA858E152D3AB4"
+        "OwnerKey" = "8:_7118982A268B4F6D89380A269E95BC2C"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_C881869C1F18144399BA858E152D3AB4"
+        "OwnerKey" = "8:_6AA05D93CF474FDF9BE00E0E1705C873"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_C881869C1F18144399BA858E152D3AB4"
+        "OwnerKey" = "8:_65C8A0B93CC745E78C7293132CCB5BE4"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_C881869C1F18144399BA858E152D3AB4"
+        "OwnerKey" = "8:_4C9360DEE99161A910C5DBDF5FE4B29A"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_C881869C1F18144399BA858E152D3AB4"
+        "OwnerKey" = "8:_78BC1FA3B03C6E496C6AA7FB99333FE7"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_C881869C1F18144399BA858E152D3AB4"
+        "OwnerKey" = "8:_D1961C9AB8D63DD2DFDF971A7AA6129A"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_C881869C1F18144399BA858E152D3AB4"
+        "OwnerKey" = "8:_19F03FC8F79AAD67386F7613F07DD2C1"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_C881869C1F18144399BA858E152D3AB4"
+        "OwnerKey" = "8:_0448BC82C2534DA382C99C32E6688C84"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_C881869C1F18144399BA858E152D3AB4"
+        "OwnerKey" = "8:_02A9450DC50A4CCF8DC9C1050D0FBF35"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_C88B3957286B4EAB9AEFF5FFFC16323F"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_C8D8B0BE900A465089C1041FEFC8B022"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_CAC9F3BEBC9C4076875313A7429B475C"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_D101EBDBBA7B465E8795D59EDCFCF41C"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_D1961C9AB8D63DD2DFDF971A7AA6129A"
+        "OwnerKey" = "8:_0448BC82C2534DA382C99C32E6688C84"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_D1961C9AB8D63DD2DFDF971A7AA6129A"
+        "OwnerKey" = "8:_B2C832A40DB4428B8D418210118D182A"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_D1961C9AB8D63DD2DFDF971A7AA6129A"
+        "OwnerKey" = "8:_A582D91E50094C1F907B846A680674F6"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_D1961C9AB8D63DD2DFDF971A7AA6129A"
+        "OwnerKey" = "8:_6AA05D93CF474FDF9BE00E0E1705C873"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_D6B46D9EFB5D47999B8636F7A8989244"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_D93A0CA594E24D1DB6417697E8F85AE5"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_DA6E226BA1DD495B9F2234428DAFB378"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_DEB8C2D47F6EA24B0BF0B3680D9E1AB8"
+        "OwnerKey" = "8:_D1961C9AB8D63DD2DFDF971A7AA6129A"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_DEB8C2D47F6EA24B0BF0B3680D9E1AB8"
+        "OwnerKey" = "8:_B2C832A40DB4428B8D418210118D182A"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_DEB8C2D47F6EA24B0BF0B3680D9E1AB8"
+        "OwnerKey" = "8:_A582D91E50094C1F907B846A680674F6"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_DEB8C2D47F6EA24B0BF0B3680D9E1AB8"
+        "OwnerKey" = "8:_A5675F4929344635B6C6BA7F62C925BC"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_DEB8C2D47F6EA24B0BF0B3680D9E1AB8"
+        "OwnerKey" = "8:_A340E718DC0D47959CD8EDBBC4040738"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_DEB8C2D47F6EA24B0BF0B3680D9E1AB8"
+        "OwnerKey" = "8:_6AA05D93CF474FDF9BE00E0E1705C873"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_DEB8C2D47F6EA24B0BF0B3680D9E1AB8"
+        "OwnerKey" = "8:_0448BC82C2534DA382C99C32E6688C84"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_DEBD0BFD86624AEEB33ED02CBEA4F34B"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_DF3D54F000F34A27A5CCDE9330BC705C"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_E7BB5E785FD74FA7A89BD80658164A4B"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_E7CF59C5C17648E89263C54DB180CE66"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_E806DBD3E31E417980B0800AEEEF6C9E"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_EA23D3F737134AFA90253592EB1CDD49"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_ED1A311054FE4EE5A5AE9FA952AC4183"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_ED578CDFD69A49FDAD88CE836D7DC2FA"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_ED7AA74A244C526A027ACE6FDD552DDD"
+        "OwnerKey" = "8:_C0936D06EC5658BC8E203E7FAF4FAAA1"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_ED7AA74A244C526A027ACE6FDD552DDD"
+        "OwnerKey" = "8:_C3231FB4F414451C9D4359E1D43A1CC4"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_ED7AA74A244C526A027ACE6FDD552DDD"
+        "OwnerKey" = "8:_A841E329CBE8B1790A9376895BC81DCA"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_ED7AA74A244C526A027ACE6FDD552DDD"
+        "OwnerKey" = "8:_B2C832A40DB4428B8D418210118D182A"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_ED7AA74A244C526A027ACE6FDD552DDD"
+        "OwnerKey" = "8:_A582D91E50094C1F907B846A680674F6"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_ED7AA74A244C526A027ACE6FDD552DDD"
+        "OwnerKey" = "8:_A5675F4929344635B6C6BA7F62C925BC"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_ED7AA74A244C526A027ACE6FDD552DDD"
+        "OwnerKey" = "8:_A340E718DC0D47959CD8EDBBC4040738"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_ED7AA74A244C526A027ACE6FDD552DDD"
+        "OwnerKey" = "8:_7118982A268B4F6D89380A269E95BC2C"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_ED7AA74A244C526A027ACE6FDD552DDD"
+        "OwnerKey" = "8:_6AA05D93CF474FDF9BE00E0E1705C873"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_ED7AA74A244C526A027ACE6FDD552DDD"
+        "OwnerKey" = "8:_65C8A0B93CC745E78C7293132CCB5BE4"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_ED7AA74A244C526A027ACE6FDD552DDD"
+        "OwnerKey" = "8:_4C9360DEE99161A910C5DBDF5FE4B29A"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_ED7AA74A244C526A027ACE6FDD552DDD"
+        "OwnerKey" = "8:_78BC1FA3B03C6E496C6AA7FB99333FE7"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_ED7AA74A244C526A027ACE6FDD552DDD"
+        "OwnerKey" = "8:_D1961C9AB8D63DD2DFDF971A7AA6129A"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_ED7AA74A244C526A027ACE6FDD552DDD"
+        "OwnerKey" = "8:_19F03FC8F79AAD67386F7613F07DD2C1"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_ED7AA74A244C526A027ACE6FDD552DDD"
+        "OwnerKey" = "8:_0448BC82C2534DA382C99C32E6688C84"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_ED7AA74A244C526A027ACE6FDD552DDD"
+        "OwnerKey" = "8:_525990912567A088943F235B2E12BF07"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_ED7AA74A244C526A027ACE6FDD552DDD"
+        "OwnerKey" = "8:_02A9450DC50A4CCF8DC9C1050D0FBF35"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_ED7AA74A244C526A027ACE6FDD552DDD"
+        "OwnerKey" = "8:_C881869C1F18144399BA858E152D3AB4"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_EE607A6A543242B8A6CDE876A376F26B"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_EF39F04090FD426A9013EE766AED1AA3"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_F05D92A6D3D849149CF4E82FB11FA94D"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_F0DE81AA2DF1474FABA15A240A7AF73B"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_F131D52D2A6140649572DAFBD0C584F1"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_F770C7BD3256B9CC3EC9A087FB08D7FD"
+        "OwnerKey" = "8:_02A9450DC50A4CCF8DC9C1050D0FBF35"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_F770C7BD3256B9CC3EC9A087FB08D7FD"
+        "OwnerKey" = "8:_C3231FB4F414451C9D4359E1D43A1CC4"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_F770C7BD3256B9CC3EC9A087FB08D7FD"
+        "OwnerKey" = "8:_4C9360DEE99161A910C5DBDF5FE4B29A"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_F770C7BD3256B9CC3EC9A087FB08D7FD"
+        "OwnerKey" = "8:_19F03FC8F79AAD67386F7613F07DD2C1"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_FE33F71E0CB0486B8146966A553C1ABB"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_FFA768ECAC5841E6BCB772515B82EC4C"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+    }
+    "Configurations"
+    {
+        "ControlsTest"
+        {
+        "DisplayName" = "8:ControlsTest"
+        "IsDebugOnly" = "11:FALSE"
+        "IsReleaseOnly" = "11:FALSE"
+        "OutputFilename" = "8:ControlsTest\\Setup.cab"
+        "PackageFileSize" = "3:-2147483648"
+        "CabType" = "3:1"
+        "SignOutput" = "11:FALSE"
+        "CertificateHash" = "8:"
+        "TimeStampServer" = "8:"
+        }
+        "Debug"
+        {
+        "DisplayName" = "8:Debug"
+        "IsDebugOnly" = "11:TRUE"
+        "IsReleaseOnly" = "11:FALSE"
+        "OutputFilename" = "8:Debug\\Setup.cab"
+        "PackageFileSize" = "3:-2147483648"
+        "CabType" = "3:1"
+        "SignOutput" = "11:FALSE"
+        "CertificateHash" = "8:"
+        "TimeStampServer" = "8:"
+        }
+        "Release"
+        {
+        "DisplayName" = "8:Release"
+        "IsDebugOnly" = "11:FALSE"
+        "IsReleaseOnly" = "11:TRUE"
+        "OutputFilename" = "8:Release\\MetroHome65.cab"
+        "PackageFileSize" = "3:-2147483648"
+        "CabType" = "3:1"
+        "SignOutput" = "11:FALSE"
+        "CertificateHash" = "8:"
+        "TimeStampServer" = "8:"
+        }
+    }
+    "Deployable"
+    {
+        "File"
+        {
+            "{BA458234-9B71-4F46-8107-E91156377184}:_00FF5462C02D45FA85EE8515DF1DF10F"
+            {
+            "SourcePath" = "8:..\\metrohome65\\icons\\book.png"
+            "TargetName" = "8:book.png"
+            "Tag" = "8:"
+            "Folder" = "8:_8C021DD8940246EDA53B6CA201901246"
+            "Condition" = "8:"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "Register" = "3:0"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
+            "{BA458234-9B71-4F46-8107-E91156377184}:_0143080A3F42413FB0549EC949B68DFD"
+            {
+            "SourcePath" = "8:..\\metrohome65\\icons\\small\\small-camera.png"
+            "TargetName" = "8:small-camera.png"
+            "Tag" = "8:"
+            "Folder" = "8:_4259F5F5711143D78BDFED99B4977BC3"
+            "Condition" = "8:"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "Register" = "3:0"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
+            "{BA458234-9B71-4F46-8107-E91156377184}:_02590F41F42B496C8F06EF7B0525BF48"
+            {
+            "SourcePath" = "8:..\\metrohome65\\icons\\acrobat.png"
+            "TargetName" = "8:acrobat.png"
+            "Tag" = "8:"
+            "Folder" = "8:_8C021DD8940246EDA53B6CA201901246"
+            "Condition" = "8:"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "Register" = "3:0"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
+            "{BA458234-9B71-4F46-8107-E91156377184}:_02FB39934E854F398CCED9C5295DD258"
+            {
+            "SourcePath" = "8:..\\metrohome65\\wallpapers\\bird.jpg"
+            "TargetName" = "8:bird.jpg"
+            "Tag" = "8:"
+            "Folder" = "8:_25EA8A5C262B4B4682EFA846231B761A"
+            "Condition" = "8:"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "Register" = "3:0"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
+            "{BA458234-9B71-4F46-8107-E91156377184}:_05AA5A8F8AF34B2782EF3270BEF917A9"
+            {
+            "SourcePath" = "8:..\\metrohome65\\icons\\small\\small-add.png"
+            "TargetName" = "8:small-add.png"
+            "Tag" = "8:"
+            "Folder" = "8:_4259F5F5711143D78BDFED99B4977BC3"
+            "Condition" = "8:"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "Register" = "3:0"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
+            "{E4F2F62A-3940-4BF5-A031-F7FA98CAAFFA}:_05BC4B0BE0645AE66ECA9869E5F16B67"
+            {
+            "AssemblyIsInGAC" = "11:FALSE"
+            "AssemblyAsmDisplayName" = "8:Microsoft.WindowsMobile.Status, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35"
+                "ScatterAssemblies"
+                {
+                    "_05BC4B0BE0645AE66ECA9869E5F16B67"
+                    {
+                    "Name" = "8:Microsoft.WindowsMobile.Status.dll"
+                    "Attributes" = "3:512"
+                    }
+                }
+            "SourcePath" = "8:Microsoft.WindowsMobile.Status.dll"
+            "TargetName" = "8:"
+            "Tag" = "8:"
+            "Folder" = "8:_3CFD983215674BA08819E551753CF7D6"
+            "Condition" = "8:"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "Register" = "3:0"
+            "Exclude" = "11:TRUE"
+            "IsDependency" = "11:TRUE"
+            "IsolateTo" = "8:"
+            }
+            "{BA458234-9B71-4F46-8107-E91156377184}:_0728487ABDB5496D906C1F784B3E1AAA"
+            {
+            "SourcePath" = "8:..\\metrohome65\\buttons\\bg4.png"
+            "TargetName" = "8:bg4.png"
+            "Tag" = "8:"
+            "Folder" = "8:_E4331F6D577D4E72BC4EC8871FE1C990"
+            "Condition" = "8:"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "Register" = "3:0"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
+            "{BA458234-9B71-4F46-8107-E91156377184}:_089CED14B95A4063B74AB2F1225AC8E6"
+            {
+            "SourcePath" = "8:..\\metrohome65\\icons\\java.png"
+            "TargetName" = "8:java.png"
+            "Tag" = "8:"
+            "Folder" = "8:_8C021DD8940246EDA53B6CA201901246"
+            "Condition" = "8:"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "Register" = "3:0"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
+            "{BA458234-9B71-4F46-8107-E91156377184}:_0BF640C178C14BA8BF773A4127340C8B"
+            {
+            "SourcePath" = "8:..\\metrohome65\\icons\\small\\small-clock.png"
+            "TargetName" = "8:small-clock.png"
+            "Tag" = "8:"
+            "Folder" = "8:_4259F5F5711143D78BDFED99B4977BC3"
+            "Condition" = "8:"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "Register" = "3:0"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
+            "{BA458234-9B71-4F46-8107-E91156377184}:_0CED63CE978340F5B656C1704FFD3F0D"
+            {
+            "SourcePath" = "8:..\\metrohome65\\icons\\small\\small-radio.png"
+            "TargetName" = "8:small-radio.png"
+            "Tag" = "8:"
+            "Folder" = "8:_4259F5F5711143D78BDFED99B4977BC3"
+            "Condition" = "8:"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "Register" = "3:0"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
+            "{BA458234-9B71-4F46-8107-E91156377184}:_0E00DD9F8786426087397D0557A43B88"
+            {
+            "SourcePath" = "8:..\\metrohome65\\icons\\small\\small-opera.png"
+            "TargetName" = "8:small-opera.png"
+            "Tag" = "8:"
+            "Folder" = "8:_4259F5F5711143D78BDFED99B4977BC3"
+            "Condition" = "8:"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "Register" = "3:0"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
+            "{BA458234-9B71-4F46-8107-E91156377184}:_0EFB86B9CB784E45BF1026F6B6736812"
+            {
+            "SourcePath" = "8:..\\metrohome65\\buttons\\bg1.png"
+            "TargetName" = "8:bg1.png"
+            "Tag" = "8:"
+            "Folder" = "8:_E4331F6D577D4E72BC4EC8871FE1C990"
+            "Condition" = "8:"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "Register" = "3:0"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
+            "{BA458234-9B71-4F46-8107-E91156377184}:_120F4BD5485A4924BF83687CB9D601F1"
+            {
+            "SourcePath" = "8:..\\metrohome65\\icons\\mail.png"
+            "TargetName" = "8:mail.png"
+            "Tag" = "8:"
+            "Folder" = "8:_8C021DD8940246EDA53B6CA201901246"
+            "Condition" = "8:"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "Register" = "3:0"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
+            "{E4F2F62A-3940-4BF5-A031-F7FA98CAAFFA}:_12FFF124B4AA90C7B19095D62C3456D0"
+            {
+            "AssemblyIsInGAC" = "11:FALSE"
+            "AssemblyAsmDisplayName" = "8:mscorlib, Version=3.5.0.0, Culture=neutral, PublicKeyToken=969db8053d3322ac"
+                "ScatterAssemblies"
+                {
+                    "_12FFF124B4AA90C7B19095D62C3456D0"
+                    {
+                    "Name" = "8:mscorlib.dll"
+                    "Attributes" = "3:512"
+                    }
+                }
+            "SourcePath" = "8:mscorlib.dll"
+            "TargetName" = "8:"
+            "Tag" = "8:"
+            "Folder" = "8:_3CFD983215674BA08819E551753CF7D6"
+            "Condition" = "8:"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "Register" = "3:0"
+            "Exclude" = "11:TRUE"
+            "IsDependency" = "11:TRUE"
+            "IsolateTo" = "8:"
+            }
+            "{BA458234-9B71-4F46-8107-E91156377184}:_1397EBE468C244829DB894DDEFE8ECAA"
+            {
+            "SourcePath" = "8:..\\metrohome65\\icons\\small\\small-iexplore.png"
+            "TargetName" = "8:small-iexplore.png"
+            "Tag" = "8:"
+            "Folder" = "8:_4259F5F5711143D78BDFED99B4977BC3"
+            "Condition" = "8:"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "Register" = "3:0"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
+            "{BA458234-9B71-4F46-8107-E91156377184}:_14BE74C3E89F4A3E9CC39073D1A217CA"
+            {
+            "SourcePath" = "8:..\\metrohome65\\icons\\flash.png"
+            "TargetName" = "8:flash.png"
+            "Tag" = "8:"
+            "Folder" = "8:_8C021DD8940246EDA53B6CA201901246"
+            "Condition" = "8:"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "Register" = "3:0"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
+            "{BA458234-9B71-4F46-8107-E91156377184}:_161861E1F08842B9B2035939E2CD9F22"
+            {
+            "SourcePath" = "8:..\\metrohome65\\buttons\\bg6.png"
+            "TargetName" = "8:bg6.png"
+            "Tag" = "8:"
+            "Folder" = "8:_E4331F6D577D4E72BC4EC8871FE1C990"
+            "Condition" = "8:"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "Register" = "3:0"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
+            "{BA458234-9B71-4F46-8107-E91156377184}:_17B115561DEB4F4187DC106733E445B4"
+            {
+            "SourcePath" = "8:..\\metrohome65\\icons\\radio.png"
+            "TargetName" = "8:radio.png"
+            "Tag" = "8:"
+            "Folder" = "8:_8C021DD8940246EDA53B6CA201901246"
+            "Condition" = "8:"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "Register" = "3:0"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
+            "{E4F2F62A-3940-4BF5-A031-F7FA98CAAFFA}:_19F03FC8F79AAD67386F7613F07DD2C1"
+            {
+            "AssemblyIsInGAC" = "11:FALSE"
+            "AssemblyAsmDisplayName" = "8:MetroHome65.Routines, Version=1.0.4530.1316, Culture=neutral"
+                "ScatterAssemblies"
+                {
+                    "_19F03FC8F79AAD67386F7613F07DD2C1"
+                    {
+                    "Name" = "8:MetroHome65.Routines.dll"
+                    "Attributes" = "3:512"
+                    }
+                }
+            "SourcePath" = "8:MetroHome65.Routines.dll"
+            "TargetName" = "8:"
+            "Tag" = "8:"
+            "Folder" = "8:_3CFD983215674BA08819E551753CF7D6"
+            "Condition" = "8:"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "Register" = "3:0"
+            "Exclude" = "11:TRUE"
+            "IsDependency" = "11:TRUE"
+            "IsolateTo" = "8:"
+            }
+            "{E4F2F62A-3940-4BF5-A031-F7FA98CAAFFA}:_1A8E69600CC3BAC8B287E8D79E72F470"
+            {
+            "AssemblyIsInGAC" = "11:FALSE"
+            "AssemblyAsmDisplayName" = "8:Microsoft.WindowsMobile.Telephony, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35"
+                "ScatterAssemblies"
+                {
+                    "_1A8E69600CC3BAC8B287E8D79E72F470"
+                    {
+                    "Name" = "8:Microsoft.WindowsMobile.Telephony.dll"
+                    "Attributes" = "3:512"
+                    }
+                }
+            "SourcePath" = "8:Microsoft.WindowsMobile.Telephony.dll"
+            "TargetName" = "8:"
+            "Tag" = "8:"
+            "Folder" = "8:_3CFD983215674BA08819E551753CF7D6"
+            "Condition" = "8:"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "Register" = "3:0"
+            "Exclude" = "11:TRUE"
+            "IsDependency" = "11:TRUE"
+            "IsolateTo" = "8:"
+            }
+            "{BA458234-9B71-4F46-8107-E91156377184}:_1BF7CE80821A42FBA1A91F53BAD484F0"
+            {
+            "SourcePath" = "8:..\\metrohome65\\wallpapers\\winter.jpg"
+            "TargetName" = "8:winter.jpg"
+            "Tag" = "8:"
+            "Folder" = "8:_25EA8A5C262B4B4682EFA846231B761A"
+            "Condition" = "8:"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "Register" = "3:0"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
+            "{BA458234-9B71-4F46-8107-E91156377184}:_1F1DA801792146379E2974D369D1C50A"
+            {
+            "SourcePath" = "8:..\\metrohome65\\icons\\contacts.png"
+            "TargetName" = "8:contacts.png"
+            "Tag" = "8:"
+            "Folder" = "8:_8C021DD8940246EDA53B6CA201901246"
+            "Condition" = "8:"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "Register" = "3:0"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
+            "{BA458234-9B71-4F46-8107-E91156377184}:_225D5C3BEE1246358611FADD98B08B67"
+            {
+            "SourcePath" = "8:..\\metrohome65\\icons\\small\\small-heart.png"
+            "TargetName" = "8:small-heart.png"
+            "Tag" = "8:"
+            "Folder" = "8:_4259F5F5711143D78BDFED99B4977BC3"
+            "Condition" = "8:"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "Register" = "3:0"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
+            "{BA458234-9B71-4F46-8107-E91156377184}:_23F095D502DA423AA2E51FB01D0351E0"
+            {
+            "SourcePath" = "8:..\\metrohome65\\icons\\small\\small-world.png"
+            "TargetName" = "8:small-world.png"
+            "Tag" = "8:"
+            "Folder" = "8:_4259F5F5711143D78BDFED99B4977BC3"
+            "Condition" = "8:"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "Register" = "3:0"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
+            "{BA458234-9B71-4F46-8107-E91156377184}:_24F5284D81AA42B68972A4D01D17A997"
+            {
+            "SourcePath" = "8:..\\metrohome65\\buttons\\button red.png"
+            "TargetName" = "8:button red.png"
+            "Tag" = "8:"
+            "Folder" = "8:_E4331F6D577D4E72BC4EC8871FE1C990"
+            "Condition" = "8:"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "Register" = "3:0"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
+            "{BA458234-9B71-4F46-8107-E91156377184}:_29E9C579CB824026886368515A695194"
+            {
+            "SourcePath" = "8:..\\metrohome65\\icons\\small\\small-gauge.png"
+            "TargetName" = "8:small-gauge.png"
+            "Tag" = "8:"
+            "Folder" = "8:_4259F5F5711143D78BDFED99B4977BC3"
+            "Condition" = "8:"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "Register" = "3:0"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
+            "{BA458234-9B71-4F46-8107-E91156377184}:_30061D3363DC4DC2B35C3E04249F16B2"
+            {
+            "SourcePath" = "8:..\\metrohome65\\icons\\flag.png"
+            "TargetName" = "8:flag.png"
+            "Tag" = "8:"
+            "Folder" = "8:_8C021DD8940246EDA53B6CA201901246"
+            "Condition" = "8:"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "Register" = "3:0"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
+            "{BA458234-9B71-4F46-8107-E91156377184}:_30387CDAA9C3423080AB89A0C9D680EF"
+            {
+            "SourcePath" = "8:..\\metrohome65\\icons\\rss.png"
+            "TargetName" = "8:rss.png"
+            "Tag" = "8:"
+            "Folder" = "8:_8C021DD8940246EDA53B6CA201901246"
+            "Condition" = "8:"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "Register" = "3:0"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
+            "{BA458234-9B71-4F46-8107-E91156377184}:_317D18E1741B48579D4EFACDDA02D866"
+            {
+            "SourcePath" = "8:..\\metrohome65\\icons\\skype.png"
+            "TargetName" = "8:skype.png"
+            "Tag" = "8:"
+            "Folder" = "8:_8C021DD8940246EDA53B6CA201901246"
+            "Condition" = "8:"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "Register" = "3:0"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
+            "{BA458234-9B71-4F46-8107-E91156377184}:_39C6364EFD3C4A48AF5B78B24F5050E2"
+            {
+            "SourcePath" = "8:..\\metrohome65\\icons\\small\\small-questionmark.png"
+            "TargetName" = "8:small-questionmark.png"
+            "Tag" = "8:"
+            "Folder" = "8:_4259F5F5711143D78BDFED99B4977BC3"
+            "Condition" = "8:"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "Register" = "3:0"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
+            "{BA458234-9B71-4F46-8107-E91156377184}:_3C6BEAEC88C646308033FC1C837E34CA"
+            {
+            "SourcePath" = "8:..\\metrohome65\\icons\\small\\small-tuner.png"
+            "TargetName" = "8:small-tuner.png"
+            "Tag" = "8:"
+            "Folder" = "8:_4259F5F5711143D78BDFED99B4977BC3"
+            "Condition" = "8:"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "Register" = "3:0"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
+            "{E4F2F62A-3940-4BF5-A031-F7FA98CAAFFA}:_3FB82A92238AEDF8887C859B308809E5"
+            {
+            "AssemblyIsInGAC" = "11:FALSE"
+            "AssemblyAsmDisplayName" = "8:Microsoft.WindowsMobile, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35"
+                "ScatterAssemblies"
+                {
+                    "_3FB82A92238AEDF8887C859B308809E5"
+                    {
+                    "Name" = "8:Microsoft.WindowsMobile.dll"
+                    "Attributes" = "3:512"
+                    }
+                }
+            "SourcePath" = "8:Microsoft.WindowsMobile.dll"
+            "TargetName" = "8:"
+            "Tag" = "8:"
+            "Folder" = "8:_3CFD983215674BA08819E551753CF7D6"
+            "Condition" = "8:"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "Register" = "3:0"
+            "Exclude" = "11:TRUE"
+            "IsDependency" = "11:TRUE"
+            "IsolateTo" = "8:"
+            }
+            "{BA458234-9B71-4F46-8107-E91156377184}:_4016659CDDC446BFB938D9FA0A05E06E"
+            {
+            "SourcePath" = "8:..\\metrohome65\\icons\\small\\small-video.png"
+            "TargetName" = "8:small-video.png"
+            "Tag" = "8:"
+            "Folder" = "8:_4259F5F5711143D78BDFED99B4977BC3"
+            "Condition" = "8:"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "Register" = "3:0"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
+            "{E4F2F62A-3940-4BF5-A031-F7FA98CAAFFA}:_4170318371E95FF6F081BFCF4B2CCEB4"
+            {
+            "AssemblyIsInGAC" = "11:FALSE"
+            "AssemblyAsmDisplayName" = "8:System.Core, Version=3.5.0.0, Culture=neutral, PublicKeyToken=969db8053d3322ac"
+                "ScatterAssemblies"
+                {
+                    "_4170318371E95FF6F081BFCF4B2CCEB4"
+                    {
+                    "Name" = "8:System.Core.dll"
+                    "Attributes" = "3:512"
+                    }
+                }
+            "SourcePath" = "8:System.Core.dll"
+            "TargetName" = "8:"
+            "Tag" = "8:"
+            "Folder" = "8:_3CFD983215674BA08819E551753CF7D6"
+            "Condition" = "8:"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "Register" = "3:0"
+            "Exclude" = "11:TRUE"
+            "IsDependency" = "11:TRUE"
+            "IsolateTo" = "8:"
+            }
+            "{BA458234-9B71-4F46-8107-E91156377184}:_43392A399F7B4838A9DACD712A3EB2BA"
+            {
+            "SourcePath" = "8:..\\metrohome65\\icons\\small\\small-bluetooth.png"
+            "TargetName" = "8:small-bluetooth.png"
+            "Tag" = "8:"
+            "Folder" = "8:_4259F5F5711143D78BDFED99B4977BC3"
+            "Condition" = "8:"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "Register" = "3:0"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
+            "{BA458234-9B71-4F46-8107-E91156377184}:_465110EEBC4C4C378DAD1289D6254C6F"
+            {
+            "SourcePath" = "8:..\\metrohome65\\icons\\small\\small-favs.addto.png"
+            "TargetName" = "8:small-favs.addto.png"
+            "Tag" = "8:"
+            "Folder" = "8:_4259F5F5711143D78BDFED99B4977BC3"
+            "Condition" = "8:"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "Register" = "3:0"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
+            "{BA458234-9B71-4F46-8107-E91156377184}:_465EA758F0614A55A104E95D727B18AB"
+            {
+            "SourcePath" = "8:..\\metrohome65\\icons\\bluetooth.png"
+            "TargetName" = "8:bluetooth.png"
+            "Tag" = "8:"
+            "Folder" = "8:_8C021DD8940246EDA53B6CA201901246"
+            "Condition" = "8:"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "Register" = "3:0"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
+            "{BA458234-9B71-4F46-8107-E91156377184}:_478288E2407A4EEE830558AB66E4B0A0"
+            {
+            "SourcePath" = "8:..\\metrohome65\\wallpapers\\leaves.jpg"
+            "TargetName" = "8:leaves.jpg"
+            "Tag" = "8:"
+            "Folder" = "8:_25EA8A5C262B4B4682EFA846231B761A"
+            "Condition" = "8:"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "Register" = "3:0"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
+            "{E4F2F62A-3940-4BF5-A031-F7FA98CAAFFA}:_4C9360DEE99161A910C5DBDF5FE4B29A"
+            {
+            "AssemblyIsInGAC" = "11:FALSE"
+            "AssemblyAsmDisplayName" = "8:Metrohome65.Settings.Controls, Version=1.0.4530.1320, Culture=neutral"
+                "ScatterAssemblies"
+                {
+                    "_4C9360DEE99161A910C5DBDF5FE4B29A"
+                    {
+                    "Name" = "8:Metrohome65.Settings.Controls.dll"
+                    "Attributes" = "3:512"
+                    }
+                }
+            "SourcePath" = "8:Metrohome65.Settings.Controls.dll"
+            "TargetName" = "8:"
+            "Tag" = "8:"
+            "Folder" = "8:_3CFD983215674BA08819E551753CF7D6"
+            "Condition" = "8:"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "Register" = "3:0"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:TRUE"
+            "IsolateTo" = "8:"
+            }
+            "{BA458234-9B71-4F46-8107-E91156377184}:_4FFD928FAD5F42538EE49EB9824EE4FB"
+            {
+            "SourcePath" = "8:..\\metrohome65\\icons\\small\\small-search.png"
+            "TargetName" = "8:small-search.png"
+            "Tag" = "8:"
+            "Folder" = "8:_4259F5F5711143D78BDFED99B4977BC3"
+            "Condition" = "8:"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "Register" = "3:0"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
+            "{E4F2F62A-3940-4BF5-A031-F7FA98CAAFFA}:_525990912567A088943F235B2E12BF07"
+            {
+            "AssemblyIsInGAC" = "11:FALSE"
+            "AssemblyAsmDisplayName" = "8:System.Xml, Version=3.5.0.0, Culture=neutral, PublicKeyToken=969db8053d3322ac"
+                "ScatterAssemblies"
+                {
+                    "_525990912567A088943F235B2E12BF07"
+                    {
+                    "Name" = "8:System.Xml.dll"
+                    "Attributes" = "3:512"
+                    }
+                }
+            "SourcePath" = "8:System.Xml.dll"
+            "TargetName" = "8:"
+            "Tag" = "8:"
+            "Folder" = "8:_3CFD983215674BA08819E551753CF7D6"
+            "Condition" = "8:"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "Register" = "3:0"
+            "Exclude" = "11:TRUE"
+            "IsDependency" = "11:TRUE"
+            "IsolateTo" = "8:"
+            }
+            "{BA458234-9B71-4F46-8107-E91156377184}:_53F5683A41504D429F46C28ECF9FEA09"
+            {
+            "SourcePath" = "8:..\\metrohome65\\icons\\gauge.png"
+            "TargetName" = "8:gauge.png"
+            "Tag" = "8:"
+            "Folder" = "8:_8C021DD8940246EDA53B6CA201901246"
+            "Condition" = "8:"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "Register" = "3:0"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
+            "{E4F2F62A-3940-4BF5-A031-F7FA98CAAFFA}:_5584F8F1678FF86AC737B4A2D0BB394D"
+            {
+            "AssemblyIsInGAC" = "11:FALSE"
+            "AssemblyAsmDisplayName" = "8:Microsoft.WindowsMobile.PocketOutlook, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35"
+                "ScatterAssemblies"
+                {
+                    "_5584F8F1678FF86AC737B4A2D0BB394D"
+                    {
+                    "Name" = "8:Microsoft.WindowsMobile.PocketOutlook.dll"
+                    "Attributes" = "3:512"
+                    }
+                }
+            "SourcePath" = "8:Microsoft.WindowsMobile.PocketOutlook.dll"
+            "TargetName" = "8:"
+            "Tag" = "8:"
+            "Folder" = "8:_3CFD983215674BA08819E551753CF7D6"
+            "Condition" = "8:"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "Register" = "3:0"
+            "Exclude" = "11:TRUE"
+            "IsDependency" = "11:TRUE"
+            "IsolateTo" = "8:"
+            }
+            "{BA458234-9B71-4F46-8107-E91156377184}:_587C657A31E4464B8B4D177902FA22FA"
+            {
+            "SourcePath" = "8:..\\metrohome65\\icons\\small\\small-share.png"
+            "TargetName" = "8:small-share.png"
+            "Tag" = "8:"
+            "Folder" = "8:_4259F5F5711143D78BDFED99B4977BC3"
+            "Condition" = "8:"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "Register" = "3:0"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
+            "{BA458234-9B71-4F46-8107-E91156377184}:_5C828CB4D9FC4BAE976408215564C405"
+            {
+            "SourcePath" = "8:..\\metrohome65\\icons\\small\\small-game.png"
+            "TargetName" = "8:small-game.png"
+            "Tag" = "8:"
+            "Folder" = "8:_4259F5F5711143D78BDFED99B4977BC3"
+            "Condition" = "8:"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "Register" = "3:0"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
+            "{BA458234-9B71-4F46-8107-E91156377184}:_5EA39DA38E064868B73015E286B0B03C"
+            {
+            "SourcePath" = "8:..\\metrohome65\\icons\\small\\small-acrobat.png"
+            "TargetName" = "8:small-acrobat.png"
+            "Tag" = "8:"
+            "Folder" = "8:_4259F5F5711143D78BDFED99B4977BC3"
+            "Condition" = "8:"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "Register" = "3:0"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
+            "{BA458234-9B71-4F46-8107-E91156377184}:_5EE46A1D1DFB465A969675DC755C561E"
+            {
+            "SourcePath" = "8:..\\fonts\\SegoeWP-Bold.ttf"
+            "TargetName" = "8:SegoeWP-Bold.ttf"
+            "Tag" = "8:"
+            "Folder" = "8:_960FA5C57AC94F65AEB6582C60423864"
+            "Condition" = "8:"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "Register" = "3:0"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
+            "{BA458234-9B71-4F46-8107-E91156377184}:_5FCCF90EE12E48F4A5AF3DB33F554BAE"
+            {
+            "SourcePath" = "8:..\\metrohome65\\icons\\games.png"
+            "TargetName" = "8:games.png"
+            "Tag" = "8:"
+            "Folder" = "8:_8C021DD8940246EDA53B6CA201901246"
+            "Condition" = "8:"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "Register" = "3:0"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
+            "{BA458234-9B71-4F46-8107-E91156377184}:_612B326F4B5A497A976A87BB29A85A73"
+            {
+            "SourcePath" = "8:..\\metrohome65\\icons\\people.png"
+            "TargetName" = "8:people.png"
+            "Tag" = "8:"
+            "Folder" = "8:_8C021DD8940246EDA53B6CA201901246"
+            "Condition" = "8:"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "Register" = "3:0"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
+            "{BA458234-9B71-4F46-8107-E91156377184}:_61CF37B01421430293BB8AEA77AFEFA2"
+            {
+            "SourcePath" = "8:..\\metrohome65\\icons\\photo.png"
+            "TargetName" = "8:photo.png"
+            "Tag" = "8:"
+            "Folder" = "8:_8C021DD8940246EDA53B6CA201901246"
+            "Condition" = "8:"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "Register" = "3:0"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
+            "{BA458234-9B71-4F46-8107-E91156377184}:_62990E6FC08C416BA33F801068CE7C42"
+            {
+            "SourcePath" = "8:..\\metrohome65\\icons\\small\\small-flag.png"
+            "TargetName" = "8:small-flag.png"
+            "Tag" = "8:"
+            "Folder" = "8:_4259F5F5711143D78BDFED99B4977BC3"
+            "Condition" = "8:"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "Register" = "3:0"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
+            "{BA458234-9B71-4F46-8107-E91156377184}:_66D68FD584284FCCBFB7064354CC8508"
+            {
+            "SourcePath" = "8:..\\metrohome65\\icons\\small\\small-list.png"
+            "TargetName" = "8:small-list.png"
+            "Tag" = "8:"
+            "Folder" = "8:_4259F5F5711143D78BDFED99B4977BC3"
+            "Condition" = "8:"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "Register" = "3:0"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
+            "{BA458234-9B71-4F46-8107-E91156377184}:_6823EE40FCF24D619DA18A22E259EAD0"
+            {
+            "SourcePath" = "8:..\\metrohome65\\icons\\small\\small-favs.png"
+            "TargetName" = "8:small-favs.png"
+            "Tag" = "8:"
+            "Folder" = "8:_4259F5F5711143D78BDFED99B4977BC3"
+            "Condition" = "8:"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "Register" = "3:0"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
+            "{BA458234-9B71-4F46-8107-E91156377184}:_69C6A357599B4DC59C608BEF4E9F4241"
+            {
+            "SourcePath" = "8:..\\metrohome65\\icons\\tuner.png"
+            "TargetName" = "8:tuner.png"
+            "Tag" = "8:"
+            "Folder" = "8:_8C021DD8940246EDA53B6CA201901246"
+            "Condition" = "8:"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "Register" = "3:0"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
+            "{BA458234-9B71-4F46-8107-E91156377184}:_6A086D31FB2D4294823745EA5DC6451E"
+            {
+            "SourcePath" = "8:..\\metrohome65\\icons\\small\\small-message.png"
+            "TargetName" = "8:small-message.png"
+            "Tag" = "8:"
+            "Folder" = "8:_4259F5F5711143D78BDFED99B4977BC3"
+            "Condition" = "8:"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "Register" = "3:0"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
+            "{BA458234-9B71-4F46-8107-E91156377184}:_70E00AFC93DA406E9C1261CBCDC8195B"
+            {
+            "SourcePath" = "8:..\\metrohome65\\icons\\folder.png"
+            "TargetName" = "8:folder.png"
+            "Tag" = "8:"
+            "Folder" = "8:_8C021DD8940246EDA53B6CA201901246"
+            "Condition" = "8:"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "Register" = "3:0"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
+            "{BA458234-9B71-4F46-8107-E91156377184}:_7139D341C94D41FA8E1C97EAE3FD6FDB"
+            {
+            "SourcePath" = "8:..\\metrohome65\\icons\\small\\small-download.png"
+            "TargetName" = "8:small-download.png"
+            "Tag" = "8:"
+            "Folder" = "8:_4259F5F5711143D78BDFED99B4977BC3"
+            "Condition" = "8:"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "Register" = "3:0"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
+            "{BA458234-9B71-4F46-8107-E91156377184}:_71DFEB67347F4803B04149C4187F378B"
+            {
+            "SourcePath" = "8:..\\metrohome65\\icons\\small\\small-java.png"
+            "TargetName" = "8:small-java.png"
+            "Tag" = "8:"
+            "Folder" = "8:_4259F5F5711143D78BDFED99B4977BC3"
+            "Condition" = "8:"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "Register" = "3:0"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
+            "{BA458234-9B71-4F46-8107-E91156377184}:_735C3EA70BCC4E7AADEA4EEBD49934DF"
+            {
+            "SourcePath" = "8:..\\fonts\\SegoeWP.ttf"
+            "TargetName" = "8:SegoeWP.ttf"
+            "Tag" = "8:"
+            "Folder" = "8:_960FA5C57AC94F65AEB6582C60423864"
+            "Condition" = "8:"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "Register" = "3:0"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
+            "{BA458234-9B71-4F46-8107-E91156377184}:_7443FF8545F94B0DB7ED9AC2E5F8A036"
+            {
+            "SourcePath" = "8:..\\metrohome65\\buttons\\button blue.png"
+            "TargetName" = "8:button blue.png"
+            "Tag" = "8:"
+            "Folder" = "8:_E4331F6D577D4E72BC4EC8871FE1C990"
+            "Condition" = "8:"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "Register" = "3:0"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
+            "{BA458234-9B71-4F46-8107-E91156377184}:_75CC6E8F318D422FB1D63B2A15700F66"
+            {
+            "SourcePath" = "8:..\\metrohome65\\buttons\\button sky.png"
+            "TargetName" = "8:button sky.png"
+            "Tag" = "8:"
+            "Folder" = "8:_E4331F6D577D4E72BC4EC8871FE1C990"
+            "Condition" = "8:"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "Register" = "3:0"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
+            "{BA458234-9B71-4F46-8107-E91156377184}:_776CC82A8D7446DB94128FF6C686622C"
+            {
+            "SourcePath" = "8:..\\metrohome65\\icons\\small\\small-media.png"
+            "TargetName" = "8:small-media.png"
+            "Tag" = "8:"
+            "Folder" = "8:_4259F5F5711143D78BDFED99B4977BC3"
+            "Condition" = "8:"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "Register" = "3:0"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
+            "{E4F2F62A-3940-4BF5-A031-F7FA98CAAFFA}:_78BC1FA3B03C6E496C6AA7FB99333FE7"
+            {
+            "AssemblyIsInGAC" = "11:FALSE"
+            "AssemblyAsmDisplayName" = "8:Fleux, Version=1.0.4530.1313, Culture=neutral"
+                "ScatterAssemblies"
+                {
+                    "_78BC1FA3B03C6E496C6AA7FB99333FE7"
+                    {
+                    "Name" = "8:Fleux.DLL"
+                    "Attributes" = "3:512"
+                    }
+                }
+            "SourcePath" = "8:Fleux.DLL"
+            "TargetName" = "8:"
+            "Tag" = "8:"
+            "Folder" = "8:_3CFD983215674BA08819E551753CF7D6"
+            "Condition" = "8:"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "Register" = "3:0"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:TRUE"
+            "IsolateTo" = "8:"
+            }
+            "{BA458234-9B71-4F46-8107-E91156377184}:_7AB4472B168A48A49534286AB588C707"
+            {
+            "SourcePath" = "8:..\\metrohome65\\buttons\\button orange.png"
+            "TargetName" = "8:button orange.png"
+            "Tag" = "8:"
+            "Folder" = "8:_E4331F6D577D4E72BC4EC8871FE1C990"
+            "Condition" = "8:"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "Register" = "3:0"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
+            "{BA458234-9B71-4F46-8107-E91156377184}:_7AE20AA42A0B4D26B60A1026084B79EB"
+            {
+            "SourcePath" = "8:..\\metrohome65\\icons\\small\\small-cancel.png"
+            "TargetName" = "8:small-cancel.png"
+            "Tag" = "8:"
+            "Folder" = "8:_4259F5F5711143D78BDFED99B4977BC3"
+            "Condition" = "8:"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "Register" = "3:0"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
+            "{BA458234-9B71-4F46-8107-E91156377184}:_7BB557AC29134783B99C349692E8EA4D"
+            {
+            "SourcePath" = "8:..\\metrohome65\\icons\\calendar.png"
+            "TargetName" = "8:calendar.png"
+            "Tag" = "8:"
+            "Folder" = "8:_8C021DD8940246EDA53B6CA201901246"
+            "Condition" = "8:"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "Register" = "3:0"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
+            "{BA458234-9B71-4F46-8107-E91156377184}:_8023D43B87EE467EB20359C816D54D28"
+            {
+            "SourcePath" = "8:..\\metrohome65\\icons\\small\\small-edit.png"
+            "TargetName" = "8:small-edit.png"
+            "Tag" = "8:"
+            "Folder" = "8:_4259F5F5711143D78BDFED99B4977BC3"
+            "Condition" = "8:"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "Register" = "3:0"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
+            "{E4F2F62A-3940-4BF5-A031-F7FA98CAAFFA}:_826E9AA2AA2D9547706D1B0CF0C50B13"
+            {
+            "AssemblyIsInGAC" = "11:FALSE"
+            "AssemblyAsmDisplayName" = "8:System.Drawing, Version=3.5.0.0, Culture=neutral, PublicKeyToken=969db8053d3322ac"
+                "ScatterAssemblies"
+                {
+                    "_826E9AA2AA2D9547706D1B0CF0C50B13"
+                    {
+                    "Name" = "8:System.Drawing.dll"
+                    "Attributes" = "3:512"
+                    }
+                }
+            "SourcePath" = "8:System.Drawing.dll"
+            "TargetName" = "8:"
+            "Tag" = "8:"
+            "Folder" = "8:_3CFD983215674BA08819E551753CF7D6"
+            "Condition" = "8:"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "Register" = "3:0"
+            "Exclude" = "11:TRUE"
+            "IsDependency" = "11:TRUE"
+            "IsolateTo" = "8:"
+            }
+            "{BA458234-9B71-4F46-8107-E91156377184}:_829CC3C865454F95A4A3C2D60EB554CE"
+            {
+            "SourcePath" = "8:..\\metrohome65\\icons\\small\\small-calc.png"
+            "TargetName" = "8:small-calc.png"
+            "Tag" = "8:"
+            "Folder" = "8:_4259F5F5711143D78BDFED99B4977BC3"
+            "Condition" = "8:"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "Register" = "3:0"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
+            "{BA458234-9B71-4F46-8107-E91156377184}:_82B9DEBC5D27454AA93AD5D4A7917932"
+            {
+            "SourcePath" = "8:..\\metrohome65\\buttons\\bg7.png"
+            "TargetName" = "8:bg7.png"
+            "Tag" = "8:"
+            "Folder" = "8:_E4331F6D577D4E72BC4EC8871FE1C990"
+            "Condition" = "8:"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "Register" = "3:0"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
+            "{BA458234-9B71-4F46-8107-E91156377184}:_8518499960874C4D9E0C15B43479A6BC"
+            {
+            "SourcePath" = "8:..\\metrohome65\\icons\\small\\small-delete.png"
+            "TargetName" = "8:small-delete.png"
+            "Tag" = "8:"
+            "Folder" = "8:_4259F5F5711143D78BDFED99B4977BC3"
+            "Condition" = "8:"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "Register" = "3:0"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
+            "{E4F2F62A-3940-4BF5-A031-F7FA98CAAFFA}:_87AFB96B53F1C673D71FCD44D7BC4A92"
+            {
+            "AssemblyIsInGAC" = "11:FALSE"
+            "AssemblyAsmDisplayName" = "8:Microsoft.WindowsMobile.Forms, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35"
+                "ScatterAssemblies"
+                {
+                    "_87AFB96B53F1C673D71FCD44D7BC4A92"
+                    {
+                    "Name" = "8:Microsoft.WindowsMobile.Forms.dll"
+                    "Attributes" = "3:512"
+                    }
+                }
+            "SourcePath" = "8:Microsoft.WindowsMobile.Forms.dll"
+            "TargetName" = "8:"
+            "Tag" = "8:"
+            "Folder" = "8:_3CFD983215674BA08819E551753CF7D6"
+            "Condition" = "8:"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "Register" = "3:0"
+            "Exclude" = "11:TRUE"
+            "IsDependency" = "11:TRUE"
+            "IsolateTo" = "8:"
+            }
+            "{BA458234-9B71-4F46-8107-E91156377184}:_8853CCDA6B1F45C2AB1F110796162173"
+            {
+            "SourcePath" = "8:..\\metrohome65\\icons\\small\\small-folder.png"
+            "TargetName" = "8:small-folder.png"
+            "Tag" = "8:"
+            "Folder" = "8:_4259F5F5711143D78BDFED99B4977BC3"
+            "Condition" = "8:"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "Register" = "3:0"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
+            "{BA458234-9B71-4F46-8107-E91156377184}:_8BA5B319C650421BAA0A1E625394DF74"
+            {
+            "SourcePath" = "8:..\\metrohome65\\icons\\facebook.png"
+            "TargetName" = "8:facebook.png"
+            "Tag" = "8:"
+            "Folder" = "8:_8C021DD8940246EDA53B6CA201901246"
+            "Condition" = "8:"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "Register" = "3:0"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
+            "{BA458234-9B71-4F46-8107-E91156377184}:_8C6CB0B7EBF74CEF90AD9072BEA15149"
+            {
+            "SourcePath" = "8:..\\fonts\\SegoeWP-Semilight.ttf"
+            "TargetName" = "8:SegoeWP-Semilight.ttf"
+            "Tag" = "8:"
+            "Folder" = "8:_960FA5C57AC94F65AEB6582C60423864"
+            "Condition" = "8:"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "Register" = "3:0"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
+            "{BA458234-9B71-4F46-8107-E91156377184}:_8DA80C119CEF424E982662C2F6BA652A"
+            {
+            "SourcePath" = "8:..\\metrohome65\\icons\\small\\small-play.png"
+            "TargetName" = "8:small-play.png"
+            "Tag" = "8:"
+            "Folder" = "8:_4259F5F5711143D78BDFED99B4977BC3"
+            "Condition" = "8:"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "Register" = "3:0"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
+            "{BA458234-9B71-4F46-8107-E91156377184}:_8EA16C0C1E0C4D7DA7DF0621A2932AEC"
+            {
+            "SourcePath" = "8:..\\metrohome65\\icons\\small\\small-rss.png"
+            "TargetName" = "8:small-rss.png"
+            "Tag" = "8:"
+            "Folder" = "8:_4259F5F5711143D78BDFED99B4977BC3"
+            "Condition" = "8:"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "Register" = "3:0"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
+            "{BA458234-9B71-4F46-8107-E91156377184}:_9112AC0DD26B4E76A159D133BFEBBCD1"
+            {
+            "SourcePath" = "8:..\\metrohome65\\buttons\\bg8.png"
+            "TargetName" = "8:bg8.png"
+            "Tag" = "8:"
+            "Folder" = "8:_E4331F6D577D4E72BC4EC8871FE1C990"
+            "Condition" = "8:"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "Register" = "3:0"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
+            "{BA458234-9B71-4F46-8107-E91156377184}:_91180FAE3D64446BBDAC205DF689CA9A"
+            {
+            "SourcePath" = "8:..\\metrohome65\\icons\\small\\small-settings.png"
+            "TargetName" = "8:small-settings.png"
+            "Tag" = "8:"
+            "Folder" = "8:_4259F5F5711143D78BDFED99B4977BC3"
+            "Condition" = "8:"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "Register" = "3:0"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
+            "{BA458234-9B71-4F46-8107-E91156377184}:_914164C329B24CF8AAD4DF1A824C86FD"
+            {
+            "SourcePath" = "8:..\\fonts\\SegoeWP-Light.ttf"
+            "TargetName" = "8:SegoeWP-Light.ttf"
+            "Tag" = "8:"
+            "Folder" = "8:_960FA5C57AC94F65AEB6582C60423864"
+            "Condition" = "8:"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "Register" = "3:0"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
+            "{BA458234-9B71-4F46-8107-E91156377184}:_93775CBF5EF1493793B601B9D10431D7"
+            {
+            "SourcePath" = "8:..\\metrohome65\\icons\\cards.png"
+            "TargetName" = "8:cards.png"
+            "Tag" = "8:"
+            "Folder" = "8:_8C021DD8940246EDA53B6CA201901246"
+            "Condition" = "8:"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "Register" = "3:0"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
+            "{E4F2F62A-3940-4BF5-A031-F7FA98CAAFFA}:_981CD92A04D8DC2A1D281600BC170ED5"
+            {
+            "AssemblyIsInGAC" = "11:FALSE"
+            "AssemblyAsmDisplayName" = "8:OpenNETCF, Version=2.3.0.39, Culture=neutral, PublicKeyToken=e60dbea84bb431b7"
+                "ScatterAssemblies"
+                {
+                    "_981CD92A04D8DC2A1D281600BC170ED5"
+                    {
+                    "Name" = "8:OpenNETCF.dll"
+                    "Attributes" = "3:512"
+                    }
+                }
+            "SourcePath" = "8:OpenNETCF.dll"
+            "TargetName" = "8:"
+            "Tag" = "8:"
+            "Folder" = "8:_3CFD983215674BA08819E551753CF7D6"
+            "Condition" = "8:"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "Register" = "3:0"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:TRUE"
+            "IsolateTo" = "8:"
+            }
+            "{BA458234-9B71-4F46-8107-E91156377184}:_9860647CA71B416C990726BE4FA517D6"
+            {
+            "SourcePath" = "8:..\\metrohome65\\icons\\small\\small-photo.png"
+            "TargetName" = "8:small-photo.png"
+            "Tag" = "8:"
+            "Folder" = "8:_4259F5F5711143D78BDFED99B4977BC3"
+            "Condition" = "8:"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "Register" = "3:0"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
+            "{BA458234-9B71-4F46-8107-E91156377184}:_99D93A31C42940A99C24E83CC8D02357"
+            {
+            "SourcePath" = "8:..\\metrohome65\\wallpapers\\glas.jpg"
+            "TargetName" = "8:glas.jpg"
+            "Tag" = "8:"
+            "Folder" = "8:_25EA8A5C262B4B4682EFA846231B761A"
+            "Condition" = "8:"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "Register" = "3:0"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
+            "{BA458234-9B71-4F46-8107-E91156377184}:_9C83F5FDD10543B7996498ECB7304A98"
+            {
+            "SourcePath" = "8:..\\metrohome65\\icons\\small\\small-refresh.png"
+            "TargetName" = "8:small-refresh.png"
+            "Tag" = "8:"
+            "Folder" = "8:_4259F5F5711143D78BDFED99B4977BC3"
+            "Condition" = "8:"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "Register" = "3:0"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
+            "{BA458234-9B71-4F46-8107-E91156377184}:_9DD701FB440F418C8E5122514CFC8435"
+            {
+            "SourcePath" = "8:..\\fonts\\SegoeWP-Black.ttf"
+            "TargetName" = "8:SegoeWP-Black.ttf"
+            "Tag" = "8:"
+            "Folder" = "8:_960FA5C57AC94F65AEB6582C60423864"
+            "Condition" = "8:"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "Register" = "3:0"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
+            "{BA458234-9B71-4F46-8107-E91156377184}:_9E1921085761400A9C6D4DA9BB31DFB3"
+            {
+            "SourcePath" = "8:..\\metrohome65\\icons\\small\\small-i.png"
+            "TargetName" = "8:small-i.png"
+            "Tag" = "8:"
+            "Folder" = "8:_4259F5F5711143D78BDFED99B4977BC3"
+            "Condition" = "8:"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "Register" = "3:0"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
+            "{BA458234-9B71-4F46-8107-E91156377184}:_A5384D84DFCB4E7387053712ACB9DE15"
+            {
+            "SourcePath" = "8:..\\metrohome65\\icons\\phone.png"
+            "TargetName" = "8:phone.png"
+            "Tag" = "8:"
+            "Folder" = "8:_8C021DD8940246EDA53B6CA201901246"
+            "Condition" = "8:"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "Register" = "3:0"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
+            "{E4F2F62A-3940-4BF5-A031-F7FA98CAAFFA}:_A841E329CBE8B1790A9376895BC81DCA"
+            {
+            "AssemblyIsInGAC" = "11:FALSE"
+            "AssemblyAsmDisplayName" = "8:System.Data, Version=3.5.0.0, Culture=neutral, PublicKeyToken=969db8053d3322ac"
+                "ScatterAssemblies"
+                {
+                    "_A841E329CBE8B1790A9376895BC81DCA"
+                    {
+                    "Name" = "8:System.Data.dll"
+                    "Attributes" = "3:512"
+                    }
+                }
+            "SourcePath" = "8:System.Data.dll"
+            "TargetName" = "8:"
+            "Tag" = "8:"
+            "Folder" = "8:_3CFD983215674BA08819E551753CF7D6"
+            "Condition" = "8:"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "Register" = "3:0"
+            "Exclude" = "11:TRUE"
+            "IsDependency" = "11:TRUE"
+            "IsolateTo" = "8:"
+            }
+            "{BA458234-9B71-4F46-8107-E91156377184}:_A8C6196D9C92433D91F15C672880EB36"
+            {
+            "SourcePath" = "8:..\\fonts\\segoeuil.ttf"
+            "TargetName" = "8:segoeuil.ttf"
+            "Tag" = "8:"
+            "Folder" = "8:_960FA5C57AC94F65AEB6582C60423864"
+            "Condition" = "8:"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "Register" = "3:0"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
+            "{BA458234-9B71-4F46-8107-E91156377184}:_ABC5590375B14AB693BCEC337D6BC17E"
+            {
+            "SourcePath" = "8:..\\metrohome65\\icons\\settings.png"
+            "TargetName" = "8:settings.png"
+            "Tag" = "8:"
+            "Folder" = "8:_8C021DD8940246EDA53B6CA201901246"
+            "Condition" = "8:"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "Register" = "3:0"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
+            "{BA458234-9B71-4F46-8107-E91156377184}:_AF4AF0A52DD544ABA654042AAB58AB27"
+            {
+            "SourcePath" = "8:..\\metrohome65\\icons\\world.png"
+            "TargetName" = "8:world.png"
+            "Tag" = "8:"
+            "Folder" = "8:_8C021DD8940246EDA53B6CA201901246"
+            "Condition" = "8:"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "Register" = "3:0"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
+            "{BA458234-9B71-4F46-8107-E91156377184}:_AF4B9B9CB13443F99C13F54E92073A99"
+            {
+            "SourcePath" = "8:..\\metrohome65\\icons\\small\\small-mail.png"
+            "TargetName" = "8:small-mail.png"
+            "Tag" = "8:"
+            "Folder" = "8:_4259F5F5711143D78BDFED99B4977BC3"
+            "Condition" = "8:"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "Register" = "3:0"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
+            "{BA458234-9B71-4F46-8107-E91156377184}:_B7556E3B80D14056996103192A1B0BFD"
+            {
+            "SourcePath" = "8:..\\metrohome65\\buttons\\bg2.png"
+            "TargetName" = "8:bg2.png"
+            "Tag" = "8:"
+            "Folder" = "8:_E4331F6D577D4E72BC4EC8871FE1C990"
+            "Condition" = "8:"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "Register" = "3:0"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
+            "{BA458234-9B71-4F46-8107-E91156377184}:_B89318EF817C47A3B99793F2C007E8C6"
+            {
+            "SourcePath" = "8:..\\metrohome65\\icons\\small\\small-flash.png"
+            "TargetName" = "8:small-flash.png"
+            "Tag" = "8:"
+            "Folder" = "8:_4259F5F5711143D78BDFED99B4977BC3"
+            "Condition" = "8:"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "Register" = "3:0"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
+            "{BA458234-9B71-4F46-8107-E91156377184}:_B92FD75FDE7C497B9DF03FE5A11C4AC1"
+            {
+            "SourcePath" = "8:..\\metrohome65\\buttons\\bg5.png"
+            "TargetName" = "8:bg5.png"
+            "Tag" = "8:"
+            "Folder" = "8:_E4331F6D577D4E72BC4EC8871FE1C990"
+            "Condition" = "8:"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "Register" = "3:0"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
+            "{BA458234-9B71-4F46-8107-E91156377184}:_BA7B56E0180C40779D889D69D404A6A1"
+            {
+            "SourcePath" = "8:..\\metrohome65\\icons\\small\\small-windows.png"
+            "TargetName" = "8:small-windows.png"
+            "Tag" = "8:"
+            "Folder" = "8:_4259F5F5711143D78BDFED99B4977BC3"
+            "Condition" = "8:"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "Register" = "3:0"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
+            "{E4F2F62A-3940-4BF5-A031-F7FA98CAAFFA}:_C0936D06EC5658BC8E203E7FAF4FAAA1"
+            {
+            "AssemblyIsInGAC" = "11:FALSE"
+            "AssemblyAsmDisplayName" = "8:Microsoft.WindowsCE.Forms, Version=3.5.0.0, Culture=neutral, PublicKeyToken=969db8053d3322ac"
+                "ScatterAssemblies"
+                {
+                    "_C0936D06EC5658BC8E203E7FAF4FAAA1"
+                    {
+                    "Name" = "8:Microsoft.WindowsCE.Forms.dll"
+                    "Attributes" = "3:512"
+                    }
+                }
+            "SourcePath" = "8:Microsoft.WindowsCE.Forms.dll"
+            "TargetName" = "8:"
+            "Tag" = "8:"
+            "Folder" = "8:_3CFD983215674BA08819E551753CF7D6"
+            "Condition" = "8:"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "Register" = "3:0"
+            "Exclude" = "11:TRUE"
+            "IsDependency" = "11:TRUE"
+            "IsolateTo" = "8:"
+            }
+            "{BA458234-9B71-4F46-8107-E91156377184}:_C0C31E24CFAB433983EDB14A49C267E9"
+            {
+            "SourcePath" = "8:..\\metrohome65\\icons\\small\\small-save.png"
+            "TargetName" = "8:small-save.png"
+            "Tag" = "8:"
+            "Folder" = "8:_4259F5F5711143D78BDFED99B4977BC3"
+            "Condition" = "8:"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "Register" = "3:0"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
+            "{BA458234-9B71-4F46-8107-E91156377184}:_C46EDB738CED4A85990DF3755C2A2C6C"
+            {
+            "SourcePath" = "8:..\\metrohome65\\icons\\small\\small-pause.png"
+            "TargetName" = "8:small-pause.png"
+            "Tag" = "8:"
+            "Folder" = "8:_4259F5F5711143D78BDFED99B4977BC3"
+            "Condition" = "8:"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "Register" = "3:0"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
+            "{BA458234-9B71-4F46-8107-E91156377184}:_C54EA0F23BDE4177A081F08922D49436"
+            {
+            "SourcePath" = "8:..\\metrohome65\\icons\\books.png"
+            "TargetName" = "8:books.png"
+            "Tag" = "8:"
+            "Folder" = "8:_8C021DD8940246EDA53B6CA201901246"
+            "Condition" = "8:"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "Register" = "3:0"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
+            "{BA458234-9B71-4F46-8107-E91156377184}:_C5580C1744084818942E9B1D35DEFEDD"
+            {
+            "SourcePath" = "8:..\\metrohome65\\icons\\small\\small-skype.png"
+            "TargetName" = "8:small-skype.png"
+            "Tag" = "8:"
+            "Folder" = "8:_4259F5F5711143D78BDFED99B4977BC3"
+            "Condition" = "8:"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "Register" = "3:0"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
+            "{BA458234-9B71-4F46-8107-E91156377184}:_C78B2964F24949D8BDF99D56F7C8623E"
+            {
+            "SourcePath" = "8:..\\metrohome65\\icons\\media.png"
+            "TargetName" = "8:media.png"
+            "Tag" = "8:"
+            "Folder" = "8:_8C021DD8940246EDA53B6CA201901246"
+            "Condition" = "8:"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "Register" = "3:0"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
+            "{E4F2F62A-3940-4BF5-A031-F7FA98CAAFFA}:_C881869C1F18144399BA858E152D3AB4"
+            {
+            "AssemblyIsInGAC" = "11:FALSE"
+            "AssemblyAsmDisplayName" = "8:System.Windows.Forms, Version=3.5.0.0, Culture=neutral, PublicKeyToken=969db8053d3322ac"
+                "ScatterAssemblies"
+                {
+                    "_C881869C1F18144399BA858E152D3AB4"
+                    {
+                    "Name" = "8:System.Windows.Forms.dll"
+                    "Attributes" = "3:512"
+                    }
+                }
+            "SourcePath" = "8:System.Windows.Forms.dll"
+            "TargetName" = "8:"
+            "Tag" = "8:"
+            "Folder" = "8:_3CFD983215674BA08819E551753CF7D6"
+            "Condition" = "8:"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "Register" = "3:0"
+            "Exclude" = "11:TRUE"
+            "IsDependency" = "11:TRUE"
+            "IsolateTo" = "8:"
+            }
+            "{BA458234-9B71-4F46-8107-E91156377184}:_C88B3957286B4EAB9AEFF5FFFC16323F"
+            {
+            "SourcePath" = "8:..\\metrohome65\\wallpapers\\berry.jpg"
+            "TargetName" = "8:berry.jpg"
+            "Tag" = "8:"
+            "Folder" = "8:_25EA8A5C262B4B4682EFA846231B761A"
+            "Condition" = "8:"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "Register" = "3:0"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
+            "{BA458234-9B71-4F46-8107-E91156377184}:_C8D8B0BE900A465089C1041FEFC8B022"
+            {
+            "SourcePath" = "8:..\\metrohome65\\icons\\Opera.png"
+            "TargetName" = "8:Opera.png"
+            "Tag" = "8:"
+            "Folder" = "8:_8C021DD8940246EDA53B6CA201901246"
+            "Condition" = "8:"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "Register" = "3:0"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
+            "{BA458234-9B71-4F46-8107-E91156377184}:_CAC9F3BEBC9C4076875313A7429B475C"
+            {
+            "SourcePath" = "8:..\\metrohome65\\icons\\small\\small-check.png"
+            "TargetName" = "8:small-check.png"
+            "Tag" = "8:"
+            "Folder" = "8:_4259F5F5711143D78BDFED99B4977BC3"
+            "Condition" = "8:"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "Register" = "3:0"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
+            "{BA458234-9B71-4F46-8107-E91156377184}:_D101EBDBBA7B465E8795D59EDCFCF41C"
+            {
+            "SourcePath" = "8:..\\fonts\\segoeui.ttf"
+            "TargetName" = "8:segoeui.ttf"
+            "Tag" = "8:"
+            "Folder" = "8:_960FA5C57AC94F65AEB6582C60423864"
+            "Condition" = "8:"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "Register" = "3:0"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
+            "{E4F2F62A-3940-4BF5-A031-F7FA98CAAFFA}:_D1961C9AB8D63DD2DFDF971A7AA6129A"
+            {
+            "AssemblyIsInGAC" = "11:FALSE"
+            "AssemblyAsmDisplayName" = "8:BaseWidgets, Version=1.0.4530.1326, Culture=neutral"
+                "ScatterAssemblies"
+                {
+                    "_D1961C9AB8D63DD2DFDF971A7AA6129A"
+                    {
+                    "Name" = "8:BaseWidgets.dll"
+                    "Attributes" = "3:512"
+                    }
+                }
+            "SourcePath" = "8:BaseWidgets.dll"
+            "TargetName" = "8:"
+            "Tag" = "8:"
+            "Folder" = "8:_3CFD983215674BA08819E551753CF7D6"
+            "Condition" = "8:"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "Register" = "3:0"
+            "Exclude" = "11:TRUE"
+            "IsDependency" = "11:TRUE"
+            "IsolateTo" = "8:"
+            }
+            "{BA458234-9B71-4F46-8107-E91156377184}:_D6B46D9EFB5D47999B8636F7A8989244"
+            {
+            "SourcePath" = "8:..\\metrohome65\\icons\\small\\small-calendar.png"
+            "TargetName" = "8:small-calendar.png"
+            "Tag" = "8:"
+            "Folder" = "8:_4259F5F5711143D78BDFED99B4977BC3"
+            "Condition" = "8:"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "Register" = "3:0"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
+            "{BA458234-9B71-4F46-8107-E91156377184}:_D93A0CA594E24D1DB6417697E8F85AE5"
+            {
+            "SourcePath" = "8:..\\metrohome65\\buttons\\bg9.png"
+            "TargetName" = "8:bg9.png"
+            "Tag" = "8:"
+            "Folder" = "8:_E4331F6D577D4E72BC4EC8871FE1C990"
+            "Condition" = "8:"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "Register" = "3:0"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
+            "{BA458234-9B71-4F46-8107-E91156377184}:_DA6E226BA1DD495B9F2234428DAFB378"
+            {
+            "SourcePath" = "8:..\\metrohome65\\icons\\list.png"
+            "TargetName" = "8:list.png"
+            "Tag" = "8:"
+            "Folder" = "8:_8C021DD8940246EDA53B6CA201901246"
+            "Condition" = "8:"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "Register" = "3:0"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
+            "{E4F2F62A-3940-4BF5-A031-F7FA98CAAFFA}:_DEB8C2D47F6EA24B0BF0B3680D9E1AB8"
+            {
+            "AssemblyIsInGAC" = "11:FALSE"
+            "AssemblyAsmDisplayName" = "8:MetroHome65.Interfaces, Version=1.0.4530.1325, Culture=neutral"
+                "ScatterAssemblies"
+                {
+                    "_DEB8C2D47F6EA24B0BF0B3680D9E1AB8"
+                    {
+                    "Name" = "8:MetroHome65.Interfaces.dll"
+                    "Attributes" = "3:512"
+                    }
+                }
+            "SourcePath" = "8:MetroHome65.Interfaces.dll"
+            "TargetName" = "8:"
+            "Tag" = "8:"
+            "Folder" = "8:_3CFD983215674BA08819E551753CF7D6"
+            "Condition" = "8:"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "Register" = "3:0"
+            "Exclude" = "11:TRUE"
+            "IsDependency" = "11:TRUE"
+            "IsolateTo" = "8:"
+            }
+            "{BA458234-9B71-4F46-8107-E91156377184}:_DEBD0BFD86624AEEB33ED02CBEA4F34B"
+            {
+            "SourcePath" = "8:..\\metrohome65\\buttons\\button green.png"
+            "TargetName" = "8:button green.png"
+            "Tag" = "8:"
+            "Folder" = "8:_E4331F6D577D4E72BC4EC8871FE1C990"
+            "Condition" = "8:"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "Register" = "3:0"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
+            "{BA458234-9B71-4F46-8107-E91156377184}:_DF3D54F000F34A27A5CCDE9330BC705C"
+            {
+            "SourcePath" = "8:..\\metrohome65\\buttons\\bg3.png"
+            "TargetName" = "8:bg3.png"
+            "Tag" = "8:"
+            "Folder" = "8:_E4331F6D577D4E72BC4EC8871FE1C990"
+            "Condition" = "8:"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "Register" = "3:0"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
+            "{BA458234-9B71-4F46-8107-E91156377184}:_E7BB5E785FD74FA7A89BD80658164A4B"
+            {
+            "SourcePath" = "8:..\\metrohome65\\wallpapers\\flower.jpg"
+            "TargetName" = "8:flower.jpg"
+            "Tag" = "8:"
+            "Folder" = "8:_25EA8A5C262B4B4682EFA846231B761A"
+            "Condition" = "8:"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "Register" = "3:0"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
+            "{BA458234-9B71-4F46-8107-E91156377184}:_E7CF59C5C17648E89263C54DB180CE66"
+            {
+            "SourcePath" = "8:..\\metrohome65\\buttons\\button darkgray.png"
+            "TargetName" = "8:button darkgray.png"
+            "Tag" = "8:"
+            "Folder" = "8:_E4331F6D577D4E72BC4EC8871FE1C990"
+            "Condition" = "8:"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "Register" = "3:0"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
+            "{BA458234-9B71-4F46-8107-E91156377184}:_E806DBD3E31E417980B0800AEEEF6C9E"
+            {
+            "SourcePath" = "8:..\\metrohome65\\settings.xml"
+            "TargetName" = "8:settings.xml"
+            "Tag" = "8:"
+            "Folder" = "8:_3CFD983215674BA08819E551753CF7D6"
+            "Condition" = "8:"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "Register" = "3:0"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
+            "{BA458234-9B71-4F46-8107-E91156377184}:_EA23D3F737134AFA90253592EB1CDD49"
+            {
+            "SourcePath" = "8:..\\metrohome65\\icons\\small\\small-facebook.png"
+            "TargetName" = "8:small-facebook.png"
+            "Tag" = "8:"
+            "Folder" = "8:_4259F5F5711143D78BDFED99B4977BC3"
+            "Condition" = "8:"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "Register" = "3:0"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
+            "{BA458234-9B71-4F46-8107-E91156377184}:_ED1A311054FE4EE5A5AE9FA952AC4183"
+            {
+            "SourcePath" = "8:..\\metrohome65\\icons\\small\\small-contacts.png"
+            "TargetName" = "8:small-contacts.png"
+            "Tag" = "8:"
+            "Folder" = "8:_4259F5F5711143D78BDFED99B4977BC3"
+            "Condition" = "8:"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "Register" = "3:0"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
+            "{BA458234-9B71-4F46-8107-E91156377184}:_ED578CDFD69A49FDAD88CE836D7DC2FA"
+            {
+            "SourcePath" = "8:..\\metrohome65\\icons\\message.png"
+            "TargetName" = "8:message.png"
+            "Tag" = "8:"
+            "Folder" = "8:_8C021DD8940246EDA53B6CA201901246"
+            "Condition" = "8:"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "Register" = "3:0"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
+            "{E4F2F62A-3940-4BF5-A031-F7FA98CAAFFA}:_ED7AA74A244C526A027ACE6FDD552DDD"
+            {
+            "AssemblyIsInGAC" = "11:FALSE"
+            "AssemblyAsmDisplayName" = "8:System, Version=3.5.0.0, Culture=neutral, PublicKeyToken=969db8053d3322ac"
+                "ScatterAssemblies"
+                {
+                    "_ED7AA74A244C526A027ACE6FDD552DDD"
+                    {
+                    "Name" = "8:System.dll"
+                    "Attributes" = "3:512"
+                    }
+                }
+            "SourcePath" = "8:System.dll"
+            "TargetName" = "8:"
+            "Tag" = "8:"
+            "Folder" = "8:_3CFD983215674BA08819E551753CF7D6"
+            "Condition" = "8:"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "Register" = "3:0"
+            "Exclude" = "11:TRUE"
+            "IsDependency" = "11:TRUE"
+            "IsolateTo" = "8:"
+            }
+            "{BA458234-9B71-4F46-8107-E91156377184}:_EE607A6A543242B8A6CDE876A376F26B"
+            {
+            "SourcePath" = "8:..\\metrohome65\\icons\\small\\small-upload.png"
+            "TargetName" = "8:small-upload.png"
+            "Tag" = "8:"
+            "Folder" = "8:_4259F5F5711143D78BDFED99B4977BC3"
+            "Condition" = "8:"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "Register" = "3:0"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
+            "{BA458234-9B71-4F46-8107-E91156377184}:_EF39F04090FD426A9013EE766AED1AA3"
+            {
+            "SourcePath" = "8:..\\metrohome65\\icons\\clock.png"
+            "TargetName" = "8:clock.png"
+            "Tag" = "8:"
+            "Folder" = "8:_8C021DD8940246EDA53B6CA201901246"
+            "Condition" = "8:"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "Register" = "3:0"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
+            "{BA458234-9B71-4F46-8107-E91156377184}:_F05D92A6D3D849149CF4E82FB11FA94D"
+            {
+            "SourcePath" = "8:..\\metrohome65\\buttons\\button gray.png"
+            "TargetName" = "8:button gray.png"
+            "Tag" = "8:"
+            "Folder" = "8:_E4331F6D577D4E72BC4EC8871FE1C990"
+            "Condition" = "8:"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "Register" = "3:0"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
+            "{BA458234-9B71-4F46-8107-E91156377184}:_F0DE81AA2DF1474FABA15A240A7AF73B"
+            {
+            "SourcePath" = "8:..\\metrohome65\\icons\\iexplore.png"
+            "TargetName" = "8:iexplore.png"
+            "Tag" = "8:"
+            "Folder" = "8:_8C021DD8940246EDA53B6CA201901246"
+            "Condition" = "8:"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "Register" = "3:0"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
+            "{BA458234-9B71-4F46-8107-E91156377184}:_F131D52D2A6140649572DAFBD0C584F1"
+            {
+            "SourcePath" = "8:..\\fonts\\SegoeWP-Semibold.ttf"
+            "TargetName" = "8:SegoeWP-Semibold.ttf"
+            "Tag" = "8:"
+            "Folder" = "8:_960FA5C57AC94F65AEB6582C60423864"
+            "Condition" = "8:"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "Register" = "3:0"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
+            "{E4F2F62A-3940-4BF5-A031-F7FA98CAAFFA}:_F770C7BD3256B9CC3EC9A087FB08D7FD"
+            {
+            "AssemblyIsInGAC" = "11:FALSE"
+            "AssemblyAsmDisplayName" = "8:OpenNETCF.Drawing, Version=2.3.0.39, Culture=neutral, PublicKeyToken=e60dbea84bb431b7"
+                "ScatterAssemblies"
+                {
+                    "_F770C7BD3256B9CC3EC9A087FB08D7FD"
+                    {
+                    "Name" = "8:OpenNETCF.Drawing.dll"
+                    "Attributes" = "3:512"
+                    }
+                }
+            "SourcePath" = "8:OpenNETCF.Drawing.dll"
+            "TargetName" = "8:"
+            "Tag" = "8:"
+            "Folder" = "8:_3CFD983215674BA08819E551753CF7D6"
+            "Condition" = "8:"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "Register" = "3:0"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:TRUE"
+            "IsolateTo" = "8:"
+            }
+            "{BA458234-9B71-4F46-8107-E91156377184}:_FE33F71E0CB0486B8146966A553C1ABB"
+            {
+            "SourcePath" = "8:..\\metrohome65\\icons\\small\\small-phone.png"
+            "TargetName" = "8:small-phone.png"
+            "Tag" = "8:"
+            "Folder" = "8:_4259F5F5711143D78BDFED99B4977BC3"
+            "Condition" = "8:"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "Register" = "3:0"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
+            "{BA458234-9B71-4F46-8107-E91156377184}:_FFA768ECAC5841E6BCB772515B82EC4C"
+            {
+            "SourcePath" = "8:..\\metrohome65\\icons\\calc.png"
+            "TargetName" = "8:calc.png"
+            "Tag" = "8:"
+            "Folder" = "8:_8C021DD8940246EDA53B6CA201901246"
+            "Condition" = "8:"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "Register" = "3:0"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
+        }
+        "Folder"
+        {
+            "{D5B00AC1-E6C3-4CC5-90FF-8E0F53D9E5E0}:_3CFD983215674BA08819E551753CF7D6"
+            {
+            "DefaultLocation" = "8:%InstallDir%"
+            "Name" = "8:#1920"
+            "Condition" = "8:"
+            "Property" = "8:%InstallDir%"
+                "Folders"
+                {
+                    "{5943FCFD-5B64-4EE4-96C9-4618EC95352A}:_25EA8A5C262B4B4682EFA846231B761A"
+                    {
+                    "Name" = "8:wallpapers"
+                    "Condition" = "8:"
+                    "Property" = "8:_A9387C4FE5D9483E8D58583D200AC87D"
+                        "Folders"
+                        {
+                        }
+                    }
+                    "{5943FCFD-5B64-4EE4-96C9-4618EC95352A}:_8C021DD8940246EDA53B6CA201901246"
+                    {
+                    "Name" = "8:icons"
+                    "Condition" = "8:"
+                    "Property" = "8:_4A73706C66A745D483A98BF2F5590D45"
+                        "Folders"
+                        {
+                            "{5943FCFD-5B64-4EE4-96C9-4618EC95352A}:_4259F5F5711143D78BDFED99B4977BC3"
+                            {
+                            "Name" = "8:small"
+                            "Condition" = "8:"
+                            "Property" = "8:_E02E063288864E618A806034563B2A27"
+                                "Folders"
+                                {
+                                }
+                            }
+                        }
+                    }
+                    "{5943FCFD-5B64-4EE4-96C9-4618EC95352A}:_E4331F6D577D4E72BC4EC8871FE1C990"
+                    {
+                    "Name" = "8:buttons"
+                    "Condition" = "8:"
+                    "Property" = "8:_FD79AEB369DD4197A72D22ECA7EB0A6B"
+                        "Folders"
+                        {
+                        }
+                    }
+                }
+            }
+            "{F6DFDB62-1DD1-498B-89B7-27BAC542EE5A}:_9245E37DF19E410487FBD369F6BA04FF"
+            {
+            "Name" = "8:#1911"
+            "Condition" = "8:"
+            "Property" = "8:%CE1%"
+                "Folders"
+                {
+                }
+            }
+            "{F6DFDB62-1DD1-498B-89B7-27BAC542EE5A}:_960FA5C57AC94F65AEB6582C60423864"
+            {
+            "Name" = "8:#1918"
+            "Condition" = "8:"
+            "Property" = "8:%CE15%"
+                "Folders"
+                {
+                }
+            }
+            "{F6DFDB62-1DD1-498B-89B7-27BAC542EE5A}:_D1D7548AD2F14614A4258B97467F4E25"
+            {
+            "Name" = "8:#1919"
+            "Condition" = "8:"
+            "Property" = "8:%CE17%"
+                "Folders"
+                {
+                }
+            }
+            "{F6DFDB62-1DD1-498B-89B7-27BAC542EE5A}:_EBE7DDEE7FCC4929BD57406238284F43"
+            {
+            "Name" = "8:#1913"
+            "Condition" = "8:"
+            "Property" = "8:%CE4%"
+                "Folders"
+                {
+                }
+            }
+        }
+        "Product"
+        {
+        "Name" = "8:Microsoft Visual Studio"
+        "ProductName" = "8:MetroHome65"
+        "Manufacturer" = "8:Sergey"
+        "OSVersionMin" = "8:5"
+        "OSVersionMax" = "8:7"
+        "NoUninstall" = "11:FALSE"
+        "Compress" = "11:TRUE"
+        "CESetupDLL" = "8:"
+        }
+        "ProjectOutput"
+        {
+            "{605BE39E-5046-48BD-AEC0-63C3A46626D5}:_02A9450DC50A4CCF8DC9C1050D0FBF35"
+            {
+            "SourcePath" = "8:..\\metrohome65\\MetroHome65.Routines\\obj\\Release\\MetroHome65.Routines.dll"
+            "TargetName" = "8:"
+            "Tag" = "8:"
+            "Folder" = "8:_3CFD983215674BA08819E551753CF7D6"
+            "Condition" = "8:"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "Register" = "3:0"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            "ProjectOutputGroupRegister" = "3:0"
+            "OutputConfiguration" = "8:"
+            "OutputGroupCanonicalName" = "8:Built"
+            "OutputProjectGuid" = "8:{18D428A8-6722-4A69-B39D-F652AFA34D90}"
+            "ShowKeyOutput" = "11:TRUE"
+                "ExcludeFilters"
+                {
+                }
+            }
+            "{605BE39E-5046-48BD-AEC0-63C3A46626D5}:_0448BC82C2534DA382C99C32E6688C84"
+            {
+            "SourcePath" = "8:..\\metrohome65\\Widgets\\ClockWidgets\\obj\\Release\\ClockWidgets.dll"
+            "TargetName" = "8:"
+            "Tag" = "8:"
+            "Folder" = "8:_3CFD983215674BA08819E551753CF7D6"
+            "Condition" = "8:"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "Register" = "3:0"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            "ProjectOutputGroupRegister" = "3:0"
+            "OutputConfiguration" = "8:"
+            "OutputGroupCanonicalName" = "8:Built"
+            "OutputProjectGuid" = "8:{6EA956FA-6157-44EF-A9B4-FB43B4E18FAD}"
+            "ShowKeyOutput" = "11:TRUE"
+                "ExcludeFilters"
+                {
+                }
+            }
+            "{605BE39E-5046-48BD-AEC0-63C3A46626D5}:_65C8A0B93CC745E78C7293132CCB5BE4"
+            {
+            "SourcePath" = "8:..\\metrohome65\\Fleux\\obj\\Release\\Fleux.dll"
+            "TargetName" = "8:"
+            "Tag" = "8:"
+            "Folder" = "8:_3CFD983215674BA08819E551753CF7D6"
+            "Condition" = "8:"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "Register" = "3:0"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            "ProjectOutputGroupRegister" = "3:0"
+            "OutputConfiguration" = "8:"
+            "OutputGroupCanonicalName" = "8:Built"
+            "OutputProjectGuid" = "8:{8526293A-9C66-48F6-A90D-FB2B7128BF08}"
+            "ShowKeyOutput" = "11:TRUE"
+                "ExcludeFilters"
+                {
+                }
+            }
+            "{605BE39E-5046-48BD-AEC0-63C3A46626D5}:_6AA05D93CF474FDF9BE00E0E1705C873"
+            {
+            "SourcePath" = "8:..\\metrohome65\\Widgets\\ContactWidgets\\obj\\Release\\ContactWidgets.dll"
+            "TargetName" = "8:"
+            "Tag" = "8:"
+            "Folder" = "8:_3CFD983215674BA08819E551753CF7D6"
+            "Condition" = "8:"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "Register" = "3:0"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            "ProjectOutputGroupRegister" = "3:0"
+            "OutputConfiguration" = "8:"
+            "OutputGroupCanonicalName" = "8:Built"
+            "OutputProjectGuid" = "8:{C0A7071D-9211-44ED-9DEF-47BD94C51BA2}"
+            "ShowKeyOutput" = "11:TRUE"
+                "ExcludeFilters"
+                {
+                }
+            }
+            "{605BE39E-5046-48BD-AEC0-63C3A46626D5}:_7118982A268B4F6D89380A269E95BC2C"
+            {
+            "SourcePath" = "8:..\\metrohome65\\MetroHome65.Interfaces\\obj\\Release\\MetroHome65.Interfaces.dll"
+            "TargetName" = "8:"
+            "Tag" = "8:"
+            "Folder" = "8:_3CFD983215674BA08819E551753CF7D6"
+            "Condition" = "8:"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "Register" = "3:0"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            "ProjectOutputGroupRegister" = "3:0"
+            "OutputConfiguration" = "8:"
+            "OutputGroupCanonicalName" = "8:Built"
+            "OutputProjectGuid" = "8:{A0D38398-7B6A-45D8-B2C7-19120FEA68FC}"
+            "ShowKeyOutput" = "11:TRUE"
+                "ExcludeFilters"
+                {
+                }
+            }
+            "{605BE39E-5046-48BD-AEC0-63C3A46626D5}:_A340E718DC0D47959CD8EDBBC4040738"
+            {
+            "SourcePath" = "8:..\\metrohome65\\Widgets\\BaseWidgets\\obj\\Release\\BaseWidgets.dll"
+            "TargetName" = "8:"
+            "Tag" = "8:"
+            "Folder" = "8:_3CFD983215674BA08819E551753CF7D6"
+            "Condition" = "8:"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "Register" = "3:0"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            "ProjectOutputGroupRegister" = "3:0"
+            "OutputConfiguration" = "8:"
+            "OutputGroupCanonicalName" = "8:Built"
+            "OutputProjectGuid" = "8:{B23D069D-4ED9-4F45-BE07-DA271A2106D4}"
+            "ShowKeyOutput" = "11:TRUE"
+                "ExcludeFilters"
+                {
+                }
+            }
+            "{605BE39E-5046-48BD-AEC0-63C3A46626D5}:_A5675F4929344635B6C6BA7F62C925BC"
+            {
+            "SourcePath" = "8:..\\MetroHome65\\obj\\Release\\MetroHome65.exe"
+            "TargetName" = "8:"
+            "Tag" = "8:"
+            "Folder" = "8:_3CFD983215674BA08819E551753CF7D6"
+            "Condition" = "8:"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "Register" = "3:0"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            "ProjectOutputGroupRegister" = "3:0"
+            "OutputConfiguration" = "8:"
+            "OutputGroupCanonicalName" = "8:Built"
+            "OutputProjectGuid" = "8:{55BF769B-A219-4FCF-8B3C-4B87D0D147AF}"
+            "ShowKeyOutput" = "11:TRUE"
+                "ExcludeFilters"
+                {
+                }
+            }
+            "{605BE39E-5046-48BD-AEC0-63C3A46626D5}:_A582D91E50094C1F907B846A680674F6"
+            {
+            "SourcePath" = "8:..\\metrohome65\\Widgets\\StatusWidgets\\obj\\Release\\StatusWidgets.dll"
+            "TargetName" = "8:"
+            "Tag" = "8:"
+            "Folder" = "8:_3CFD983215674BA08819E551753CF7D6"
+            "Condition" = "8:"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "Register" = "3:0"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            "ProjectOutputGroupRegister" = "3:0"
+            "OutputConfiguration" = "8:"
+            "OutputGroupCanonicalName" = "8:Built"
+            "OutputProjectGuid" = "8:{C0BBBE1D-433E-4468-B401-647FC0578320}"
+            "ShowKeyOutput" = "11:TRUE"
+                "ExcludeFilters"
+                {
+                }
+            }
+            "{605BE39E-5046-48BD-AEC0-63C3A46626D5}:_B2C832A40DB4428B8D418210118D182A"
+            {
+            "SourcePath" = "8:..\\metrohome65\\Widgets\\PhoneWidgets\\obj\\Release\\PhoneWidgets.dll"
+            "TargetName" = "8:"
+            "Tag" = "8:"
+            "Folder" = "8:_3CFD983215674BA08819E551753CF7D6"
+            "Condition" = "8:"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "Register" = "3:0"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            "ProjectOutputGroupRegister" = "3:0"
+            "OutputConfiguration" = "8:"
+            "OutputGroupCanonicalName" = "8:Built"
+            "OutputProjectGuid" = "8:{058BEB2E-C6A2-4B37-A734-6E3EDBFF8A5A}"
+            "ShowKeyOutput" = "11:TRUE"
+                "ExcludeFilters"
+                {
+                }
+            }
+            "{605BE39E-5046-48BD-AEC0-63C3A46626D5}:_C3231FB4F414451C9D4359E1D43A1CC4"
+            {
+            "SourcePath" = "8:..\\metrohome65\\Metrohome65.Settings.Controls\\obj\\Release\\Metrohome65.Settings.Controls.dll"
+            "TargetName" = "8:"
+            "Tag" = "8:"
+            "Folder" = "8:_3CFD983215674BA08819E551753CF7D6"
+            "Condition" = "8:"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "Register" = "3:0"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            "ProjectOutputGroupRegister" = "3:0"
+            "OutputConfiguration" = "8:"
+            "OutputGroupCanonicalName" = "8:Built"
+            "OutputProjectGuid" = "8:{A6BFA5B1-E501-4588-BCF0-F07356F120E3}"
+            "ShowKeyOutput" = "11:TRUE"
+                "ExcludeFilters"
+                {
+                }
+            }
+        }
+        "Registry"
+        {
+            "HKLM"
+            {
+                "Keys"
+                {
+                    "{B1EBC968-6B66-4532-A885-748B79AF4477}:_C52DBE15724C454698E2016C23C6B5CF"
+                    {
+                    "Name" = "8:Software"
+                    "Condition" = "8:"
+                        "Keys"
+                        {
+                            "{B1EBC968-6B66-4532-A885-748B79AF4477}:_C9EFAE877A8941E7B1F04574A77266D6"
+                            {
+                            "Name" = "8:MetroHome65"
+                            "Condition" = "8:"
+                                "Keys"
+                                {
+                                }
+                                "Values"
+                                {
+                                    "{C3684F64-58E2-4092-8E3C-D7483080DE5A}:_BD6CA7D398D64B758BE31D611F30B96B"
+                                    {
+                                    "Name" = "8:Version"
+                                    "Condition" = "8:"
+                                    "ValueTypes" = "3:1"
+                                    "Value" = "8:1.5"
+                                    }
+                                }
+                            }
+                        }
+                        "Values"
+                        {
+                        }
+                    }
+                }
+            }
+            "HKCU"
+            {
+                "Keys"
+                {
+                }
+            }
+            "HKCR"
+            {
+                "Keys"
+                {
+                }
+            }
+            "HKU"
+            {
+                "Keys"
+                {
+                }
+            }
+            "HKPU"
+            {
+                "Keys"
+                {
+                }
+            }
+        }
+        "Shortcut"
+        {
+            "{971D45E9-E38C-49AC-B36E-4C5BEA533350}:_99C64162A3A54BBC821F00AF28532002"
+            {
+            "Name" = "8:MetroHome65"
+            "Arguments" = "8:"
+            "Description" = "8:"
+            "ShowCmd" = "3:1"
+            "Target" = "8:_A5675F4929344635B6C6BA7F62C925BC"
+            "Folder" = "8:_D1D7548AD2F14614A4258B97467F4E25"
+            "WorkingFolder" = "8:_9245E37DF19E410487FBD369F6BA04FF"
+            }
+            "{971D45E9-E38C-49AC-B36E-4C5BEA533350}:_F41A33714DE94B8792CEBC39921AC9AC"
+            {
+            "Name" = "8:MetroHome65"
+            "Arguments" = "8:"
+            "Description" = "8:"
+            "ShowCmd" = "3:1"
+            "Target" = "8:_A5675F4929344635B6C6BA7F62C925BC"
+            "Folder" = "8:_EBE7DDEE7FCC4929BD57406238284F43"
+            "WorkingFolder" = "8:_3CFD983215674BA08819E551753CF7D6"
+            }
+        }
+    }
+}
