@@ -54,10 +54,10 @@ namespace MetroHome65.LockScreen
             _lockScreenTypeCombo.Items.Clear();
             _lockScreenTypes.Clear();
 
-            var _pluginManager = TinyIoC.TinyIoCContainer.Current.Resolve<IPluginManager>();
+            var pluginManager = TinyIoC.TinyIoCContainer.Current.Resolve<IPluginManager>();
 
             var selectedIndex = -1;
-            foreach (Type plugin in _pluginManager.GetLockScreenTypes())
+            foreach (Type plugin in pluginManager.GetLockScreenTypes())
             {
                 // get human readable lockscreen name for display in list
                 var lockScreenName = "";
@@ -74,10 +74,10 @@ namespace MetroHome65.LockScreen
                     selectedIndex = _lockScreenTypeCombo.Items.Count - 1;
             }
 
-            if (_lockScreenTypeCombo.Items.Count > 1)
+            if (selectedIndex > 0)
                 _lockScreenTypeCombo.SelectedIndex = selectedIndex;
             else
-                _lockScreenTypeCombo.SelectedIndex = 2; // hack
+                _lockScreenTypeCombo.SelectedIndex = -1; // hack foк select first item
         }
 
         /// <summary>
@@ -92,29 +92,7 @@ namespace MetroHome65.LockScreen
             var type = _lockScreenTypes[_lockScreenTypeCombo.SelectedIndex];
             _page.Settings.LockScreenSettings.LockScreenClass = type.FullName;
 
-            Type settingsType = null;
-            var props = type.GetProperties();
-            foreach (var srcPropInfo in props)
-            {
-                // set only properties that are marked as lockscreen setings
-                var attributes = srcPropInfo.GetCustomAttributes(typeof(LockScreenSettingsAttribute), true);
-                if (attributes.Length > 0)
-                {
-                    settingsType = srcPropInfo.PropertyType;
-                    break;
-                }
-            }
-
-            // create empty settings object for selected lockscreen type
-            if (settingsType == null) return;
-
-            var settings = Activator.CreateInstance(settingsType);
-            _lockScreenSettings = settings as ILockScreenSettings;
-            if (_lockScreenSettings == null) return;
-
-            // fill new settings properties with according properties from old settings
-            StoredSettingsHelper.StoredSettingsToObject(_page.Settings.LockScreenSettings.Parameters,
-                _lockScreenSettings, typeof(LockScreenParameterAttribute));
+            _lockScreenSettings = LockScreenManager.CreateSettings(type, _page.Settings.LockScreenSettings);
 
             CreateSettingsControls();
         }
@@ -125,6 +103,7 @@ namespace MetroHome65.LockScreen
         private void CreateSettingsControls()
         {
             _settingsPanel.Clear();
+            if (_lockScreenSettings == null) return;
 
             var controls = _lockScreenSettings.EditControls(_page, _page.BindingManager);
             foreach (var uiElement in controls)

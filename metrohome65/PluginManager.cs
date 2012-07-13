@@ -4,6 +4,7 @@ using System.Reflection;
 using System.Linq;
 using System.IO;
 using MetroHome65.Interfaces;
+using MetroHome65.Routines.File;
 
 namespace MetroHome65
 {
@@ -69,20 +70,36 @@ namespace MetroHome65
 
         public ITile CreateTile(String tileName)
         {
-            var tileType = (Type)_tilePlugins[tileName];
-            if (tileType == null) return null;
+            try
+            {
+                var tileType = (Type) _tilePlugins[tileName];
+                if (tileType == null) return null;
 
-            var tile = (ITile)Activator.CreateInstance(tileType);
-            return tile;
+                var tile = (ITile) Activator.CreateInstance(tileType);
+                return tile;
+            }
+            catch (Exception ex)
+            {
+                Logger.WriteLog(ex.StackTrace, ex.Message);
+                return null;
+            }
         }
 
         public ILockScreen CreateLockScreen(String lockScreenName)
         {
-            var lockScreenType = (Type)_lockScreenPlugins[lockScreenName];
-            if (lockScreenType == null) return null;
+            try
+            {
+                var lockScreenType = (Type)_lockScreenPlugins[lockScreenName];
+                if (lockScreenType == null) return null;
 
-            var lockScreen = (ILockScreen)Activator.CreateInstance(lockScreenType);
-            return lockScreen;
+                var lockScreen = (ILockScreen)Activator.CreateInstance(lockScreenType);
+                return lockScreen;
+            }
+            catch (Exception ex)
+            {
+                Logger.WriteLog(ex.StackTrace, ex.Message);
+                return null;
+            }
         }
 
     }
