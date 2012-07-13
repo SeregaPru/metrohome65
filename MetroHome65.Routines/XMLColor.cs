@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Drawing;
+using System.Globalization;
 
 namespace MetroHome65.Routines
 {
@@ -40,13 +41,18 @@ namespace MetroHome65.Routines
             return new XmlColor(color);
         }
 
+        public override string ToString()
+        {
+            return _color.ToArgb().ToString(CultureInfo.InvariantCulture);
+        }
+
         #endregion
 
         #region IXmlSerializable Members
 
         void System.Xml.Serialization.IXmlSerializable.WriteXml(System.Xml.XmlWriter writer)
         {
-            writer.WriteString(_color.ToArgb().ToString());
+            writer.WriteString(_color.ToArgb().ToString(CultureInfo.InvariantCulture));
         }
 
         void System.Xml.Serialization.IXmlSerializable.ReadXml(System.Xml.XmlReader reader)

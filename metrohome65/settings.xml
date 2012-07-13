@@ -2,6 +2,12 @@
 <MainSettings xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   <ThemeIsDark>true</ThemeIsDark>
   <ThemeImage />
-  <AccentColor>-14114596</AccentColor>
-  <LockScreenImage>\Program Files\MetroHome65\wallpapers\flower.jpg</LockScreenImage>
+  <AccentColor>-14966302</AccentColor>
+
+  <LockScreenSettings>
+    <LockScreenClass>MetroHome65.SimpleLock.AdvancedLock</LockScreenClass>
+    <Parameters>
+      <param Name="Background" Value="\Program Files\MetroHome65\wallpapers\flower.jpg"/>
+    </Parameters>   
+  </LockScreenSettings>
 </MainSettings>
