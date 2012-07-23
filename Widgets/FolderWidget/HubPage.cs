@@ -66,9 +66,6 @@ namespace FolderWidget
                 };
                 _appBar.ButtonTap += OnAppBarButtonTap;
                 _appBar.AddButton(ResourceManager.Instance.GetBitmapFromEmbeddedResource("FolderWidget.Images.back.bmp"));
-                _appBar.AddButton(ResourceManager.Instance.GetBitmapFromEmbeddedResource("FolderWidget.Images.add.bmp"));
-                _appBar.AddButton(ResourceManager.Instance.GetBitmapFromEmbeddedResource("FolderWidget.Images.settings.bmp"));
-                _appBar.AddButton(ResourceManager.Instance.GetBitmapFromEmbeddedResource("FolderWidget.Images.del.bmp"));
                 Content.AddElement(_appBar.AnimateHorizontalEntrance(false));
 
                 _title = new TextElement("Folder hub")
@@ -100,9 +97,17 @@ namespace FolderWidget
 
         public override void Close()
         {
+            // clear grid manually to prevent reference cycling and provide normal GC work
             _tileGrid.Clear();
             base.Close();
         }
+
+        protected override void OnActivated()
+        {
+            _tileGrid.Active = true;
+            base.OnActivated();
+        }
+
 
         /// <summary>
         /// Places tiles grid according to user defined offset, and change its size to screen bottom
@@ -203,27 +208,6 @@ namespace FolderWidget
                 case 0:
                     {
                         Close();
-                        break;
-                    }
-
-                // add tile
-                case 1:
-                    {
-                        _tileGrid.AddTile(new Point(0, 0));
-                        break;
-                    }
-
-                // tile settings
-                case 2:
-                    {
-                        _tileGrid.ShowTileSettings();
-                        break;
-                    }
-
-                // del tile
-                case 3:
-                    {
-                        _tileGrid.DeleteSelectedTile();
                         break;
                     }
             }

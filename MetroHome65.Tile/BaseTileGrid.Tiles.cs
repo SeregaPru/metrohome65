@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Drawing;
+using System.Windows.Forms;
 
 namespace MetroHome65.Tile
 {
@@ -48,7 +49,7 @@ namespace MetroHome65.Tile
             }
 
             tile.TapHandler = p => TileClickAt(p, tile);
-            tile.HoldHandler = p => TileHoldAt(tile);
+            tile.HoldHandler = p => TileHoldAt(p, tile);
 
             return tile;
         }
@@ -57,15 +58,10 @@ namespace MetroHome65.Tile
         /// Delete current widget from grid.
         /// Then widgets are realigned, if deleted widget was alone on its row.
         /// </summary>
-        public void DeleteSelectedTile()
+        public void DeleteTile(TileWrapper tile)
         {
-            if (SelectedTile == null) return;
-
-            var deletingTile = SelectedTile;
-            SelectedTile = null;
-
-            _tiles.Remove(deletingTile);
-            _tilesCanvas.DeleteElement(deletingTile);
+            _tiles.Remove(tile);
+            _tilesCanvas.DeleteElement(tile);
 
             RealignTiles();
             WriteSettings();
@@ -85,9 +81,9 @@ namespace MetroHome65.Tile
         /// <summary>
         /// Click at tile handler
         /// </summary>
-        /// <param name="aLocation"></param>
+        /// <param name="location"></param>
         /// <param name="tile"> </param>
-        private bool TileClickAt(Point aLocation, TileWrapper tile)
+        private bool TileClickAt(Point location, TileWrapper tile)
         {
             // if Move mode is enabled, place selected widget to the new position
             // if we click at moving widget, exit from move mode
@@ -107,7 +103,7 @@ namespace MetroHome65.Tile
                 _tilesCanvas.AnimateExit();
             }
 
-            var clickResult = tile.OnClick(aLocation);
+            var clickResult = tile.OnClick(location);
 
             // if tile's onClick action failed, play back entrance animation
             if ((tile.Tile.DoExitAnimation) && (!clickResult))
@@ -121,14 +117,33 @@ namespace MetroHome65.Tile
         /// <summary>
         /// Long tap handler - entering to customizing mode
         /// </summary>
-        private bool TileHoldAt(TileWrapper tile)
+        private bool TileHoldAt(Point location, TileWrapper tile)
         {
-            if (!SelectionMode)
-            {
-                SelectedTile = tile;
-                return true;
-            }
-            return false;
+            if (SelectionMode)
+                return false;
+                
+            if (ParentControl == null)
+                return false;
+
+            var tileMenu = new ContextMenu();
+
+            var menuTileEdit = new MenuItem { Text = "Edit" };
+            menuTileEdit.Click += (s, e) => ShowTileSettings(tile);
+            tileMenu.MenuItems.Add(menuTileEdit);
+
+            var menuTileMove = new MenuItem { Text = "Move" };
+            menuTileMove.Click += (s, e) => { SelectedTile = tile; };
+            tileMenu.MenuItems.Add(menuTileMove);
+
+            var menuTileDelete = new MenuItem { Text = "Delete" };
+            menuTileDelete.Click += (s, e) => DeleteTile(tile);
+            tileMenu.MenuItems.Add(menuTileDelete);
+
+            var position = location;
+            position.Offset(tile.Location.X, tile.Location.Y);
+            tileMenu.Show(ParentControl, position);
+
+            return true;
         }
 
     }

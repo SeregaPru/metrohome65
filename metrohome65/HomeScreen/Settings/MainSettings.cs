@@ -52,12 +52,7 @@ namespace MetroHome65.HomeScreen.Settings
         private LockScreenSettings _lockScreenSettings;
         public LockScreenSettings LockScreenSettings
         {
-            get
-            {
-                if (_lockScreenSettings == null)
-                    _lockScreenSettings = new LockScreenSettings();
-                return _lockScreenSettings;
-            }
+            get { return _lockScreenSettings ?? (_lockScreenSettings = new LockScreenSettings()); }
             set { SetField(ref _lockScreenSettings, value, "LockScreenSettings"); }
         }
 
@@ -71,12 +66,12 @@ namespace MetroHome65.HomeScreen.Settings
         public static MainSettings Clone()
         {
             var mainSettings = TinyIoCContainer.Current.Resolve<MainSettings>();
-            var cloneSettings = new MainSettings();
-
-            // setting additional properties that are not stored in main theme
-            cloneSettings.ThemeImage = mainSettings.ThemeImage;
-
-            cloneSettings.LockScreenSettings = mainSettings.LockScreenSettings;
+            var cloneSettings = new MainSettings
+                                    {
+                                        // set additional properties that are not stored in main theme
+                                        ThemeImage = mainSettings.ThemeImage,
+                                        LockScreenSettings = mainSettings.LockScreenSettings
+                                    };
 
             return cloneSettings;
         }

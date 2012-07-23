@@ -7,7 +7,7 @@ namespace MetroHome65.Controls
 {
     public class ThemedImageButton : FlatButton
     {
-        private string _resourceName;
+        private readonly string _resourceName;
 
         public ThemedImageButton(string resourceName) : 
             base(GetImageRes(resourceName))

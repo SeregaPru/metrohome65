@@ -104,7 +104,7 @@ namespace MetroHome65.Tile
                 _background.Draw(_drawingGraphics.CreateChild(new Point(- location.X, - location.Y)));
 
                 // draw tiles
-                var rect = new Rectangle(0, - verticalOffset, Size.Width, Size.Height);
+                var rect = new Rectangle(0, -verticalOffset, Size.Width, _buffer.Image.Height);
                 foreach (var e in ChildrenEnumerable)
                 {
                     if (e.Bounds.IntersectsWith(rect))
