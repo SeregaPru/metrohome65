@@ -65,8 +65,8 @@ namespace Metrohome65.Settings.Controls
                     Size = new Size(Size.Width, 48 + 2 * 10),
                     Location = new Point(0, Size.Height - 48 - 2 * 10)
                 };
+                appBar.AddButton(ResourceManager.Instance.GetBitmapFromEmbeddedResource("Metrohome65.Settings.Controls.Images.back.bmp"));
                 appBar.AddButton(ResourceManager.Instance.GetBitmapFromEmbeddedResource("Metrohome65.Settings.Controls.Images.ok.bmp"));
-                appBar.AddButton(ResourceManager.Instance.GetBitmapFromEmbeddedResource("Metrohome65.Settings.Controls.Images.cancel.bmp"));
                 appBar.ButtonTap += OnAppBarButtonTap;
                 Control.AddElement(appBar.AnimateHorizontalEntrance(false));
 
@@ -126,7 +126,7 @@ namespace Metrohome65.Settings.Controls
 
         private void OnAppBarButtonTap(object sender, ButtonTapEventArgs e)
         {
-            if (e.ButtonID == 0) // ok button
+            if (e.ButtonID == 1) // ok button
             {
                 ApplySettings();
                 Close();

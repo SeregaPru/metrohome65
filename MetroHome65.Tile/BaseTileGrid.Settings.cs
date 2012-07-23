@@ -155,13 +155,8 @@ namespace MetroHome65.Tile
         /// <summary>
         /// Displays widget settings dialog and applies changes in widget settings.
         /// </summary>
-        public void ShowTileSettings()
+        public void ShowTileSettings(TileWrapper tile)
         {
-            if (SelectedTile == null) return;
-
-            // when show setting dialog, stop selected widget animation
-            var tile = SelectedTile;
-            SelectedTile = null;
             var prevGridSize = tile.GridSize;
 
             try

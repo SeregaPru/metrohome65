@@ -46,8 +46,7 @@ namespace MetroHome65.Widgets
 
         #endregion
 
-
-        public BaseWidget()
+        protected BaseWidget()
         {
             MetroTheme.PropertyChanged += OnThemeSettingsChanged;
         }

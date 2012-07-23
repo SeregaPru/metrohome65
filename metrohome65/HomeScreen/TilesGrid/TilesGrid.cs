@@ -4,7 +4,6 @@ using System.Windows.Forms;
 using Fleux.Controls;
 using Fleux.Core.GraphicsHelpers;
 using Fleux.UIElements;
-using MetroHome65.Controls;
 using MetroHome65.Interfaces.Events;
 using MetroHome65.Routines.File;
 using MetroHome65.Routines.UIControls;
@@ -16,8 +15,6 @@ namespace MetroHome65.HomeScreen.TilesGrid
 {
     public partial class TilesGrid : BaseTileGrid
     {
-        private readonly UIElement _buttonSettings;
-        private readonly UIElement _buttonUnpin;
 
         public Action OnExit;
 
@@ -27,19 +24,6 @@ namespace MetroHome65.HomeScreen.TilesGrid
             // подписка на событие добавления программы из меню
             var messenger = TinyIoCContainer.Current.Resolve<ITinyMessengerHub>();
             messenger.Subscribe<PinProgramMessage>(msg => PinProgram(msg.Name, msg.Path));
-
-            // кнопка настроек            
-            _buttonSettings = new ThemedImageButton("settings")
-            {
-                TapHandler = p => { ShowTileSettings(); return true; },
-            };
-
-            // кнопка удаления плитки
-            _buttonUnpin = new ThemedImageButton("cancel")
-            {
-                TapHandler = ButtonUnpinClick,
-            };
-            ShowSettingsButtons(false);
         }
 
         private static UIElement GetBackground()
@@ -52,8 +36,6 @@ namespace MetroHome65.HomeScreen.TilesGrid
             base.SetParentControl(parentControl);
 
             if (parentControl == null) return;
-            parentControl.AddElement(_buttonUnpin);
-            parentControl.AddElement(_buttonSettings);
         }
 
         /// <summary>
@@ -72,28 +54,6 @@ namespace MetroHome65.HomeScreen.TilesGrid
             mainMenu.MenuItems.Add(menuExit);
 
             return mainMenu;
-        }
-
-        private bool ButtonUnpinClick(Point aLocation)
-        {
-            DeleteSelectedTile();
-            return true;
-        }
-
-        protected override void ShowSettingsButtons(bool visible)
-        {
-            if (visible)
-            {
-                _buttonUnpin.Location = new Point(TileConsts.ArrowPosX, 150);
-                _buttonSettings.Location = new Point(TileConsts.ArrowPosX, 240);
-            }
-            else
-            {
-                _buttonSettings.Location = new Point(-100, -100);
-                _buttonUnpin.Location = new Point(-100, -100);
-            }
-
-            Update();
         }
 
         /// <summary>

@@ -10,13 +10,14 @@ namespace MetroHome65.Routines.File
     {
         public static String CoreDir = System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().GetName().CodeBase);
 
-        public static bool StartProcess(string FileName)
+        public static bool StartProcess(string fileName)
         {
             try
             {
-                System.Diagnostics.Process myProcess = new System.Diagnostics.Process();
-                myProcess.StartInfo.UseShellExecute = true;
-                myProcess.StartInfo.FileName = FileName;
+                var myProcess = new System.Diagnostics.Process
+                                    {
+                                        StartInfo = {UseShellExecute = true, FileName = fileName}
+                                    };
                 myProcess.Start();
                 return true;
             }

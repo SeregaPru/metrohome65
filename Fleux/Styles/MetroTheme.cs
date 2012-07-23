@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel;
+using Microsoft.Win32;
 
 namespace Fleux.Styles
 {
@@ -23,21 +24,33 @@ namespace Fleux.Styles
         public static Color PhoneAccentBrush
         {
             get { return _phoneAccentBrush; }
-            set { SetField(ref _phoneAccentBrush, value, "PhoneAccentBrush"); }
+            set
+            {
+                SetField(ref _phoneAccentBrush, value, "PhoneAccentBrush");
+                WriteRegistryColor("PhoneAccentBrush", _phoneAccentBrush);
+            }
         }
 
         private static Color _phoneForegroundBrush = Color.White;
         public static Color PhoneForegroundBrush
         {
             get { return _phoneForegroundBrush; }
-            set { SetField(ref _phoneForegroundBrush, value, "PhoneForegroundBrush"); }
+            set
+            {
+                SetField(ref _phoneForegroundBrush, value, "PhoneForegroundBrush");
+                WriteRegistryColor("PhoneForegroundBrush", _phoneForegroundBrush);
+            }
         }
 
         private static Color _phoneBackgroundBrush = Color.Black;
         public static Color PhoneBackgroundBrush
         {
             get { return _phoneBackgroundBrush; }
-            set { SetField(ref _phoneBackgroundBrush, value, "PhoneBackgroundBrush"); }
+            set
+            {
+                SetField(ref _phoneBackgroundBrush, value, "PhoneBackgroundBrush");
+                WriteRegistryColor("PhoneBackgroundBrush", _phoneBackgroundBrush);
+            }
         }
 
         public static Color PhoneInactiveBrush
@@ -513,5 +526,35 @@ namespace Fleux.Styles
 
         #endregion
 
+
+        private const string RegistryPath = "\\Software\\MetroHome65\\";
+
+        private static void WriteRegistryColor(string name, Color value)
+        {
+            try
+            {
+                Registry.LocalMachine.CreateSubKey(RegistryPath)
+                    .SetValue(name, value.ToArgb());
+            }
+            catch (Exception) { }
+        }
+
+        private static void ReadRegistryColor(string name, ref Color value)
+        {
+            try
+            {
+                value = Color.FromArgb(
+                    (int)Registry.LocalMachine.OpenSubKey(RegistryPath, false)
+                        .GetValue(name, value.ToArgb()));
+            }
+            catch (Exception) { }
+        }
+
+        static MetroTheme()
+        {
+            ReadRegistryColor("PhoneBackgroundBrush", ref _phoneBackgroundBrush);
+            ReadRegistryColor("PhoneForegroundBrush", ref _phoneForegroundBrush);
+            ReadRegistryColor("PhoneAccentBrush", ref _phoneAccentBrush);
+        }
     }
 }

@@ -23,7 +23,7 @@ namespace MetroHome65.Widgets
 
         private Contact _contact;
 
-        private StackPanel _stackPanel;
+        private readonly StackPanel _stackPanel;
 
         private readonly TextStyle _titleStyle = new TextStyle(
                 MetroTheme.PhoneFontFamilySemiLight,
@@ -57,8 +57,8 @@ namespace MetroHome65.Widgets
                                      Size = new Size(Content.Size.Width, 48 + 2 * 10),
                                      Location = new Point(0, Content.Size.Height - 48 - 2 * 10)
                                  };
+                appBar.AddButton(ResourceManager.Instance.GetBitmapFromEmbeddedResource("ContactWidgets.Images.back.bmp"));
                 appBar.AddButton(ResourceManager.Instance.GetBitmapFromEmbeddedResource("ContactWidgets.Images.edit.bmp"));
-                appBar.AddButton(ResourceManager.Instance.GetBitmapFromEmbeddedResource("ContactWidgets.Images.cancel.bmp"));
                 appBar.ButtonTap += OnAppBarButtonTap;
                 Content.AddElement(appBar.AnimateHorizontalEntrance(false));
 
@@ -186,7 +186,7 @@ namespace MetroHome65.Widgets
         /// <param name="e"></param>
         private void OnAppBarButtonTap(object sender, ButtonTapEventArgs e)
         {
-            if (e.ButtonID == 0) // edit
+            if (e.ButtonID == 1) // edit
                 OpenContact();
             else
                 Close();

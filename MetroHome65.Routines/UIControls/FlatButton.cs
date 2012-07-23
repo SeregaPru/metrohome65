@@ -11,7 +11,7 @@ namespace MetroHome65.Routines.UIControls
     {
         //private Bitmap _image;
         private AlphaImage _image;
-        private Assembly _assembly;
+        private readonly Assembly _assembly;
 
         public string ResourceName
         {

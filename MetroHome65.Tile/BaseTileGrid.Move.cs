@@ -18,8 +18,6 @@ namespace MetroHome65.Tile
             {
                 if (_selectedTile == value) return;
 
-                ShowSettingsButtons(value != null);
-
                 // всегда при смене пермещаемого виджета, выключаем текущий перемещаемый виджет
                 if (_selectedTile != null)
                 {
@@ -46,11 +44,6 @@ namespace MetroHome65.Tile
                     Active = true;
                 }
             }
-        }
-
-        virtual protected void ShowSettingsButtons(bool visible)
-        {
-            //
         }
 
         /// <summary>

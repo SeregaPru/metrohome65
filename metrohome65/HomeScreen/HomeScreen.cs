@@ -7,7 +7,6 @@ using MetroHome65.Controls;
 using MetroHome65.Interfaces;
 using MetroHome65.Interfaces.Events;
 using MetroHome65.LockScreen;
-using MetroHome65.Routines;
 using MetroHome65.Routines.File;
 using MetroHome65.Routines.Screen;
 using MetroHome65.Routines.UIControls;
@@ -32,7 +31,7 @@ namespace MetroHome65.HomeScreen
         
         // system state for receiving notifications about system events
         private readonly SystemState _systemState = new SystemState(0);
-
+        
         private int ArrowPos1 { get { return Size.Width + TileConsts.ArrowPosX; } }
         private int ArrowPos2 { get { return Size.Width * 2 + TileConsts.ArrowPadding; } }
 
