@@ -16,7 +16,7 @@ namespace Fleux.UIElements
         private IGestureScrollingBehavior verticalInertia;
         private bool lastGestureWasHorizontal = false;
         private UIElement content;
-        private Bitmap clipBitmap;
+        private Bitmap _clipBitmap;
 
         //! Fork: fleuxdesktop2, Change Set 8b81eb940370
         private bool panInProgress = false;
@@ -39,6 +39,8 @@ namespace Fleux.UIElements
             {
                 this.verticalInertia.Dispose();
             }
+            if (_clipBitmap != null)
+                _clipBitmap.Dispose();
         }
 
         public UIElement Content
@@ -145,20 +147,21 @@ namespace Fleux.UIElements
         {
             if (this.content == null) return;
                 
-            if (this.clipBitmap == null)
+            if (this._clipBitmap == null)
             {
-                this.clipBitmap = new Bitmap(this.Size.Width.ToPixels(), this.Size.Height.ToPixels(), PixelFormat.Format16bppRgb565);
+                this._clipBitmap = new Bitmap(this.Size.Width.ToPixels(), this.Size.Height.ToPixels(), PixelFormat.Format16bppRgb565);
             }
 
-            using (var clipBitmap = drawingGraphics.GetClipBuffer(new Rectangle(0, 0, this.Size.Width, this.Size.Height), this.clipBitmap))
+            using (var clipBuffer = drawingGraphics.GetClipBuffer(
+                new Rectangle(0, 0, this.Size.Width, this.Size.Height), this._clipBitmap))
             {
                 this.Content.Draw(
-                    clipBitmap.DrawingGr.CreateChild(new Point(this.HorizontalOffset, this.VerticalOffset),
+                    clipBuffer.DrawingGr.CreateChild(new Point(this.HorizontalOffset, this.VerticalOffset),
                                                      this.content.TransformationScaling,
                                                      this.content.TransformationCenter));
                 if (this.ShowScrollbars)
                 {
-                    this.DrawScrollBar(clipBitmap.DrawingGr);
+                    this.DrawScrollBar(clipBuffer.DrawingGr);
                 }
             }
 

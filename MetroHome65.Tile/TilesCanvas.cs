@@ -64,7 +64,7 @@ namespace MetroHome65.Tile
         private void CreateBuffer()
         {
             // create new buffer with new size
-            _buffer = new DoubleBuffer(new Size(Size.Width.ToPixels(), Math.Max(1, Parent.Size.Height)));
+            _buffer = new DoubleBuffer(new Size(Size.Width.ToPixels(), Math.Max(1, Parent.Size.Height.ToPixels())));
 
             _drawingGraphics = DrawingGraphics.FromGraphicsAndRect(
                 _buffer.Graphics, _buffer.Image,
@@ -104,7 +104,7 @@ namespace MetroHome65.Tile
                 _background.Draw(_drawingGraphics.CreateChild(new Point(- location.X, - location.Y)));
 
                 // draw tiles
-                var rect = new Rectangle(0, -verticalOffset, Size.Width, _buffer.Image.Height);
+                var rect = new Rectangle(0, -verticalOffset, Size.Width, _buffer.Image.Height.ToLogic());
                 foreach (var e in ChildrenEnumerable)
                 {
                     if (e.Bounds.IntersectsWith(rect))
@@ -113,7 +113,7 @@ namespace MetroHome65.Tile
                 }
 
                 // draw buffer directly to screen
-                _controlGraphics.DrawImage(_buffer.Image, location.X, location.Y);
+                _controlGraphics.DrawImage(_buffer.Image, location.X.ToPixels(), location.Y.ToPixels());
             }
             catch (Exception) { }
 

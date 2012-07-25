@@ -4,6 +4,7 @@ using System.Globalization;
 using Fleux.Animations;
 using Fleux.Controls;
 using Fleux.Core;
+using Fleux.Core.Scaling;
 using Fleux.Styles;
 using Fleux.UIElements;
 using Fleux.UIElements.Events;
@@ -49,7 +50,7 @@ namespace FolderWidget
 
                 Control.ShadowedAnimationMode = FleuxControl.ShadowedAnimationOptions.FromRight;
 
-                _background = new ScaledBackground("") { Size = this.Size };
+                _background = new ScaledBackground("") { Size = this.Size.ToPixels() };
                 Control.AddElement(_background);
 
                 Content = new Canvas
