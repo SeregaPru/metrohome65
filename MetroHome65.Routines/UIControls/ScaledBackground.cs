@@ -27,6 +27,12 @@ namespace MetroHome65.Routines.UIControls
             SetImage(GetImage());
         }
 
+        ~ScaledBackground()
+        {
+            if (_image != null)
+                _image.Dispose();
+        }
+
         protected void SetImage(string imagePath)
         {
             _imagePath = imagePath;
@@ -48,19 +54,20 @@ namespace MetroHome65.Routines.UIControls
             Bitmap image = null;
             try
             {
-                var srcImage = new Bitmap(imagePath);
+                using (var srcImage = new Bitmap(imagePath))
+                {
+                    // вычисляем общий коэффициент масштабирования изображения с учетом пропорций
+                    var scaleX = 1.0 * Size.Width / srcImage.Width;
+                    var scaleY = 1.0 * Size.Height / srcImage.Height;
+                    var scale = Math.Max(scaleX, scaleY);
+                    var destRect = new Rectangle(0, 0, (int) Math.Round(srcImage.Width*scale),
+                                                 (int) Math.Round(srcImage.Height*scale));
 
-                // вычисляем общий коэффициент масштабирования изображения с учетом пропорций
-                var scaleX = 1.0 * Size.Width / srcImage.Width;
-                var scaleY = 1.0 * Size.Height / srcImage.Height;
-                var scale = Math.Max(scaleX, scaleY);
-                var destRect = new Rectangle(0, 0, (int) Math.Round(srcImage.Width*scale),
-                                             (int) Math.Round(srcImage.Height*scale));
-
-                image = new Bitmap(Size.Width, Size.Height, PixelFormat.Format16bppRgb565);
-                var graphic = Graphics.FromImage(image);
-                graphic.DrawImage(srcImage, destRect,
-                                  new Rectangle(0, 0, srcImage.Width, srcImage.Height), GraphicsUnit.Pixel);
+                    image = new Bitmap(Size.Width, Size.Height, PixelFormat.Format16bppRgb565);
+                    var graphic = Graphics.FromImage(image);
+                    graphic.DrawImage(srcImage, destRect,
+                                      new Rectangle(0, 0, srcImage.Width, srcImage.Height), GraphicsUnit.Pixel);
+                }
             } catch { }
 
             return image;
