@@ -17,7 +17,7 @@ namespace MetroHome65.HomeScreen.Settings
 
         private UIElement CreateThemePage()
         {
-            var scroller = new ScrollViewer
+            var scroller = new SolidScrollViewer
             {
                 Content = new MainSettingsPage(this),
                 Location = new Point(SettingsConsts.PaddingHor, 0),
@@ -30,7 +30,7 @@ namespace MetroHome65.HomeScreen.Settings
 
         private UIElement CreateLockScreenPage()
         {
-            var scroller = new ScrollViewer
+            var scroller = new SolidScrollViewer
             {
                 Content = new LockScreenSettingsPage(this),
                 Location = new Point(SettingsConsts.PaddingHor, 0),

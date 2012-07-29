@@ -1,6 +1,5 @@
 ﻿namespace Fleux.UIElements
 {
-    using System;
     using Core.GraphicsHelpers;
     using Core.NativeHelpers;
 

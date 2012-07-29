@@ -18,7 +18,7 @@ namespace FolderWidget
         {
             var stackPanel = new StackPanel { Size = new Size(Size.Width - SettingsConsts.PaddingHor * 2, 1), };
 
-            var scroller = new ScrollViewer
+            var scroller = new SolidScrollViewer
             {
                 Content = stackPanel,
                 Location = new Point(SettingsConsts.PaddingHor, 0),

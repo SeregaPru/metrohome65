@@ -209,10 +209,9 @@ namespace MetroHome65.Widgets
             var flagControl = new FlagSettingsControl
                                   {
                                       Caption = "24-Hours", 
-                                      Value = Is24Hour,
                                   };
             controls.Add(flagControl);
-            bindingManager.Bind(this, "Is24Hour", flagControl, "Value");
+            bindingManager.Bind(this, "Is24Hour", flagControl, "Value", true);
 
             var formatControl = new SelectSettingsControl
                                     {
@@ -220,7 +219,7 @@ namespace MetroHome65.Widgets
                                         Items = _dateSamples,
                                     };
             controls.Add(formatControl);
-            bindingManager.Bind(this, "DateSampleIndex", formatControl, "SelectedIndex");
+            bindingManager.Bind(this, "DateSampleIndex", formatControl, "SelectedIndex", true);
 
             // hide control for icon / caption selection
             foreach (var control in controls)

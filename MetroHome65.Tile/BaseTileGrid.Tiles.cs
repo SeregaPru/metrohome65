@@ -119,11 +119,13 @@ namespace MetroHome65.Tile
         /// </summary>
         private bool TileHoldAt(Point location, TileWrapper tile)
         {
-            if (SelectionMode)
-                return false;
+            //if (SelectionMode)
+            //    return false;
                 
             if (ParentControl == null)
                 return false;
+
+            SelectedTile = null;
 
             var tileMenu = new ContextMenu();
 
@@ -140,7 +142,7 @@ namespace MetroHome65.Tile
             tileMenu.MenuItems.Add(menuTileDelete);
 
             var position = location;
-            position.Offset(tile.Location.X, tile.Location.Y);
+            position.Offset(tile.Location.X, tile.Location.Y + VerticalOffset);
             tileMenu.Show(ParentControl, position);
 
             return true;

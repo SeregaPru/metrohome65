@@ -1,5 +1,6 @@
 ﻿using System.Drawing.Imaging;
 using Fleux.Controls;
+using Fleux.Styles;
 
 namespace Fleux.UIElements
 {
@@ -12,66 +13,68 @@ namespace Fleux.UIElements
 
     public class ScrollViewer : UIElement
     {
-        private IGestureScrollingBehavior horizontalInertia;
-        private IGestureScrollingBehavior verticalInertia;
-        private bool lastGestureWasHorizontal = false;
-        private UIElement content;
+        private IGestureScrollingBehavior _horizontalInertia;
+        private IGestureScrollingBehavior _verticalInertia;
+        private bool _lastGestureWasHorizontal = false;
+        private UIElement _content;
         private Bitmap _clipBitmap;
+        //!!private IImageWrapper _imageScrollBar;
 
         //! Fork: fleuxdesktop2, Change Set 8b81eb940370
-        private bool panInProgress = false;
-        private int panV = 0;
-        private int panH = 0; 
+        //!!private bool panInProgress = false;
+        //!!private int panV = 0;
+        //!!private int panH = 0; 
 
         public ScrollViewer()
         {
-            this.EntranceAnimation = new ForwarderAnimation(() => this.content.EntranceAnimation);
-            this.ExitAnimation = new ForwarderAnimation(() => this.content.ExitAnimation);
+            this.EntranceAnimation = new ForwarderAnimation(() => this._content.EntranceAnimation);
+            this.ExitAnimation = new ForwarderAnimation(() => this._content.ExitAnimation);
         }
 
         ~ScrollViewer()
         {
-            if (this.horizontalInertia != null)
-            {
-                this.horizontalInertia.Dispose();
-            }
-            if (this.verticalInertia != null)
-            {
-                this.verticalInertia.Dispose();
-            }
+            if (this._horizontalInertia != null)
+                this._horizontalInertia.Dispose();
+
+            if (this._verticalInertia != null)
+                this._verticalInertia.Dispose();
+            
             if (_clipBitmap != null)
                 _clipBitmap.Dispose();
+            
+            //!!if (this._imageScrollBar != null)
+            //!!    this._imageScrollBar.Dispose();
         }
 
         public UIElement Content
         {
             get
             {
-                return this.content;
+                return this._content;
             }
 
             set
             {
                 //! Fork: fleuxdesktop2, Change Set bede1dc701a9
                 // allow content recreation
-                if (this.content != null)
+                if (this._content != null)
                 {
-                    this.content.ParentControl = null; //! MetroHome65
-                    this.Children.Remove(this.content);
+                    this._content.ParentControl = null; //! MetroHome65
+                    this.Children.Remove(this._content);
                 }
 
-                this.content = value;
-                this.content.Updated = this.OnUpdated;
-                this.content.Parent = this;
-                this.Children.Add(this.content);
+                this._content = value;
+                this._content.Updated = this.OnUpdated;
+                this._content.Parent = this;
+                this.Children.Add(this._content);
 
                 //! Fork: fleuxdesktop2, Change Set e692d2097a32
-                this.horizontalInertia = null;
-                this.verticalInertia = null; 
+                this._horizontalInertia = null;
+                this._verticalInertia = null; 
 
                 //! MetroHome65
-                this.content.ParentControl = this.ParentControl;
-                this.content.SizeChanged += (v, e) => OnContentSizeChanged();
+                this._content.ParentControl = this.ParentControl;
+                this._content.SizeChanged += (v, e) => OnContentSizeChanged();
             }
         }
 
@@ -79,16 +82,16 @@ namespace Fleux.UIElements
         protected override void SetParentControl(FleuxControl parentControl)
         {
             base.SetParentControl(parentControl);
-            if (this.content != null)
-                this.content.ParentControl = parentControl;
+            if (this._content != null)
+                this._content.ParentControl = parentControl;
         }
 
         private void OnContentSizeChanged()
         {
-            if (this.verticalInertia != null)
-                this.verticalInertia.Min = -Math.Max(0, this.content.Size.Height - this.Size.Height);
-            if (this.horizontalInertia != null)
-                this.horizontalInertia.Min = -Math.Max(0, this.content.Size.Width - this.Size.Width);
+            if (this._verticalInertia != null)
+                this._verticalInertia.Min = -Math.Max(0, this._content.Size.Height - this.Size.Height);
+            if (this._horizontalInertia != null)
+                this._horizontalInertia.Min = -Math.Max(0, this._content.Size.Width - this.Size.Width);
         }
 
         public bool DrawShadows { get; set; }
@@ -96,24 +99,24 @@ namespace Fleux.UIElements
         //! Fork: fleuxdesktop2, Change Set 8b81eb940370
         public int HorizontalOffset
         {
-            get { return this.content.Location.X; }
+            get { return this._content.Location.X; }
             set {
-                this.content.Location = new Point(value, this.content.Location.Y);
-                if (!panInProgress){
-                    panH = value;
-                }
+                this._content.Location = new Point(value, this._content.Location.Y);
+                //!!if (!panInProgress){
+                //!!    panH = value;
+                //!!}
             }
         }
 
         //! Fork: fleuxdesktop2, Change Set 8b81eb940370
         public int VerticalOffset
         {
-            get { return this.content.Location.Y; }
+            get { return this._content.Location.Y; }
             set {
-                this.content.Location = new Point(this.content.Location.X, value);
-                if (!panInProgress){
-                    panV = value;
-                }
+                this._content.Location = new Point(this._content.Location.X, value);
+                //!!if (!panInProgress){
+                //!!    panV = value;
+                //!!}
             }         
         }
 
@@ -134,18 +137,11 @@ namespace Fleux.UIElements
           If true, horizontal 'overscroll' when panning and flicking will be disabled
         */
         public bool TrimHorizontalPanning = false;
-  
-        public override Rectangle Bounds
-        {
-            get
-            {
-                return base.Bounds;
-            }
-        }
+        
 
         public override void Draw(IDrawingGraphics drawingGraphics)
         {
-            if (this.content == null) return;
+            if (this._content == null) return;
                 
             if (this._clipBitmap == null)
             {
@@ -157,37 +153,49 @@ namespace Fleux.UIElements
             {
                 this.Content.Draw(
                     clipBuffer.DrawingGr.CreateChild(new Point(this.HorizontalOffset, this.VerticalOffset),
-                                                     this.content.TransformationScaling,
-                                                     this.content.TransformationCenter));
+                                                     this._content.TransformationScaling,
+                                                     this._content.TransformationCenter));
                 if (this.ShowScrollbars)
                 {
-                    this.DrawScrollBar(clipBuffer.DrawingGr);
+                    this.DoDrawScrollBar(clipBuffer.DrawingGr);
                 }
             }
 
             if (this.DrawShadows)
             {
-                if (this.VerticalOffset < 0)
-                {
-                    drawingGraphics.DrawAlphaImage("top.png",
-                                  new Rectangle(0, 0, this.Size.Width, 15));
-                }
-                if (this.VerticalOffset > Math.Min(0, -this.Content.Size.Height + this.Size.Height))
-                {
-                    drawingGraphics.DrawAlphaImage("bottom.png",
-                                  new Rectangle(0, this.Size.Height - 15, this.Size.Width, 15));
-                }
+                DoDrawShadows(drawingGraphics);
             }
         }
 
-        public void DrawScrollBar(IDrawingGraphics drawingGr)
+        protected void DoDrawShadows(IDrawingGraphics drawingGraphics)
+        {
+            if (this.VerticalOffset < 0)
+            {
+                drawingGraphics.DrawAlphaImage("top.png",
+                                               new Rectangle(0, 0, this.Size.Width, 15));
+            }
+            if (this.VerticalOffset > Math.Min(0, -this.Content.Size.Height + this.Size.Height))
+            {
+                drawingGraphics.DrawAlphaImage("bottom.png",
+                                               new Rectangle(0, this.Size.Height - 15, this.Size.Width, 15));
+            }
+        }
+
+        protected void DoDrawScrollBar(IDrawingGraphics drawingGraphics)
         {
             if (this.Content.Size.Height == 0) return;
 
-            drawingGr.DrawAlphaImage("verticalscrollbar.png", new Rectangle(this.Size.Width - 5, 0, 5, this.Size.Height));
+            //if (_imageScrollBar == null)
+            //    _imageScrollBar = ResourceManager.Instance.GetIImageFromEmbeddedResource(
+            //        "verticalscrollbar.png", Assembly.GetExecutingAssembly());
+            //drawingGraphics.DrawAlphaImage(_imageScrollBar, new Rectangle(this.Size.Width - 5, 0, 5, this.Size.Height));
+            drawingGraphics.Color(Color.Silver).
+                FillRectangle(new Rectangle(this.Size.Width - 5, 0, 5, this.Size.Height));
+
             var scrollHeight = Math.Max(this.Size.Height * this.Size.Height / this.Content.Size.Height, 20);
             var scrollBegin = this.Size.Height * -this.VerticalOffset / this.Content.Size.Height;
-            drawingGr.Color(Color.White).FillRectangle(new Rectangle(this.Size.Width - 5, scrollBegin, 5, scrollHeight));
+            drawingGraphics.Color(MetroTheme.PhoneForegroundBrush).
+                FillRectangle(new Rectangle(this.Size.Width - 5, scrollBegin, 5, scrollHeight));
         }
 
         public override bool Pan(Point from, Point to, bool done, Point startPoint)
@@ -195,19 +203,19 @@ namespace Fleux.UIElements
             // Gianni, removed because on Click is mapped to MouseMove, with a strange behavior
 #if !WindowsCE
             var directionDelta = Math.Abs(to.X - from.X) - Math.Abs(to.Y - from.Y);
-            var isHorizontal = directionDelta == 0 ? this.lastGestureWasHorizontal : directionDelta > 0;
+            var isHorizontal = directionDelta == 0 ? this._lastGestureWasHorizontal : directionDelta > 0;
 
             //! Fork: fleuxdesktop2, Change Set 8b81eb940370
-            panInProgress = !done; 
+            //!!panInProgress = !done; 
 
-            if (this.horizontalInertia != null && this.HorizontalScroll && !isHorizontal)
+            if (this._horizontalInertia != null && this.HorizontalScroll && !isHorizontal)
             {
-                this.horizontalInertia.Pan(0, 0, done);
+                this._horizontalInertia.Pan(0, 0, done);
                 return false; //!?? Fork: fleuxdesktop2, Change Set 8b81eb940370
             }
-            if (this.verticalInertia != null && this.VerticalScroll && isHorizontal)
+            if (this._verticalInertia != null && this.VerticalScroll && isHorizontal)
             {
-                this.verticalInertia.Pan(0, 0, done);
+                this._verticalInertia.Pan(0, 0, done);
                 return false; //!?? Fork: fleuxdesktop2, Change Set 8b81eb940370
             }
             if ((isHorizontal && !this.HorizontalScroll)
@@ -216,16 +224,18 @@ namespace Fleux.UIElements
                 return false;
             }
 
+            this._lastGestureWasHorizontal = isHorizontal;
+
             this.TryCreateInertia();
 
-            if (this.horizontalInertia != null)
+            if (this._horizontalInertia != null)
             {
-                this.horizontalInertia.Pan(from.X, to.X, done);
+                this._horizontalInertia.Pan(from.X, to.X, done);
                 to.X = from.X;
             }
-            if (this.verticalInertia != null)
+            if (this._verticalInertia != null)
             {
-                this.verticalInertia.Pan(from.Y, to.Y, done);
+                this._verticalInertia.Pan(from.Y, to.Y, done);
                 to.Y = from.Y;
             }
 #endif
@@ -237,25 +247,27 @@ namespace Fleux.UIElements
             this.TryCreateInertia();
 
             //! Fork: fleuxdesktop2, Change Set 8b81eb940370
-            panInProgress = false;
+            //!!panInProgress = false;
 
             // Validate if should we handle this Flick
             var directionDelta = Math.Abs(to.X - from.X) - Math.Abs(to.Y - from.Y);
-            var isHorizontal = directionDelta == 0 ? this.lastGestureWasHorizontal : directionDelta > 0;
+            var isHorizontal = directionDelta == 0 ? this._lastGestureWasHorizontal : directionDelta > 0;
             if ((isHorizontal && !this.HorizontalScroll)
                 || (!isHorizontal && !this.VerticalScroll))
             {
                 return false;
             }
 
-            if (this.horizontalInertia != null)
+            this._lastGestureWasHorizontal = isHorizontal;
+
+            if (this._horizontalInertia != null)
             {
-                this.horizontalInertia.Flick(from.X, to.X, millisecs);
+                this._horizontalInertia.Flick(from.X, to.X, millisecs);
                 to.X = from.X;
             }
-            if (this.verticalInertia != null)
+            if (this._verticalInertia != null)
             {
-                this.verticalInertia.Flick(from.Y, to.Y, millisecs);
+                this._verticalInertia.Flick(from.Y, to.Y, millisecs);
                 to.Y = from.Y;
             }
             return true;
@@ -263,14 +275,14 @@ namespace Fleux.UIElements
 
         public override UIElement Pressed(Point p)
         {
-            if (this.horizontalInertia != null && this.HorizontalScroll)
+            if (this._horizontalInertia != null && this.HorizontalScroll)
             {
-                this.horizontalInertia.Pressed();
+                this._horizontalInertia.Pressed();
             }
 
-            if (this.verticalInertia != null && this.VerticalScroll)
+            if (this._verticalInertia != null && this.VerticalScroll)
             {
-                this.verticalInertia.Pressed();
+                this._verticalInertia.Pressed();
             }
 
             return base.Pressed(p);
@@ -278,11 +290,11 @@ namespace Fleux.UIElements
 
         private void TryCreateInertia()
         {
-            if (this.Size.Height > 0 && this.content.Size.Height > 0)
+            if (this.Size.Height > 0 && this._content.Size.Height > 0)
             {
-                if (this.HorizontalScroll && this.horizontalInertia == null)
+                if (this.HorizontalScroll && this._horizontalInertia == null)
                 {
-                    this.horizontalInertia = new GestureInertiaBehavior(v =>
+                    this._horizontalInertia = new GestureInertiaBehavior(v =>
                                                                           {
                                                                               this.HorizontalOffset = v;
                                                                               this.Update();
@@ -290,15 +302,15 @@ namespace Fleux.UIElements
                                             {
                                                 OnAnimationStart = OnStartScroll,
                                                 OnAnimationStop = OnStopScroll,
-                                                Min = -Math.Max(0, this.content.Size.Width - this.Size.Width),
+                                                Min = -Math.Max(0, this._content.Size.Width - this.Size.Width),
                                                 Max = 0,
                                                 //! Fork: fleuxdesktop2, Change Set 8b81eb940370
                                                 TrimPanning = TrimHorizontalPanning, 
                                             };
                 }
-                if (this.VerticalScroll && this.verticalInertia == null)
+                if (this.VerticalScroll && this._verticalInertia == null)
                 {
-                    this.verticalInertia = new GestureInertiaBehavior(v =>
+                    this._verticalInertia = new GestureInertiaBehavior(v =>
                                                                         {
                                                                             this.VerticalOffset = v;
                                                                             this.Update();
@@ -306,7 +318,7 @@ namespace Fleux.UIElements
                                             {
                                                 OnAnimationStart = OnStartScroll,
                                                 OnAnimationStop = OnStopScroll,
-                                                Min = -Math.Max(0, this.content.Size.Height - this.Size.Height),
+                                                Min = -Math.Max(0, this._content.Size.Height - this.Size.Height),
                                                 Max = 0,
                                                 //! Fork: fleuxdesktop2, Change Set 8b81eb940370
                                                 TrimPanning = TrimVerticalPanning,
