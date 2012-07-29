@@ -81,7 +81,7 @@ namespace Metrohome65.Settings.Controls
         {
             var folder = Path.GetDirectoryName(Value);
             if (string.IsNullOrEmpty(folder))
-                folder = @"\Windows\Start Menu\Programs";
+                folder = Environment.GetFolderPath(Environment.SpecialFolder.StartMenu);
 
             var dialog = new SelectPictureDialog
             {

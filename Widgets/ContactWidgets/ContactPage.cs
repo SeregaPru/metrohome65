@@ -64,7 +64,7 @@ namespace MetroHome65.Widgets
 
                 _stackPanel = new StackPanel { Size = new Size(Content.Size.Width - PaddingHor * 2, 1), };
 
-                var scroller = new ScrollViewer
+                var scroller = new SolidScrollViewer
                 {
                     Content = _stackPanel,
                     Location = new Point(PaddingHor, 0),

@@ -31,7 +31,7 @@ namespace MetroHome65.HomeScreen.ProgramsMenu
         }
 
         // fast drawind method instead of double bufferes scrollview's method
-        // because we know that height is the whole screen and we don't neet cropping
+        // because we know that height is the full screen and we don't neet cropping
         public override void Draw(IDrawingGraphics drawingGraphics)
         {
             //base.Draw(drawingGraphics); return;

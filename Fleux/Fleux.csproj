@@ -99,6 +99,7 @@
     <Compile Include="UIElements\CheckBox.cs" />
     <Compile Include="UIElements\ColorComboBox.cs" />
     <Compile Include="UIElements\ComboBox.cs" />
+    <Compile Include="UIElements\SolidScrollViewer.cs" />
     <Compile Include="UIElements\WrapPanel.cs" />
     <Compile Include="UIElements\Events\ButtonTapEventArgs.cs" />
     <Compile Include="UIElements\ImageButton.cs" />
