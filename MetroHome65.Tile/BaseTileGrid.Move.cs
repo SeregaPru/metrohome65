@@ -96,8 +96,8 @@ namespace MetroHome65.Tile
         private Point GetTileCell(Point location)
         {
             return new Point(
-                (location.X - _tilesCanvas.Location.X) / (TileConsts.TileSize + TileConsts.TileSpacing),
-                (location.Y - _tilesCanvas.Location.X - VerticalOffset) / (TileConsts.TileSize + TileConsts.TileSpacing)
+                (location.X - _tilesCanvas.Location.X) / (TileTheme.TileSize + TileTheme.TileSpacing),
+                (location.Y - _tilesCanvas.Location.X - VerticalOffset) / (TileTheme.TileSize + TileTheme.TileSpacing)
                 );
         }
 

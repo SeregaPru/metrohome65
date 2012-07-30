@@ -28,12 +28,14 @@ namespace MetroHome65.HomeScreen
 
         private readonly List<UIElement> _sections = new List<UIElement>();
         private int _curPage;
+        private TileTheme _tileTheme;
+        private UIElement _switchArrowNext;
         
         // system state for receiving notifications about system events
         private readonly SystemState _systemState = new SystemState(0);
         
-        private int ArrowPos1 { get { return Size.Width + TileConsts.ArrowPosX; } }
-        private int ArrowPos2 { get { return Size.Width * 2 + TileConsts.ArrowPadding; } }
+        private int ArrowPosNext { get { return Size.Width + _tileTheme.ArrowPosX; } }
+        private int ArrowPosBack { get { return Size.Width * 2 + _tileTheme.ArrowPadding; } }
 
 
         public HomeScreen() : base(false)
@@ -44,6 +46,8 @@ namespace MetroHome65.HomeScreen
             Control.EntranceDuration = 100;
 
             ReadThemeSettings();
+
+            _tileTheme = TinyIoCContainer.Current.Resolve<MainSettings>().TileTheme;
 
             // фон окна
             var background = new ThemedBackground { Location = new Point(0, 0), };
@@ -73,16 +77,16 @@ namespace MetroHome65.HomeScreen
             AddSection(tilesGrid, 1);
 
             // стрелка переключатель страниц
-            var switchArrowNext = new ThemedImageButton("next") 
-                               {
-                                   Location = new Point(ArrowPos1, TileConsts.TilesPaddingTop),
-                                   TapHandler = p => { CurrentPage = 2; return true; },
-                               };
-            _homeScreenCanvas.AddElement(switchArrowNext);
+            _switchArrowNext = new ThemedImageButton("next")
+            {
+                Location = new Point(ArrowPosNext, _tileTheme.TilesPaddingTop),
+                TapHandler = p => { CurrentPage = 2; return true; },
+            };
+            _homeScreenCanvas.AddElement(_switchArrowNext);
 
             var switchArrowBack = new ThemedImageButton("back")
             {
-                Location = new Point(ArrowPos2, TileConsts.TilesPaddingTop),
+                Location = new Point(ArrowPosBack, _tileTheme.TilesPaddingTop),
                 TapHandler = p => { CurrentPage = 1; return true; },
             };
             _homeScreenCanvas.AddElement(switchArrowBack);
@@ -98,9 +102,10 @@ namespace MetroHome65.HomeScreen
             _systemState.Changed += OnSystemStateChanged;
             TheForm.Deactivate += (s, e) => OnDeactivate();
 
-            // subscribe to event - show page
+            // subscribe to events - show page and change main settings
             var messenger = TinyIoCContainer.Current.Resolve<ITinyMessengerHub>();
             messenger.Subscribe<ShowPageMessage>(msg => OnShowPage(msg.Page));
+            messenger.Subscribe<SettingsChangedMessage>(OnSettingsChanged);
 
             // deactivate all other pages but first
             CurrentPage = 1;
@@ -258,6 +263,14 @@ namespace MetroHome65.HomeScreen
             catch (Exception ex)
             {
                 Logger.WriteLog(ex.StackTrace, "Tile settings dialog error");
+            }
+        }
+
+        protected virtual void OnSettingsChanged(SettingsChangedMessage settingsChangedMessage)
+        {
+            if (settingsChangedMessage.PropertyName == "TileTheme")
+            {
+                _tileTheme = settingsChangedMessage.Value as TileTheme;
             }
         }
 

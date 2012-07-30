@@ -21,33 +21,21 @@ namespace MetroHome65.Tile
     {
         #region Fields
 
-        private Point _padding;
+        private int _topPadding;
         private ITile _tile;
+        private TileTheme _tileTheme;
         private Point _gridPosition = new Point(0, 0);
         private Size _gridSize = new Size(1, 1);
 
         private readonly List<PropertyInfo> _propertyInfos = new List<PropertyInfo>();
 
         private ThreadTimer _movingTimer;
+        private bool _pause;
 
         #endregion
 
 
-        #region Methods
-
-        // empty constructor for deserialize
-        public TileWrapper(Point padding)
-        {
-            _padding = padding;
-        }
-
-        public TileWrapper(Size aGridSize, Point aGridPosition, String aTileName, Point padding)
-            : this(padding)
-        {
-            TileClass = aTileName;
-            GridSize = aGridSize;
-            GridPosition = aGridPosition;
-        }
+        #region Properties
 
         /// <summary>
         /// Tile location in grid
@@ -61,12 +49,84 @@ namespace MetroHome65.Tile
                 CalcScreenPosition();
             }
         }
-
-
+        
         /// <summary>
         /// Tile size in cells
         /// </summary>
         public Size GridSize { get { return _gridSize; } set { SetGridSize(value); } }
+
+        public ITile Tile { get { return _tile; } }
+
+        /// <summary>
+        /// Property for serialize tile class name.
+        /// When deserialized Tile will be created
+        /// </summary>
+        public String TileClass
+        {
+            // return Tile's class name
+            get { return (_tile != null) ? _tile.GetType().ToString() : ""; }
+
+            // create new tile instance by class name
+            set
+            {
+                if (TileClass == value) return;
+
+                // remove old tile
+                if (_tile != null)
+                {
+                    (_tile as UIElement).Parent = null;
+                    (_tile as UIElement).Updated = null;
+                }
+
+                // create and insert new tile
+                var pluginManager = TinyIoC.TinyIoCContainer.Current.Resolve<IPluginManager>();
+                _tile = pluginManager.CreateTile(value);
+                FillTileProperties();
+
+                // insert new tile
+                (_tile as UIElement).Parent = this;
+                (_tile as UIElement).Updated = this.OnUpdated;
+
+                Active = true;
+            }
+        }
+
+
+        /// <summary>
+        /// Swithes off tile activity when application goes to background
+        /// </summary>
+        public Boolean Active
+        {
+            set
+            {
+                if (_tile is IActive)
+                    (_tile as IActive).Active = value;
+            }
+        }
+
+        public Boolean Pause
+        {
+            get { return _pause; }
+            set
+            {
+                _pause = value;
+                if (_tile is IPause)
+                    (_tile as IPause).Pause = value;
+            }
+        }
+
+        public TileTheme TileTheme;
+
+        #endregion
+
+
+        #region Methods
+
+        // empty constructor for deserialize
+        public TileWrapper(int topPadding)
+        {
+            _topPadding = topPadding;
+        }
 
         /// <summary>
         /// Sets tile size in grid cells.
@@ -126,10 +186,10 @@ namespace MetroHome65.Tile
         public Rectangle GetScreenRect()
         {
             return new Rectangle(
-                _gridPosition.X * (TileConsts.TileSize + TileConsts.TileSpacing) + _padding.X,
-                _gridPosition.Y * (TileConsts.TileSize + TileConsts.TileSpacing) + _padding.Y,
-                _gridSize.Width * (TileConsts.TileSize + TileConsts.TileSpacing) - TileConsts.TileSpacing,
-                _gridSize.Height * (TileConsts.TileSize + TileConsts.TileSpacing) - TileConsts.TileSpacing);
+                _gridPosition.X * (TileTheme.TileSize + TileTheme.TileSpacing) + TileTheme.TilesPaddingLeft,
+                _gridPosition.Y * (TileTheme.TileSize + TileTheme.TileSpacing) + _topPadding,
+                _gridSize.Width * (TileTheme.TileSize + TileTheme.TileSpacing) - TileTheme.TileSpacing,
+                _gridSize.Height * (TileTheme.TileSize + TileTheme.TileSpacing) - TileTheme.TileSpacing);
         }
 
         private void FillTileProperties()
@@ -146,72 +206,6 @@ namespace MetroHome65.Tile
                 }
         }
 
-        #endregion
-
-
-        #region Properties
-
-        public ITile Tile { get { return _tile; } }
-
-        /// <summary>
-        /// Property for serialize tile class name.
-        /// When deserialized Tile will be created
-        /// </summary>
-        public String TileClass
-        {
-            // return Tile's class name
-            get { return (_tile != null) ? _tile.GetType().ToString() : ""; }
-
-            // create new tile instance by class name
-            set
-            {
-                if (TileClass == value) return;
-
-                // remove old tile
-                if (_tile != null)
-                {
-                    (_tile as UIElement).Parent = null;
-                    (_tile as UIElement).Updated = null;
-                }
-
-                // create and insert new tile
-                var pluginManager = TinyIoC.TinyIoCContainer.Current.Resolve<IPluginManager>();
-                _tile = pluginManager.CreateTile(value);
-                FillTileProperties();
-
-                // insert new tile
-                (_tile as UIElement).Parent = this;
-                (_tile as UIElement).Updated = this.OnUpdated;
-
-                Active = true;
-            }
-        }
-
-
-        /// <summary>
-        /// Swithes off tile activity when application goes to background
-        /// </summary>
-        public Boolean Active { 
-            set {
-                if (_tile is IActive)
-                    (_tile as IActive).Active = value;
-            }
-        }
-
-        private bool _pause;
-
-        public Boolean Pause
-        {
-            get { return _pause; }
-            set
-            {
-                _pause = value;
-                if (_tile is IPause)
-                    (_tile as IPause).Pause = value;
-            }
-        }
-
-        #endregion
 
         /// <summary>
         /// prepare struct for serialization and store settings
@@ -328,6 +322,9 @@ namespace MetroHome65.Tile
             if ((Tile != null) && (! Pause))
                 Tile.ForceUpdate();
         }
+
+        #endregion
+
 
         #region Moving
 

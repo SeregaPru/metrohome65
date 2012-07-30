@@ -39,14 +39,14 @@ namespace MetroHome65.Tile
             {
                 _tiles.Clear();
                 if (value != null)
-                    ApplySettings(value);
+                    ApplyTilesSettings(value);
             }
         }
 
         /// <summary>
-        /// Read widgets settings from XML file
+        /// Read tiles settings from XML file
         /// </summary>
-        protected virtual void ReadSettings()
+        protected virtual void ReadTilesSettings()
         {
             if (OnReadSettings != null)
             {
@@ -59,11 +59,11 @@ namespace MetroHome65.Tile
                 TileSettings = storedSettings;
         }
 
-        private void ApplySettings(StoredSettings storedSettings)
+        private void ApplyTilesSettings(StoredSettings storedSettings)
         {
             foreach (var settings in storedSettings)
             {
-                var tile = new TileWrapper(GetPadding());
+                var tile = new TileWrapper(GetTopPadding()) { TileTheme = _tileTheme };
                 tile.DeserializeSettings(settings);
                 AddTile(tile, false);
             }
@@ -74,7 +74,7 @@ namespace MetroHome65.Tile
         /// <summary>
         /// Store widgets position and specific settings to XML file
         /// </summary>
-        protected virtual void WriteSettings()
+        protected virtual void WriteTilesSettings()
         {
             if (OnWriteSettings != null)
             {
@@ -170,7 +170,7 @@ namespace MetroHome65.Tile
                     if (!prevGridSize.Equals(tile.GridSize))
                         // if widget size was changed - realign widgets
                         RealignTiles();
-                    WriteSettings();
+                    WriteTilesSettings();
                 };
 
                 var messenger = TinyIoCContainer.Current.Resolve<ITinyMessengerHub>();
@@ -224,9 +224,9 @@ namespace MetroHome65.Tile
             return false;
         }
 
-        virtual protected Point GetPadding()
+        virtual protected int GetTopPadding()
         {
-            return new Point(0, 0);
+            return TileTheme.TilesPaddingTop;;
         }
     }
 }

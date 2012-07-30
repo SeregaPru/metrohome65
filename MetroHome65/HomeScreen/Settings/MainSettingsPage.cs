@@ -12,7 +12,7 @@ namespace MetroHome65.HomeScreen.Settings
     {
         private readonly CustomSettingsPage<MainSettings> _page;
 
-        // internal wrapper from combobox selectedindex to boolean value
+        // internal wrapper for combobox selected index to boolean value
         public int ThemeIndex
         {
             get { return (_page.Settings.ThemeIsDark ? 0 : 1); }
@@ -43,7 +43,6 @@ namespace MetroHome65.HomeScreen.Settings
                 };
             this.AddElement(txtIntro);
 
-            // vertival span
             this.AddElement(new Separator());
 
 
@@ -77,6 +76,18 @@ namespace MetroHome65.HomeScreen.Settings
             };
             this.AddElement(ctrThemeImage);
             _page.BindingManager.Bind(_page.Settings, "ThemeImage", ctrThemeImage, "Value", true);
+
+            this.AddElement(new Separator());
+
+
+            // tile screen style
+            var ctrTileStyle = new SelectSettingsControl
+            {
+                Caption = "Tiles style",
+                Items = new List<object> { "Windows Phone 7", "Windows 8" },
+            };
+            this.AddElement(ctrTileStyle);
+            _page.BindingManager.Bind(_page.Settings, "TileStyle", ctrTileStyle, "SelectedIndex", true);
 
             this.AddElement(new Separator());
         }

@@ -4,6 +4,7 @@ using System.Windows.Forms;
 using Fleux.Controls;
 using Fleux.Core.GraphicsHelpers;
 using Fleux.UIElements;
+using MetroHome65.HomeScreen.Settings;
 using MetroHome65.Interfaces.Events;
 using MetroHome65.Routines.File;
 using MetroHome65.Routines.UIControls;
@@ -24,6 +25,9 @@ namespace MetroHome65.HomeScreen.TilesGrid
             // подписка на событие добавления программы из меню
             var messenger = TinyIoCContainer.Current.Resolve<ITinyMessengerHub>();
             messenger.Subscribe<PinProgramMessage>(msg => PinProgram(msg.Name, msg.Path));
+
+            TileTheme = TinyIoCContainer.Current.Resolve<MainSettings>().TileTheme;
+            messenger.Subscribe<SettingsChangedMessage>(OnSettingsChanged);
         }
 
         private static UIElement GetBackground()
@@ -69,12 +73,7 @@ namespace MetroHome65.HomeScreen.TilesGrid
                 SetParameter("IconPath", path);
 
             RealignTiles();
-            WriteSettings();
-        }
-
-        override protected Point GetPadding()
-        {
-            return new Point(TileConsts.TilesPaddingLeft, TileConsts.TilesPaddingTop);
+            WriteTilesSettings();
         }
 
         // fast drawind method instead of double bufferes scrollview's method
@@ -82,6 +81,14 @@ namespace MetroHome65.HomeScreen.TilesGrid
         public override void Draw(IDrawingGraphics drawingGraphics)
         {
             Content.Draw(drawingGraphics.CreateChild(new Point(0, VerticalOffset)));
+        }
+
+        protected virtual void OnSettingsChanged(SettingsChangedMessage settingsChangedMessage)
+        {
+            if (settingsChangedMessage.PropertyName == "TileTheme")
+            {
+                TileTheme = settingsChangedMessage.Value as TileTheme;
+            }
         }
 
     }

@@ -21,14 +21,21 @@ namespace MetroHome65.Tile
         /// add widget to internal collection 
         /// and calc widget screen coordinates
         /// </summary>
-        /// <param name="aGridPosition"> </param>
-        /// <param name="aGridSize"> </param>
-        /// <param name="aWidgetName"> </param>
+        /// <param name="gridPosition"> </param>
+        /// <param name="gridSize"> </param>
+        /// <param name="tileClass"> </param>
         /// <param name="doRealign"> </param>
-        protected TileWrapper AddTile(Point aGridPosition, Size aGridSize, String aWidgetName, bool doRealign)
+        protected TileWrapper AddTile(Point gridPosition, Size gridSize, String tileClass, bool doRealign)
         {
             return AddTile(
-                new TileWrapper(aGridSize, aGridPosition, aWidgetName, GetPadding()), doRealign);
+                new TileWrapper(GetTopPadding())
+                    {
+                        TileTheme = _tileTheme,
+                        GridSize = gridSize,
+                        GridPosition = gridPosition,
+                        TileClass = tileClass, 
+                    }, 
+                doRealign);
         }
 
         /// <summary>

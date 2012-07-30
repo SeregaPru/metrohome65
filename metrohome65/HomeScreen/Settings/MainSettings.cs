@@ -5,6 +5,7 @@ using MetroHome65.Interfaces.Events;
 using MetroHome65.LockScreen;
 using MetroHome65.Routines;
 using MetroHome65.Routines.Settings;
+using MetroHome65.Tile;
 using TinyIoC;
 using TinyMessenger;
 
@@ -17,7 +18,7 @@ namespace MetroHome65.HomeScreen.Settings
     public class MainSettings : CustomSettings
     {
         /// <summary>
-        /// Main screen background color
+        /// Theme style - light / dark - controls main font and background colors
         /// </summary>
         private bool _themeIsDark;
         public bool ThemeIsDark
@@ -47,7 +48,26 @@ namespace MetroHome65.HomeScreen.Settings
         }
 
         /// <summary>
-        /// ...
+        /// style for tile screen. 
+        /// WP7 style - tiles with paddning and right arrow. 
+        /// WP8 - tiles fit full screen without paddings and without arrow.
+        /// </summary>
+        private int _tileThemeIndex;
+        public int TileThemeIndex
+        {
+            get { return _tileThemeIndex; }
+            set
+            {
+                SetField(ref _tileThemeIndex, value, "TileThemeIndex");
+                TileTheme = (_tileThemeIndex == 0) ? (TileTheme) new TileThemeWP7(): new TileThemeWindows8();
+            }
+        }
+
+        [NonSerialized]
+        public TileTheme TileTheme = new TileThemeWindows8();
+
+        /// <summary>
+        /// collection of various settings for lock screen.
         /// </summary>
         private LockScreenSettings _lockScreenSettings;
         public LockScreenSettings LockScreenSettings
@@ -108,6 +128,13 @@ namespace MetroHome65.HomeScreen.Settings
                 mainSettings.ThemeImage = this.ThemeImage;
                 messenger.Publish(new SettingsChangedMessage("ThemeImage", this.ThemeImage));
             }
+
+            if (mainSettings.TileThemeIndex != this.TileThemeIndex)
+            {
+                mainSettings.ThemeImage = this.ThemeImage;
+                messenger.Publish(new SettingsChangedMessage("TileTheme", this.TileTheme));
+            }
+
         }
 
     }

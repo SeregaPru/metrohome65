@@ -13,6 +13,7 @@ namespace MetroHome65.Tile
 
         private readonly int _gridWidth;
         private readonly int _gridHeight;
+        private TileTheme _tileTheme;
 
         private readonly List<TileWrapper> _tiles = new List<TileWrapper>();
 
@@ -30,6 +31,17 @@ namespace MetroHome65.Tile
         {
             get { return _active; }
             set { SetActive(value); }
+        }
+
+        public TileTheme TileTheme
+        {
+            get { return _tileTheme; }
+            set
+            {
+                if (_tileTheme.ToString() == value.ToString()) return;
+                _tileTheme = value;
+                RealignTiles();
+            }
         }
 
 
@@ -58,7 +70,7 @@ namespace MetroHome65.Tile
             _tilesCanvas = new TilesCanvas(background);
             Content = _tilesCanvas;
 
-            ReadSettings();
+            ReadTilesSettings();
         }
 
         virtual protected void SetActive(Boolean active)

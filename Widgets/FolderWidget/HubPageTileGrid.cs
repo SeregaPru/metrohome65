@@ -1,4 +1,3 @@
-using System.Drawing;
 using Fleux.UIElements;
 using MetroHome65.Tile;
 
@@ -6,15 +5,16 @@ namespace FolderWidget
 {
     public class HubPageTileGrid : BaseTileGrid
     {
-        //?? strange for me that I should override empty constructor with parameters
         public HubPageTileGrid(UIElement background, string settingsFile, int gridWidth, int gridHeight) 
             : base(background, settingsFile, gridWidth, gridHeight)
         {
+            // in hubs always use 
+            TileTheme = new TileThemeWP7();
         }
 
-        override protected Point GetPadding()
+        override protected int GetTopPadding()
         {
-            return new Point(TileConsts.TilesPaddingLeft, 0);
+            return 0;
         }
 
     }
