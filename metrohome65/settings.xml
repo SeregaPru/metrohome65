@@ -10,4 +10,6 @@
       <param Name="Background" Value="\Program Files\MetroHome65\wallpapers\flower.jpg"/>
     </Parameters>   
   </LockScreenSettings>
+
+  <TileThemeIndex>0</TileThemeIndex>
 </MainSettings>

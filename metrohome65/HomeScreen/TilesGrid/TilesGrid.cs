@@ -4,7 +4,6 @@ using System.Windows.Forms;
 using Fleux.Controls;
 using Fleux.Core.GraphicsHelpers;
 using Fleux.UIElements;
-using MetroHome65.HomeScreen.Settings;
 using MetroHome65.Interfaces.Events;
 using MetroHome65.Routines.File;
 using MetroHome65.Routines.UIControls;
@@ -19,14 +18,14 @@ namespace MetroHome65.HomeScreen.TilesGrid
 
         public Action OnExit;
 
-        public TilesGrid()
-            : base(GetBackground(), FileRoutines.CoreDir + @"\widgets.xml", 4, 100)
+        public TilesGrid(TileTheme tileTheme)
+            : base(tileTheme, GetBackground(), FileRoutines.CoreDir + @"\widgets.xml", 4, 100)
         {
             // подписка на событие добавления программы из меню
             var messenger = TinyIoCContainer.Current.Resolve<ITinyMessengerHub>();
             messenger.Subscribe<PinProgramMessage>(msg => PinProgram(msg.Name, msg.Path));
 
-            TileTheme = TinyIoCContainer.Current.Resolve<MainSettings>().TileTheme;
+            // подписываемся на событие смены настроек для отлова смены темы
             messenger.Subscribe<SettingsChangedMessage>(OnSettingsChanged);
         }
 

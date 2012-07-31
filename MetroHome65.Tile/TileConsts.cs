@@ -15,13 +15,11 @@ namespace MetroHome65.Tile
         public int TilesPaddingLeft { get; protected set; }
 
         // tile canvas top padding
-        public int TilesPaddingTop { get; protected set; }
+        public int TilesPaddingTop { get; set; }
 
-        public bool ArrowVisible { get; protected set; }
+        public int ArrowPrevPosX { get; protected set; }
 
-        public int ArrowPadding { get; protected set; }
-
-        public int ArrowPosX { get; protected set; }
+        public int ArrowNextPosX { get; protected set; }
     }
 
 
@@ -42,9 +40,8 @@ namespace MetroHome65.Tile
             // 93 is real padding in WP7, 36 is WM top bar height
             TilesPaddingTop = 93 - ScreenConsts.TopBarSize;
 
-            ArrowPadding = 24;
-
-            ArrowPosX = TileSize * 4 + TileSpacing * 3 + TilesPaddingLeft + ArrowPadding;
+            ArrowPrevPosX = 24;
+            ArrowNextPosX = TileSize * 4 + TileSpacing * 3 + TilesPaddingLeft + ArrowPrevPosX;
         }
     }
 
@@ -55,15 +52,15 @@ namespace MetroHome65.Tile
     {
         public TileThemeWindows8()
         {
-            // real Win8 small tile size is ???px, ??? for medium, ??? for big )
-            TileSize = 90;
+            // real Win8 small tile size is 105px
+            TileSize = 105;
+
             TileSpacing = 12;
+            TilesPaddingLeft = TileSpacing;
+            TilesPaddingTop = TileSpacing;
 
-            TilesPaddingLeft = 5;
-            TilesPaddingTop = 5 + ScreenConsts.TopBarSize;
-
-            ArrowPadding = -100;
-            ArrowPosX = 0;
+            ArrowPrevPosX = 24;
+            ArrowNextPosX = -1000; // hide arrow in tiles screen
         }
     }
 
