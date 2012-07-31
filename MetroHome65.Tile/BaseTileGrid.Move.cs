@@ -38,7 +38,7 @@ namespace MetroHome65.Tile
                 }
                 else
                 {
-                    WriteSettings();
+                    WriteTilesSettings();
 
                     // включаем живые плитки
                     Active = true;

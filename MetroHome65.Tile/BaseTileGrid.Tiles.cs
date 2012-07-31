@@ -14,7 +14,7 @@ namespace MetroHome65.Tile
             MoveTileTo(
                 AddTile(cell, new Size(2, 2), "MetroHome65.Widgets.ShortcutWidget", true),
                 location);
-            WriteSettings();
+            WriteTilesSettings();
         }
 
         /// <summary>
@@ -71,7 +71,7 @@ namespace MetroHome65.Tile
             _tilesCanvas.DeleteElement(tile);
 
             RealignTiles();
-            WriteSettings();
+            WriteTilesSettings();
         }
 
         public void Clear()
