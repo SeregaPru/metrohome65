@@ -59,17 +59,19 @@ namespace MetroHome65.HomeScreen.Settings
             set
             {
                 SetField(ref _tileThemeIndex, value, "TileThemeIndex");
-                TileTheme = (_tileThemeIndex == 0) ? (TileTheme) new TileThemeWP7(): new TileThemeWindows8();
+                _tileTheme = (_tileThemeIndex == 0) ? (TileTheme)new TileThemeWP7() : new TileThemeWindows8();
             }
         }
 
-        [NonSerialized]
-        public TileTheme TileTheme = new TileThemeWindows8();
+        // приходится испльзовать метод вместо поля, чтобы этот объект не сериализовался в файл настроек
+        private TileTheme _tileTheme;
+        public TileTheme GetTileTheme() { return _tileTheme; }
 
         /// <summary>
         /// collection of various settings for lock screen.
         /// </summary>
         private LockScreenSettings _lockScreenSettings;
+
         public LockScreenSettings LockScreenSettings
         {
             get { return _lockScreenSettings ?? (_lockScreenSettings = new LockScreenSettings()); }
@@ -81,6 +83,9 @@ namespace MetroHome65.HomeScreen.Settings
         {
             ThemeIsDark = (MetroTheme.PhoneBackgroundBrush != Color.White);
             AccentColor = MetroTheme.PhoneAccentBrush;
+
+            TileThemeIndex = 0;
+            _tileTheme = new TileThemeWP7();
         }
 
         public static MainSettings Clone()
@@ -131,8 +136,8 @@ namespace MetroHome65.HomeScreen.Settings
 
             if (mainSettings.TileThemeIndex != this.TileThemeIndex)
             {
-                mainSettings.ThemeImage = this.ThemeImage;
-                messenger.Publish(new SettingsChangedMessage("TileTheme", this.TileTheme));
+                mainSettings.TileThemeIndex = this.TileThemeIndex;
+                messenger.Publish(new SettingsChangedMessage("TileTheme", this.GetTileTheme()));
             }
 
         }

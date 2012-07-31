@@ -40,13 +40,20 @@ namespace MetroHome65.Tile
             {
                 if (_tileTheme.ToString() == value.ToString()) return;
                 _tileTheme = value;
+                foreach (var tile in _tiles)
+                {
+                    tile.TileTheme = _tileTheme;
+                    tile.ForceUpdate();
+                }
                 RealignTiles();
             }
         }
 
 
-        public BaseTileGrid(UIElement background, string settingsFile, int gridWidth, int gridHeight)
+        public BaseTileGrid(TileTheme tileTheme, UIElement background, string settingsFile, int gridWidth, int gridHeight)
         {
+            _tileTheme = tileTheme;
+
             _gridWidth = gridWidth;
             _gridHeight = gridHeight;
             _settingsFile = settingsFile;

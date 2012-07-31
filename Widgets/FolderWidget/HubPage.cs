@@ -12,6 +12,7 @@ using MetroHome65.Interfaces.Events;
 using MetroHome65.Routines.File;
 using MetroHome65.Routines.Screen;
 using MetroHome65.Routines.UIControls;
+using MetroHome65.Tile;
 using TinyIoC;
 using TinyMessenger;
 
@@ -78,7 +79,8 @@ namespace FolderWidget
                 _title.ResizeForWidth(Content.Size.Width);
                 Content.AddElement(_title);
 
-                _tileGrid = new HubPageTileGrid(_background, "", 4, 100)
+                _tileGrid = new HubPageTileGrid(new TileThemeWP7() { TilesPaddingTop = 0 }, 
+                    _background, "", 4, 100)
                                 {
                                     OnReadSettings = ReadSettings,
                                     OnWriteSettings = WriteSettings,

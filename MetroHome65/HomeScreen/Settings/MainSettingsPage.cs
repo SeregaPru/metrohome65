@@ -81,13 +81,13 @@ namespace MetroHome65.HomeScreen.Settings
 
 
             // tile screen style
-            var ctrTileStyle = new SelectSettingsControl
+            var ctrTileTheme = new SelectSettingsControl
             {
                 Caption = "Tiles style",
                 Items = new List<object> { "Windows Phone 7", "Windows 8" },
             };
-            this.AddElement(ctrTileStyle);
-            _page.BindingManager.Bind(_page.Settings, "TileStyle", ctrTileStyle, "SelectedIndex", true);
+            this.AddElement(ctrTileTheme);
+            _page.BindingManager.Bind(_page.Settings, "TileThemeIndex", ctrTileTheme, "SelectedIndex", true);
 
             this.AddElement(new Separator());
         }

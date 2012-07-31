@@ -21,7 +21,6 @@ namespace MetroHome65.Tile
     {
         #region Fields
 
-        private int _topPadding;
         private ITile _tile;
         private TileTheme _tileTheme;
         private Point _gridPosition = new Point(0, 0);
@@ -115,7 +114,16 @@ namespace MetroHome65.Tile
             }
         }
 
-        public TileTheme TileTheme;
+        public TileTheme TileTheme
+        {
+            get { return _tileTheme; }
+            set
+            {
+                if (_tileTheme == value) return;
+                _tileTheme = value;
+                CalcScreenPosition();
+            }
+        }
 
         #endregion
 
@@ -123,10 +131,7 @@ namespace MetroHome65.Tile
         #region Methods
 
         // empty constructor for deserialize
-        public TileWrapper(int topPadding)
-        {
-            _topPadding = topPadding;
-        }
+        public TileWrapper() { }
 
         /// <summary>
         /// Sets tile size in grid cells.
@@ -187,7 +192,7 @@ namespace MetroHome65.Tile
         {
             return new Rectangle(
                 _gridPosition.X * (TileTheme.TileSize + TileTheme.TileSpacing) + TileTheme.TilesPaddingLeft,
-                _gridPosition.Y * (TileTheme.TileSize + TileTheme.TileSpacing) + _topPadding,
+                _gridPosition.Y * (TileTheme.TileSize + TileTheme.TileSpacing) + TileTheme.TilesPaddingTop,
                 _gridSize.Width * (TileTheme.TileSize + TileTheme.TileSpacing) - TileTheme.TileSpacing,
                 _gridSize.Height * (TileTheme.TileSize + TileTheme.TileSpacing) - TileTheme.TileSpacing);
         }

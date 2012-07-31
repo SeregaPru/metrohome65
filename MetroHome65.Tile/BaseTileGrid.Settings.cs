@@ -63,7 +63,7 @@ namespace MetroHome65.Tile
         {
             foreach (var settings in storedSettings)
             {
-                var tile = new TileWrapper(GetTopPadding()) { TileTheme = _tileTheme };
+                var tile = new TileWrapper() { TileTheme = _tileTheme };
                 tile.DeserializeSettings(settings);
                 AddTile(tile, false);
             }
@@ -222,11 +222,6 @@ namespace MetroHome65.Tile
                 return true;
             }
             return false;
-        }
-
-        virtual protected int GetTopPadding()
-        {
-            return TileTheme.TilesPaddingTop;;
         }
     }
 }

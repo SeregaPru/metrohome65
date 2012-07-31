@@ -5,16 +5,9 @@ namespace FolderWidget
 {
     public class HubPageTileGrid : BaseTileGrid
     {
-        public HubPageTileGrid(UIElement background, string settingsFile, int gridWidth, int gridHeight) 
-            : base(background, settingsFile, gridWidth, gridHeight)
+        public HubPageTileGrid(TileTheme tileTheme, UIElement background, string settingsFile, int gridWidth, int gridHeight) 
+            : base(tileTheme, background, settingsFile, gridWidth, gridHeight)
         {
-            // in hubs always use 
-            TileTheme = new TileThemeWP7();
-        }
-
-        override protected int GetTopPadding()
-        {
-            return 0;
         }
 
     }

@@ -30,12 +30,13 @@ namespace MetroHome65.HomeScreen
         private int _curPage;
         private TileTheme _tileTheme;
         private UIElement _switchArrowNext;
+        private UIElement _switchArrowBack;
         
         // system state for receiving notifications about system events
         private readonly SystemState _systemState = new SystemState(0);
         
-        private int ArrowPosNext { get { return Size.Width + _tileTheme.ArrowPosX; } }
-        private int ArrowPosBack { get { return Size.Width * 2 + _tileTheme.ArrowPadding; } }
+        private int ArrowPosNext { get { return Size.Width + _tileTheme.ArrowNextPosX; } }
+        private int ArrowPosBack { get { return Size.Width * 2 + _tileTheme.ArrowPrevPosX; } }
 
 
         public HomeScreen() : base(false)
@@ -47,7 +48,7 @@ namespace MetroHome65.HomeScreen
 
             ReadThemeSettings();
 
-            _tileTheme = TinyIoCContainer.Current.Resolve<MainSettings>().TileTheme;
+            _tileTheme = TinyIoCContainer.Current.Resolve<MainSettings>().GetTileTheme();
 
             // фон окна
             var background = new ThemedBackground { Location = new Point(0, 0), };
@@ -69,7 +70,7 @@ namespace MetroHome65.HomeScreen
             AddSection(lockScreen, 0);
 
             // прокрутчик холста плиток
-            var tilesGrid = new TilesGrid.TilesGrid
+            var tilesGrid = new TilesGrid.TilesGrid(_tileTheme)
                                 {
                                     OnExit = ExitApp,
                                     OnShowMainSettings = ShowMainSettings,
@@ -84,12 +85,12 @@ namespace MetroHome65.HomeScreen
             };
             _homeScreenCanvas.AddElement(_switchArrowNext);
 
-            var switchArrowBack = new ThemedImageButton("back")
+            _switchArrowBack = new ThemedImageButton("back")
             {
                 Location = new Point(ArrowPosBack, _tileTheme.TilesPaddingTop),
                 TapHandler = p => { CurrentPage = 1; return true; },
             };
-            _homeScreenCanvas.AddElement(switchArrowBack);
+            _homeScreenCanvas.AddElement(_switchArrowBack);
 
             // список программ
             var programsSv = new ProgramsMenuPage();
@@ -271,6 +272,10 @@ namespace MetroHome65.HomeScreen
             if (settingsChangedMessage.PropertyName == "TileTheme")
             {
                 _tileTheme = settingsChangedMessage.Value as TileTheme;
+                _switchArrowNext.Location = new Point(ArrowPosNext, _tileTheme.TilesPaddingTop);
+                _switchArrowBack.Location = new Point(ArrowPosBack, _tileTheme.TilesPaddingTop);
+
+                _homeScreenCanvas.Update();
             }
         }
 

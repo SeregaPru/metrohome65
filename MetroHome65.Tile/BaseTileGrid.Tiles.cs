@@ -29,7 +29,7 @@ namespace MetroHome65.Tile
         protected TileWrapper AddTile(Point gridPosition, Size gridSize, String tileClass, bool doRealign)
         {
             return AddTile(
-                new TileWrapper(GetTopPadding())
+                new TileWrapper()
                     {
                         TileTheme = _tileTheme,
                         GridSize = gridSize,

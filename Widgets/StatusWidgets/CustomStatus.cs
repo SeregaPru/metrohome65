@@ -37,7 +37,6 @@ namespace MetroHome65.Widgets.StatusWidgets
         private static readonly int IconSize = (ScreenRoutines.IsQVGA) ? 32 : 48;
         private static readonly string IconPrefix = (ScreenRoutines.IsQVGA) ? "small." : "big.";
         private static readonly int BarSize = (ScreenRoutines.IsQVGA) ? 4 : 10;
-        private static readonly int CaptionPosY = (ScreenRoutines.IsQVGA) ? 25 : 44;
 
         protected void PaintStatus(Graphics g, Rectangle rect,
             DrawStatus drawStatus, string iconName, string caption)
@@ -70,24 +69,24 @@ namespace MetroHome65.Widgets.StatusWidgets
             DrawResourceImage(g,
                 rect.Left, rect.Bottom - BarSize, rect.Width, BarSize, "bar" + barPostfix);
 
+            var iconTop = rect.Top + (rect.Height - IconSize - BarSize)/2;
+
             // draw additional caption
-            var captionHeigth = 0;
             if (!String.IsNullOrEmpty(caption))
             {
                 var captionFont = new Font("Segoe WP Light", 7, FontStyle.Bold);
                 captionBrush.Color = captionColor;
                 var captionSize = g.MeasureString(caption, captionFont);
                 g.DrawString(caption, captionFont, captionBrush,
-                    rect.Left + (rect.Width - captionSize.Width) / 2, rect.Top + CaptionPosY);
-                captionHeigth = ScreenRoutines.Scale(16);
+                    rect.Left + (rect.Width - captionSize.Width) / 2, iconTop + IconSize - ScreenRoutines.Scale(12));
+
+                iconTop -= ScreenRoutines.Scale(6);
             }
 
             // draw main status icon
             DrawResourceImage(g, 
-              (rect.Left + rect.Right - IconSize) / 2,
-              rect.Top + (rect.Height - IconSize - BarSize - captionHeigth) / 2,
-              IconSize, IconSize,
-              iconName + iconPostfix);
+              (rect.Left + rect.Right - IconSize) / 2, iconTop,
+              IconSize, IconSize, iconName + iconPostfix);
         }
 
         private void DrawResourceImage(Graphics g, int x, int y, int width, int height, string iconName)
