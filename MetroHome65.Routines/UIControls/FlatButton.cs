@@ -22,7 +22,7 @@ namespace MetroHome65.Routines.UIControls
                     //_image = ResourceManager.Instance.GetBitmapFromEmbeddedResource(value);
                     _image = new AlphaImage(value, _assembly);
 
-                    this.Size = _image.Size.ToPixels(); // scale original image according to screen factor
+                    this.Size = _image.Size;
                 }
                 catch (Exception) { }
                 Update();
@@ -42,8 +42,9 @@ namespace MetroHome65.Routines.UIControls
             if (FleuxApplication.ScaleToLogic(1) == 1) // no need scale
                 _image.PaintIcon(drawingGraphics.Graphics, drawingGraphics.CalculateX(0), drawingGraphics.CalculateY(0));
             else
+                // scale original image according to screen factor
                 _image.PaintBackground(drawingGraphics.Graphics, new Rectangle(
-                    drawingGraphics.CalculateX(0), drawingGraphics.CalculateY(0), Size.Width, Size.Height));
+                    drawingGraphics.CalculateX(0), drawingGraphics.CalculateY(0), Size.Width.ToPixels(), Size.Height.ToPixels()));
 
             /*
             Color transparentKeyColor = Color.Black; // DEFAULT BLACK, IF IT IS NOT POSSIBLE TO READ FROM IMAGE

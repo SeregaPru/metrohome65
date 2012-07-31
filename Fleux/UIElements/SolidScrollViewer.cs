@@ -1,5 +1,6 @@
 using System.Drawing;
 using Fleux.Core.GraphicsHelpers;
+using Fleux.Core.Scaling;
 using Fleux.Styles;
 
 namespace Fleux.UIElements
@@ -22,7 +23,7 @@ namespace Fleux.UIElements
             UIElement curElement = this;
             while ((curElement = curElement.Parent) != null)
                 location.Offset(curElement.Location.X, curElement.Location.Y);
-            drawingGraphics.Graphics.Clip = new Region(new Rectangle(location.X, location.Y, Size.Width, Size.Height)); 
+            drawingGraphics.Graphics.Clip = new Region(new Rectangle(location.X, location.Y, Size.Width, Size.Height).ToPixels()); 
 
 
             this.Content.Draw(drawingGraphics.CreateChild(new Point(this.HorizontalOffset, this.VerticalOffset),
