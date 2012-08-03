@@ -78,6 +78,13 @@ namespace MetroHome65.HomeScreen.Settings
             set { SetField(ref _lockScreenSettings, value, "LockScreenSettings"); }
         }
 
+        private bool _fullScreen;
+        public bool FullScreen
+        {
+            get { return _fullScreen; }
+            set { SetField(ref _fullScreen, value, "FullScreen"); }
+        }
+
 
         public MainSettings()
         {
@@ -138,6 +145,12 @@ namespace MetroHome65.HomeScreen.Settings
             {
                 mainSettings.TileThemeIndex = this.TileThemeIndex;
                 messenger.Publish(new SettingsChangedMessage("TileTheme", this.GetTileTheme()));
+            }
+
+            if (mainSettings.FullScreen != this.FullScreen)
+            {
+                mainSettings.FullScreen = this.FullScreen;
+                messenger.Publish(new FullScreenMessage(this.FullScreen));
             }
 
         }

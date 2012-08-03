@@ -11,7 +11,7 @@ using TinyMessenger;
 
 namespace MetroHome65.LockScreen
 {
-    public class LockScreenManager : Canvas, IActive
+    public class LockScreenManager : Canvas, IActive, IVisible
     {
         private UIElement _lockScreen;
 
@@ -101,12 +101,30 @@ namespace MetroHome65.LockScreen
         // IActive
         public bool Active
         {
-            get { return ((_lockScreen != null) && ((_lockScreen as IActive).Active)); }
+            get { return ((_lockScreen != null) && (_lockScreen is IActive) && ((_lockScreen as IActive).Active)); }
             set {
-                if (_lockScreen != null)
+                if ((_lockScreen != null) && (_lockScreen is IActive))
                     (_lockScreen as IActive).Active = value;
             }
         }
 
+        // IVisible
+        public bool Visible
+        {
+            get { return ((_lockScreen != null) && (_lockScreen is IVisible) && ((_lockScreen as IVisible).Visible)); }
+            set
+            {
+                if ((_lockScreen != null) && (_lockScreen is IVisible))
+                    (_lockScreen as IVisible).Visible = value;
+
+                SwitchFullScreen(value);
+            }
+        }
+
+        private void SwitchFullScreen(bool fullScreen)
+        {
+            var messenger = TinyIoCContainer.Current.Resolve<ITinyMessengerHub>();
+            messenger.Publish(new FullScreenMessage(fullScreen));
+        }
     }
 }

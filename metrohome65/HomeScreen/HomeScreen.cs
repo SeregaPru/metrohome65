@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Windows.Forms;
 using Fleux.Controls.Gestures;
 using Fleux.Core;
 using MetroHome65.Controls;
@@ -27,7 +28,8 @@ namespace MetroHome65.HomeScreen
         private readonly Canvas _homeScreenCanvas;
 
         private readonly List<UIElement> _sections = new List<UIElement>();
-        private int _curPage;
+        private int _fullScreenCount = 0;
+        private int _curSection;
         private TileTheme _tileTheme;
         private UIElement _switchArrowNext;
         private UIElement _switchArrowBack;
@@ -81,14 +83,14 @@ namespace MetroHome65.HomeScreen
             _switchArrowNext = new ThemedImageButton("next")
             {
                 Location = new Point(ArrowPosNext, _tileTheme.TilesPaddingTop),
-                TapHandler = p => { CurrentPage = 2; return true; },
+                TapHandler = p => { CurrentSection = 2; return true; },
             };
             _homeScreenCanvas.AddElement(_switchArrowNext);
 
             _switchArrowBack = new ThemedImageButton("back")
             {
                 Location = new Point(ArrowPosBack, _tileTheme.TilesPaddingTop),
-                TapHandler = p => { CurrentPage = 1; return true; },
+                TapHandler = p => { CurrentSection = 1; return true; },
             };
             _homeScreenCanvas.AddElement(_switchArrowBack);
 
@@ -103,13 +105,14 @@ namespace MetroHome65.HomeScreen
             _systemState.Changed += OnSystemStateChanged;
             TheForm.Deactivate += (s, e) => OnDeactivate();
 
+            // deactivate all other pages but first
+            CurrentSection = 1;
+
             // subscribe to events - show page and change main settings
             var messenger = TinyIoCContainer.Current.Resolve<ITinyMessengerHub>();
             messenger.Subscribe<ShowPageMessage>(msg => OnShowPage(msg.Page));
             messenger.Subscribe<SettingsChangedMessage>(OnSettingsChanged);
-
-            // deactivate all other pages but first
-            CurrentPage = 1;
+            messenger.Subscribe<FullScreenMessage>(OnFullScreen);
         }
 
         /// <summary>
@@ -140,30 +143,33 @@ namespace MetroHome65.HomeScreen
             if (GesturesEngine.IsHorizontal(from, to) && 
                 (Math.Abs(to.X - from.X) > ScreenConsts.ScreenWidth / 10))
             {
-                CurrentPage = CurrentPage + ((to.X - from.X > 0) ? -1 : 1);
+                CurrentSection = CurrentSection + ((to.X - from.X > 0) ? -1 : 1);
                 return true;
             }
             return false;
         }
 
-        private int CurrentPage
+        private int CurrentSection
         {
-            get { return _curPage; }
+            get { return _curSection; }
             set
             {
-                if ((_curPage == value) || (value < 0) || (value >= _sections.Count))
+                if ((_curSection == value) || (value < 0) || (value >= _sections.Count))
                     return;
 
-                var prevPage = _curPage;
-                _curPage = value;
+                var prevPage = _curSection;
+                _curSection = value;
 
-                SwitchScreen(prevPage, _curPage);
+                SwitchScreen(prevPage, _curSection);
             }
         }
 
-        private void SwitchScreen(int fromPage, int toPage)
+        private void SwitchScreen(int fromSection, int toSection)
         {
             OnDeactivate();
+
+            var oldSection = _sections[fromSection] as IVisible;
+            if (oldSection != null) oldSection.Visible = false;
 
             //var animateArrow = (toPage + fromPage >= 2);
             //var ArrowPosFrom = (toPage == 1) ? ArrowPos2 : ArrowPos1;
@@ -172,8 +178,8 @@ namespace MetroHome65.HomeScreen
             var screenAnimation = new FunctionBasedAnimation(FunctionBasedAnimation.Functions.Linear)
                                        {
                                            Duration = 300,
-                                           From = _sections[fromPage].Location.X,
-                                           To = _sections[toPage].Location.X,
+                                           From = _sections[fromSection].Location.X,
+                                           To = _sections[toSection].Location.X,
                                            OnAnimation = v =>
                                                              {
                                                                  _homeScreenCanvas.Location = new Point(-v, 0);
@@ -200,6 +206,8 @@ namespace MetroHome65.HomeScreen
                                                                      _switchArrow.Update();
                                                                      */
 
+                                                                     var newSection = _sections[toSection] as IVisible;
+                                                                     if (newSection != null) newSection.Visible = true;
                                                                      OnActivated();
                                                                  },
                                        };
@@ -209,9 +217,9 @@ namespace MetroHome65.HomeScreen
 
         protected override void OnActivated()
         {
-            if (_sections[_curPage] is IActive)
+            if (_sections[_curSection] is IActive)
             {
-                var active = _sections[_curPage] as IActive;
+                var active = _sections[_curSection] as IActive;
                 if (active != null) 
                     active.Active = true;
             }
@@ -277,6 +285,34 @@ namespace MetroHome65.HomeScreen
 
                 _homeScreenCanvas.Update();
             }
+        }
+
+        /// <summary>
+        /// Handler for event - swith application to fullscreen mode and back
+        /// </summary>
+        /// <param name="fullScreenMessage"></param>
+        private void OnFullScreen(FullScreenMessage fullScreenMessage)
+        {
+            Action action = () =>
+                                {
+                                    if (fullScreenMessage.FullScreen)
+                                    {
+                                        if (_fullScreenCount == 0)
+                                            theForm.WindowState = FormWindowState.Maximized;
+                                        _fullScreenCount++;
+                                    }
+                                    else
+                                    {
+                                        _fullScreenCount--;
+                                        if (_fullScreenCount == 0)
+                                            theForm.WindowState = FormWindowState.Normal;
+                                    }
+                                };
+
+            if (theForm.InvokeRequired)
+                theForm.Invoke(action);
+            else
+                action();
         }
 
     }

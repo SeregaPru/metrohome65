@@ -63,13 +63,15 @@
     <Reference Include="System.XML" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Events\FullScreenMessage.cs" />
     <Compile Include="Events\PinProgramMessage.cs" />
     <Compile Include="Events\SettingsChangedMessage.cs" />
     <Compile Include="Events\ShowPageMessage.cs" />
-    <Compile Include="IActive_Intf.cs" />
-    <Compile Include="ILockScreen_Intf.cs" />
-    <Compile Include="IPluginManager_intf.cs" />
-    <Compile Include="IWidget_Intf.cs" />
+    <Compile Include="IActive.cs" />
+    <Compile Include="ILockScreen.cs" />
+    <Compile Include="IPluginManager.cs" />
+    <Compile Include="IVisible.cs" />
+    <Compile Include="IWidget.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

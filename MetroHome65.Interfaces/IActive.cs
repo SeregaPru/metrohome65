@@ -9,5 +9,4 @@
     {
         bool Pause { get; set; }
     }
-
 }
