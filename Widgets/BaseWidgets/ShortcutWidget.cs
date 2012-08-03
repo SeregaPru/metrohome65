@@ -41,6 +41,7 @@ namespace MetroHome65.Widgets
         {
             var sizes = new[] { 
                 new Size(1, 1), 
+                new Size(2, 1), 
                 new Size(2, 2),
                 new Size(4, 2)
             };

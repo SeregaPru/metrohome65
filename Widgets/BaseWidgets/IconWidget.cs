@@ -92,7 +92,7 @@ namespace MetroHome65.Widgets
             if (String.IsNullOrEmpty(_iconPath))
                 return;
 
-            int captionHeight = (Caption == "") ? 0 : (CaptionSize /* + CaptionBottomOffset */);
+            int captionHeight = (Caption == "") ? 0 : (CaptionSize + ((GridSize.Height == 1) ? 1 : 0) /* + CaptionBottomOffset */);
 
             // draw icon from external image file
             if (_iconImage != null)
@@ -130,8 +130,8 @@ namespace MetroHome65.Widgets
                     FontStyle.Regular);
                 var captionBrush = new SolidBrush(MetroTheme.TileTextStyle.Foreground);
                 g.DrawString(Caption, captionFont, captionBrush,
-                    rect.Left + CaptionLeftOffset, 
-                    rect.Bottom - CaptionBottomOffset - CaptionSize);
+                    rect.Left + CaptionLeftOffset - ((GridSize.Height == 1) ? 2 : 0),
+                    rect.Bottom - CaptionBottomOffset - CaptionSize + ((GridSize.Height == 1) ? 2 : 0));
             }
         }
 
