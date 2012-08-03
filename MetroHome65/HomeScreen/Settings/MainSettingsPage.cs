@@ -80,6 +80,17 @@ namespace MetroHome65.HomeScreen.Settings
             this.AddElement(new Separator());
 
 
+            // full screen
+            var ctrFullScreen = new FlagSettingsControl()
+            {
+                Caption = "Full screen",
+            };
+            this.AddElement(ctrFullScreen);
+            _page.BindingManager.Bind(_page.Settings, "FullScreen", ctrFullScreen, "Value", true);
+
+            this.AddElement(new Separator());
+
+
             // tile screen style
             var ctrTileTheme = new SelectSettingsControl
             {
