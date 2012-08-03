@@ -35,7 +35,7 @@ namespace MetroHome65.HomeScreen.ProgramsMenu
             _bgImage = TinyIoCContainer.Current.Resolve<ScaledBackground>();
 
             Size = new Size(100, 100);
-            SizeChanged += (s, e) => CreateBuffer();
+            SizeChanged += (sender, args) => OnSizeChanged();
 
             _refa = new FileRoutines.structa();
 
@@ -46,7 +46,6 @@ namespace MetroHome65.HomeScreen.ProgramsMenu
             DataTemplateSelector = item => BuildItem;
             SourceItems = GetProgramList();
         }
-
 
         private readonly ProgramsList _fileList = new ProgramsList();
 
@@ -201,6 +200,18 @@ namespace MetroHome65.HomeScreen.ProgramsMenu
             var messenger = TinyIoCContainer.Current.Resolve<ITinyMessengerHub>();
 
             messenger.Publish(new PinProgramMessage { Name = fileDescr.Name, Path = fileDescr.Path} );
+        }
+
+        private void OnSizeChanged()
+        {
+            // при изменении собственного размера надо пересчитать настройки скролла
+            CreateBuffer();
+
+            if (Content == null) return;
+
+            var oldSize = Content.Size;
+            Content.Size = new Size(1, 1);
+            Content.Size = oldSize;
         }
 
     }

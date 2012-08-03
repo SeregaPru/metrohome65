@@ -65,7 +65,7 @@ namespace MetroHome65.HomeScreen.ProgramsMenu
         private void CreateBuffer()
         {
             // create new buffer with new size
-            _buffer = new DoubleBuffer(new Size(Size.Width, ScreenConsts.ScreenHeight));
+            _buffer = new DoubleBuffer(new Size(Size.Width, Size.Height));
 
             _drawingGraphics = DrawingGraphics.FromGraphicsAndRect(
                 _buffer.Graphics, _buffer.Image,

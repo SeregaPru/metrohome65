@@ -45,26 +45,31 @@ namespace MetroHome65
 
             foreach (FileInfo file in files)
             {
-                if ((! file.Name.ToLower().Contains("opennetcf")) && 
-                    (file.Extension == ".dll"))
+                if (file.Extension == ".dll")
                     LoadPlugin(file.FullName);
             }
         }
 
         private void LoadPlugin(String pluginPath)
         {
-            var assembly = Assembly.LoadFrom(pluginPath);
-
-            foreach (var type in assembly.GetTypes())
+            try
             {
-                if ((type.IsClass) && (! type.IsAbstract))
+                var assembly = Assembly.LoadFrom(pluginPath);
+
+                foreach (var type in assembly.GetTypes())
                 {
-                    if (type.GetInterfaces().Contains(typeof(ITile))) 
-                        _tilePlugins.Add(type.FullName, type);
-                    else
-                    if (type.GetInterfaces().Contains(typeof(ILockScreen)))
-                        _lockScreenPlugins.Add(type.FullName, type);
+                    if ((type.IsClass) && (! type.IsAbstract))
+                    {
+                        if (type.GetInterfaces().Contains(typeof(ITile))) 
+                            _tilePlugins.Add(type.FullName, type);
+                        else
+                        if (type.GetInterfaces().Contains(typeof(ILockScreen)))
+                            _lockScreenPlugins.Add(type.FullName, type);
+                    }
                 }
+            }
+            catch (Exception ex)
+            {
             }
         }
 
