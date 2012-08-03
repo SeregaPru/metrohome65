@@ -50,7 +50,10 @@ namespace MetroHome65.HomeScreen
 
             ReadThemeSettings();
 
-            _tileTheme = TinyIoCContainer.Current.Resolve<MainSettings>().GetTileTheme();
+            var mainSettings = TinyIoCContainer.Current.Resolve<MainSettings>();
+            _tileTheme = mainSettings.GetTileTheme();
+            if (mainSettings.FullScreen)
+                SwitchFullScreen(true); //!! do not decrease counter when start in normal mode
 
             // фон окна
             var background = new ThemedBackground { Location = new Point(0, 0), };
@@ -82,14 +85,14 @@ namespace MetroHome65.HomeScreen
             // стрелка переключатель страниц
             _switchArrowNext = new ThemedImageButton("next")
             {
-                Location = new Point(ArrowPosNext, _tileTheme.TilesPaddingTop),
+                Location = new Point(ArrowPosNext, _tileTheme.ArrowPosY),
                 TapHandler = p => { CurrentSection = 2; return true; },
             };
             _homeScreenCanvas.AddElement(_switchArrowNext);
 
             _switchArrowBack = new ThemedImageButton("back")
             {
-                Location = new Point(ArrowPosBack, _tileTheme.TilesPaddingTop),
+                Location = new Point(ArrowPosBack, _tileTheme.ArrowPosY),
                 TapHandler = p => { CurrentSection = 1; return true; },
             };
             _homeScreenCanvas.AddElement(_switchArrowBack);
@@ -280,8 +283,8 @@ namespace MetroHome65.HomeScreen
             if (settingsChangedMessage.PropertyName == "TileTheme")
             {
                 _tileTheme = settingsChangedMessage.Value as TileTheme;
-                _switchArrowNext.Location = new Point(ArrowPosNext, _tileTheme.TilesPaddingTop);
-                _switchArrowBack.Location = new Point(ArrowPosBack, _tileTheme.TilesPaddingTop);
+                _switchArrowNext.Location = new Point(ArrowPosNext, _tileTheme.ArrowPosY);
+                _switchArrowBack.Location = new Point(ArrowPosBack, _tileTheme.ArrowPosY);
 
                 _homeScreenCanvas.Update();
             }
@@ -293,26 +296,33 @@ namespace MetroHome65.HomeScreen
         /// <param name="fullScreenMessage"></param>
         private void OnFullScreen(FullScreenMessage fullScreenMessage)
         {
-            Action action = () =>
-                                {
-                                    if (fullScreenMessage.FullScreen)
-                                    {
-                                        if (_fullScreenCount == 0)
-                                            theForm.WindowState = FormWindowState.Maximized;
-                                        _fullScreenCount++;
-                                    }
-                                    else
-                                    {
-                                        _fullScreenCount--;
-                                        if (_fullScreenCount == 0)
-                                            theForm.WindowState = FormWindowState.Normal;
-                                    }
-                                };
+            Action action = () => SwitchFullScreen(fullScreenMessage.FullScreen);
 
             if (theForm.InvokeRequired)
                 theForm.Invoke(action);
             else
                 action();
+        }
+
+        private void SwitchFullScreen(bool fullScreen)
+        {
+            var prevState = theForm.WindowState;
+            if (fullScreen)
+            {
+                if (_fullScreenCount == 0)
+                    theForm.WindowState = FormWindowState.Maximized;
+                _fullScreenCount++;
+            }
+            else
+            {
+                _fullScreenCount--;
+                if (_fullScreenCount == 0)
+                    theForm.WindowState = FormWindowState.Normal;
+            }
+
+            if (prevState != theForm.WindowState)
+                foreach (var section in _sections)
+                    section.Size = new Size(this.Size.Width - 2, this.Size.Height);
         }
 
     }

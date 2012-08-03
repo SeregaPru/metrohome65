@@ -78,8 +78,8 @@ namespace MetroHome65.HomeScreen.Settings
             set { SetField(ref _lockScreenSettings, value, "LockScreenSettings"); }
         }
 
-        private bool _fullScreen;
-        public bool FullScreen
+        private Boolean _fullScreen;
+        public Boolean FullScreen
         {
             get { return _fullScreen; }
             set { SetField(ref _fullScreen, value, "FullScreen"); }
@@ -102,7 +102,9 @@ namespace MetroHome65.HomeScreen.Settings
                                     {
                                         // set additional properties that are not stored in main theme
                                         ThemeImage = mainSettings.ThemeImage,
-                                        LockScreenSettings = mainSettings.LockScreenSettings
+                                        LockScreenSettings = mainSettings.LockScreenSettings,
+                                        TileThemeIndex = mainSettings.TileThemeIndex,
+                                        FullScreen = mainSettings.FullScreen,
                                     };
 
             return cloneSettings;

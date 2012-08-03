@@ -40,13 +40,18 @@ namespace MetroHome65.Tile
             {
                 if (_tileTheme.ToString() == value.ToString()) return;
                 _tileTheme = value;
-                foreach (var tile in _tiles)
-                {
-                    tile.TileTheme = _tileTheme;
-                    tile.ForceUpdate();
-                }
-                RealignTiles();
+                RefreshTilesGrid();
             }
+        }
+
+        protected void RefreshTilesGrid()
+        {
+            foreach (var tile in _tiles)
+            {
+                tile.TileTheme = _tileTheme;
+                tile.ForceUpdate();
+            }
+            RealignTiles();
         }
 
 

@@ -4,6 +4,7 @@ using System.Windows.Forms;
 using Fleux.Controls;
 using Fleux.Core.GraphicsHelpers;
 using Fleux.UIElements;
+using MetroHome65.Interfaces;
 using MetroHome65.Interfaces.Events;
 using MetroHome65.Routines.File;
 using MetroHome65.Routines.UIControls;
@@ -18,6 +19,7 @@ namespace MetroHome65.HomeScreen.TilesGrid
 
         public Action OnExit;
 
+
         public TilesGrid(TileTheme tileTheme)
             : base(tileTheme, GetBackground(), FileRoutines.CoreDir + @"\widgets.xml", 4, 100)
         {
@@ -27,6 +29,8 @@ namespace MetroHome65.HomeScreen.TilesGrid
 
             // подписываемся на событие смены настроек для отлова смены темы
             messenger.Subscribe<SettingsChangedMessage>(OnSettingsChanged);
+
+            SizeChanged += (sender, args) => OnSizeChanged();
         }
 
         private static UIElement GetBackground()
@@ -88,6 +92,16 @@ namespace MetroHome65.HomeScreen.TilesGrid
             {
                 TileTheme = settingsChangedMessage.Value as TileTheme;
             }
+        }
+
+        private void OnSizeChanged()
+        {
+            // при изменении собственного размера надо пересчитать настройки скролла
+            if (Content == null) return;
+
+            var oldSize = Content.Size;
+            Content.Size = new Size(1, 1);
+            Content.Size = oldSize;
         }
 
     }
