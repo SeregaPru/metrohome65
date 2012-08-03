@@ -86,6 +86,8 @@ namespace Metrohome65.Settings.Controls
                                 new ColorItem(Color.FromArgb(27,161,226), "blue"),
                                 new ColorItem(Color.FromArgb(229,20,0), "red"),
                                 new ColorItem(Color.FromArgb(51,153,51), "green"),
+                                new ColorItem(Color.FromArgb(255,255,255), "white"),
+                                new ColorItem(Color.FromArgb(0,0,0), "black"),
                             };
             if (withDefaultColor)
                 items.Insert(0, new ColorItem(Color.Empty, "<default>"));

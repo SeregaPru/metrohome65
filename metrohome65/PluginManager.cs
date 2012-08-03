@@ -45,7 +45,8 @@ namespace MetroHome65
 
             foreach (FileInfo file in files)
             {
-                if (file.Extension == ".dll")
+                if ((! file.Name.ToLower().Contains("opennetcf")) && 
+                    (file.Extension == ".dll"))
                     LoadPlugin(file.FullName);
             }
         }
@@ -68,9 +69,7 @@ namespace MetroHome65
                     }
                 }
             }
-            catch (Exception ex)
-            {
-            }
+            catch (Exception) { }
         }
 
         public ITile CreateTile(String tileName)

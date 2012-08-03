@@ -60,7 +60,7 @@ namespace MetroHome65.Tile
 
             TileSpacing = 12;
             TilesPaddingLeft = TileSpacing;
-            TilesPaddingTop = TileSpacing;
+            TilesPaddingTop = 36;
 
             ArrowPosY = 93 - ScreenConsts.TopBarSize;
             ArrowPrevPosX = 24;
