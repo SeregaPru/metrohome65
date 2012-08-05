@@ -68,7 +68,8 @@ namespace MetroHome65.Routines.UIControls
                     graphic.DrawImage(srcImage, destRect,
                                       new Rectangle(0, 0, srcImage.Width, srcImage.Height), GraphicsUnit.Pixel);
                 }
-            } catch { }
+            } 
+            catch(Exception e) { }
 
             return image;
         }

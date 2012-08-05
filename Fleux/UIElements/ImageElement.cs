@@ -16,7 +16,17 @@ namespace Fleux.UIElements
             Proportional
         }
 
+
         private Image _image;
+
+        public Image Image
+        {
+            get { return _image; }
+            set { _image = value; }
+        }
+
+        public StretchTypeOptions StretchType = StretchTypeOptions.Fill;
+
 
         public ImageElement(string resourceName)
             : this(ResourceManager.Instance.GetBitmapFromEmbeddedResource(resourceName, Assembly.GetCallingAssembly()))
@@ -30,13 +40,11 @@ namespace Fleux.UIElements
                 Size = image.Size;
         }
 
-        public Image Image
+        ~ImageElement()
         {
-            get { return _image; }
-            set { _image = value; }
+            if (_image != null)
+                _image.Dispose();
         }
-
-        public StretchTypeOptions StretchType = StretchTypeOptions.Fill;
 
         public override void Draw(IDrawingGraphics drawingGraphics)
         {

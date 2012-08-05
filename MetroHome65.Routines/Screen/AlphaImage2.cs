@@ -1,5 +1,8 @@
 ﻿using System;
 using System.Drawing;
+using System.IO;
+using System.Runtime.InteropServices;
+using Fleux.Core.NativeHelpers;
 
 
 namespace MetroHome65.Routines
@@ -9,7 +12,7 @@ namespace MetroHome65.Routines
     /// </summary>
     public class AlphaImage
     {
-        private OpenNETCF.Drawing.Imaging.IImage _img;
+        private IImageWrapper _img;
         private String _imagePath = "";
 
         public AlphaImage(String imagePath)
@@ -17,7 +20,8 @@ namespace MetroHome65.Routines
             ImagePath = imagePath;
         }
 
-        public AlphaImage(System.IO.Stream stream)
+        /*
+        public AlphaImage2(System.IO.Stream stream)
         {
             try
             {
@@ -30,19 +34,34 @@ namespace MetroHome65.Routines
                 //!! write to log  (e.StackTrace, "SetBtnImg")
             }
         }
-
+        */
+ 
         public AlphaImage(string resourceName, System.Reflection.Assembly assembly)
         {
             try
             {
-                var iconStream = new OpenNETCF.Drawing.Imaging.StreamOnFile(assembly.GetManifestResourceStream(resourceName));
-                var factory = new OpenNETCF.Drawing.Imaging.ImagingFactoryClass();
-                factory.CreateImageFromStream(iconStream, out _img);
+                var factory = (IImagingFactory)Activator.CreateInstance(Type.GetTypeFromCLSID(new Guid("327ABDA8-072B-11D3-9D7B-0000F81EF32E")));
+                IImage img;
+
+                IImage imagingResource;
+                using (var strm = (MemoryStream)assembly.GetManifestResourceStream(resourceName))
+                {
+                    var pbBuf = strm.GetBuffer();
+                    var cbBuf = (uint)strm.Length;
+                    factory.CreateImageFromBuffer(pbBuf, cbBuf, BufferDisposalFlag.BufferDisposalFlagNone, out imagingResource);
+                }
+                _img = new IImageWrapper(imagingResource);
             }
             catch (Exception e)
             {
                 //!! write to log  (e.StackTrace, "SetBtnImg")
             }
+        }
+
+        ~AlphaImage()
+        {
+            if (_img != null)
+                _img.Dispose();
         }
 
         public String ImagePath
@@ -57,8 +76,10 @@ namespace MetroHome65.Routines
                 {
                     if (!String.IsNullOrEmpty(_imagePath))
                     {
-                        var factory = new OpenNETCF.Drawing.Imaging.ImagingFactoryClass();
-                        factory.CreateImageFromFile(_imagePath, out _img);
+                        var factory = (IImagingFactory)Activator.CreateInstance(Type.GetTypeFromCLSID(new Guid("327ABDA8-072B-11D3-9D7B-0000F81EF32E")));
+                        IImage img;
+                        factory.CreateImageFromFile(_imagePath, out img);
+                        _img = new IImageWrapper(img);
                     }
                     else
                         _img = null;
@@ -72,9 +93,7 @@ namespace MetroHome65.Routines
 
         public Size Size { get
             {
-                OpenNETCF.Drawing.Imaging.ImageInfo imageInfo;
-                _img.GetImageInfo(out imageInfo);
-                return new Size((int) imageInfo.Width, (int) imageInfo.Height);
+                return _img.Size;
             } 
         }
 
@@ -85,16 +104,13 @@ namespace MetroHome65.Routines
 
             try
             {
-                OpenNETCF.Drawing.Imaging.ImageInfo imageInfo;
-                _img.GetImageInfo(out imageInfo);
-
                 var hdc = g.GetHdc();
-                OpenNETCF.Drawing.Imaging.RECT imgRect = OpenNETCF.Drawing.Imaging.RECT.FromXYWH(
-                    x, y, (int)imageInfo.Width, (int)imageInfo.Height);
-                _img.Draw(hdc, imgRect, null);
+                var imgRect = new Rectangle(
+                    x, y, _img.Size.Width, _img.Size.Height);
+                _img.Draw(hdc, imgRect, imgRect);
                 g.ReleaseHdc(hdc);
             }
-            catch
+            catch (Exception e)
             {
                 //!! write to log  (e.StackTrace, "PaintIcon")
             }
@@ -107,18 +123,15 @@ namespace MetroHome65.Routines
 
             try
             {
-                OpenNETCF.Drawing.Imaging.ImageInfo imageInfo;
-                _img.GetImageInfo(out imageInfo);
-
                 var hdc = g.GetHdc();
-                OpenNETCF.Drawing.Imaging.RECT imgRect = OpenNETCF.Drawing.Imaging.RECT.FromXYWH(
-                    (rect.Left + rect.Right - (int)imageInfo.Width) / 2,
-                    rect.Top + (rect.Height - (int)imageInfo.Height) / 2,
-                    (int)imageInfo.Width, (int)imageInfo.Height);
-                _img.Draw(hdc, imgRect, null);
+                var imgRect = new Rectangle(
+                    (rect.Left + rect.Right - _img.Size.Width) / 2, 
+                    rect.Top + (rect.Height - _img.Size.Height) / 2,
+                    _img.Size.Width, _img.Size.Height);
+                _img.Draw(hdc, imgRect, imgRect);
                 g.ReleaseHdc(hdc);
             }
-            catch
+            catch (Exception e)
             {
                 //!! write to log  (e.StackTrace, "PaintIcon")
             }
@@ -138,16 +151,17 @@ namespace MetroHome65.Routines
             try
             {
                 var hdc = g.GetHdc();
-                var imgRect = OpenNETCF.Drawing.Imaging.RECT.FromXYWH(rect.Left, rect.Top, rect.Width, rect.Height);
-                _img.Draw(hdc, imgRect, null);
+                var imgRect = new Rectangle(rect.Left, rect.Top, rect.Width, rect.Height);
+                _img.Draw(hdc, imgRect, imgRect);
                 g.ReleaseHdc(hdc);
             }
-            catch
+            catch (Exception e)
             {
                 //!! write to log  (e.StackTrace, "PaintBackground")
             }
         }
 
+        /*
         public void PaintBackgroundAlpha(Graphics g, Rectangle rect, byte alpha)
         {
             //!! see _factory.CreateBitmapFromImage
@@ -215,6 +229,52 @@ namespace MetroHome65.Routines
             g.ReleaseHdc(hdcDst);          // Required cleanup to GetHdc()
             gSrc.ReleaseHdc(hdcSrc);       // Required cleanup to GetHdc()
         }
+        */
+    }
+
+
+
+    // These structures, enumerations and p/invoke signatures come from
+    // wingdi.h in the Windows Mobile 5.0 Pocket PC SDK
+
+    public struct BlendFunction
+    {
+        public byte BlendOp;
+        public byte BlendFlags;
+        public byte SourceConstantAlpha;
+        public byte AlphaFormat;
+    }
+
+    public enum BlendOperation : byte
+    {
+        AcSrcOver = 0x00
+    }
+
+    public enum BlendFlags : byte
+    {
+        Zero = 0x00
+    }
+
+    public enum SourceConstantAlpha : byte
+    {
+        Transparent = 0x00,
+        Opaque = 0xFF
+    }
+
+    public enum AlphaFormat : byte
+    {
+        AcSrcAlpha = 0x01
+    }
+
+    public class DrawingAPI
+    {
+        [DllImport("coredll.dll")]
+        extern public static bool AlphaBlend(IntPtr hdcDest, Int32 nXDest, Int32 nYDest, Int32 nWidthDst, Int32 nHeightDst, IntPtr hdcSrc, Int32 nXSrc, Int32 nYSrc, Int32 nWidthSrc, Int32 nHeightSrc, BlendFunction blendFunction);
+
+        [DllImport("coredll.dll")]
+        extern public static bool BitBlt(IntPtr hdcDest, Int32 nXDest, Int32 nYDest, Int32 nWidth, Int32 nHeight, IntPtr hdcSrc, Int32 nXSrc, Int32 nYSrc, UInt32 dwRop);
+
+        public const UInt32 SRCCOPY = 0x00CC0020;
     }
 
 

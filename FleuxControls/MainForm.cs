@@ -27,7 +27,7 @@ namespace FleuxControls
 
         private PivotItem CreateSecondPage()
         {
-            var page = new PivotItem { Title = "first" };
+            var page = new PivotItem { Title = "second" };
             var stackPanel = new StackPanel { Size = new Size(480, 700) };
             page.Body = stackPanel;
 
@@ -54,7 +54,7 @@ namespace FleuxControls
 
         private PivotItem CreateFirstPage()
         {
-            var page = new PivotItem { Title = "second", };
+            var page = new PivotItem { Title = "first", };
             var stackPanel = new StackPanel { Size = new Size(480, 700) };
             page.Body = stackPanel;
 

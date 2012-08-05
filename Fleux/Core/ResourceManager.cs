@@ -184,6 +184,23 @@ namespace Fleux.Core
                                     });
         }
 
+        /*
+        public Bitmap GetBitmapFromFile(string filePath, int width, int height)
+        {
+            IImage image;
+            this.factory.CreateImageFromFile(filePath, out image);
+
+            ImageInfo imageInfo;
+            image.GetImageInfo(out imageInfo);
+
+            IBitmapImage bmp;
+            this.factory.CreateBitmapFromImage(image, imageInfo.Width, imageInfo.Height,
+                                           PixelFormatID.PixelFormat16bppRGB565,
+                                           InterpolationHint.InterpolationHintDefault, out bmp);
+            return mageUtils.IBitmapImageToBitmap(bmp);
+        }
+        */ 
+
         public IImageWrapper GetIImage(string imagePath)
         {
             return this.CreateOrGet(this.iimagesMap,
@@ -237,6 +254,9 @@ namespace Fleux.Core
 
         private T CreateOrGet<T>(IDictionary<string, T> source, string key, Func<T> creator)
         {
+            if (!Caching)
+                return creator();
+
             this.CleanUpResources();
 
             if (!source.ContainsKey(key))
@@ -245,6 +265,8 @@ namespace Fleux.Core
             }
             return source[key];
         }
+
+        public bool Caching = false;
 
         private void CleanUpResources()
         {
