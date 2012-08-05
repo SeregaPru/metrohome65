@@ -110,44 +110,47 @@ namespace Metrohome65.Settings.Controls
             try
             {
                 if (_pictureBox.Image != null)
-                    _pictureBox.Image.Dispose();
-
-                if (String.IsNullOrEmpty(_tileImage))
                 {
+                    _pictureBox.Image.Dispose();
                     _pictureBox.Image = null;
                 }
+
+                if (String.IsNullOrEmpty(_tileImage))
+                    return;
+
+                if (IsExecutableIcon())
+                {
+                    // get icon from file
+                    if (String.IsNullOrEmpty(_tileImage))
+                        return;
+
+                    var refa = new FileRoutines.structa();
+                    FileRoutines.SHGetFileInfo(ref _tileImage, 0, ref refa, Marshal.SizeOf(refa), 0x100);
+                    var icon = Icon.FromHandle(refa.a);
+                    _pictureBox.Image = GetBitmap(icon);
+                }
+
                 else
+                {
+                    OpenNETCF.Drawing.Imaging.IImage img;
+                    _factory.CreateImageFromFile(_tileImage, out img);
 
-                    if (IsExecutableIcon())
-                    {
-                        // get icon from file
-                        if (String.IsNullOrEmpty(_tileImage))
-                            return;
+                    OpenNETCF.Drawing.Imaging.ImageInfo imageInfo;
+                    img.GetImageInfo(out imageInfo);
 
-                        var refa = new FileRoutines.structa();
-                        FileRoutines.SHGetFileInfo(ref _tileImage, 0, ref refa, Marshal.SizeOf(refa), 0x100);
-                        var icon = Icon.FromHandle(refa.a);
-                        _pictureBox.Image = GetBitmap(icon);
-                    }
+                    OpenNETCF.Drawing.Imaging.IBitmapImage bmp;
+                    _factory.CreateBitmapFromImage(img, imageInfo.Width, imageInfo.Height,
+                                                   System.Drawing.Imaging.PixelFormat.Format16bppRgb565,
+                                                   OpenNETCF.Drawing.Imaging.InterpolationHint.InterpolationHintDefault, out bmp);
 
-                    else
-                    {
-                        OpenNETCF.Drawing.Imaging.IImage img;
-                        _factory.CreateImageFromFile(_tileImage, out img);
-
-                        OpenNETCF.Drawing.Imaging.ImageInfo imageInfo;
-                        img.GetImageInfo(out imageInfo);
-
-                        OpenNETCF.Drawing.Imaging.IBitmapImage bmp;
-                        _factory.CreateBitmapFromImage(img, imageInfo.Width, imageInfo.Height,
-                                                       System.Drawing.Imaging.PixelFormat.Format24bppRgb,
-                                                       OpenNETCF.Drawing.Imaging.InterpolationHint.InterpolationHintDefault, out bmp);
-
-                        _pictureBox.Image = OpenNETCF.Drawing.Imaging.ImageUtils.IBitmapImageToBitmap(bmp);
-                    }
+                    _pictureBox.Image = OpenNETCF.Drawing.Imaging.ImageUtils.IBitmapImageToBitmap(bmp);
+                }
 
             }
-            catch (Exception) { }
+            catch (Exception)
+            {
+                _pictureBox.Image = null;
+            }
 
             _pictureBox.Update();
 
