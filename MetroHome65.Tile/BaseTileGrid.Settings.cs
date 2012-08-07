@@ -43,6 +43,11 @@ namespace MetroHome65.Tile
             }
         }
 
+        protected virtual string GetSettingsFile()
+        {
+            return _settingsFile;
+        }
+
         /// <summary>
         /// Read tiles settings from XML file
         /// </summary>
@@ -54,7 +59,7 @@ namespace MetroHome65.Tile
                 return;
             }
 
-            var storedSettings = XmlHelper<StoredSettings>.Read(_settingsFile);
+            var storedSettings = XmlHelper<StoredSettings>.Read(GetSettingsFile());
             if (storedSettings != null)
                 TileSettings = storedSettings;
         }
@@ -83,7 +88,7 @@ namespace MetroHome65.Tile
             }
 
             var storedSettings = TileSettings;
-            XmlHelper<StoredSettings>.Write(storedSettings, _settingsFile);
+            XmlHelper<StoredSettings>.Write(storedSettings, GetSettingsFile());
         }
 
 

@@ -36,7 +36,7 @@ namespace MetroHome65.HomeScreen.Settings
             }
         }
 
-        private String SettingsFile() { return FileRoutines.CoreDir + @"\settings.xml"; }
+        private String SettingsFile() { return FileRoutines.CoreDir + @"\settings\settings.xml"; }
 
     }
 }

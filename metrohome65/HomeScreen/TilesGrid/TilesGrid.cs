@@ -4,7 +4,6 @@ using System.Windows.Forms;
 using Fleux.Controls;
 using Fleux.Core.GraphicsHelpers;
 using Fleux.UIElements;
-using MetroHome65.Interfaces;
 using MetroHome65.Interfaces.Events;
 using MetroHome65.Routines.File;
 using MetroHome65.Routines.UIControls;
@@ -21,7 +20,7 @@ namespace MetroHome65.HomeScreen.TilesGrid
 
 
         public TilesGrid(TileTheme tileTheme)
-            : base(tileTheme, GetBackground(), FileRoutines.CoreDir + @"\widgets.xml", 4, 100)
+            : base(tileTheme, GetBackground(), "", 4, 100)
         {
             // подписка на событие добавления программы из меню
             var messenger = TinyIoCContainer.Current.Resolve<ITinyMessengerHub>();
@@ -31,6 +30,12 @@ namespace MetroHome65.HomeScreen.TilesGrid
             messenger.Subscribe<SettingsChangedMessage>(OnSettingsChanged);
 
             SizeChanged += (sender, args) => OnSizeChanged();
+        }
+
+        // diffirent tile settings files for different themes
+        protected override string GetSettingsFile()
+        {
+            return string.Format(@"{0}\settings\widgets-{1}.xml", FileRoutines.CoreDir, TileTheme.ThemeIdent);
         }
 
         private static UIElement GetBackground()
@@ -86,12 +91,18 @@ namespace MetroHome65.HomeScreen.TilesGrid
             Content.Draw(drawingGraphics.CreateChild(new Point(0, VerticalOffset)));
         }
 
-        protected virtual void OnSettingsChanged(SettingsChangedMessage settingsChangedMessage)
+        private void OnSettingsChanged(SettingsChangedMessage settingsChangedMessage)
         {
             if (settingsChangedMessage.PropertyName == "TileTheme")
             {
                 TileTheme = settingsChangedMessage.Value as TileTheme;
             }
+        }
+
+        protected override void RefreshTilesGrid()
+        {
+            Clear();
+            ReadTilesSettings();
         }
 
         private void OnSizeChanged()
