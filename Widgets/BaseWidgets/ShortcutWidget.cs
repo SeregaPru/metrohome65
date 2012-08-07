@@ -20,6 +20,8 @@ namespace MetroHome65.Widgets
     {
         private String _commandLine = "";
 
+        private Boolean _playOnTapAnimation = true; 
+
         
         /// <summary>
         /// parameter "CommandLine" - relative or absolute path to application with parameters.
@@ -48,13 +50,28 @@ namespace MetroHome65.Widgets
             return sizes;
         }
 
+        [TileParameter] 
+        public Boolean PlayOnTapAnimation
+        {
+            get { return _playOnTapAnimation; }
+            set 
+            {
+                if (_playOnTapAnimation == value) return;
+                _playOnTapAnimation = value;
+                NotifyPropertyChanged("PlayOnTapAnimation");
+            }
+        }
+
         public override bool OnClick(Point location)
         {
             return (CommandLine != "") && FileRoutines.StartProcess(CommandLine);
         }
 
         // launch external application - play exit animation
-        protected override bool GetDoExitAnimation() { return true; }
+        protected override bool GetDoExitAnimation()
+        {
+            return _playOnTapAnimation;
+        }
 
         public override ICollection<UIElement> EditControls(FleuxControlPage settingsPage)
         {
@@ -69,20 +86,12 @@ namespace MetroHome65.Widgets
             controls.Add(fileControl);
             bindingManager.Bind(this, "CommandLineForEdit", fileControl, "Value");
 
-            /*
-            foreach (var control in controls)
-                if (control.Name.Contains("Icon"))
-                {
-                    controls.Remove(control);
-                    break;
-                }
-            foreach (var control in controls)
-                if (control.Name.Contains("Caption"))
-                {
-                    controls.Remove(control);
-                    break;
-                }
-             */ 
+            var playOnTapAnimationControl = new FlagSettingsControl
+                                                    {
+                                                        Caption = "Play On Tap Animation",
+                                                    };
+            controls.Add(playOnTapAnimationControl);
+            bindingManager.Bind(this, "PlayOnTapAnimation", playOnTapAnimationControl, "Value", true);
 
             return controls;
         }
