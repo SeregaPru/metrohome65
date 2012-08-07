@@ -111,19 +111,19 @@ namespace MetroHome65.Widgets
 
             _app_patch = AppPatch();
 
-            if (AccuState == null)
+            /*if (AccuState == null)
                 AccuState = new RegistryState(_RegState, _RegKey_widget_icon, false);
-            AccuState.Changed += new ChangeEventHandler(AccuState_Changed);
+            AccuState.Changed += new ChangeEventHandler(AccuState_Changed);*/
 
             UpdateStatus();
             ForceUpdate();
         }
-        void AccuState_Changed(object sender, ChangeEventArgs args)
+        /*void AccuState_Changed(object sender, ChangeEventArgs args)
         {
             UpdateStatus();
             ForceUpdate();
-        }
-        public void Dispose()
+        }*/
+        /*~WPAccuWeather()
         {
             try
             {
@@ -136,8 +136,9 @@ namespace MetroHome65.Widgets
                 AccuState.Dispose();
                 AccuState = null;
             }
-        }
+        }*/
 
+        
         
         public bool UpdateStatus()
         {
