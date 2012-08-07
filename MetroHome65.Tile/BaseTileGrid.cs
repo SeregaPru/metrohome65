@@ -44,7 +44,7 @@ namespace MetroHome65.Tile
             }
         }
 
-        protected void RefreshTilesGrid()
+        protected virtual void RefreshTilesGrid()
         {
             foreach (var tile in _tiles)
             {

@@ -5,6 +5,8 @@ namespace MetroHome65.Tile
 
     public abstract class TileTheme
     {
+        public string ThemeIdent { get; protected set; }
+
         // 1x1 tile size 
         public int TileSize { get; protected set; }
 
@@ -32,6 +34,8 @@ namespace MetroHome65.Tile
     {
         public TileThemeWP7()
         {
+            ThemeIdent = "WP7";
+
             // real WP7 size is 80,5px or 173 for 2x2 tile)
             TileSize = 81;
 
@@ -55,6 +59,8 @@ namespace MetroHome65.Tile
     {
         public TileThemeWindows8()
         {
+            ThemeIdent = "WP8";
+
             // real Win8 small tile size is 105px
             TileSize = 105;
 
