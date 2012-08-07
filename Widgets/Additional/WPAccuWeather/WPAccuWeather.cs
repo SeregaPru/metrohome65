@@ -50,7 +50,7 @@ namespace MetroHome65.Widgets
 
 
 
-        private RegistryState AccuState = null;
+
         
         #region WorkRegistry Accu Weather
         public bool IsRegistryKey(string _reg)
@@ -111,33 +111,9 @@ namespace MetroHome65.Widgets
 
             _app_patch = AppPatch();
 
-            if (AccuState == null)
-                AccuState = new RegistryState(_RegState, _RegKey_widget_icon, false);
-            AccuState.Changed += new ChangeEventHandler(AccuState_Changed);
-
             UpdateStatus();
             ForceUpdate();
         }
-        void AccuState_Changed(object sender, ChangeEventArgs args)
-        {
-            UpdateStatus();
-            ForceUpdate();
-        }
-        public void Dispose()
-        {
-            try
-            {
-                AccuState.Changed -= new ChangeEventHandler(AccuState_Changed);
-            }
-            catch { }
-
-            if (AccuState != null)
-            {
-                AccuState.Dispose();
-                AccuState = null;
-            }
-        }
-
         
         public bool UpdateStatus()
         {
@@ -214,7 +190,7 @@ namespace MetroHome65.Widgets
             {
                 if (value)
                 {
-                    if (_updateTimer == null) _updateTimer = new ThreadTimer(5000, () =>
+                    if (_updateTimer == null) _updateTimer = new ThreadTimer(10000, () =>
                         {
                             UpdateStatus(); 
                             ForceUpdate();

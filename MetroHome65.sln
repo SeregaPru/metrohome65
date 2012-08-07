@@ -60,6 +60,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WPOperatorName", "Widgets\A
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WPSMSExt", "Widgets\Additional\WPSMSExt\WPSMSExt.csproj", "{F37525EE-F9D3-4DE5-B824-6461211DF678}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WPPlayer", "Widgets\Additional\WPPlayer\WPPlayer.csproj", "{4DE92367-7A44-405E-83C5-5E41140CF04E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		ControlsTest|Any CPU = ControlsTest|Any CPU
@@ -637,6 +639,30 @@ Global
 		{F37525EE-F9D3-4DE5-B824-6461211DF678}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{F37525EE-F9D3-4DE5-B824-6461211DF678}.Release|Windows Mobile 6.ActiveCfg = Release|Any CPU
 		{F37525EE-F9D3-4DE5-B824-6461211DF678}.Release|Windows Mobile 6.5.3 Professional DTK (ARMV4I).ActiveCfg = Release|Any CPU
+		{4DE92367-7A44-405E-83C5-5E41140CF04E}.ControlsTest|Any CPU.ActiveCfg = ControlsTest|Any CPU
+		{4DE92367-7A44-405E-83C5-5E41140CF04E}.ControlsTest|Any CPU.Build.0 = ControlsTest|Any CPU
+		{4DE92367-7A44-405E-83C5-5E41140CF04E}.ControlsTest|Mixed Platforms.ActiveCfg = ControlsTest|Any CPU
+		{4DE92367-7A44-405E-83C5-5E41140CF04E}.ControlsTest|Mixed Platforms.Build.0 = ControlsTest|Any CPU
+		{4DE92367-7A44-405E-83C5-5E41140CF04E}.ControlsTest|Windows Mobile 6.ActiveCfg = ControlsTest|Any CPU
+		{4DE92367-7A44-405E-83C5-5E41140CF04E}.ControlsTest|Windows Mobile 6.5.3 Professional DTK (ARMV4I).ActiveCfg = ControlsTest|Any CPU
+		{4DE92367-7A44-405E-83C5-5E41140CF04E}.Debug (SmartPhone)|Any CPU.ActiveCfg = Debug|Any CPU
+		{4DE92367-7A44-405E-83C5-5E41140CF04E}.Debug (SmartPhone)|Any CPU.Build.0 = Debug|Any CPU
+		{4DE92367-7A44-405E-83C5-5E41140CF04E}.Debug (SmartPhone)|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{4DE92367-7A44-405E-83C5-5E41140CF04E}.Debug (SmartPhone)|Mixed Platforms.Build.0 = Debug|Any CPU
+		{4DE92367-7A44-405E-83C5-5E41140CF04E}.Debug (SmartPhone)|Windows Mobile 6.ActiveCfg = Debug|Any CPU
+		{4DE92367-7A44-405E-83C5-5E41140CF04E}.Debug (SmartPhone)|Windows Mobile 6.5.3 Professional DTK (ARMV4I).ActiveCfg = Debug|Any CPU
+		{4DE92367-7A44-405E-83C5-5E41140CF04E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4DE92367-7A44-405E-83C5-5E41140CF04E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4DE92367-7A44-405E-83C5-5E41140CF04E}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{4DE92367-7A44-405E-83C5-5E41140CF04E}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{4DE92367-7A44-405E-83C5-5E41140CF04E}.Debug|Windows Mobile 6.ActiveCfg = Debug|Any CPU
+		{4DE92367-7A44-405E-83C5-5E41140CF04E}.Debug|Windows Mobile 6.5.3 Professional DTK (ARMV4I).ActiveCfg = Debug|Any CPU
+		{4DE92367-7A44-405E-83C5-5E41140CF04E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4DE92367-7A44-405E-83C5-5E41140CF04E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4DE92367-7A44-405E-83C5-5E41140CF04E}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{4DE92367-7A44-405E-83C5-5E41140CF04E}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{4DE92367-7A44-405E-83C5-5E41140CF04E}.Release|Windows Mobile 6.ActiveCfg = Release|Any CPU
+		{4DE92367-7A44-405E-83C5-5E41140CF04E}.Release|Windows Mobile 6.5.3 Professional DTK (ARMV4I).ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -656,5 +682,6 @@ Global
 		{851067F9-A502-471E-A9D9-C5CA33D1C227} = {DAAA24B1-DA24-464C-AA0E-967917374150}
 		{F7150E86-53CA-4BF5-8453-6CFD354924E2} = {DAAA24B1-DA24-464C-AA0E-967917374150}
 		{F37525EE-F9D3-4DE5-B824-6461211DF678} = {DAAA24B1-DA24-464C-AA0E-967917374150}
+		{4DE92367-7A44-405E-83C5-5E41140CF04E} = {DAAA24B1-DA24-464C-AA0E-967917374150}
 	EndGlobalSection
 EndGlobal
