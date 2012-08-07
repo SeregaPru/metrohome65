@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Runtime.InteropServices;
 using System.Windows.Forms;
 using Fleux.Controls.Gestures;
 using Fleux.Core;
@@ -169,6 +170,9 @@ namespace MetroHome65.HomeScreen
 
         private void SwitchScreen(int fromSection, int toSection)
         {
+            //!! todo - перенести потом в локскрин
+            AllKeys(toSection == 0);
+
             OnDeactivate();
 
             var oldSection = _sections[fromSection] as IVisible;
@@ -255,7 +259,10 @@ namespace MetroHome65.HomeScreen
             if (str.Length > 6)
                 str = str.Substring(str.Length - 7, 7);
             if (str.ToLower() == "desktop")
+            {
                 theForm.Activate();
+                theForm.Show(); // Без этого форма Maximized уходит в тень и все и не достать ее
+            }
         }
 
         /// <summary>
@@ -306,6 +313,9 @@ namespace MetroHome65.HomeScreen
 
         private void SwitchFullScreen(bool fullScreen)
         {
+            //!! todo Нужно отработать Если меняем FullScreen на FullScreen то нечего не делаем 
+            //!! todo немного глючит при преходе LockScreen на HomeScreen если оба в Full
+            
             var prevState = theForm.WindowState;
             if (fullScreen)
             {
@@ -324,6 +334,10 @@ namespace MetroHome65.HomeScreen
                 foreach (var section in _sections)
                     section.Size = new Size(this.Size.Width - 2, this.Size.Height);
         }
+
+
+        [DllImport("coredll.dll", SetLastError = true)]
+        static extern bool AllKeys(bool bAllKeys);
 
     }
 }

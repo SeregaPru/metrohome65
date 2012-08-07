@@ -50,6 +50,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "LockScreens", "LockScreens"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SimpleLock", "LockScreens\SimpleLock\SimpleLock.csproj", "{45F5A97D-8487-4239-947C-0ED0DB434346}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WPLock", "LockScreens\WPLock\WPLock.csproj", "{BB2F0F29-E2CE-4053-A6D5-ADB3AABC7A8E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		ControlsTest|Any CPU = ControlsTest|Any CPU
@@ -543,6 +545,34 @@ Global
 		{45F5A97D-8487-4239-947C-0ED0DB434346}.Release|Windows Mobile 6.ActiveCfg = Release|Any CPU
 		{45F5A97D-8487-4239-947C-0ED0DB434346}.Release|Windows Mobile 6.5.3 Professional DTK (ARMV4I).ActiveCfg = Release|Any CPU
 		{45F5A97D-8487-4239-947C-0ED0DB434346}.Release|Windows Mobile 6.5.3 Professional DTK (ARMV4I).Build.0 = Release|Any CPU
+		{BB2F0F29-E2CE-4053-A6D5-ADB3AABC7A8E}.ControlsTest|Any CPU.ActiveCfg = Release|Any CPU
+		{BB2F0F29-E2CE-4053-A6D5-ADB3AABC7A8E}.ControlsTest|Any CPU.Build.0 = Release|Any CPU
+		{BB2F0F29-E2CE-4053-A6D5-ADB3AABC7A8E}.ControlsTest|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{BB2F0F29-E2CE-4053-A6D5-ADB3AABC7A8E}.ControlsTest|Mixed Platforms.Build.0 = Release|Any CPU
+		{BB2F0F29-E2CE-4053-A6D5-ADB3AABC7A8E}.ControlsTest|Windows Mobile 6.ActiveCfg = Release|Any CPU
+		{BB2F0F29-E2CE-4053-A6D5-ADB3AABC7A8E}.ControlsTest|Windows Mobile 6.5.3 Professional DTK (ARMV4I).ActiveCfg = Release|Any CPU
+		{BB2F0F29-E2CE-4053-A6D5-ADB3AABC7A8E}.Debug (SmartPhone)|Any CPU.ActiveCfg = Debug|Any CPU
+		{BB2F0F29-E2CE-4053-A6D5-ADB3AABC7A8E}.Debug (SmartPhone)|Any CPU.Build.0 = Debug|Any CPU
+		{BB2F0F29-E2CE-4053-A6D5-ADB3AABC7A8E}.Debug (SmartPhone)|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{BB2F0F29-E2CE-4053-A6D5-ADB3AABC7A8E}.Debug (SmartPhone)|Mixed Platforms.Build.0 = Debug|Any CPU
+		{BB2F0F29-E2CE-4053-A6D5-ADB3AABC7A8E}.Debug (SmartPhone)|Windows Mobile 6.ActiveCfg = Debug|Any CPU
+		{BB2F0F29-E2CE-4053-A6D5-ADB3AABC7A8E}.Debug (SmartPhone)|Windows Mobile 6.5.3 Professional DTK (ARMV4I).ActiveCfg = Debug|Any CPU
+		{BB2F0F29-E2CE-4053-A6D5-ADB3AABC7A8E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BB2F0F29-E2CE-4053-A6D5-ADB3AABC7A8E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BB2F0F29-E2CE-4053-A6D5-ADB3AABC7A8E}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{BB2F0F29-E2CE-4053-A6D5-ADB3AABC7A8E}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{BB2F0F29-E2CE-4053-A6D5-ADB3AABC7A8E}.Debug|Windows Mobile 6.ActiveCfg = Debug|Any CPU
+		{BB2F0F29-E2CE-4053-A6D5-ADB3AABC7A8E}.Debug|Windows Mobile 6.5.3 Professional DTK (ARMV4I).ActiveCfg = Debug|Any CPU
+		{BB2F0F29-E2CE-4053-A6D5-ADB3AABC7A8E}.Debug|Windows Mobile 6.5.3 Professional DTK (ARMV4I).Build.0 = Debug|Any CPU
+		{BB2F0F29-E2CE-4053-A6D5-ADB3AABC7A8E}.Debug|Windows Mobile 6.5.3 Professional DTK (ARMV4I).Deploy.0 = Debug|Any CPU
+		{BB2F0F29-E2CE-4053-A6D5-ADB3AABC7A8E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BB2F0F29-E2CE-4053-A6D5-ADB3AABC7A8E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BB2F0F29-E2CE-4053-A6D5-ADB3AABC7A8E}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{BB2F0F29-E2CE-4053-A6D5-ADB3AABC7A8E}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{BB2F0F29-E2CE-4053-A6D5-ADB3AABC7A8E}.Release|Windows Mobile 6.ActiveCfg = Release|Any CPU
+		{BB2F0F29-E2CE-4053-A6D5-ADB3AABC7A8E}.Release|Windows Mobile 6.5.3 Professional DTK (ARMV4I).ActiveCfg = Release|Any CPU
+		{BB2F0F29-E2CE-4053-A6D5-ADB3AABC7A8E}.Release|Windows Mobile 6.5.3 Professional DTK (ARMV4I).Build.0 = Release|Any CPU
+		{BB2F0F29-E2CE-4053-A6D5-ADB3AABC7A8E}.Release|Windows Mobile 6.5.3 Professional DTK (ARMV4I).Deploy.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -555,5 +585,6 @@ Global
 		{672996CA-3E35-4492-ACAB-F571F77F6FB5} = {0B797F7A-E0C8-48CD-878C-9DF1EB7F418B}
 		{B23D069D-4ED9-4F45-BE07-DA271A2106D4} = {0B797F7A-E0C8-48CD-878C-9DF1EB7F418B}
 		{45F5A97D-8487-4239-947C-0ED0DB434346} = {06846815-88AF-4DC8-B30A-951AA8864B87}
+		{BB2F0F29-E2CE-4053-A6D5-ADB3AABC7A8E} = {06846815-88AF-4DC8-B30A-951AA8864B87}
 	EndGlobalSection
 EndGlobal
