@@ -443,8 +443,7 @@ namespace MetroHome65.Widgets
                                            };
             controls.Add(timeFontColorControl);
             bindingManager.Bind(this, "TimeFontColorIndex", timeFontColorControl, "Value", true);
-
-
+            
             var dateFontNameControl = new SelectSettingsControl
                                           {
                                               Caption = "Date Font Name", 

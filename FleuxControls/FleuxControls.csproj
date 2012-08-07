@@ -88,10 +88,6 @@
       <Project>{A6BFA5B1-E501-4588-BCF0-F07356F120E3}</Project>
       <Name>Metrohome65.Settings.Controls</Name>
     </ProjectReference>
-    <ProjectReference Include="PocketMail\MAPIdotnet\MAPIdotnet.csproj">
-      <Project>{B33E06EC-E8C6-4A15-B3BF-93F351E3FEB5}</Project>
-      <Name>MAPIdotnet</Name>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Content Include="MAPIlib.dll">
