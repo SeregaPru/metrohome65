@@ -2,6 +2,7 @@
 using System.Drawing;
 using System.Windows.Forms;
 using Fleux.Core.Scaling;
+using MetroHome65.Routines.Screen;
 
 namespace MetroHome65.Tile
 {
@@ -32,9 +33,9 @@ namespace MetroHome65.Tile
                 new TileWrapper()
                     {
                         TileTheme = _tileTheme,
+                        TileClass = tileClass,
                         GridSize = gridSize,
                         GridPosition = gridPosition,
-                        TileClass = tileClass, 
                     }, 
                 doRealign);
         }
@@ -146,9 +147,8 @@ namespace MetroHome65.Tile
             menuTileDelete.Click += (s, e) => DeleteTile(tile);
             tileMenu.MenuItems.Add(menuTileDelete);
 
-            var position = location;
-            position.Offset(this.Location.X, this.Location.Y);
-            position.Offset(tile.Location.X, tile.Location.Y + VerticalOffset);
+            var position = ScreenRoutines.ScreenLocaton(tile);
+            position.Offset(location.X, location.Y);
             tileMenu.Show(ParentControl, position.ToPixels());
 
             return true;

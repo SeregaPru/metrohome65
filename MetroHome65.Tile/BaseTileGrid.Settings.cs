@@ -6,6 +6,7 @@ using System.Windows.Forms;
 using System.Xml.Serialization;
 using MetroHome65.Interfaces.Events;
 using MetroHome65.Routines.File;
+using MetroHome65.Routines.Screen;
 using TinyIoC;
 using TinyMessenger;
 
@@ -212,8 +213,12 @@ namespace MetroHome65.Tile
 
         private void ShowMainPopupMenu(Point location)
         {
-            if (ParentControl != null)
-                GetMainPopupMenu(location).Show(ParentControl, location);
+            if (ParentControl == null) return;
+
+            var screenLocation = ScreenRoutines.ScreenLocaton(this);
+            screenLocation.Offset(location.X, location.Y);
+
+            GetMainPopupMenu(location).Show(ParentControl, screenLocation);
         }
 
         /// <summary>

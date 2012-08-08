@@ -27,7 +27,7 @@ namespace MetroHome65.Widgets
 
         // current Y offset for contact name animation
         private int _offsetY;
-        private const int NameRectHeight = 82;
+
         private ThreadTimer _animateTimer;
 
         protected override Size[] GetSizes()
@@ -140,36 +140,33 @@ namespace MetroHome65.Widgets
 
                 var captionFont = new Font(
                     MetroTheme.TileTextStyle.FontFamily, 11.ToLogic(), FontStyle.Regular);
-                var pictureRect = new Rectangle(rect.Left, rect.Top, rect.Width, rect.Height);
-                var nameRectHeight = NameRectHeight;
-                var nameRectTop = rect.Height + 25;
+
+                // draw contact name - above picture
+                var nameRectHeight = NameRectHeight();
+                g.FillRectangle(new SolidBrush(MetroTheme.PhoneAccentBrush),
+                    new Rectangle(rect.Left, rect.Top, rect.Width, rect.Height));
+                var contactName = _contact.FileAs.Replace(" ", "\n").Replace(",", "");
+                var measure = g.MeasureString(contactName, captionFont);
+                int textOffsetY = (nameRectHeight - ((int)measure.Height).ToLogic()) / 2;
+
+                g.DrawString(contactName, captionFont, new SolidBrush(MetroTheme.TileTextStyle.Foreground),
+                    rect.Left + 10, rect.Top + textOffsetY);
 
                 // if assigned alternate picture - use it
                 if (_alternateImage != null)
                 {
-                    _alternateImage.PaintBackground(g, pictureRect);
+                    _alternateImage.PaintBackground(g, 
+                        new Rectangle(rect.Left, rect.Top + nameRectHeight, rect.Width, rect.Height));
                 }
                 else
                 // use picture from contact, if present
                 if (_contact.Picture != null)
                 {
                     g.DrawImage(_contact.Picture,
-                                new Rectangle(0, 0, rect.Width, rect.Height),
+                                new Rectangle(0, nameRectHeight, rect.Width, rect.Height),
                                 0, 0, _contact.Picture.Width, _contact.Picture.Height,
                                 GraphicsUnit.Pixel, new System.Drawing.Imaging.ImageAttributes());
                 }
-                else
-                {
-                    g.FillRectangle(new SolidBrush(MetroTheme.PhoneAccentBrush), pictureRect);
-                    nameRectHeight = 0;
-                    nameRectTop -= rect.Height;
-                }
-
-                // draw contact name - below picture
-                g.FillRectangle(new SolidBrush(MetroTheme.PhoneAccentBrush),
-                    new Rectangle(rect.Left, rect.Top + rect.Height, rect.Width, nameRectHeight));
-                var contactName = _contact.FileAs;
-                g.DrawString(contactName, captionFont, new SolidBrush(MetroTheme.TileTextStyle.Foreground), rect.Left + 10, rect.Top + nameRectTop);
 
             }
             catch (Exception) { }
@@ -179,7 +176,7 @@ namespace MetroHome65.Widgets
         {
             if ((_buffer == null) || (_needRepaint))
             {
-                var newbuffer = new DoubleBuffer(new Size(Size.Width, (_needAnimateTile) ? Size.Height + NameRectHeight : Size.Height));
+                var newbuffer = new DoubleBuffer(new Size(Size.Width, (_needAnimateTile) ? Size.Height + NameRectHeight() : Size.Height));
                 PaintBuffer(newbuffer.Graphics, new Rectangle(0, 0, Size.Width, Size.Height));
                 _buffer = newbuffer;
                 _offsetY = 0;
@@ -257,7 +254,7 @@ namespace MetroHome65.Widgets
             {
                 Duration = 500,
                 From = _offsetY,
-                To = ((_offsetY <= 0) ? NameRectHeight : 0),
+                To = ((_offsetY <= 0) ? NameRectHeight() : 0),
                 OnAnimation = v =>
                 {
                     if (Pause || !Active) return;
@@ -294,6 +291,11 @@ namespace MetroHome65.Widgets
 
             if (Pause || !Active) return;
             _animateTimer.SafeSleep(10000 + (new Random()).Next(10000));
+        }
+
+        private int NameRectHeight()
+        {
+            return (GridSize.Height == 1) ? Bounds.Height : Bounds.Height / 2;
         }
 
         #endregion
