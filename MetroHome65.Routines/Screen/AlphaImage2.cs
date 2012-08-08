@@ -20,22 +20,6 @@ namespace MetroHome65.Routines
             ImagePath = imagePath;
         }
 
-        /*
-        public AlphaImage2(System.IO.Stream stream)
-        {
-            try
-            {
-                var iconStream = new OpenNETCF.Drawing.Imaging.StreamOnFile(stream);
-                var factory = new OpenNETCF.Drawing.Imaging.ImagingFactoryClass();
-                factory.CreateImageFromStream(iconStream, out _img);
-            }
-            catch (Exception e)
-            {
-                //!! write to log  (e.StackTrace, "SetBtnImg")
-            }
-        }
-        */
- 
         public AlphaImage(string resourceName, System.Reflection.Assembly assembly)
         {
             try
@@ -161,75 +145,6 @@ namespace MetroHome65.Routines
             }
         }
 
-        /*
-        public void PaintBackgroundAlpha(Graphics g, Rectangle rect, byte alpha)
-        {
-            //!! see _factory.CreateBitmapFromImage
-
-            var buffer = new Bitmap(rect.Width, rect.Height, System.Drawing.Imaging.PixelFormat.Format32bppRgb);
-            var buffergx = Graphics.FromImage(buffer);
-
-            var bufferRect = new Rectangle(0, 0, rect.Width, rect.Height);
-            if (_img == null) return;
-
-            var hdcBuffer = buffergx.GetHdc();
-            try
-            {
-                OpenNETCF.Drawing.Imaging.RECT imgRect = OpenNETCF.Drawing.Imaging.RECT.FromXYWH(
-                    bufferRect.Left, bufferRect.Top, bufferRect.Width, bufferRect.Height);
-                _img.Draw(hdcBuffer, imgRect, null);
-                buffergx.ReleaseHdc(hdcBuffer);
-            }
-            catch
-            { }
-
-            var hdcDst = g.GetHdc();
-            hdcBuffer = buffergx.GetHdc();
-            var blendFunction = new BlendFunction
-                                    {
-                                        BlendOp = (byte) BlendOperation.AcSrcOver,
-                                        BlendFlags = (byte) BlendFlags.Zero,
-                                        SourceConstantAlpha = alpha,
-                                        AlphaFormat = (byte) AlphaFormat.AcSrcAlpha
-                                    };
-            // Only supported blend operation
-            // Documentation says put 0 here
-            // Constant alpha factor
-
-            DrawingAPI.AlphaBlend(hdcDst, rect.Left, rect.Top, rect.Width, rect.Height, hdcBuffer,
-                                  0, 0, rect.Width, rect.Height, blendFunction);
-
-            g.ReleaseHdc(hdcDst);          // Required cleanup to GetHdc()
-            buffergx.ReleaseHdc(hdcBuffer);       // Required cleanup to GetHdc()
-        }
-
-
-        public static void DrawAlphaImage(Graphics g, Image img, Rectangle rect, byte alpha)
-        {
-            var hdcDst = g.GetHdc();
-            var gSrc = Graphics.FromImage(img);
-            var hdcSrc = gSrc.GetHdc();
-
-            var blendFunction = new BlendFunction
-                                    {
-                                        BlendOp = (byte) BlendOperation.AcSrcOver,
-                                        BlendFlags = (byte) BlendFlags.Zero,
-                                        SourceConstantAlpha = alpha,
-                                        AlphaFormat = 0
-                                    };
-            // Only supported blend operation
-            // Documentation says put 0 here
-            // Constant alpha factor
-            // AlphaFormat.AC_SRC_ALPHA;
-            //!!blendFunction.AlphaFormat = (byte)AlphaFormat.AC_SRC_ALPHA;
-
-            DrawingAPI.AlphaBlend(hdcDst, rect.Left, rect.Top, rect.Width, rect.Height, hdcSrc,
-                0, 0, img.Width, img.Height, blendFunction);
-
-            g.ReleaseHdc(hdcDst);          // Required cleanup to GetHdc()
-            gSrc.ReleaseHdc(hdcSrc);       // Required cleanup to GetHdc()
-        }
-        */
     }
 
 
