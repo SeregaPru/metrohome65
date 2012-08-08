@@ -60,8 +60,10 @@
     <Reference Include="mscorlib" />
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.XML" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Animations\AnimationGroup.cs" />
@@ -85,6 +87,7 @@
     <Compile Include="Core\Dim\RectangleExtensions.cs" />
     <Compile Include="Core\ExtensionUtils.cs" />
     <Compile Include="Core\FleuxSettings.cs" />
+    <Compile Include="Core\NativeHelpers\ImageHelpers.cs" />
     <Compile Include="Core\NativeHelpers\Led.cs" />
     <Compile Include="Core\NativeHelpers\StringHelpers.cs" />
     <Compile Include="Core\Scaling\PointExtensions.cs" />

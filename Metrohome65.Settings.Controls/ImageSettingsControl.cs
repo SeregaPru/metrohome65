@@ -3,6 +3,7 @@ using System.ComponentModel;
 using System.Drawing;
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
+using Fleux.Core.NativeHelpers;
 using Fleux.Styles;
 using Fleux.UIElements;
 using MetroHome65.Routines.File;
@@ -44,8 +45,6 @@ namespace Metrohome65.Settings.Controls
         private readonly ImageElement _pictureBox;
 
         private String _tileImage;
-
-        private readonly OpenNETCF.Drawing.Imaging.ImagingFactoryClass _factory = new OpenNETCF.Drawing.Imaging.ImagingFactoryClass();
 
         #endregion
 
@@ -132,18 +131,20 @@ namespace Metrohome65.Settings.Controls
 
                 else
                 {
-                    OpenNETCF.Drawing.Imaging.IImage img;
-                    _factory.CreateImageFromFile(_tileImage, out img);
+                    var factory = (IImagingFactory)Activator.CreateInstance(Type.GetTypeFromCLSID(new Guid("327ABDA8-072B-11D3-9D7B-0000F81EF32E")));
+                    IImage img;
 
-                    OpenNETCF.Drawing.Imaging.ImageInfo imageInfo;
+                    factory.CreateImageFromFile(_tileImage, out img);
+
+                    ImageInfo imageInfo;
                     img.GetImageInfo(out imageInfo);
 
-                    OpenNETCF.Drawing.Imaging.IBitmapImage bmp;
-                    _factory.CreateBitmapFromImage(img, imageInfo.Width, imageInfo.Height,
-                                                   System.Drawing.Imaging.PixelFormat.Format16bppRgb565,
-                                                   OpenNETCF.Drawing.Imaging.InterpolationHint.InterpolationHintDefault, out bmp);
+                    IBitmapImage bmp;
+                    factory.CreateBitmapFromImage(img, imageInfo.Width, imageInfo.Height,
+                                                   PixelFormatID.PixelFormat16bppRGB565, 
+                                                   InterpolationHint.InterpolationHintDefault, out bmp);
 
-                    _pictureBox.Image = OpenNETCF.Drawing.Imaging.ImageUtils.IBitmapImageToBitmap(bmp);
+                    _pictureBox.Image = ImageHelpers.IBitmapImageToBitmap(bmp);
                 }
 
             }
