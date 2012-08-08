@@ -1,10 +1,8 @@
 ﻿namespace Fleux.Core.NativeHelpers
 {
     using System;
-    using System.Collections.Generic;
     using System.Drawing;
     using System.Runtime.InteropServices;
-    using System.Windows.Forms;
 
     public static class StringHelpers
     {
