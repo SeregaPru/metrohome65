@@ -4,6 +4,7 @@ using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
 using System.Xml.Serialization;
+using Fleux.Core.Scaling;
 using MetroHome65.Interfaces.Events;
 using MetroHome65.Routines.File;
 using MetroHome65.Routines.Screen;
@@ -218,7 +219,7 @@ namespace MetroHome65.Tile
             var screenLocation = ScreenRoutines.ScreenLocaton(this);
             screenLocation.Offset(location.X, location.Y);
 
-            GetMainPopupMenu(location).Show(ParentControl, screenLocation);
+            GetMainPopupMenu(location).Show(ParentControl, screenLocation.ToPixels());
         }
 
         /// <summary>

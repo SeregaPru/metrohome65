@@ -111,7 +111,7 @@ namespace MetroHome65.HomeScreen.TilesGrid
             if (Content == null) return;
 
             var oldSize = Content.Size;
-            Content.Size = new Size(1, 1);
+            Content.Size = new Size(10, 10); // делаем размер достаочно большой чтоб при масштабировании он не превратился в 0
             Content.Size = oldSize;
         }
 

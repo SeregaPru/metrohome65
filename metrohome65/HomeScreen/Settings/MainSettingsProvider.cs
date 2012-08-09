@@ -11,16 +11,12 @@ namespace MetroHome65.HomeScreen.Settings
         /// </summary>
         public void ReadSettings()
         {
-            try
-            {
-                var settings = XmlHelper<MainSettings>.Read(SettingsFile());
-                TinyIoCContainer.Current.Register<MainSettings>(settings);
-                settings.ApplyTheme();
-            }
-            catch (Exception e)
-            {
-                Logger.WriteLog(e.StackTrace, "Read main settings error");
-            }
+            var settings = XmlHelper<MainSettings>.Read(SettingsFile());
+            if (settings == null)
+                settings = new MainSettings();
+
+            TinyIoCContainer.Current.Register<MainSettings>(settings);
+            settings.ApplyTheme();
         }
 
         public void WriteSettings()

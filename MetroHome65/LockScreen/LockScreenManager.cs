@@ -20,17 +20,20 @@ namespace MetroHome65.LockScreen
             var mainSettings = TinyIoCContainer.Current.Resolve<MainSettings>();
             CreateLockScreen(mainSettings.LockScreenSettings.LockScreenClass);
 
-            var settings = CreateSettings(_lockScreen.GetType(), mainSettings.LockScreenSettings);
-            (_lockScreen as ILockScreen).ApplySettings(settings);
-
             this.SizeChanged += (sender, args) => OnSizeChanged();
 
             var messenger = TinyIoCContainer.Current.Resolve<ITinyMessengerHub>();
             messenger.Subscribe<SettingsChangedMessage>(OnSettingsChanged);
+
+            if (_lockScreen == null) return;
+            var settings = CreateSettings(_lockScreen.GetType(), mainSettings.LockScreenSettings);
+            (_lockScreen as ILockScreen).ApplySettings(settings);
         }
 
         private void CreateLockScreen(string lockScreenClass)
         {
+            if (string.IsNullOrEmpty(lockScreenClass)) return;
+
             Clear();
 
             var pluginManager = TinyIoC.TinyIoCContainer.Current.Resolve<IPluginManager>();
