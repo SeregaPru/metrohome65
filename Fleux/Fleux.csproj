@@ -157,6 +157,7 @@
     <Compile Include="UIElements\Tile.cs" />
     <Compile Include="UIElements\TransparentImageElement.cs" />
     <Compile Include="UIElements\UIElement.cs" />
+    <Compile Include="UIElements\LargeComboBox.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Images\top.png" />

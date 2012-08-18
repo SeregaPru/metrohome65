@@ -11,6 +11,8 @@ namespace MetroHome65
         [MTAThread]
         static void Main()
         {
+            new PrepareEnvironment().Prepare();
+
             // отключаем кеширование менеджера ресурсов, ибо несет утечки и глюки
             ResourceManager.Instance.Caching = false;
 
