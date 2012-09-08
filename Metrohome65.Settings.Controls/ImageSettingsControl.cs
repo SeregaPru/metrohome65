@@ -56,7 +56,11 @@ namespace Metrohome65.Settings.Controls
         public String Value
         {
             get { return _tileImage; }
-            set { SetTileImage(value); }
+            set
+            {
+                SetTileImage(value);
+                NotifyPropertyChanged("Value");
+            }
         }
 
         #endregion
