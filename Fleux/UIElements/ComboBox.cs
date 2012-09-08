@@ -116,7 +116,7 @@ namespace Fleux.UIElements
         protected virtual UIElement BuildItem(object arg)
         {
             var item = BuildCustomItem(arg, true);
-            item.TapHandler = p => SelectItem(arg);
+            item.TapHandler += p => SelectItem(arg);
             return item;
         }
 

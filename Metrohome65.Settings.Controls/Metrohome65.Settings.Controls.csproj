@@ -88,6 +88,7 @@
     <Compile Include="TextInputForm.designer.cs">
       <DependentUpon>TextInputForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="PopupSettingsControl.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="OpenFileDialogEx.resx">

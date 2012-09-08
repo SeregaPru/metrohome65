@@ -158,6 +158,7 @@
     <Compile Include="UIElements\TransparentImageElement.cs" />
     <Compile Include="UIElements\UIElement.cs" />
     <Compile Include="UIElements\LargeComboBox.cs" />
+    <Compile Include="UIElements\PopupEdit.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Images\top.png" />
