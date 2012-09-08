@@ -22,7 +22,12 @@ namespace Fleux.UIElements
         public Image Image
         {
             get { return _image; }
-            set { _image = value; }
+            set
+            {
+                if (_image == value) return;
+                _image = value;
+                Update();
+            }
         }
 
         public StretchTypeOptions StretchType = StretchTypeOptions.Fill;
