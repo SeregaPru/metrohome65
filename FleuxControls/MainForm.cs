@@ -68,11 +68,12 @@ namespace FleuxControls
                 };
             stackPanel.AddElement(txtIntro);
 
-            stackPanel.AddElement(new PopupEdit()
-            {
-                Size = new Size(300, 50),
-            }
-                );
+            stackPanel.AddElement(
+                new PopupEdit(this)
+                {
+                    Size = new Size(300, 50),
+                }
+            );
             stackPanel.AddElement(new Canvas() { Size = new Size(100, 100), });
 
             stackPanel.AddElement(new ComboBox()
