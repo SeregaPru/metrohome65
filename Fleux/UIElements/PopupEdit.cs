@@ -20,6 +20,10 @@ namespace Fleux.UIElements
 
         private bool _droppedDown;
 
+        private string _fontFamily = MetroTheme.PhoneFontFamilyNormal;
+        private int _fontSize = 12;
+        private Color _fontColor = MetroTheme.PhoneForegroundBrush;
+
         #endregion
 
 
@@ -71,13 +75,17 @@ namespace Fleux.UIElements
         public override void Draw(IDrawingGraphics drawingGraphics)
         {
             // field background
-            drawingGraphics.Color(MetroTheme.PhoneTextBoxBrush);
-            drawingGraphics.FillRectangle(0, 0, Size.Width, Size.Height);
+            //drawingGraphics.Color(MetroTheme.PhoneBackgroundBrush);
+            //drawingGraphics.FillRectangle(0, 0, Size.Width, Size.Height);
 
             // field border
             drawingGraphics.Color(MetroTheme.PhoneTextBoxBorderBrush);
             drawingGraphics.PenWidth(MetroTheme.PhoneBorderThickness.BorderThickness.Pixels);
             drawingGraphics.DrawRectangle(0, 0, Size.Width, Size.Height);
+
+            // font example 
+            drawingGraphics.Style(new TextStyle(_fontFamily, _fontSize, _fontColor));
+            drawingGraphics.MoveRelX(4).DrawText(_fontFamily);
 
             base.Draw(drawingGraphics);
         }
