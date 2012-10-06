@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Drawing;
+﻿using System.Drawing;
 using Fleux.Core.GraphicsHelpers;
 using Fleux.Styles;
 

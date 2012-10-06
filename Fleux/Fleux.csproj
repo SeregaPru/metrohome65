@@ -176,6 +176,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Images\righttransition.png" />
   </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Images\back.bmp" />
+  </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CompactFramework.CSharp.targets" />
   <ProjectExtensions>
     <VisualStudio>
