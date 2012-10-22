@@ -1,6 +1,5 @@
 ﻿namespace Fleux.Templates
 {
-    using System;
     using System.Drawing;
     using Animations;
     using Controls;

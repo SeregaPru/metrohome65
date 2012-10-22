@@ -158,7 +158,6 @@
     <Compile Include="UIElements\TransparentImageElement.cs" />
     <Compile Include="UIElements\UIElement.cs" />
     <Compile Include="UIElements\LargeComboBox.cs" />
-    <Compile Include="UIElements\PopupEdit.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Images\top.png" />
@@ -175,9 +174,6 @@
       <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Images\righttransition.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Images\back.bmp" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CompactFramework.CSharp.targets" />
   <ProjectExtensions>
