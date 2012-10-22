@@ -5,6 +5,7 @@ using Fleux.Controls;
 using Fleux.Styles;
 using Fleux.UIElements;
 using Fleux.UIElements.Pivot;
+using Metrohome65.Settings.Controls;
 using Button = Fleux.UIElements.Button;
 using ComboBox = Fleux.UIElements.ComboBox;
 
@@ -69,7 +70,7 @@ namespace FleuxControls
             stackPanel.AddElement(txtIntro);
 
             stackPanel.AddElement(
-                new PopupEdit(this)
+                new PopupEdit()
                 {
                     Size = new Size(300, 50),
                 }
