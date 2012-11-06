@@ -1,6 +1,5 @@
 ﻿namespace Fleux.UIElements
 {
-    using System;
     using System.Drawing;
     using Core;
     using Core.GraphicsHelpers;
@@ -9,8 +8,8 @@
     public class Button : UIElement
     {
         #region Private fields
-        private bool m_pressed;
-        private string m_text;
+        protected bool m_pressed;
+        protected string m_text;
         #endregion
 
         #region Constructor

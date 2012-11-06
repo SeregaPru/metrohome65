@@ -2,7 +2,6 @@
 using System;
 using System.Drawing;
 using System.Collections.Generic;
-using System.IO;
 using Microsoft.Win32;
 using Fleux.Controls;
 using Fleux.Core.Scaling;
@@ -10,7 +9,6 @@ using Fleux.Styles;
 using Fleux.UIElements;
 using MetroHome65.Interfaces;
 using MetroHome65.Routines;
-using MetroHome65.Routines.Screen;
 using Metrohome65.Settings.Controls;
 
 namespace MetroHome65.Widgets
