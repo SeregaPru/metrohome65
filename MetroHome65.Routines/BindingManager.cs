@@ -17,6 +17,8 @@ namespace MetroHome65.Routines
 
         private readonly List<BindingInfo> _binding = new List<BindingInfo>();
 
+        public bool MultiBind = false;
+
         public void Bind(
             INotifyPropertyChanged source, string sourcePropertyName,
             INotifyPropertyChanged target, string targetPropertyName)
@@ -62,7 +64,8 @@ namespace MetroHome65.Routines
                         {
                             targetProperty.SetValue(bindingInfo.Target, sourceValue, null);
                         }
-                        return;
+                        if (!MultiBind) return;
+                        continue;
                     }
 
                     if ((bindingInfo.Target == sender) && (bindingInfo.TargetPropertyName == e.PropertyName))
@@ -75,7 +78,7 @@ namespace MetroHome65.Routines
                         {
                             sourceProperty.SetValue(bindingInfo.Source, targetValue, null);
                         }
-                        return;
+                        if (!MultiBind) return;
                     }
                 }
             }

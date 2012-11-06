@@ -70,7 +70,7 @@ namespace FleuxControls
             stackPanel.AddElement(txtIntro);
 
             stackPanel.AddElement(
-                new PopupEdit()
+                new FontEdit()
                 {
                     Size = new Size(300, 50),
                 }
