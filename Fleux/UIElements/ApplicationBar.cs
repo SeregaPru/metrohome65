@@ -1,11 +1,12 @@
 ﻿// GIANNI added
 
+using Fleux.Styles;
+
 namespace Fleux.UIElements
 {
     using System;
-    using Fleux.UIElements;
     using System.Drawing;
-    using Fleux.UIElements.Events;
+    using Events;
 
     public class ApplicationBar : Canvas
     {
@@ -45,7 +46,7 @@ namespace Fleux.UIElements
         #region OVERRIDE - Methods
         public override void Draw(Fleux.Core.GraphicsHelpers.IDrawingGraphics drawingGraphics)
         {
-            drawingGraphics.Color(Color.Gray);
+            drawingGraphics.Color(GetColor());
             drawingGraphics.FillRectangle(new Rectangle(0, 0, Size.Width, Size.Height));
 
             base.Draw(drawingGraphics);
@@ -53,6 +54,12 @@ namespace Fleux.UIElements
         #endregion
 
         #region Private methods
+
+        private Color GetColor()
+        {
+            return (MetroTheme.PhoneBackgroundBrush == Color.White) ? 
+                Color.FromArgb(222,222,222) : Color.FromArgb(42,42,42);
+        }
 
         private void RecalculatePositions()
         {

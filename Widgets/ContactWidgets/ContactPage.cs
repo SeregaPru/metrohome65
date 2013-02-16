@@ -57,8 +57,14 @@ namespace MetroHome65.Widgets
                                      Size = new Size(Content.Size.Width, 48 + 2 * 10),
                                      Location = new Point(0, Content.Size.Height - 48 - 2 * 10)
                                  };
-                appBar.AddButton(ResourceManager.Instance.GetBitmapFromEmbeddedResource("ContactWidgets.Images.back.bmp"));
-                appBar.AddButton(ResourceManager.Instance.GetBitmapFromEmbeddedResource("ContactWidgets.Images.edit.bmp"));
+                appBar.AddButton(ResourceManager.Instance.GetBitmapFromEmbeddedResource(
+                    (MetroTheme.PhoneBackgroundBrush == Color.White) ?
+                        "ContactWidgets.Images.back-light.bmp" : "ContactWidgets.Images.back-dark.bmp"
+                    ));
+                appBar.AddButton(ResourceManager.Instance.GetBitmapFromEmbeddedResource(
+                    (MetroTheme.PhoneBackgroundBrush == Color.White) ?
+                        "ContactWidgets.Images.Edit-light.bmp" : "ContactWidgets.Images.Edit-dark.bmp"
+                    ));
                 appBar.ButtonTap += OnAppBarButtonTap;
                 Content.AddElement(appBar.AnimateHorizontalEntrance(false));
 

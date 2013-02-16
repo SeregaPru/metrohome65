@@ -119,7 +119,8 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Images\back.bmp" />
+    <EmbeddedResource Include="Images\back-dark.bmp" />
+    <EmbeddedResource Include="Images\back-light.bmp" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CompactFramework.CSharp.targets" />
   <ProjectExtensions>

@@ -1,5 +1,6 @@
 set destfolder=s:\_work\BIN
 rem set destfolder=D:\Work\wm\_out
+
 set srcfolder=D:\Работа\wm\metrohome65
 rem set srcfolder=D:\Work\wm\metrohome65
 
@@ -15,5 +16,5 @@ copy %srcfolder%\metrohome65\icons\small\*.* %destfolder%\icons\small\
 mkdir %destfolder%\wallpapers
 copy %srcfolder%\metrohome65\wallpapers\*.* %destfolder%\wallpapers\
 
-copy %srcfolder%\metrohome65\_deploy\*.dll %destfolder%\
-copy %srcfolder%\metrohome65\_deploy\*.exe %destfolder%\
+copy %srcfolder%\_deploy\*.dll %destfolder%\
+copy %srcfolder%\_deploy\*.exe %destfolder%\

@@ -26,8 +26,8 @@ namespace MetroHome65.Widgets
         private int _dotPaddingRight;
         private int _dotPaddingLeft;
 
-        private TextStyle _timeFont = new TextStyle(MetroTheme.PhoneFontFamilySemiLight, 36, MetroTheme.PhoneForegroundBrush);
-        private TextStyle _dateFont = new TextStyle(MetroTheme.PhoneFontFamilySemiLight, 10, MetroTheme.PhoneForegroundBrush);
+        private TextStyle _timeFont = new TextStyle(MetroTheme.PhoneFontFamilySemiBold, 36, Color.White);
+        private TextStyle _dateFont = new TextStyle(MetroTheme.PhoneFontFamilySemiLight, 12, Color.White);
 
 
         public DigitalClockWidget() 
@@ -45,7 +45,7 @@ namespace MetroHome65.Widgets
 
         private void ApplySizeSettings()
         {
-            if (this.GridSize.Width == 4)
+            if (this.GridSize.Width != 2)
             {
                 _paddingRight = 20;
                 _dotWidth = 20;
@@ -56,7 +56,6 @@ namespace MetroHome65.Widgets
             {
                 _timeFont.FontSize = 22;
                 _dateFont.FontSize = 8;
-                //_fntTime = new Font(MetroTheme.PhoneFontFamilySemiBold, 24.ToLogic(), FontStyle.Regular);
                 _paddingRight = 8;
                 _dotWidth = 10;
                 _dotPaddingRight = 4;
@@ -188,20 +187,19 @@ namespace MetroHome65.Widgets
             var timeBox = g.MeasureString("99", fntTime);
             var dateBox = g.MeasureString(sDate, fntDate);
 
-            g.DrawString(sTimeMins, fntTime, brhTime,
-                rect.Right - timeBox.Width - _paddingRight,
+            var timeBotom = rect.Top + (rect.Height - timeBox.Height - dateBox.Height - 4.ToLogic()) / 2;
+            g.DrawString(sTimeMins, fntTime, brhTime, 
+                rect.Right - timeBox.Width - _paddingRight, timeBotom);
+            g.DrawString(sTimeHour, fntTime, brhTime,
+                rect.Right - timeBox.Width - _paddingRight - _dotWidth - _dotPaddingRight - _dotPaddingLeft - timeBox.Width,
                 rect.Top + (rect.Height - timeBox.Height - dateBox.Height) / 2);
             if (_showPoints)
                 g.DrawString(":", fntTime, brhTime,
                     rect.Right - timeBox.Width - _paddingRight - _dotWidth - _dotPaddingRight,
-                    rect.Top + (rect.Height - timeBox.Height - dateBox.Height) / 2 - ScreenRoutines.Scale(5));
-            g.DrawString(sTimeHour, fntTime, brhTime,
-                rect.Right - timeBox.Width - _paddingRight - _dotWidth - _dotPaddingRight - _dotPaddingLeft - timeBox.Width,
-                rect.Top + (rect.Height - timeBox.Height - dateBox.Height) / 2);
+                    timeBotom - ScreenRoutines.Scale(5));
 
             g.DrawString(sDate, fntDate, brhDate,
-                         rect.Right - dateBox.Width - _paddingRight,
-                         rect.Bottom - dateBox.Height);
+                         rect.Right - dateBox.Width - _paddingRight, rect.Bottom - dateBox.Height - 4.ToLogic());
         }
 
         public bool Active
@@ -280,6 +278,12 @@ namespace MetroHome65.Widgets
                 }
             foreach (var control in controls)
                 if (control.Name.Contains("Caption"))
+                {
+                    controls.Remove(control);
+                    break;
+                }
+            foreach (var control in controls)
+                if (control.Name.Contains("CaptionFont"))
                 {
                     controls.Remove(control);
                     break;

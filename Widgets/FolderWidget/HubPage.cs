@@ -67,7 +67,10 @@ namespace FolderWidget
                     Location = new Point(0, Content.Size.Height - AppBarHeight)
                 };
                 _appBar.ButtonTap += OnAppBarButtonTap;
-                _appBar.AddButton(ResourceManager.Instance.GetBitmapFromEmbeddedResource("FolderWidget.Images.back.bmp"));
+                _appBar.AddButton(ResourceManager.Instance.GetBitmapFromEmbeddedResource(
+                    (MetroTheme.PhoneBackgroundBrush == Color.White) ?
+                        "FolderWidget.Images.back-light.bmp" : "FolderWidget.Images.back-dark.bmp"
+                    ));
                 Content.AddElement(_appBar.AnimateHorizontalEntrance(false));
 
                 _title = new TextElement("Folder hub")
