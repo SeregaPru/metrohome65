@@ -20,7 +20,7 @@ namespace MetroHome65.Widgets
     {
         private String _commandLine = "";
 
-        private Boolean _playOnTapAnimation = true; 
+        private Boolean _playOnTapAnimation = true;
 
         
         /// <summary>
@@ -61,6 +61,7 @@ namespace MetroHome65.Widgets
                 NotifyPropertyChanged("PlayOnTapAnimation");
             }
         }
+
 
         public override bool OnClick(Point location)
         {

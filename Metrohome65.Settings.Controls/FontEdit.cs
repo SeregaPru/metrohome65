@@ -30,7 +30,7 @@ namespace Metrohome65.Settings.Controls
             get { return _textStyle; }
             set
             {
-                _textStyle = Value;
+                _textStyle = value;
                 Relayout();
                 Update();
             }
@@ -43,7 +43,7 @@ namespace Metrohome65.Settings.Controls
             var width = FleuxApplication.DummyDrawingGraphics.Style(_textStyle)
                 .CalculateTextWidth(Caption()) + 10;
 
-            this.Size = new Size(width, height);
+            Size = new Size(width, height);
         }
 
         #region Methods
@@ -64,19 +64,12 @@ namespace Metrohome65.Settings.Controls
             popupPage.TheForm.Show();
         }
 
-        private void ApplySettings(object sender, TextStyle settings)
-        {
-            this._textStyle = settings;
-            Update();
-        }
-
 
         public override void Draw(IDrawingGraphics drawingGraphics)
         {
             // field border
-            drawingGraphics.Color(MetroTheme.PhoneTextBoxBorderBrush);
-            drawingGraphics.PenWidth(MetroTheme.PhoneBorderThickness.BorderThickness.Pixels);
-            drawingGraphics.DrawRectangle(0, 0, Size.Width, Size.Height);
+            drawingGraphics.Color(MetroTheme.PhoneAccentBrush);
+            drawingGraphics.FillRectangle(0, 0, Size.Width, Size.Height);
 
             // font example 
             drawingGraphics.Style(new TextStyle(_textStyle.FontFamily, _textStyle.FontSize, _textStyle.Foreground));
@@ -121,7 +114,10 @@ namespace Metrohome65.Settings.Controls
                     Size = new Size(Size.Width, 48 + 2 * 10),
                     Location = new Point(0, Size.Height - 48 - 2 * 10)
                 };
-                appBar.AddButton(ResourceManager.Instance.GetBitmapFromEmbeddedResource("Metrohome65.Settings.Controls.Images.back.bmp"));
+                appBar.AddButton(ResourceManager.Instance.GetBitmapFromEmbeddedResource(
+                    (MetroTheme.PhoneBackgroundBrush == Color.White) ?
+                        "Metrohome65.Settings.Controls.Images.back-light.bmp" : "Metrohome65.Settings.Controls.Images.back-dark.bmp"
+                    ));
                 appBar.ButtonTap += (sender, args) => Close();
                 Control.AddElement(appBar.AnimateHorizontalEntrance(false));
 
@@ -132,7 +128,7 @@ namespace Metrohome65.Settings.Controls
                     new TextElement("Font family") { AutoSizeMode = TextElement.AutoSizeModeOptions.OneLineAutoHeight, }
                 );
 
-                var fonts = new List<string>()
+                var fonts = new List<string>
                     {
                         MetroTheme.PhoneFontFamilyNormal,
                         MetroTheme.PhoneFontFamilyLight,
@@ -272,17 +268,17 @@ namespace Metrohome65.Settings.Controls
         {
             if ((_value != null) && (_value.Equals(_object)))
             {
-                BackgroundColor = MetroTheme.PhoneForegroundBrush;
+                BackgroundColor = MetroTheme.PhoneAccentBrush;
                 Style = new TextStyle(
                     MetroTheme.PhoneFontFamilyNormal, MetroTheme.PhoneFontSizeNormal,
-                    MetroTheme.PhoneAccentBrush);
+                    Color.White);
             }
             else
             {
-                BackgroundColor = Color.DarkGray;
+                BackgroundColor = Color.LightGray;
                 Style = new TextStyle(
                     MetroTheme.PhoneFontFamilyNormal, MetroTheme.PhoneFontSizeNormal,
-                    MetroTheme.PhoneBackgroundBrush);
+                    Color.Black);
             }
             BorderColor = BackgroundColor;
 

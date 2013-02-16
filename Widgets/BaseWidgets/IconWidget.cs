@@ -4,6 +4,7 @@ using System.Windows.Forms;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using Fleux.Controls;
+using Fleux.Core;
 using Fleux.Core.Scaling;
 using Fleux.Styles;
 using Fleux.UIElements;
@@ -23,10 +24,11 @@ namespace MetroHome65.Widgets
         private String _caption = "";
         private String _iconPath = "";
         private AlphaImage _iconImage;
+        private TextStyle _captionFont = new TextStyle(MetroTheme.PhoneFontFamilyNormal, 8, Color.White);
 
         protected static int CaptionLeftOffset = 10;
         protected static int CaptionBottomOffset = 4;
-        protected static int CaptionSize = 28; // approx caption height in px. 
+        protected int CaptionHeight = 30; 
 
         /// <summary>
         /// user defined caption for widget
@@ -43,6 +45,20 @@ namespace MetroHome65.Widgets
             } 
         }
 
+        [TileParameter]
+        public TextStyle CaptionFont
+        {
+            get { return _captionFont; }
+            set
+            {
+                if (_captionFont != value)
+                {
+                    _captionFont = value;
+
+                    NotifyPropertyChanged("CaptionFont");
+                }
+            }
+        }
 
         /// <summary>
         /// relative or absolute path to icon file.
@@ -86,13 +102,31 @@ namespace MetroHome65.Widgets
             return ((_iconPath.EndsWith(".exe")) || (_iconPath.EndsWith(".lnk")));
         }
 
+
+        /// <summary>
+        /// Paints icon and caption over standart backround (user defined button)
+        /// </summary>
+        /// <param name="g"></param>
+        /// <param name="rect"></param>
+        public override void PaintBuffer(Graphics g, Rectangle rect)
+        {
+            base.PaintBuffer(g, rect);
+
+            CaptionHeight = FleuxApplication.DummyDrawingGraphics.Style(_captionFont)
+                .CalculateMultilineTextHeight("Xg", 1000);
+
+            PaintIcon(g, rect);
+            PaintCaption(g, rect);
+        }
+
         protected virtual void PaintIcon(Graphics g, Rectangle rect)
         {
             // get icon from file
             if (String.IsNullOrEmpty(_iconPath))
                 return;
 
-            int captionHeight = (Caption == "") ? 0 : (CaptionSize + ((GridSize.Height == 1) ? 1 : 0) /* + CaptionBottomOffset */);
+            int captionHeight = (Caption == "") ? 0 : 
+                (CaptionHeight + ((GridSize.Height == 1) ? 1 : 0) /* + CaptionBottomOffset */);
 
             // draw icon from external image file
             if (_iconImage != null)
@@ -124,29 +158,12 @@ namespace MetroHome65.Widgets
         {
             if (Caption != "")
             {
-                var captionFont = new Font(
-                    MetroTheme.TileTextStyle.FontFamily, 
-                    MetroTheme.TileTextStyle.FontSize.ToLogic(), 
-                    FontStyle.Regular);
-                var captionBrush = new SolidBrush(MetroTheme.TileTextStyle.Foreground);
+                var captionFont = new Font(_captionFont.FontFamily, _captionFont.FontSize.ToLogic(), FontStyle.Regular);
+                var captionBrush = new SolidBrush(_captionFont.Foreground);
                 g.DrawString(Caption, captionFont, captionBrush,
                     rect.Left + CaptionLeftOffset - ((GridSize.Height == 1) ? 2 : 0),
-                    rect.Bottom - CaptionBottomOffset - CaptionSize + ((GridSize.Height == 1) ? 2 : 0));
+                    rect.Bottom - CaptionBottomOffset - CaptionHeight + ((GridSize.Height == 1) ? 2.ToLogic() : 0));
             }
-        }
-
-
-        /// <summary>
-        /// Paints icon and caption over standart backround (user defined button)
-        /// </summary>
-        /// <param name="g"></param>
-        /// <param name="rect"></param>
-        public override void PaintBuffer(Graphics g, Rectangle rect)
-        {
-            base.PaintBuffer(g, rect);
-
-            PaintIcon(g, rect);
-            PaintCaption(g, rect);
         }
 
 
@@ -165,20 +182,26 @@ namespace MetroHome65.Widgets
             var captionControl = new StringSettingsControl(settingsPage)
                                      {
                                          Caption = "Caption", 
-                                         Value = Caption,
                                          Name = "Caption",
                                      };
             controls.Add(captionControl);
-            bindingManager.Bind(this, "Caption", captionControl, "Value");
+            bindingManager.Bind(this, "Caption", captionControl, "Value", true);
+
+            var captionFontControl = new FontSettingsControl
+            {
+                Caption = "Caption Font",
+                Name = "CaptionFont",
+            };
+            controls.Add(captionFontControl);
+            bindingManager.Bind(this, "CaptionFont", captionFontControl, "Value", true);
 
             var imgControl = new ImageSettingsControl()
                                  {
                                      Caption = "Icon image", 
-                                     Value = IconPath,
                                      Name = "Icon",
                                  };
             controls.Add(imgControl);
-            bindingManager.Bind(this, "IconPath", imgControl, "Value");
+            bindingManager.Bind(this, "IconPath", imgControl, "Value", true);
 
             return controls;
         }

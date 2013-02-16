@@ -188,7 +188,7 @@ namespace MetroHome65.Widgets
             }
 
             var missedCountStr = _missedCount.ToString(CultureInfo.InvariantCulture);
-            var captionHeight = (Caption == "") ? 0 : (CaptionSize);
+            var captionHeight = (Caption == "") ? 0 : (CaptionHeight);
             var captionFont = new Font(_fontName, 22.ToLogic(), FontStyle.Regular);
             Brush captionBrush = new SolidBrush(_fontColor);
 
