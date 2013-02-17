@@ -257,7 +257,19 @@ namespace MetroHome65.Tile
         {
             foreach (var propertyInfo in _propertyInfos.Where(propertyInfo => propertyInfo.Name == name))
             {
-                propertyInfo.SetValue(Tile, Convert.ChangeType(value, propertyInfo.PropertyType, null), null);
+                object propObject;
+                var type = propertyInfo.PropertyType;
+
+                MethodInfo methodInfo = type.GetMethod("FromString");
+                if (methodInfo != null)
+                {
+                    propObject = methodInfo.Invoke(null, new[] { value });
+                }
+                else
+                    propObject = Convert.ChangeType(value, propertyInfo.PropertyType, null);
+
+                propertyInfo.SetValue(Tile, propObject, null);
+
                 break;
             }
             return this;
