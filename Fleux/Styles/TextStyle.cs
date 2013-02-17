@@ -2,13 +2,11 @@
 using System.ComponentModel;
 using System.Drawing;
 using System.Globalization;
-using System.Xml;
-using System.Xml.Schema;
 using Fleux.Core.GraphicsHelpers;
 
 namespace Fleux.Styles
 {
-    public class TextStyle : Style, INotifyPropertyChanged, System.Xml.Serialization.IXmlSerializable
+    public class TextStyle : Style, INotifyPropertyChanged
     {
         private int _fontSize;
         private string _fontFamily;
@@ -100,6 +98,26 @@ namespace Fleux.Styles
                 _fontFamily, _fontSize, _foreground.ToArgb().ToString(CultureInfo.InvariantCulture));
         }
 
+        /// <summary>
+        /// special static method for parsing tile settings
+        /// </summary>
+        /// <param name="value"></param>
+        /// <returns></returns>
+        public static TextStyle FromString(string value)
+        {
+            try
+            {
+                string[] fontParams = value.Split(';');
+                var fontName = (fontParams.Length >= 1) ? fontParams[0] : MetroTheme.PhoneFontFamilyNormal;
+                var fontSize = (fontParams.Length >= 2) ? Convert.ToInt32(fontParams[1]) : 8;
+                var fontColor = (fontParams.Length >= 3) ? Color.FromArgb(Convert.ToInt32(fontParams[2])) : Color.White;
+                return new TextStyle(fontName, fontSize, fontColor);
+            }
+            catch(Exception)
+            {
+                return new TextStyle(MetroTheme.PhoneFontFamilyNormal, 8, Color.White);
+            }
+        }
 
         public event PropertyChangedEventHandler PropertyChanged;
 
@@ -109,58 +127,6 @@ namespace Fleux.Styles
             if (handler != null) 
                 handler(this, new PropertyChangedEventArgs(propertyName));
         }
-
-
-
-        #region IXmlSerializable Members
-
-        public XmlSchema GetSchema()
-        {
-            return null;
-        }
-
-        public void ReadXml(XmlReader reader)
-        {
-            reader.ReadStartElement();
-
-            try
-            {
-                _fontSize = Convert.ToInt32(reader.ReadString());
-            }
-            catch
-            {
-                _fontSize = 8;
-            }
-
-            try
-            {
-                _fontFamily = reader.ReadString();
-            }
-            catch
-            {
-                _fontFamily = MetroTheme.PhoneFontFamilyNormal;
-            }
-
-            try
-            {
-                _foreground = Color.FromArgb(Convert.ToInt32(reader.ReadString()));
-            }
-            catch
-            {
-                _foreground = MetroTheme.PhoneForegroundBrush;
-            }
-
-            reader.ReadEndElement();
-        }
-
-        public void WriteXml(XmlWriter writer)
-        {
-            writer.WriteString(_fontSize.ToString(CultureInfo.InvariantCulture));
-            writer.WriteString(_fontFamily.ToString(CultureInfo.InvariantCulture));
-            writer.WriteString(_foreground.ToArgb().ToString(CultureInfo.InvariantCulture));
-        }
-
-        #endregion // IXmlSerializable Members
 
     }
 }

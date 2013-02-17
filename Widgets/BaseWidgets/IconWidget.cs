@@ -24,7 +24,7 @@ namespace MetroHome65.Widgets
         private String _caption = "";
         private String _iconPath = "";
         private AlphaImage _iconImage;
-        private TextStyle _captionFont = new TextStyle(MetroTheme.PhoneFontFamilyNormal, 8, Color.White);
+        private TextStyle _captionFont = new TextStyle(MetroTheme.PhoneFontFamilySemiBold, 8, Color.White);
 
         protected static int CaptionLeftOffset = 10;
         protected static int CaptionBottomOffset = 4;
