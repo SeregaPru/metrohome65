@@ -88,6 +88,7 @@
     <Compile Include="UIControls\Separator.cs" />
     <Compile Include="XMLColor.cs" />
     <Compile Include="File\XMLHelper.cs" />
+    <Compile Include="Localization.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Fleux\Fleux.csproj">

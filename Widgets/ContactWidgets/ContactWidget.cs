@@ -20,6 +20,10 @@ namespace MetroHome65.Widgets
     [TileInfo("Contact")]
     public class ContactWidget : BaseWidget, IActive, IPause
     {
+        private const string str_ContactNotFound = "Contact \n not \n found";
+        private const string str_Contact = "Contact";
+        private const string str_AlternateImage = "Alternate image";
+
         private int _contactId = -1;
         private Contact _contact;
         private String _alternatePicturePath = "";
@@ -134,7 +138,7 @@ namespace MetroHome65.Widgets
                         new Rectangle(rect.Left, rect.Top, rect.Width, rect.Height));
                     var errorFont = new Font(
                         MetroTheme.TileTextStyle.FontFamily, MetroTheme.TileTextStyle.FontSize.ToLogic(), FontStyle.Regular);
-                    g.DrawString("Contact \n not \n found", errorFont, new SolidBrush(MetroTheme.TileTextStyle.Foreground), rect.Left + 10, rect.Top + 10);
+                    g.DrawString(str_ContactNotFound.Localize(), errorFont, new SolidBrush(MetroTheme.TileTextStyle.Foreground), rect.Left + 10, rect.Top + 10);
                     return;
                 }
 
@@ -307,7 +311,7 @@ namespace MetroHome65.Widgets
 
             var contactControl = new ContactSettingsControl
                                  {
-                                     Caption = "Contact", 
+                                     Caption = str_Contact.Localize(), 
                                      Value = ContactId,
                                  };
             controls.Add(contactControl);
@@ -315,7 +319,7 @@ namespace MetroHome65.Widgets
 
             var imgControl = new ImageSettingsControl()
             {
-                Caption = "Alternate image",
+                Caption = str_AlternateImage.Localize(),
                 Value = AlternatePicturePath,
             };
             controls.Add(imgControl);

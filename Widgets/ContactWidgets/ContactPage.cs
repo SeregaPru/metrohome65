@@ -6,6 +6,7 @@ using Fleux.Styles;
 using Fleux.Templates;
 using Fleux.UIElements;
 using Fleux.UIElements.Events;
+using MetroHome65.Routines;
 using MetroHome65.Routines.Screen;
 using Microsoft.WindowsMobile.PocketOutlook;
 
@@ -21,6 +22,16 @@ namespace MetroHome65.Widgets
         private const int PaddingVer = 10;
         private const int PaddingHor = 30;
 
+        private const string str_Mobile = "mobile";
+        private const string str_Home = "home";
+        private const string str_Work = "work";
+        private const string str_Text = "text";
+        private const string str_SMS = "SMS";
+        private const string str_Profile = "profile";
+        private const string str_SendEmail = "send email";
+        private const string str_Call = "call";
+
+
         private Contact _contact;
 
         private readonly StackPanel _stackPanel;
@@ -35,14 +46,14 @@ namespace MetroHome65.Widgets
             MetroTheme.PhoneFontSizeSmall,
             MetroTheme.PhoneAccentBrush);
 
-
+        
         public Contact Contact
         {
             get { return _contact; }
             set { SetContact(value); }
         }
 
-        public ContactPage() : base("", "profile", false)
+        public ContactPage() : base("", str_Profile.Localize(), false)
         {
             ScreenRoutines.CursorWait();
             try
@@ -111,24 +122,24 @@ namespace MetroHome65.Widgets
                 }
 
                 // call mobile
-                AddCallPanel(_stackPanel, "mobile", _contact.MobileTelephoneNumber);
+                AddCallPanel(_stackPanel, str_Mobile.Localize(), _contact.MobileTelephoneNumber);
 
                 // call home
-                AddCallPanel(_stackPanel, "home", _contact.HomeTelephoneNumber);
+                AddCallPanel(_stackPanel, str_Home.Localize(), _contact.HomeTelephoneNumber);
 
                 // call work
-                AddCallPanel(_stackPanel, "work", _contact.BusinessTelephoneNumber);
+                AddCallPanel(_stackPanel, str_Work.Localize(), _contact.BusinessTelephoneNumber);
 
                 // send sms to mobile
                 if (!string.IsNullOrEmpty(_contact.MobileTelephoneNumber))
                 {
-                    _stackPanel.AddElement(new TextElement("text")
+                    _stackPanel.AddElement(new TextElement(str_Text.Localize())
                     {
                         Style = _titleStyle,
                         AutoSizeMode = TextElement.AutoSizeModeOptions.OneLineAutoHeight,
                         TapHandler = p => SendSMS(_contact.MobileTelephoneNumber),
                     });
-                    _stackPanel.AddElement(new TextElement("SMS")
+                    _stackPanel.AddElement(new TextElement(str_SMS.Localize())
                     {
                         Style = _subTitleStyle,
                         AutoSizeMode = TextElement.AutoSizeModeOptions.OneLineAutoHeight,
@@ -140,7 +151,7 @@ namespace MetroHome65.Widgets
                 // send email to mobile
                 if (!string.IsNullOrEmpty(_contact.Email1Address))
                 {
-                    _stackPanel.AddElement(new TextElement("send email")
+                    _stackPanel.AddElement(new TextElement(str_SendEmail.Localize())
                     {
                         Style = _titleStyle,
                         AutoSizeMode = TextElement.AutoSizeModeOptions.OneLineAutoHeight,
@@ -168,7 +179,7 @@ namespace MetroHome65.Widgets
         {
             if (string.IsNullOrEmpty(phoneNumber)) return;
 
-            parent.AddElement(new TextElement("call " + phoneName)
+            parent.AddElement(new TextElement(str_Call.Localize() + " " + phoneName)
                                   {
                                       Style = _titleStyle,
                                       AutoSizeMode = TextElement.AutoSizeModeOptions.OneLineAutoHeight,
