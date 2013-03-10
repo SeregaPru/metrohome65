@@ -240,14 +240,14 @@ namespace MetroHome65.Widgets
 
             var flagControl = new FlagSettingsControl
                                   {
-                                      Caption = "24-Hours", 
+                                      Caption = "24-Hours".Localize(), 
                                   };
             controls.Add(flagControl);
             bindingManager.Bind(this, "Is24Hour", flagControl, "Value", true);
 
             var formatControl = new SelectSettingsControl
                                     {
-                                        Caption = "Date format",
+                                        Caption = "Date format".Localize(),
                                         Items = _dateSamples,
                                     };
             controls.Add(formatControl);
@@ -256,14 +256,14 @@ namespace MetroHome65.Widgets
 
             var timeFontControl = new FontSettingsControl
                                           {
-                                              Caption = "Time Font", 
+                                              Caption = "Time Font".Localize(), 
                                           };
             controls.Add(timeFontControl);
             bindingManager.Bind(this, "TimeFont", timeFontControl, "Value", true);
 
             var dateFontControl = new FontSettingsControl
                                           {
-                                              Caption = "Date Font", 
+                                              Caption = "Date Font".Localize(), 
                                           };
             controls.Add(dateFontControl);
             bindingManager.Bind(this, "DateFont", dateFontControl, "Value", true);

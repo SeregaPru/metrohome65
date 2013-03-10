@@ -4,10 +4,9 @@ using System.Drawing;
 using System.IO;
 using System.Windows.Forms;
 using Fleux.Controls;
-using Fleux.Styles;
 using Fleux.UIElements;
+using MetroHome65.Routines;
 using Microsoft.WindowsMobile.Forms;
-using MobilePractices.OpenFileDialogEx;
 
 namespace Metrohome65.Settings.Controls
 {
@@ -60,7 +59,7 @@ namespace Metrohome65.Settings.Controls
             var buttonPanel = new Canvas() { Size = new Size(SettingsConsts.MaxWidth, 50), };
             AddElement(buttonPanel);
 
-            var buttonSelectImage = new Fleux.UIElements.Button("select")
+            var buttonSelectImage = new Fleux.UIElements.Button("select".Localize())
             {
                 Size = new Size(SettingsConsts.MaxWidth / 2 - 10, 50),
                 Location = new Point(0, 0),
@@ -68,7 +67,7 @@ namespace Metrohome65.Settings.Controls
             };
             buttonPanel.AddElement(buttonSelectImage);
 
-            var buttonClearImage = new Fleux.UIElements.Button("clear")
+            var buttonClearImage = new Fleux.UIElements.Button("clear".Localize())
             {
                 Size = new Size(SettingsConsts.MaxWidth / 2 - 10, 50),
                 Location = new Point(SettingsConsts.MaxWidth / 2 + 10, 0),
@@ -86,18 +85,12 @@ namespace Metrohome65.Settings.Controls
             var dialog = new SelectPictureDialog
             {
                 Filter = "Program files|*.exe;*.lnk",
-                Title = "Select program",
+                Title = "Select program".Localize(),
                 SortOrder = SortOrder.NameAscending,
                 InitialDirectory = folder,
             };
             if (dialog.ShowDialog() == DialogResult.OK)
                 Value = dialog.FileName;
-            /*
-            var dialog = new OpenFileDialogEx { Filter = "*.exe;*.lnk", };
-
-            if (dialog.ShowDialog() == DialogResult.OK)
-                Value = dialog.FileName;
-            */ 
         }
 
 

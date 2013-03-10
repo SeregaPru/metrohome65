@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Globalization;
+using MetroHome65.Routines.File;
 
 
 namespace MetroHome65.Routines
@@ -12,15 +12,18 @@ namespace MetroHome65.Routines
         {
             return Localizer.Instance.GetText(text);
         }
+
+        public static void InitLocalization()
+        {
+            Localizer.Instance.Initialize();
+        }
     }
 
 
     internal class Localizer
     {
-        /// <summary>
-        /// two-letter language ident
-        /// </summary>
-        private string _lang;
+        // create singleton
+        private static readonly Localizer _instance = new Localizer();
 
         /// <summary>
         /// translation dictionary
@@ -28,9 +31,6 @@ namespace MetroHome65.Routines
         /// value - translated string
         /// </summary>
         private readonly Dictionary<string, string> _strings = new Dictionary<string, string>();
-
-        // create singleton
-        private static readonly Localizer _instance = new Localizer();
 
         /// <summary>
         /// Get instance of singleton.
@@ -43,19 +43,14 @@ namespace MetroHome65.Routines
         static Localizer()
         { }
 
-        private Localizer()
-        {
-            _lang = CultureInfo.CurrentUICulture.TwoLetterISOLanguageName;
-
-            ReadLangStrings();
-        }
-
         /// <summary>
         /// Read from file translated strings for current language
         /// </summary>
-        private void ReadLangStrings()
+        internal void Initialize()
         {
-            var fileName = "metrohome65.lang." + _lang;
+            var lang = CultureInfo.CurrentUICulture.TwoLetterISOLanguageName;
+
+            var fileName = FileRoutines.CoreDir + @"\metrohome65.lang." + lang;
 
             if (!System.IO.File.Exists(fileName)) return;
 
@@ -64,7 +59,9 @@ namespace MetroHome65.Routines
                 string line;
                 while ((line = reader.ReadLine()) != null)
                 {
-                    if (line.StartsWith("#")) return;
+                    if (string.IsNullOrEmpty(line)) continue;
+
+                    if (line.StartsWith("#")) continue;
 
                     var vals = line.Trim().Split('|');
                     if ((vals.Length == 2) && !String.IsNullOrEmpty(vals[1]))

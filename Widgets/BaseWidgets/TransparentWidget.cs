@@ -89,7 +89,7 @@ namespace MetroHome65.Widgets
 
             var colorControl = new ColorSettingsControl(true)
                                    {
-                                       Caption = "Tile color",
+                                       Caption = "Tile color".Localize(),
                                        ARGBValue = _tileColor,
                                    };
             controls.Add(colorControl);
@@ -97,7 +97,7 @@ namespace MetroHome65.Widgets
 
             var imgControl = new ImageSettingsControl()
                                  {
-                                     Caption = "Button background", 
+                                     Caption = "Button background".Localize(), 
                                      Value = TileImage,
                                  };
             controls.Add(imgControl);

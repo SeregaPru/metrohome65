@@ -181,7 +181,7 @@ namespace MetroHome65.Widgets
 
             var captionControl = new StringSettingsControl(settingsPage)
                                      {
-                                         Caption = "Caption", 
+                                         Caption = "Caption".Localize(), 
                                          Name = "Caption",
                                      };
             controls.Add(captionControl);
@@ -189,7 +189,7 @@ namespace MetroHome65.Widgets
 
             var captionFontControl = new FontSettingsControl
             {
-                Caption = "Caption Font",
+                Caption = "Caption Font".Localize(),
                 Name = "CaptionFont",
             };
             controls.Add(captionFontControl);
@@ -197,7 +197,7 @@ namespace MetroHome65.Widgets
 
             var imgControl = new ImageSettingsControl()
                                  {
-                                     Caption = "Icon image", 
+                                     Caption = "Icon image".Localize(), 
                                      Name = "Icon",
                                  };
             controls.Add(imgControl);

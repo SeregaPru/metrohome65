@@ -6,6 +6,7 @@ using System.Windows.Forms;
 using Fleux.Core.NativeHelpers;
 using Fleux.Styles;
 using Fleux.UIElements;
+using MetroHome65.Routines;
 using MetroHome65.Routines.File;
 using Microsoft.WindowsMobile.Forms;
 
@@ -87,7 +88,7 @@ namespace Metrohome65.Settings.Controls
             var buttonPanel = new Canvas { Size = new Size(SettingsConsts.MaxWidth, 50), };
             AddElement(buttonPanel);
 
-            var buttonSelectImage = new Fleux.UIElements.Button("select")
+            var buttonSelectImage = new Fleux.UIElements.Button("select".Localize())
                 {
                     Size = new Size(SettingsConsts.MaxWidth / 2 - 10, 50),
                     Location = new Point(0, 0),
@@ -95,7 +96,7 @@ namespace Metrohome65.Settings.Controls
                 };
             buttonPanel.AddElement(buttonSelectImage);
 
-            var buttonClearImage = new Fleux.UIElements.Button("clear")
+            var buttonClearImage = new Fleux.UIElements.Button("clear".Localize())
                {
                    Size = new Size(SettingsConsts.MaxWidth / 2 - 10, 50),
                    Location = new Point(SettingsConsts.MaxWidth / 2 + 10, 0),
@@ -189,7 +190,7 @@ namespace Metrohome65.Settings.Controls
             var imgDialog = new SelectPictureDialog
                                 {
                                     Filter = "Image files|*.jpg;*.png;*.bmp;*.gif",
-                                    Title = "Select image",
+                                    Title = "Select image".Localize(),
                                     InitialDirectory =
                                         System.IO.Path.GetDirectoryName(
                                             System.Reflection.Assembly.GetExecutingAssembly().GetName().CodeBase)

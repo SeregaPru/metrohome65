@@ -64,6 +64,11 @@ namespace MetroHome65.SimpleLock
                                                     "ddd, d MMM", // mon, 14 Jul
                                                };
 
+        private const string _str_lockScreenBackground = "Lock screen background";
+        private const string _str_dateFormat = "Date format";
+        private const string _str_is24Hour = "24-Hours";
+            
+
         public AdvancedLockSettings()
         {
             // fill date examples using current date and formats
@@ -83,14 +88,14 @@ namespace MetroHome65.SimpleLock
 
             var ctrLockScreenImage = new ImageSettingsControl
             {
-                Caption = "Lock screen background",
+                Caption = _str_lockScreenBackground.Localize(),
             };
             controls.Add(ctrLockScreenImage);
             bindingManager.Bind(this, "Background", ctrLockScreenImage, "Value", true);
 
             var formatControl = new SelectSettingsControl
             {
-                Caption = "Date format",
+                Caption = _str_dateFormat.Localize(),
                 Items = _dateSamples,
             };
             controls.Add(formatControl);
@@ -98,7 +103,7 @@ namespace MetroHome65.SimpleLock
 
             var flagControl = new FlagSettingsControl
             {
-                Caption = "24-Hours",
+                Caption = _str_is24Hour.Localize(),
             };
             controls.Add(flagControl);
             bindingManager.Bind(this, "Is24Hour", flagControl, "Value", true);

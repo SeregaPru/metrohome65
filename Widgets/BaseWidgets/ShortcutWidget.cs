@@ -81,7 +81,7 @@ namespace MetroHome65.Widgets
 
             var fileControl = new FileSettingsControl(settingsPage)
                                   {
-                                      Caption = "Application", 
+                                      Caption = "Application".Localize(), 
                                       Value = CommandLine,
                                   };
             controls.Add(fileControl);
@@ -89,7 +89,7 @@ namespace MetroHome65.Widgets
 
             var playOnTapAnimationControl = new FlagSettingsControl
                                                     {
-                                                        Caption = "Play On Tap Animation",
+                                                        Caption = "Play On Tap Animation".Localize(),
                                                     };
             controls.Add(playOnTapAnimationControl);
             bindingManager.Bind(this, "PlayOnTapAnimation", playOnTapAnimationControl, "Value", true);

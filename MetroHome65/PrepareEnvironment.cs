@@ -15,25 +15,38 @@ namespace MetroHome65
         {
             try
             {
-                // settings.xml to settings folder
-                var oldSettingsFile = FileRoutines.CoreDir + @"\settings.xml";
-                var newSettingsFile = FileRoutines.CoreDir + @"\settings\settings.xml";
+                UpgradeFromOldVersion();
 
-                if (File.Exists(oldSettingsFile) && !File.Exists(newSettingsFile))
-                    File.Move(oldSettingsFile, newSettingsFile);
-
-
-                // widgets.xml to settings\widgets-wp7.xml
-                var oldWidgetsFile = FileRoutines.CoreDir + @"\widgets.xml";
-                var newWidgetsFile = FileRoutines.CoreDir + @"\settings\widgets-wp7.xml";
-
-                if (File.Exists(oldWidgetsFile) && !File.Exists(newWidgetsFile))
-                    File.Move(oldWidgetsFile, newWidgetsFile);
+                PrepareAfterInstall();
             }
             catch (Exception e)
             {
                 Logger.WriteLog(e.StackTrace, e.Message);
             }
         }
+
+        private void PrepareAfterInstall()
+        {
+            // .xml.orig to .xml
+            ReplaceFile(@"\settings\settings.xml.orig",    @"\settings\settings.xml");
+            ReplaceFile(@"\settings\widgets-wp7.xml.orig", @"\settings\widgets-wp7.xml");
+            ReplaceFile(@"\settings\widgets-wp8.xml.orig", @"\settings\widgets-wp8.xml");
+        }
+
+        private void UpgradeFromOldVersion()
+        {
+            // settings.xml to settings folder
+            ReplaceFile(@"\settings.xml", @"\settings\settings.xml");
+
+            // widgets.xml to settings\widgets-wp7.xml
+            ReplaceFile(@"\widgets.xml", @"\settings\widgets-wp7.xml");
+        }
+
+        private void ReplaceFile(string oldFile, string newFile)
+        {
+            if (File.Exists(FileRoutines.CoreDir + oldFile) && !File.Exists(FileRoutines.CoreDir + newFile))
+                File.Move(FileRoutines.CoreDir + oldFile, FileRoutines.CoreDir + newFile);
+        }
+
     }
 }

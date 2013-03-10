@@ -10,6 +10,7 @@ using Fleux.Core.Scaling;
 using Fleux.UIElements;
 using Fleux.Styles;
 using MetroHome65.Interfaces.Events;
+using MetroHome65.Routines;
 using MetroHome65.Routines.File;
 using MetroHome65.Routines.Screen;
 using MetroHome65.Routines.UIControls;
@@ -20,6 +21,7 @@ namespace MetroHome65.HomeScreen.ProgramsMenu
 {
     sealed partial class ProgramsMenu : ListElement
     {
+        private const string _str_pinToStart = "Pin to start";
 
         // color for item icon background
         private readonly Color _bgColor;
@@ -183,7 +185,7 @@ namespace MetroHome65.HomeScreen.ProgramsMenu
         {
             var mainMenu = new ContextMenu();
 
-            var menuPinProgram = new MenuItem { Text = "Pin to start" };
+            var menuPinProgram = new MenuItem { Text = _str_pinToStart.Localize() };
             menuPinProgram.Click += (s, e) => PinProgram(fileDescr);
             mainMenu.MenuItems.Add(menuPinProgram);
 

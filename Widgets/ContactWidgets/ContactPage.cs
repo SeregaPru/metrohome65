@@ -38,7 +38,7 @@ namespace MetroHome65.Widgets
 
         private readonly TextStyle _titleStyle = new TextStyle(
                 MetroTheme.PhoneFontFamilySemiLight,
-                MetroTheme.PhoneFontSizeMediumLarge,
+                14,
                 MetroTheme.PhoneForegroundBrush);
 
         private readonly TextStyle _subTitleStyle = new TextStyle(
