@@ -75,7 +75,7 @@ namespace Metrohome65.Settings.Controls
 
                 BindingManager = new BindingManager();
 
-                _pivot = new Pivot("SETTINGS") { Size = new Size(Size.Width, Size.Height - appBar.Size.Height) };
+                _pivot = new Pivot("SETTINGS".Localize()) { Size = new Size(Size.Width, Size.Height - appBar.Size.Height) };
 
                 Control.AddElement(_pivot);
 

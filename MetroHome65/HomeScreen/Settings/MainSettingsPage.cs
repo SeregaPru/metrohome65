@@ -3,6 +3,7 @@ using System.ComponentModel;
 using System.Drawing;
 using Fleux.Styles;
 using Fleux.UIElements;
+using MetroHome65.Routines;
 using MetroHome65.Routines.UIControls;
 using Metrohome65.Settings.Controls;
 
@@ -35,7 +36,7 @@ namespace MetroHome65.HomeScreen.Settings
             // intro
             var txtIntro =
                 new TextElement(
-                    "Change your phone's background and accent color to match your mood today, this week, or all month.")
+                    "Change your phone's background and accent color to match your mood today, this week, or all month.".Localize())
                 {
                     Size = new Size(this.Size.Width - 10, 50),
                     Style = new TextStyle(MetroTheme.PhoneFontFamilyNormal, MetroTheme.PhoneFontSizeSmall, MetroTheme.PhoneForegroundBrush),
@@ -49,8 +50,8 @@ namespace MetroHome65.HomeScreen.Settings
             // light/dark theme switcher
             var ctrTheme = new SelectSettingsControl
             {
-                Caption = "Theme",
-                Items = new List<object> { "dark", "light" },
+                Caption = "Theme".Localize(),
+                Items = new List<object> { "dark".Localize(), "light".Localize() },
             };
             this.AddElement(ctrTheme);
             _page.BindingManager.Bind(this, "ThemeIndex", ctrTheme, "SelectedIndex", true);
@@ -58,10 +59,10 @@ namespace MetroHome65.HomeScreen.Settings
             this.AddElement(new Separator());
 
 
-            // accent coolor
+            // accent color
             var ctrAccent = new ColorSettingsControl(false)
             {
-                Caption = "Accent Color",
+                Caption = "Accent Color".Localize(),
             };
             this.AddElement(ctrAccent);
             _page.BindingManager.Bind(this, "AccentColor", ctrAccent, "Value", true);
@@ -72,7 +73,7 @@ namespace MetroHome65.HomeScreen.Settings
             // theme background
             var ctrThemeImage = new ImageSettingsControl
             {
-                Caption = "Theme background",
+                Caption = "Theme background".Localize(),
             };
             this.AddElement(ctrThemeImage);
             _page.BindingManager.Bind(_page.Settings, "ThemeImage", ctrThemeImage, "Value", true);
@@ -83,7 +84,7 @@ namespace MetroHome65.HomeScreen.Settings
             // full screen
             var ctrFullScreen = new FlagSettingsControl()
             {
-                Caption = "Full screen",
+                Caption = "Full screen".Localize(),
             };
             this.AddElement(ctrFullScreen);
             _page.BindingManager.Bind(_page.Settings, "FullScreen", ctrFullScreen, "Value", true);
@@ -94,7 +95,7 @@ namespace MetroHome65.HomeScreen.Settings
             // tile screen style
             var ctrTileTheme = new SelectSettingsControl
             {
-                Caption = "Tiles style",
+                Caption = "Tiles style".Localize(),
                 Items = new List<object> { "Windows Phone 7", "Windows 8" },
             };
             this.AddElement(ctrTileTheme);

@@ -4,6 +4,7 @@ using System.Drawing;
 using System.Linq;
 using Fleux.UIElements;
 using MetroHome65.Interfaces;
+using MetroHome65.Routines;
 using MetroHome65.Routines.File;
 using MetroHome65.Routines.UIControls;
 using Metrohome65.Settings.Controls;
@@ -43,8 +44,8 @@ namespace MetroHome65.Tile
         {
             _pluginManager = TinyIoC.TinyIoCContainer.Current.Resolve<IPluginManager>();
 
-            AddPage(CreateStyleSettings(), "style");
-            AddPage(CreateTileSettings(), "tile");
+            AddPage(CreateStyleSettings(), "style".Localize());
+            AddPage(CreateTileSettings(), "tile".Localize());
         }
 
         private UIElement CreateTileSettings()
@@ -61,7 +62,7 @@ namespace MetroHome65.Tile
             };
 
             stackPanel.AddElement(
-                new TextElement("Tile type") { Size = new Size(SettingsConsts.MaxWidth, 50), }
+                new TextElement("Tile type".Localize()) { Size = new Size(SettingsConsts.MaxWidth, 50), }
                 );
 
             _cbType = new ComboBox { Size = new Size(SettingsConsts.MaxWidth, 50), };
@@ -73,7 +74,7 @@ namespace MetroHome65.Tile
 
 
             stackPanel.AddElement(
-                new TextElement("Tile size") { Size = new Size(SettingsConsts.MaxWidth, 50), }
+                new TextElement("Tile size".Localize()) { Size = new Size(SettingsConsts.MaxWidth, 50), }
                 );
 
             _cbSize = new ComboBox { Size = new Size(SettingsConsts.MaxWidth, 50), };

@@ -1,6 +1,7 @@
 ﻿using System.Drawing;
 using Fleux.UIElements;
 using MetroHome65.LockScreen;
+using MetroHome65.Routines;
 using Metrohome65.Settings.Controls;
 
 namespace MetroHome65.HomeScreen.Settings
@@ -11,8 +12,8 @@ namespace MetroHome65.HomeScreen.Settings
 
         protected override void CreateSettingsControls()
         {
-            AddPage(CreateThemePage(), "theme");
-            AddPage(CreateLockScreenPage(), "lockscreen");
+            AddPage(CreateThemePage(), "theme".Localize());
+            AddPage(CreateLockScreenPage(), "lockscreen".Localize());
         }
 
         private UIElement CreateThemePage()

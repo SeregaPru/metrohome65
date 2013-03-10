@@ -2,6 +2,7 @@
 using System.Drawing;
 using System.Windows.Forms;
 using Fleux.Core.Scaling;
+using MetroHome65.Routines;
 using MetroHome65.Routines.Screen;
 
 namespace MetroHome65.Tile
@@ -135,15 +136,15 @@ namespace MetroHome65.Tile
 
             var tileMenu = new ContextMenu();
 
-            var menuTileEdit = new MenuItem { Text = "Edit" };
+            var menuTileEdit = new MenuItem { Text = "Edit".Localize() };
             menuTileEdit.Click += (s, e) => ShowTileSettings(tile);
             tileMenu.MenuItems.Add(menuTileEdit);
 
-            var menuTileMove = new MenuItem { Text = "Move" };
+            var menuTileMove = new MenuItem { Text = "Move".Localize() };
             menuTileMove.Click += (s, e) => { SelectedTile = tile; };
             tileMenu.MenuItems.Add(menuTileMove);
 
-            var menuTileDelete = new MenuItem { Text = "Delete" };
+            var menuTileDelete = new MenuItem { Text = "Delete".Localize() };
             menuTileDelete.Click += (s, e) => DeleteTile(tile);
             tileMenu.MenuItems.Add(menuTileDelete);
 

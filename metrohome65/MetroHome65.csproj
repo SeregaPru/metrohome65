@@ -471,9 +471,9 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <None Include="metrohome65.lang.ru">
+    <Content Include="metrohome65.lang.ru">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
+    </Content>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CompactFramework.CSharp.targets" />
   <ProjectExtensions>

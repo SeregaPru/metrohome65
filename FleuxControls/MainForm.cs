@@ -5,6 +5,7 @@ using Fleux.Controls;
 using Fleux.Styles;
 using Fleux.UIElements;
 using Fleux.UIElements.Pivot;
+using MetroHome65.Routines;
 using Metrohome65.Settings.Controls;
 using Button = Fleux.UIElements.Button;
 using ComboBox = Fleux.UIElements.ComboBox;
@@ -17,7 +18,7 @@ namespace FleuxControls
         {
             TheForm.Menu = null;
 
-            var pivot = new Pivot("SETTINGS")
+            var pivot = new Pivot("SETTINGS".Localize())
                             {
                                 Size = new Size(480, 700),
                             };

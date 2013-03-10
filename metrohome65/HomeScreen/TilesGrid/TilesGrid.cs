@@ -5,6 +5,7 @@ using Fleux.Controls;
 using Fleux.Core.GraphicsHelpers;
 using Fleux.UIElements;
 using MetroHome65.Interfaces.Events;
+using MetroHome65.Routines;
 using MetroHome65.Routines.File;
 using MetroHome65.Routines.UIControls;
 using MetroHome65.Tile;
@@ -17,6 +18,7 @@ namespace MetroHome65.HomeScreen.TilesGrid
     {
 
         public Action OnExit;
+        private string _str_exit = "Exit";
 
 
         public TilesGrid(TileTheme tileTheme)
@@ -61,7 +63,7 @@ namespace MetroHome65.HomeScreen.TilesGrid
             // add separator
             mainMenu.MenuItems.Add(new MenuItem { Text = "-", });
 
-            var menuExit = new MenuItem {Text = "Exit"};
+            var menuExit = new MenuItem { Text = _str_exit.Localize() };
             menuExit.Click += (s, e) => OnExit(); 
             mainMenu.MenuItems.Add(menuExit);
 

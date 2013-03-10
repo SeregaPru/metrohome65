@@ -6,6 +6,7 @@ using System.Windows.Forms;
 using System.Xml.Serialization;
 using Fleux.Core.Scaling;
 using MetroHome65.Interfaces.Events;
+using MetroHome65.Routines;
 using MetroHome65.Routines.File;
 using MetroHome65.Routines.Screen;
 using TinyIoC;
@@ -21,6 +22,9 @@ namespace MetroHome65.Tile
         public Action OnReadSettings;
         public Action OnWriteSettings;
         public Action OnShowMainSettings;
+
+        private const string _str_settings = "Settings";
+        private const string _str_addWidget = "Add widget";
 
 
         [XmlType("ArrayOfWidgetWrapper")]
@@ -198,14 +202,14 @@ namespace MetroHome65.Tile
         {
             var mainMenu = new ContextMenu();
 
-            var menuAddWidget = new MenuItem { Text = "Add widget" };
+            var menuAddWidget = new MenuItem { Text = _str_addWidget.Localize() };
             menuAddWidget.Click += (s, e) => AddTile(location);
             mainMenu.MenuItems.Add(menuAddWidget);
 
             // add separator
             mainMenu.MenuItems.Add(new MenuItem { Text = "-", });
 
-            var menuSetings = new MenuItem { Text = "Settings" };
+            var menuSetings = new MenuItem { Text = _str_settings.Localize() };
             menuSetings.Click += (s, e) => ShowMainSettings();
             mainMenu.MenuItems.Add(menuSetings);
 
