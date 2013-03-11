@@ -1,13 +1,20 @@
+using Fleux.Controls;
+using Fleux.UIElements;
 using MetroHome65.Interfaces;
+using MetroHome65.Routines;
+using MetroHome65.Routines.UIControls;
+using Metrohome65.Settings.Controls;
+using Microsoft.Win32;
+using System.Collections.Generic;
 
 namespace MetroHome65.Widgets
 {
     [TileInfo("SMS")]
     public class SMSWidget : PhoneWidget
     {
-	// How to get unread sms count.
-	// for MTK chipset there is special registry item.
-	int _unreadType = 0;
+	    // How to get unread sms count.
+	    // for MTK chipset there is special registry item.
+	    int _unreadType = 0;
 
         [TileParameter]
         public int UnreadType
@@ -22,16 +29,16 @@ namespace MetroHome65.Widgets
             }
         }
 
-	private const string _registryPath = "\\Software\MTK\SMS\Unread";
+	    private const string _registryPath = @"\Software\MTK\SMS";
 
         protected override int GetMissedCount()
         {
-	    if (_unreadType != 1)
-            	return Microsoft.WindowsMobile.Status.SystemState.MessagingSmsUnread;
-	    else
-	    {
-		return (int)Registry.LocalMachine.OpenSubKey(_registryPath, false);
-	    }           
+	        if (_unreadType != 1)
+                return Microsoft.WindowsMobile.Status.SystemState.MessagingSmsUnread;
+	        else
+	        {
+                return (int)Registry.LocalMachine.OpenSubKey(_registryPath, false).GetValue("Unread");
+	        }           
         }
 
         public override ICollection<UIElement> EditControls(FleuxControlPage settingsPage)
@@ -39,15 +46,15 @@ namespace MetroHome65.Widgets
             var controls = base.EditControls(settingsPage);
             var bindingManager = new BindingManager();
             
-            controls.AddElement(new Separator());
+            controls.Add(new Separator());
 
-	    // sms count method selection
+	        // sms count method selection
             var ctrUnreadType = new SelectSettingsControl
             {
                 Caption = "Unread Count".Localize(),
                 Items = new List<object> { "Standart".Localize(), "MTK".Localize() },
             };
-            controls.AddElement(ctrUnreadType);
+            controls.Add(ctrUnreadType);
             bindingManager.Bind(this, "UndearType", ctrUnreadType, "SelectedIndex", true);
 
             return controls;
