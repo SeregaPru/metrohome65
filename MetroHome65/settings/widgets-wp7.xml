@@ -1,0 +1,202 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ArrayOfWidgetWrapper xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <WidgetWrapper WidgetClass="MetroHome65.Widgets.SMSWidget">
+    <Parameters>
+      <param Name="CommandLine" Value="\Windows\tmail.exe" />
+      <param Name="Caption" Value="SMS" />
+      <param Name="IconPath" Value="\Program Files\MetroHome65\icons\message.png" />
+      <param Name="TileColor" Value="0" />
+      <param Name="TileImage" Value="" />
+    </Parameters>
+    <Location>
+      <X>0</X>
+      <Y>0</Y>
+    </Location>
+    <Size>
+      <Width>2</Width>
+      <Height>2</Height>
+    </Size>
+  </WidgetWrapper>
+  <WidgetWrapper WidgetClass="MetroHome65.Widgets.PhoneWidget">
+    <Parameters>
+      <param Name="CommandLine" Value="\Windows\cprog.exe" />
+      <param Name="Caption" Value="Phone" />
+      <param Name="IconPath" Value="\Program Files\MetroHome65\icons\phone.png" />
+      <param Name="TileColor" Value="0" />
+      <param Name="TileImage" Value="" />
+    </Parameters>
+    <Location>
+      <X>0</X>
+      <Y>2</Y>
+    </Location>
+    <Size>
+      <Width>2</Width>
+      <Height>2</Height>
+    </Size>
+  </WidgetWrapper>
+  <WidgetWrapper WidgetClass="MetroHome65.Widgets.ShortcutWidget">
+    <Parameters>
+      <param Name="CommandLine" Value="\Windows\addrbook.lnk" />
+      <param Name="Caption" Value="Contacts" />
+      <param Name="IconPath" Value="\Program Files\MetroHome65\icons\contacts.png" />
+      <param Name="TileColor" Value="0" />
+      <param Name="TileImage" Value="" />
+    </Parameters>
+    <Location>
+      <X>2</X>
+      <Y>0</Y>
+    </Location>
+    <Size>
+      <Width>2</Width>
+      <Height>2</Height>
+    </Size>
+  </WidgetWrapper>
+  <WidgetWrapper WidgetClass="MetroHome65.Widgets.ShortcutWidget">
+    <Parameters>
+      <param Name="CommandLine" Value="\Windows\iexplore.exe" />
+      <param Name="Caption" Value="Internet Explorer" />
+      <param Name="IconPath" Value="\Program Files\MetroHome65\icons\iexplore.png" />
+      <param Name="TileColor" Value="0" />
+      <param Name="TileImage" Value="" />
+    </Parameters>
+    <Location>
+      <X>2</X>
+      <Y>2</Y>
+    </Location>
+    <Size>
+      <Width>2</Width>
+      <Height>2</Height>
+    </Size>
+  </WidgetWrapper>
+  <WidgetWrapper WidgetClass="MetroHome65.Widgets.DigitalClockWidget">
+    <Parameters>
+      <param Name="Is24Hour" Value="True" />
+      <param Name="CommandLine" Value="" />
+      <param Name="Caption" Value="" />
+      <param Name="IconPath" Value="" />
+      <param Name="TileColor" Value="0" />
+      <param Name="TileImage" Value="\Program Files\MetroHome65\buttons\bg3.png" />
+    </Parameters>
+    <Location>
+      <X>0</X>
+      <Y>4</Y>
+    </Location>
+    <Size>
+      <Width>4</Width>
+      <Height>2</Height>
+    </Size>
+  </WidgetWrapper>
+  <WidgetWrapper WidgetClass="MetroHome65.Widgets.ShortcutWidget">
+    <Parameters>
+      <param Name="CommandLine" Value="\Windows\camera.exe" />
+      <param Name="Caption" Value="" />
+      <param Name="IconPath" Value="\Program Files\MetroHome65\icons\small\small-camera.png" />
+      <param Name="TileColor" Value="-16751616" />
+      <param Name="TileImage" Value="" />
+    </Parameters>
+    <Location>
+      <X>0</X>
+      <Y>6</Y>
+    </Location>
+    <Size>
+      <Width>1</Width>
+      <Height>1</Height>
+    </Size>
+  </WidgetWrapper>
+  <WidgetWrapper WidgetClass="MetroHome65.Widgets.ShortcutWidget">
+    <Parameters>
+      <param Name="CommandLine" Value="\Windows\wrlsmgr.exe" />
+      <param Name="Caption" Value="" />
+      <param Name="IconPath" Value="\Program Files\MetroHome65\icons\small\small-bluetooth.png" />
+      <param Name="TileColor" Value="-16751616" />
+      <param Name="TileImage" Value="" />
+    </Parameters>
+    <Location>
+      <X>1</X>
+      <Y>6</Y>
+    </Location>
+    <Size>
+      <Width>1</Width>
+      <Height>1</Height>
+    </Size>
+  </WidgetWrapper>
+  <WidgetWrapper WidgetClass="MetroHome65.Widgets.ShortcutWidget">
+    <Parameters>
+      <param Name="CommandLine" Value="\Windows\taskmgr.exe" />
+      <param Name="Caption" Value="" />
+      <param Name="IconPath" Value="\Program Files\MetroHome65\icons\small\small-gauge.png" />
+      <param Name="TileColor" Value="-16751616" />
+      <param Name="TileImage" Value="" />
+    </Parameters>
+    <Location>
+      <X>2</X>
+      <Y>6</Y>
+    </Location>
+    <Size>
+      <Width>1</Width>
+      <Height>1</Height>
+    </Size>
+  </WidgetWrapper>
+  <WidgetWrapper WidgetClass="MetroHome65.Widgets.StatusWidgets.StatusWidget">
+    <Parameters>
+      <param Name="CommandLine" Value="" />
+      <param Name="Caption" Value="" />
+      <param Name="IconPath" Value="" />
+      <param Name="TileColor" Value="0" />
+      <param Name="TileImage" Value="" />
+    </Parameters>
+    <Location>
+      <X>0</X>
+      <Y>15</Y>
+    </Location>
+    <Size>
+      <Width>4</Width>
+      <Height>1</Height>
+    </Size>
+  </WidgetWrapper>
+  <WidgetWrapper WidgetClass="MetroHome65.Widgets.ShortcutWidget">
+    <Parameters>
+      <param Name="CommandLine" Value="\Windows\calendar.exe" />
+      <param Name="Caption" Value="" />
+      <param Name="IconPath" Value="\Program Files\MetroHome65\icons\small\small-calendar.png" />
+      <param Name="TileColor" Value="-16751616" />
+      <param Name="TileImage" Value="" />
+    </Parameters>
+    <Location>
+      <X>3</X>
+      <Y>6</Y>
+    </Location>
+    <Size>
+      <Width>1</Width>
+      <Height>1</Height>
+    </Size>
+  </WidgetWrapper>
+  <WidgetWrapper WidgetClass="MetroHome65.Widgets.ContactWidget">
+    <Parameters>
+      <param Name="ContactId" Value="-2147483645" />
+      <param Name="AlternatePicturePath" Value="\Program Files\MetroHome65\wallpapers\bird.jpg" />
+    </Parameters>
+    <Location>
+      <X>0</X>
+      <Y>7</Y>
+    </Location>
+    <Size>
+      <Width>2</Width>
+      <Height>2</Height>
+    </Size>
+  </WidgetWrapper>
+  <WidgetWrapper WidgetClass="MetroHome65.Widgets.ContactWidget">
+    <Parameters>
+      <param Name="ContactId" Value="-2147483647" />
+      <param Name="AlternatePicturePath" Value="" />
+    </Parameters>
+    <Location>
+      <X>2</X>
+      <Y>7</Y>
+    </Location>
+    <Size>
+      <Width>2</Width>
+      <Height>2</Height>
+    </Size>
+  </WidgetWrapper>
+</ArrayOfWidgetWrapper>

@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ArrayOfWidgetWrapper xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <WidgetWrapper WidgetClass="MetroHome65.Widgets.SMSWidget">
+    <Parameters>
+      <param Name="CommandLine" Value="\Windows\tmail.exe" />
+      <param Name="Caption" Value="SMS" />
+      <param Name="IconPath" Value="\Program Files\MetroHome65\icons\message.png" />
+      <param Name="TileColor" Value="0" />
+      <param Name="TileImage" Value="" />
+    </Parameters>
+    <Location>
+      <X>0</X>
+      <Y>0</Y>
+    </Location>
+    <Size>
+      <Width>2</Width>
+      <Height>2</Height>
+    </Size>
+  </WidgetWrapper>
+  <WidgetWrapper WidgetClass="MetroHome65.Widgets.PhoneWidget">
+    <Parameters>
+      <param Name="CommandLine" Value="\Windows\cprog.exe" />
+      <param Name="Caption" Value="Phone" />
+      <param Name="IconPath" Value="\Program Files\MetroHome65\icons\phone.png" />
+      <param Name="TileColor" Value="0" />
+      <param Name="TileImage" Value="" />
+    </Parameters>
+    <Location>
+      <X>0</X>
+      <Y>2</Y>
+    </Location>
+    <Size>
+      <Width>2</Width>
+      <Height>2</Height>
+    </Size>
+  </WidgetWrapper>
+</ArrayOfWidgetWrapper>
