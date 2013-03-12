@@ -48,18 +48,18 @@ namespace MetroHome65.Widgets
             if (this.GridSize.Width == 4)
             {
                 _paddingRight = 20;
-                _dotWidth = 20;
-                _dotPaddingRight = 9;
-                _dotPaddingLeft = 4;
+                _dotWidth = (int)(_timeFont.FontSize / 3);
+                _dotPaddingRight = (int)(_timeFont.FontSize / 4);
+                _dotPaddingLeft = (int)(_timeFont.FontSize / 9);
             }
             else
             {
-                _timeFont.FontSize = 22;
-                _dateFont.FontSize = 8;
+                //_timeFont.FontSize = 22;
+                //_dateFont.FontSize = 8;
                 _paddingRight = 8;
-                _dotWidth = 10;
-                _dotPaddingRight = 6;
-                _dotPaddingLeft = 0;
+                _dotWidth = (int)(_timeFont.FontSize / 3);
+                _dotPaddingRight = (int)(_timeFont.FontSize / 4);
+                _dotPaddingLeft = (int)(_timeFont.FontSize / 9);
             }
         }
 

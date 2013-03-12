@@ -42,7 +42,7 @@ clear|очистить
 Select program|Выбрать программу
 Select image|Выбрать рисунок
 Tile color|Цвет плитки
-Button background|Рисунок плитки
+Button background|Фоновый рисунок
 Tile type|Тип плитки
 Tile size|Размер плитки
 Caption|Надпись
