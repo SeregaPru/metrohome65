@@ -45,12 +45,12 @@ namespace MetroHome65.Widgets
 
         private void ApplySizeSettings()
         {
-            if (this.GridSize.Width != 2)
+            if (this.GridSize.Width == 4)
             {
                 _paddingRight = 20;
                 _dotWidth = 20;
-                _dotPaddingRight = 8;
-                _dotPaddingLeft = 5;
+                _dotPaddingRight = 9;
+                _dotPaddingLeft = 4;
             }
             else
             {
@@ -58,7 +58,7 @@ namespace MetroHome65.Widgets
                 _dateFont.FontSize = 8;
                 _paddingRight = 8;
                 _dotWidth = 10;
-                _dotPaddingRight = 4;
+                _dotPaddingRight = 6;
                 _dotPaddingLeft = 0;
             }
         }
@@ -66,6 +66,7 @@ namespace MetroHome65.Widgets
         protected override Size[] GetSizes()
         {
             return new Size[] { 
+                new Size(2, 1), 
                 new Size(2, 2), 
                 new Size(4, 2), 
             };
@@ -177,17 +178,18 @@ namespace MetroHome65.Widgets
             var fntTime = new Font(_timeFont.FontFamily, _timeFont.FontSize.ToLogic(), FontStyle.Regular);
             var fntDate = new Font(_dateFont.FontFamily, _dateFont.FontSize.ToLogic(), FontStyle.Regular);
 
-            var brhTime = new SolidBrush(_timeFont.Foreground);
-            var brhDate = new SolidBrush(_dateFont.Foreground);
-
             var sTimeHour = (Is24Hour) ? DateTime.Now.ToString("HH") : DateTime.Now.ToString("hh");
             var sTimeMins = DateTime.Now.ToString("mm");
             var sDate = DateTime.Now.ToString(DateFormat);
 
             var timeBox = g.MeasureString("99", fntTime);
-            var dateBox = g.MeasureString(sDate, fntDate);
+            var dateBox = (this.GridSize.Height == 2) ? 
+                g.MeasureString(sDate, fntDate) :
+                new SizeF(0, 0);
 
             var timeBotom = rect.Top + (rect.Height - timeBox.Height - dateBox.Height - 4.ToLogic()) / 2;
+
+            var brhTime = new SolidBrush(_timeFont.Foreground);
             g.DrawString(sTimeMins, fntTime, brhTime, 
                 rect.Right - timeBox.Width - _paddingRight, timeBotom);
             g.DrawString(sTimeHour, fntTime, brhTime,
@@ -198,8 +200,12 @@ namespace MetroHome65.Widgets
                     rect.Right - timeBox.Width - _paddingRight - _dotWidth - _dotPaddingRight,
                     timeBotom - ScreenRoutines.Scale(5));
 
-            g.DrawString(sDate, fntDate, brhDate,
-                         rect.Right - dateBox.Width - _paddingRight, rect.Bottom - dateBox.Height - 4.ToLogic());
+            if (this.GridSize.Height == 2)
+            {
+                var brhDate = new SolidBrush(_dateFont.Foreground);
+                g.DrawString(sDate, fntDate, brhDate,
+                             rect.Right - dateBox.Width - _paddingRight, rect.Bottom - dateBox.Height - 4.ToLogic());
+            }
         }
 
         public bool Active
