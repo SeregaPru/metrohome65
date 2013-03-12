@@ -1,8 +1,8 @@
-set destfolder=s:\_work\BIN
-rem set destfolder=D:\Work\wm\_out
+rem set destfolder=s:\_work\BIN
+set destfolder=D:\Работа\wm\_out
 
+rem set srcfolder=D:\Работа\wm\metrohome65
 set srcfolder=D:\Работа\wm\metrohome65
-rem set srcfolder=D:\Work\wm\metrohome65
 
 rmdir /S /Q %destfolder%
 mkdir %destfolder%

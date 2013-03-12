@@ -1,3 +1,4 @@
+using System;
 using Fleux.Controls;
 using Fleux.UIElements;
 using MetroHome65.Interfaces;
@@ -37,7 +38,14 @@ namespace MetroHome65.Widgets
                 return Microsoft.WindowsMobile.Status.SystemState.MessagingSmsUnread;
 	        else
 	        {
-                return (int)Registry.LocalMachine.OpenSubKey(_registryPath, false).GetValue("Unread");
+	            try
+	            {
+                    return (int)Registry.LocalMachine.OpenSubKey(_registryPath, false).GetValue("Unread");
+	            }
+	            catch (Exception)
+	            {
+	                return 0;
+	            }
 	        }           
         }
 
@@ -55,7 +63,7 @@ namespace MetroHome65.Widgets
                 Items = new List<object> { "Standart".Localize(), "MTK".Localize() },
             };
             controls.Add(ctrUnreadType);
-            bindingManager.Bind(this, "UndearType", ctrUnreadType, "SelectedIndex", true);
+            bindingManager.Bind(this, "UnreadType", ctrUnreadType, "SelectedIndex", true);
 
             return controls;
         }
