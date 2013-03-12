@@ -54,8 +54,6 @@ namespace MetroHome65.Widgets
             var controls = base.EditControls(settingsPage);
             var bindingManager = new BindingManager();
             
-            controls.Add(new Separator());
-
 	        // sms count method selection
             var ctrUnreadType = new SelectSettingsControl
             {
@@ -64,6 +62,8 @@ namespace MetroHome65.Widgets
             };
             controls.Add(ctrUnreadType);
             bindingManager.Bind(this, "UnreadType", ctrUnreadType, "SelectedIndex", true);
+
+            controls.Add(new Separator());
 
             return controls;
         }
