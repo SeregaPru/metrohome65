@@ -535,6 +535,7 @@ Global
 		{BB2F0F29-E2CE-4053-A6D5-ADB3AABC7A8E}.Release|Windows Mobile 6.ActiveCfg = Release|Any CPU
 		{BB2F0F29-E2CE-4053-A6D5-ADB3AABC7A8E}.Release|Windows Mobile 6.5.3 Professional DTK (ARMV4I).ActiveCfg = Release|Any CPU
 		{BB2F0F29-E2CE-4053-A6D5-ADB3AABC7A8E}.Release|Windows Mobile 6.5.3 Professional DTK (ARMV4I).Build.0 = Release|Any CPU
+		{BB2F0F29-E2CE-4053-A6D5-ADB3AABC7A8E}.Release|Windows Mobile 6.5.3 Professional DTK (ARMV4I).Deploy.0 = Release|Any CPU
 		{0A9395F4-5F1A-4A4D-9187-1348DD68BB6C}.ControlsTest|Any CPU.ActiveCfg = ControlsTest|Any CPU
 		{0A9395F4-5F1A-4A4D-9187-1348DD68BB6C}.ControlsTest|Any CPU.Build.0 = ControlsTest|Any CPU
 		{0A9395F4-5F1A-4A4D-9187-1348DD68BB6C}.ControlsTest|Mixed Platforms.ActiveCfg = ControlsTest|Any CPU
@@ -585,6 +586,7 @@ Global
 		{6E2E475C-1AAE-4EB3-81B4-2D6BF43E9A8D}.Release|Windows Mobile 6.ActiveCfg = Release|Any CPU
 		{6E2E475C-1AAE-4EB3-81B4-2D6BF43E9A8D}.Release|Windows Mobile 6.5.3 Professional DTK (ARMV4I).ActiveCfg = Release|Any CPU
 		{6E2E475C-1AAE-4EB3-81B4-2D6BF43E9A8D}.Release|Windows Mobile 6.5.3 Professional DTK (ARMV4I).Build.0 = Release|Any CPU
+		{6E2E475C-1AAE-4EB3-81B4-2D6BF43E9A8D}.Release|Windows Mobile 6.5.3 Professional DTK (ARMV4I).Deploy.0 = Release|Any CPU
 		{851067F9-A502-471E-A9D9-C5CA33D1C227}.ControlsTest|Any CPU.ActiveCfg = ControlsTest|Any CPU
 		{851067F9-A502-471E-A9D9-C5CA33D1C227}.ControlsTest|Any CPU.Build.0 = ControlsTest|Any CPU
 		{851067F9-A502-471E-A9D9-C5CA33D1C227}.ControlsTest|Mixed Platforms.ActiveCfg = ControlsTest|Any CPU
@@ -610,6 +612,7 @@ Global
 		{851067F9-A502-471E-A9D9-C5CA33D1C227}.Release|Windows Mobile 6.ActiveCfg = Release|Any CPU
 		{851067F9-A502-471E-A9D9-C5CA33D1C227}.Release|Windows Mobile 6.5.3 Professional DTK (ARMV4I).ActiveCfg = Release|Any CPU
 		{851067F9-A502-471E-A9D9-C5CA33D1C227}.Release|Windows Mobile 6.5.3 Professional DTK (ARMV4I).Build.0 = Release|Any CPU
+		{851067F9-A502-471E-A9D9-C5CA33D1C227}.Release|Windows Mobile 6.5.3 Professional DTK (ARMV4I).Deploy.0 = Release|Any CPU
 		{F7150E86-53CA-4BF5-8453-6CFD354924E2}.ControlsTest|Any CPU.ActiveCfg = ControlsTest|Any CPU
 		{F7150E86-53CA-4BF5-8453-6CFD354924E2}.ControlsTest|Any CPU.Build.0 = ControlsTest|Any CPU
 		{F7150E86-53CA-4BF5-8453-6CFD354924E2}.ControlsTest|Mixed Platforms.ActiveCfg = ControlsTest|Any CPU
@@ -635,6 +638,7 @@ Global
 		{F7150E86-53CA-4BF5-8453-6CFD354924E2}.Release|Windows Mobile 6.ActiveCfg = Release|Any CPU
 		{F7150E86-53CA-4BF5-8453-6CFD354924E2}.Release|Windows Mobile 6.5.3 Professional DTK (ARMV4I).ActiveCfg = Release|Any CPU
 		{F7150E86-53CA-4BF5-8453-6CFD354924E2}.Release|Windows Mobile 6.5.3 Professional DTK (ARMV4I).Build.0 = Release|Any CPU
+		{F7150E86-53CA-4BF5-8453-6CFD354924E2}.Release|Windows Mobile 6.5.3 Professional DTK (ARMV4I).Deploy.0 = Release|Any CPU
 		{F37525EE-F9D3-4DE5-B824-6461211DF678}.ControlsTest|Any CPU.ActiveCfg = ControlsTest|Any CPU
 		{F37525EE-F9D3-4DE5-B824-6461211DF678}.ControlsTest|Any CPU.Build.0 = ControlsTest|Any CPU
 		{F37525EE-F9D3-4DE5-B824-6461211DF678}.ControlsTest|Mixed Platforms.ActiveCfg = ControlsTest|Any CPU
@@ -660,6 +664,7 @@ Global
 		{F37525EE-F9D3-4DE5-B824-6461211DF678}.Release|Windows Mobile 6.ActiveCfg = Release|Any CPU
 		{F37525EE-F9D3-4DE5-B824-6461211DF678}.Release|Windows Mobile 6.5.3 Professional DTK (ARMV4I).ActiveCfg = Release|Any CPU
 		{F37525EE-F9D3-4DE5-B824-6461211DF678}.Release|Windows Mobile 6.5.3 Professional DTK (ARMV4I).Build.0 = Release|Any CPU
+		{F37525EE-F9D3-4DE5-B824-6461211DF678}.Release|Windows Mobile 6.5.3 Professional DTK (ARMV4I).Deploy.0 = Release|Any CPU
 		{4DE92367-7A44-405E-83C5-5E41140CF04E}.ControlsTest|Any CPU.ActiveCfg = ControlsTest|Any CPU
 		{4DE92367-7A44-405E-83C5-5E41140CF04E}.ControlsTest|Any CPU.Build.0 = ControlsTest|Any CPU
 		{4DE92367-7A44-405E-83C5-5E41140CF04E}.ControlsTest|Mixed Platforms.ActiveCfg = ControlsTest|Any CPU
@@ -685,6 +690,7 @@ Global
 		{4DE92367-7A44-405E-83C5-5E41140CF04E}.Release|Windows Mobile 6.ActiveCfg = Release|Any CPU
 		{4DE92367-7A44-405E-83C5-5E41140CF04E}.Release|Windows Mobile 6.5.3 Professional DTK (ARMV4I).ActiveCfg = Release|Any CPU
 		{4DE92367-7A44-405E-83C5-5E41140CF04E}.Release|Windows Mobile 6.5.3 Professional DTK (ARMV4I).Build.0 = Release|Any CPU
+		{4DE92367-7A44-405E-83C5-5E41140CF04E}.Release|Windows Mobile 6.5.3 Professional DTK (ARMV4I).Deploy.0 = Release|Any CPU
 		{3EB3547E-EBC9-48FD-B7F7-F49844D8E42A}.ControlsTest|Any CPU.ActiveCfg = ControlsTest|Any CPU
 		{3EB3547E-EBC9-48FD-B7F7-F49844D8E42A}.ControlsTest|Any CPU.Build.0 = ControlsTest|Any CPU
 		{3EB3547E-EBC9-48FD-B7F7-F49844D8E42A}.ControlsTest|Any CPU.Deploy.0 = ControlsTest|Any CPU
