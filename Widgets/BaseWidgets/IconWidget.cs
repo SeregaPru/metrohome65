@@ -126,7 +126,7 @@ namespace MetroHome65.Widgets
                 return;
 
             int captionHeight = (Caption == "") ? 0 : 
-                (CaptionHeight + ((GridSize.Height == 1) ? 1 : 0) /* + CaptionBottomOffset */);
+                (CaptionHeight + ((GridSize.Height == 1) ? 1 : 0));
 
             // draw icon from external image file
             if (_iconImage != null)
