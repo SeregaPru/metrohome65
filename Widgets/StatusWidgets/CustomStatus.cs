@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Drawing;
+using Fleux.Core.Scaling;
+using Fleux.Styles;
 using MetroHome65.Routines;
 using MetroHome65.Routines.Screen;
 
@@ -74,11 +76,11 @@ namespace MetroHome65.Widgets.StatusWidgets
             // draw additional caption
             if (!String.IsNullOrEmpty(caption))
             {
-                var captionFont = new Font("Segoe WP Light", 7, FontStyle.Bold);
+                var captionFont = new Font(MetroTheme.PhoneFontFamilySemiLight, 7.ToLogic(), FontStyle.Bold);
                 captionBrush.Color = captionColor;
                 var captionSize = g.MeasureString(caption, captionFont);
                 g.DrawString(caption, captionFont, captionBrush,
-                    rect.Left + (rect.Width - captionSize.Width) / 2, iconTop + IconSize - ScreenRoutines.Scale(12));
+                    rect.Left + (rect.Width - captionSize.Width) / 2, iconTop + IconSize - 12.ToPixels());
 
                 iconTop -= ScreenRoutines.Scale(6);
             }

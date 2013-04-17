@@ -30,7 +30,12 @@ namespace MetroHome65.Widgets
             }
         }
 
-	    private const string _registryPath = @"\Software\MTK\SMS";
+	    private const string RegistryPath = @"\Software\MTK\SMS";
+
+        public SMSWidget()
+        {
+            Caption = "SMS".Localize();
+        }
 
         protected override int GetMissedCount()
         {
@@ -40,7 +45,7 @@ namespace MetroHome65.Widgets
 	        {
 	            try
 	            {
-                    return (int)Registry.LocalMachine.OpenSubKey(_registryPath, false).GetValue("Unread");
+                    return (int)Registry.LocalMachine.OpenSubKey(RegistryPath, false).GetValue("Unread");
 	            }
 	            catch (Exception)
 	            {
