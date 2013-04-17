@@ -7,9 +7,13 @@ home|домашний
 work|рабочий
 text|сообщение
 SMS|СМС
+MMS|ММС
 profile|профиль
 send email|отправить email
 call|вызов на
+Messages|Сообщения
+Phone|Телефон
+Mail|Почта
 
 #--- advanced lock screen
 Lock screen background|Фоновый рисунок
@@ -55,3 +59,17 @@ tile|плитка
 
 Time Font|Шрифт для времени
 Date Font|Шрифт для даты
+Week Font|Шрифт для недели
+
+Calendar|Календарь
+Mo|Пн
+Tu|Вт
+We|Ср
+Th|Чт
+Fr|Пт
+Sa|Сб
+Su|Вс
+Весь день|Whole day
+No appointments\nfound until {0}|До {0}\nзадачи не обнаружены
+Show Date|Показывать дату
+Show Calendar|Показывать календарь

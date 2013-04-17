@@ -2,24 +2,19 @@
 using System.Drawing;
 using System.Collections.Generic;
 using Fleux.Controls;
-using Fleux.Core;
 using Fleux.Core.Scaling;
 using Fleux.Styles;
 using Fleux.UIElements;
 using MetroHome65.Interfaces;
 using MetroHome65.Routines;
 using Metrohome65.Settings.Controls;
-using Microsoft.WindowsMobile.Status;
-using System.IO;
 using Microsoft.Win32;
-using System.Windows.Forms;
 using System.Runtime.InteropServices;
-using System.Threading;
 
 
 namespace MetroHome65.Widgets
 {
-    [TileInfo("WP Player Control")]
+    [TileInfo("Player Control")]
     public class WPPlayer : ShortcutWidget, IActive
     {
         #region Enum Player

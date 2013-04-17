@@ -1,26 +1,14 @@
 ﻿using System;
 using System.Linq;
 using System.Collections.Generic;
-using System.Text;
 using System.Drawing;
-using System.Threading;
-using System.Media;
-using System.IO;
-
-using System.Reflection;
-using System.ComponentModel;
-using System.Diagnostics;
 using System.Globalization;
-using Microsoft.Win32;
 using Fleux.Controls;
 using Fleux.Core.Scaling;
 using Fleux.Styles;
 using Fleux.UIElements;
 using MetroHome65.Interfaces;
 using MetroHome65.Routines;
-using MetroHome65.Routines.Screen;
-using Metrohome65.Settings.Controls;
-
 using MAPIdotnet;
 
 namespace MetroHome65.Widgets
@@ -46,6 +34,7 @@ namespace MetroHome65.Widgets
             Folder = FolderType.Unknown;
             Select = false;
         }
+
         public string Name { get; set; }
         public string FullAddress { get; set; }
         public string Messages { get; set; }
@@ -54,117 +43,77 @@ namespace MetroHome65.Widgets
         public FolderType Folder { get; set; }
         public IMAPIMessage Imessage { get; set; }
         public bool Select { get; set; }
-
     }
+
     
-    [TileInfo("WP SMS Ext")]
+    [TileInfo("SMS Extra")]
     public class WPSMSExt : ShortcutWidget, IActive
     {
-        
-        private MAPI _Mapi;// = new MAPI();
-        private IMAPIMsgStore _StoreSMS;
-        private IMAPIFolderID _ReceiveFolder;
-        private List<MessagingItems> _smsList = new List<MessagingItems>();
+        private readonly MAPI _mapi;
+        private readonly IMAPIMsgStore _storeSMS;
+        private readonly IMAPIFolderID _receiveFolder;
+        private readonly List<MessagingItems> _smsList;
         private int _smsIndex = -1;
         
         private ThreadTimer _updateTimer;
-        private int _missedCount;
+        private int _unreadCount;
 
-        private static readonly List<String> _fontSizes = new List<String>() { "5", "6", "7", "8", "9", "10", "11", "12", "14","16" };
-        private readonly List<object> _fontSizesData;
-        private static readonly List<String> _fontNames = new List<String>() { "Segoe WP", "Segoe WP Light", "Segoe WP SemiLight", "Segoe WP Semibold" };
-        private readonly List<object> _fontNamesData;
-
-        private int _fontSize = Int16.Parse(_fontSizes[4]);
-        private Color _fontColor = MetroTheme.TileTextStyle.Foreground;
-        private string _fontName = _fontNames[3];
+        private Size _iconSize = new Size(46, 44);
 
         public WPSMSExt()
         {
-            _Mapi = new MAPI();
-            IMAPIMsgStore[] _stores = _Mapi.MessageStores;
-            for (int i = 0, length = _stores.Length; i < length; i++)
+            _smsList = new List<MessagingItems>();
+            _mapi = new MAPI();
+            var stores = _mapi.MessageStores;
+            for (int i = 0, length = stores.Length; i < length; i++)
             {
-                IMAPIMsgStore _store = _stores[i];
-                if (_store.ToString() == "SMS")
-                {
-                    _StoreSMS = _store;
-                }
+                var store = stores[i];
+                if (store.ToString() == "SMS")
+                    _storeSMS = store;
             }
 
-            _ReceiveFolder = _StoreSMS.ReceiveFolder;
+            _receiveFolder = _storeSMS.ReceiveFolder;
 
-            _fontSizesData = new List<object>(); foreach (var size in _fontSizes) { _fontSizesData.Add(size); }
-            _fontNamesData = new List<object>(); foreach (var name in _fontNames) { _fontNamesData.Add(name); }
+            Caption = "Messages".Localize();
         }
 
         private void LoadMessage()
         {
             _smsList.Clear();
-            IMAPIFolder _folder = _ReceiveFolder.OpenFolder();
-            _folder.SortMessagesByDeliveryTime(TableSortOrder.TABLE_SORT_DESCEND);
-            IMAPIMessage[] messages = _folder.GetNextMessages(_folder.NumSubItems);
-            for (int ii = 0; ii < messages.Count() - 1; ii++)
+
+            var folder = _receiveFolder.OpenFolder();
+            folder.SortMessagesByDeliveryTime(TableSortOrder.TABLE_SORT_DESCEND);
+            var messages = folder.GetNextMessages(folder.NumSubItems);
+
+            foreach (var msg in messages)
             {
-                IMAPIMessage msg = messages[ii];
                 msg.PopulateProperties(EMessageProperties.DeliveryTime | EMessageProperties.Sender | EMessageProperties.Subject);
-                IMAPIContact sender = msg.Sender;
-                DateTime delivery = msg.LocalDeliveryTime;
-                DateTime _m_date = DateTime.Today;
-                string _m_name = "";
-                string _m_full_address = "";
-                bool _m_flag = false;
-                if (delivery != null) { _m_date = delivery; }
-                if (sender != null) { _m_name = sender.Name; }
-                if (sender != null) { _m_full_address = sender.FullAddress; }
-                string _m_message = msg.Subject.ToString();
+
                 if (msg.Flags == EMessageFlags.MSGFLAG_UNREAD)
                 {
-                    _m_flag = true;
                     _smsList.Add(new MessagingItems()
                     {
-                        Name = _m_name,
-                        FullAddress = _m_full_address,
-                        Messages = _m_message,
-                        Unread = _m_flag,
-                        Date = _m_date,
+                        Name = (msg.Sender != null) ? msg.Sender.Name : "",
+                        FullAddress = (msg.Sender != null) ? msg.Sender.FullAddress : "",
+                        Messages = msg.Subject,
+                        Unread = true,
+                        Date = msg.LocalDeliveryTime,
                         Folder = FolderType.Receive,
                         Imessage = msg,
                     });
                 }
-
             }
         }
 
 
         protected override Size[] GetSizes()
         {
-            return new Size[] { 
+            return new[] { 
                 new Size(4, 1),
                 new Size(4, 2) 
             };
         }
         
-        [TileParameter]
-        public String FontName { get { return _fontName; } set { _fontName = value; NotifyPropertyChanged("FontName"); } }
-
-        public int FontNameIndex
-        {
-            get { for (var i = 0; i < _fontNames.Count; i++) if (_fontNames[i] == FontName) return i; return 0; }
-            set { if ((value >= 0) && (value < _fontNames.Count)) FontName = _fontNames[value]; }
-        }
-        [TileParameter]
-        public int FontSize { get { return _fontSize; } set { _fontSize = value; NotifyPropertyChanged("FontSize"); } }
-        public int FontSizeIndex
-        {
-            get { for (var i = 0; i < _fontSizes.Count; i++) if (_fontSizes[i] == Convert.ToString(FontSize)) return i; return 0; }
-            set { if ((value >= 0) && (value < _fontSizes.Count)) FontSize = Convert.ToInt32(_fontSizes[value]); }
-        }
-        [TileParameter]
-        public int FontColor { get { return _fontColor.ToArgb(); } set { _fontColor = Color.FromArgb(value); } }
-        public Color FontColorIndex { get { return _fontColor; } set { _fontColor = value; NotifyPropertyChanged("FontColor"); } }
-
-
         public override void PaintBuffer(Graphics g, Rectangle rect)
         {
             base.PaintBuffer(g, rect);
@@ -173,61 +122,57 @@ namespace MetroHome65.Widgets
 
         protected override void PaintIcon(Graphics g, Rectangle rect)
         {
-            return;            
+        }
+
+        protected override void PaintCaption(Graphics g, Rectangle rect)
+        {
+            if ((GridSize.Height == 1) && (_unreadCount != 0)) return;
+            base.PaintCaption(g, rect);
         }
 
         private void PaintCount(Graphics g, Rectangle rect)
         {
-            var _x = 0; var _y = 0; var _w = 0; var _h = 0;
-            if (_missedCount == 0)
+            // если нет новых сообщений то просто рисуем иконку
+            if (_unreadCount == 0)
             {
-                _x = this.Size.Width - 46 - 10;
-                _y = this.Size.Height - 45 - 10;
-                (new AlphaImage("message.png", this.GetType().Assembly)).PaintBackground(g, new Rectangle(_x, _y, 46, 45));
+                (new AlphaImage("WPSMSExt.Images.message.png", this.GetType().Assembly)).
+                    PaintIcon(g,
+                        (rect.Width - _iconSize.Width) / 2,
+                        (rect.Height - _iconSize.Height) / 2);
                 return;
             }
 
-            var missedCountStr = _missedCount.ToString(CultureInfo.InvariantCulture);
-            var captionHeight = (Caption == "") ? 0 : (CaptionHeight);
-            var captionFont = new Font(_fontName, 22.ToLogic(), FontStyle.Regular);
-            Brush captionBrush = new SolidBrush(_fontColor);
+            // если есть новые сообщения то рисуем иконку и кол-во сообщений
+            var countFont = new Font(MetroTheme.PhoneFontFamilySemiBold, 22.ToLogic(), FontStyle.Bold);
+            Brush countBrush = new SolidBrush(CaptionFont.Foreground);
 
-            var _box = g.MeasureString(missedCountStr, captionFont);
-            _x = this.Size.Width - (int)_box.Width - 10;
-            _y = this.Size.Height - (int)_box.Height ;
-            g.DrawString(missedCountStr, captionFont, captionBrush, _x, _y);
-            _x -= (10 + 46);
-            _y = this.Size.Height - 45 - 10;
-            (new AlphaImage("message.png", this.GetType().Assembly)).PaintBackground(g, new Rectangle(_x, _y, 46, 45));
+            var missedCountStr = _unreadCount.ToString(CultureInfo.InvariantCulture);
+            var cntBox = g.MeasureString(missedCountStr, countFont);
+            var x = (_smsList.Any()) ?
+                rect.Width - _iconSize.Width - (int)cntBox.Width - 2 * CaptionLeftOffset :
+                (rect.Width - _iconSize.Width) / 2;
 
-            captionFont = new Font(_fontName, _fontSize.ToLogic() + 3, FontStyle.Regular);
-            if (_smsList.Count() > 0)
+            (new AlphaImage("WPSMSExt.Images.message.png", this.GetType().Assembly)).
+                PaintIcon(g, x, (rect.Height - _iconSize.Height) / 2 + 5);
+
+            g.DrawString(missedCountStr, countFont, countBrush, 
+                x + _iconSize.Width + CaptionLeftOffset, (rect.Height - cntBox.Height) / 2);
+
+
+            // если есть сообщения то выводим первое из них
+            if (_smsList.Any())
             {
                 if (_smsIndex < _smsList.Count())
                 {
-                    g.DrawString(_smsList[_smsIndex].Name, captionFont, captionBrush, 10, -5);
-                }
-                var _box1 = g.MeasureString(_smsList[_smsIndex].Name, captionFont);
+                    var captionFont = new Font(CaptionFont.FontFamily, CaptionFont.FontSize, FontStyle.Regular);
 
-                _x = 10;
-                _y = (int)_box1.Height - 5 ;
-
-                if (this.GridSize.Height == 1)
-                {
-                    _w = this.Size.Width - 20 - (int)_box.Width - 50;
-                    _h = this.Size.Height - (int)_box1.Height ;
-
+                    g.DrawString(_smsList[_smsIndex].Name + "\n" + _smsList[_smsIndex].Messages, 
+                        captionFont, countBrush,
+                        new Rectangle(CaptionLeftOffset, CaptionBottomOffset, 
+                            rect.Width - _iconSize.Width - (int)cntBox.Width - 3 * CaptionLeftOffset, 
+                            rect.Height - CaptionBottomOffset));
                 }
-                else
-                {
-                    _w = this.Size.Width - 20;
-                    _h = this.Size.Height - (int)_box1.Height; 
-                }
-                var _r = new Rectangle(_x, _y, _w, _h);
-                captionFont = new Font(_fontName, _fontSize.ToLogic(), FontStyle.Regular);
-                g.DrawString(_smsList[_smsIndex].Messages, captionFont, captionBrush, _r);
             }
-
         }
 
         public bool Active
@@ -254,14 +199,26 @@ namespace MetroHome65.Widgets
             _smsIndex++;
             if (_smsIndex >= _smsList.Count()) { _smsIndex = 0; }
             var currentMissedCount = GetMissedCount();
-            if (currentMissedCount != _missedCount)
+            if (currentMissedCount != _unreadCount)
             {
-                _missedCount = currentMissedCount;
+                _unreadCount = currentMissedCount;
                 _smsIndex = 0;
-                try { LoadMessage(); } catch (Exception) { _smsIndex = 0; _smsList.Clear(); }
-                ForceUpdate();
+                try
+                {
+                    LoadMessage();
+                } 
+                catch (Exception)
+                {
+                    _smsIndex = 0; 
+                    _smsList.Clear();
+                }
+
+                //ForceUpdate();
             }
-            if (_smsList.Count() > 0) { ForceUpdate(); }
+
+            //if (_smsList.Any()) 
+            //    ForceUpdate();
+
             ForceUpdate();
 
         }
@@ -274,20 +231,6 @@ namespace MetroHome65.Widgets
         public override ICollection<UIElement> EditControls(FleuxControlPage settingsPage)
         {
             var controls = base.EditControls(settingsPage);
-            var bindingManager = new BindingManager();
-
-
-            var fontNameControl = new SelectSettingsControl { Caption = "Font Name", Items = _fontNamesData, };
-            controls.Add(fontNameControl);
-            bindingManager.Bind(this, "FontNameIndex", fontNameControl, "SelectedIndex", true);
-
-            var fontSizeControl = new SelectSettingsControl { Caption = "Font Size", Items = _fontSizesData, };
-            controls.Add(fontSizeControl);
-            bindingManager.Bind(this, "FontSizeIndex", fontSizeControl, "SelectedIndex", true);
-
-            var fontColorControl = new ColorSettingsControl(true) { Caption = "Font Color", };
-            controls.Add(fontColorControl);
-            bindingManager.Bind(this, "FontColorIndex", fontColorControl, "Value", true);
             
             foreach (var control in controls)
                 if (control.Name.Contains("Icon"))

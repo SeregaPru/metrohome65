@@ -13,7 +13,7 @@ using Microsoft.WindowsMobile.PocketOutlook;
 
 namespace MetroHome65.Widgets
 {
-    [TileInfo("WP Appointment")]
+    [TileInfo("Calendar")]
     public class WPAppointment : ShortcutWidget, IActive
     {
         private ThreadTimer _updateTimer;
@@ -110,7 +110,10 @@ namespace MetroHome65.Widgets
         }
 
 
-        private static readonly List<String> TimeScreens = new List<String>() { "1", "2", "4", "6", "8", "10", "12", "24", "48", "72" };
+        private static readonly List<String> TimeScreens = new List<String>()
+            {
+                "1", "2", "4", "6", "8", "10", "12", "24", "48", "72"
+            };
         private readonly List<object> _timeScreensData;
         private int _timeScreen = int.Parse(TimeScreens[3]); 
 
@@ -143,9 +146,13 @@ namespace MetroHome65.Widgets
 
         public WPAppointment()
         {
-            _timeScreensData = new List<object>(); foreach (var time in TimeScreens) { _timeScreensData.Add(time); }
+            _timeScreensData = new List<object>(); 
+            foreach (var time in TimeScreens) 
+                _timeScreensData.Add(time); 
 
             _pen = new Pen(Color.WhiteSmoke);
+
+            Caption = "Calendar".Localize();
         }
 
 
@@ -157,37 +164,34 @@ namespace MetroHome65.Widgets
             base.PaintBuffer(g, rect);
 
             var dayFont = new Font(_dateFont.FontFamily, _dateFont.FontSize.ToLogic(), FontStyle.Regular);
+            var numFont = new Font(_dateFont.FontFamily, (_dateFont.FontSize + 4).ToLogic(), FontStyle.Bold);
             var dayBrush = new SolidBrush(_dateFont.Foreground);
 
             // if there is appointments, write them
             if (_oldAppointments != "")
             {
-                var aptRect = rect;
-
                 if (_isShowDate)
                 {
                     // write date
-                    var day = DateTime.Now.ToString("ddd d"); // three-letter day of the WEEK & day of the MONTH
-                    var box = g.MeasureString(day, dayFont);
+                    var day = DateTime.Now.ToString("ddd"); // three-letter day of the WEEK
+                    var dayBox = g.MeasureString(day, dayFont);
+                    var num = DateTime.Now.Day.ToString(); // day of the MONTH
+                    var numBox = g.MeasureString(num, numFont);
 
-                    var rec = rect;
-                    rec.X += 10; 
-                    rec.Width -= 10;
-                    rec.Height -= (int)box.Height;
-                    aptRect = rec;
+                    g.DrawString(day, dayFont, dayBrush,
+                        rect.Width - dayBox.Width - 5 - numBox.Width - CaptionLeftOffset, 
+                        rect.Height - dayBox.Height - CaptionBottomOffset);
 
-                    rec = rect;
-                    rec.X = rec.Width - (int)box.Width - 10; 
-                    rec.Width = (int)box.Width;
-                    rec.Y = rec.Height - (int)box.Height - 5; 
-                    rec.Height = (int)box.Height;
-
-                    g.DrawString(day, dayFont, dayBrush, rec);
+                    g.DrawString(num, numFont, dayBrush,
+                        rect.Width - numBox.Width - CaptionLeftOffset,
+                        rect.Height - numBox.Height - CaptionBottomOffset);
                 }
 
                 // write appointment
                 var aptFont = new Font(CaptionFont.FontFamily, CaptionFont.FontSize.ToLogic(), FontStyle.Regular);
-                g.DrawString(_oldAppointments, aptFont, new SolidBrush(CaptionFont.Foreground), aptRect);
+                g.DrawString(_oldAppointments, aptFont, new SolidBrush(CaptionFont.Foreground), 
+                    new Rectangle(CaptionLeftOffset, CaptionBottomOffset,
+                        rect.Width - 2 * CaptionLeftOffset, rect.Height - 2 * CaptionBottomOffset));
             }
             else
 
@@ -195,34 +199,35 @@ namespace MetroHome65.Widgets
             {
                 if (_isShowCalendar)
                 {
-                    //var q = (int)(rect.Height * 0.35);
                     (new AlphaImage("WPAppointment.Images.calendar.png", this.GetType().Assembly)).
-                        PaintIcon(g, CaptionLeftOffset.ToLogic(), CaptionBottomOffset.ToLogic());
-                        //PaintBackground(g, new Rectangle(1.ToLogic(), 1.ToLogic(), q, q));
-
-
+                        PaintIcon(g, CaptionLeftOffset, CaptionBottomOffset);
+                    
                     var x = 0;
                     var y = 0;
 
                     var s = DateTime.Now.ToString("dddd, d MMMM"); // full day of the WEEK & day of the MONTH & full month string
                     var dayBox = g.MeasureString(s, dayFont);
                     g.DrawString(s, dayFont, dayBrush, 
-                        (rect.Width - (int)(dayBox.Width) - CaptionLeftOffset.ToLogic()), -CaptionBottomOffset.ToLogic());
-                    y = y + (int)(dayBox.Height) - 8.ToLogic();
+                        (rect.Width - (int)(dayBox.Width) - CaptionLeftOffset), -CaptionBottomOffset);
+                    y = y + (int)(dayBox.Height) - 8;
 
                     s = DateTime.Now.ToString("HH:mm");
                     var timeFont = new Font(TimeFont.FontFamily, TimeFont.FontSize.ToLogic(), FontStyle.Regular);
                     var timeBox = g.MeasureString(s, timeFont);
                     g.DrawString(s, timeFont, new SolidBrush(TimeFont.Foreground),
-                        (rect.Width - (int)(timeBox.Width) - CaptionLeftOffset.ToLogic()), y);
-                    y = y + (int)(timeBox.Height) - 8.ToLogic();
+                        (rect.Width - (int)(timeBox.Width) - CaptionLeftOffset), y);
+                    y = y + (int)(timeBox.Height) - 8;
 
                     var weekFont = new Font(WeekFont.FontFamily, WeekFont.FontSize.ToLogic(), FontStyle.Regular);
                     var weekBrush = new SolidBrush(WeekFont.Foreground);
 
-                    var dayWidth = (int)(rect.Width / 8);
+                    var dayWidth = rect.Width / 8;
                     var dayHeight = 0;
-                    foreach (var dayName in new[] { "Пн", "Вт", "Ср", "Чт", "Пт", "Сб", "Вс" })
+                    var dayNames = new[] {
+                            "Mo".Localize(), "Tu".Localize(), "We".Localize(), "Th".Localize(), 
+                            "Fr".Localize(), "Sa".Localize(), "Su".Localize()
+                        };
+                    foreach (var dayName in dayNames)
                     {
                         var weekdayBox = g.MeasureString(dayName, weekFont);
                         dayHeight = (int) Math.Max(dayHeight, weekdayBox.Height);
@@ -234,7 +239,7 @@ namespace MetroHome65.Widgets
                     if (currentWeekDay == 0) currentWeekDay = 7;
                     var dayNum = 1;
 
-                    foreach (var dayName in new[] { "Пн", "Вт", "Ср", "Чт", "Пт", "Сб", "Вс" })
+                    foreach (var dayName in dayNames)
                     {
                         // день недели
                         var weekdayBox = g.MeasureString(dayName, weekFont);
@@ -256,7 +261,8 @@ namespace MetroHome65.Widgets
                 else
                 {
                     var aptFont = new Font(CaptionFont.FontFamily, CaptionFont.FontSize.ToLogic(), FontStyle.Regular);
-                    var noApts = string.Format("До {0}\nзадачи не обнаружены", DateTime.Now.AddHours(_timeScreen).ToShortTimeString());
+                    var noApts = string.Format("No appointments\nfound until {0}".Localize(), 
+                        DateTime.Now.AddHours(_timeScreen).ToShortTimeString());
                     g.DrawString(noApts, aptFont, new SolidBrush(CaptionFont.Foreground), CaptionLeftOffset, CaptionBottomOffset);
                 }
             }
@@ -277,7 +283,7 @@ namespace MetroHome65.Widgets
 
                 if (app.AllDayEvent)
                 {
-                    s += "Весь день".Localize() + " " + app.Location + " " + app.Subject + " " + app.Body + "\n";
+                    s += "Whole day".Localize() + " " + app.Location + " " + app.Subject + " " + app.Body + "\n";
                 }
                 else
                 {
@@ -328,10 +334,10 @@ namespace MetroHome65.Widgets
             var controls = base.EditControls(settingsPage);
             var bindingManager = new BindingManager();
             
-            var showDateControl = new FlagSettingsControl { Caption = "Show Date", };
+            var showDateControl = new FlagSettingsControl { Caption = "Show Date".Localize(), };
             controls.Add(showDateControl); bindingManager.Bind(this, "IsShowDate", showDateControl, "Value", true);
 
-            var showCalendarControl = new FlagSettingsControl { Caption = "Show Calendar", };
+            var showCalendarControl = new FlagSettingsControl { Caption = "Show Calendar".Localize(), };
             controls.Add(showCalendarControl); bindingManager.Bind(this, "IsShowCalendar", showCalendarControl, "Value", true);
 
             var timeScreenControl = new SelectSettingsControl { Caption = "Time Screen", Items = _timeScreensData, };

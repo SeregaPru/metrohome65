@@ -241,7 +241,7 @@
     </Parameters>
     <Location>
       <X>0</X>
-      <Y>10</Y>
+      <Y>13</Y>
     </Location>
     <Size>
       <Width>4</Width>
@@ -266,7 +266,45 @@
     </Parameters>
     <Location>
       <X>0</X>
-      <Y>12</Y>
+      <Y>15</Y>
+    </Location>
+    <Size>
+      <Width>4</Width>
+      <Height>2</Height>
+    </Size>
+  </WidgetWrapper>
+  <WidgetWrapper WidgetClass="MetroHome65.Widgets.WPSMSExt">
+    <Parameters>
+      <param Name="CommandLine" Value="" />
+      <param Name="PlayOnTapAnimation" Value="True" />
+      <param Name="Caption" Value="Messages" />
+      <param Name="CaptionFont" Value="Segoe WP Semibold;8;-1" />
+      <param Name="IconPath" Value="" />
+      <param Name="TileColor" Value="0" />
+      <param Name="TileImage" Value="" />
+    </Parameters>
+    <Location>
+      <X>0</X>
+      <Y>10</Y>
+    </Location>
+    <Size>
+      <Width>4</Width>
+      <Height>1</Height>
+    </Size>
+  </WidgetWrapper>
+  <WidgetWrapper WidgetClass="MetroHome65.Widgets.WPSMSExt">
+    <Parameters>
+      <param Name="CommandLine" Value="" />
+      <param Name="PlayOnTapAnimation" Value="True" />
+      <param Name="Caption" Value="Messages" />
+      <param Name="CaptionFont" Value="Segoe WP Semibold;8;-1" />
+      <param Name="IconPath" Value="" />
+      <param Name="TileColor" Value="0" />
+      <param Name="TileImage" Value="" />
+    </Parameters>
+    <Location>
+      <X>0</X>
+      <Y>11</Y>
     </Location>
     <Size>
       <Width>4</Width>

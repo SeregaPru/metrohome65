@@ -4,14 +4,13 @@ using System.Drawing;
 using System.Collections.Generic;
 using Microsoft.Win32;
 using Fleux.Controls;
-using Fleux.Core.Scaling;
 using Fleux.UIElements;
 using MetroHome65.Interfaces;
 using MetroHome65.Routines;
 
 namespace MetroHome65.Widgets
 {
-    [TileInfo("WP Operator Name")]
+    [TileInfo("Operator Name")]
     public class WPOperatorName : ShortcutWidget, IActive
     {
         private ThreadTimer _updateTimer;

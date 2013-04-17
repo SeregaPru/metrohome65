@@ -26,6 +26,11 @@ namespace MetroHome65.Widgets
             };
         }
 
+        public PhoneWidget()
+        {
+            Caption = "Phone".Localize();
+        }
+
         public override void PaintBuffer(Graphics g, Rectangle rect)
         {
             base.PaintBuffer(g, rect);
@@ -51,14 +56,13 @@ namespace MetroHome65.Widgets
 
             var captionHeight = (Caption == "") ? 0 : (CaptionHeight);
 
-            var captionFont = new Font(MetroTheme.PhoneFontFamilySemiBold, 28.ToLogic(), FontStyle.Bold);
-
-            Brush captionBrush = new SolidBrush(CaptionFont.Foreground);
+            var countFont = new Font(MetroTheme.PhoneFontFamilySemiBold, 28.ToLogic(), FontStyle.Bold);
+            Brush countBrush = new SolidBrush(CaptionFont.Foreground);
 
             var dx = (this.GridSize.Width == 1) ? 2 : 1;
-            g.DrawString(missedCountStr, captionFont, captionBrush,
+            g.DrawString(missedCountStr, countFont, countBrush,
                 rect.Right - PaddingRightCnt / dx - 5,
-                rect.Top + (rect.Height - g.MeasureString("0", captionFont).Height - captionHeight) / 2);
+                rect.Top + (rect.Height - g.MeasureString("0", countFont).Height - captionHeight) / 2);
         }
 
         public bool Active
