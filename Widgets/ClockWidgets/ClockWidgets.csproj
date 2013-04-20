@@ -88,6 +88,12 @@
       <Name>BaseWidgets</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Images\AlarmOn.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Images\AlarmOff.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CompactFramework.CSharp.targets" />
   <ProjectExtensions>
     <VisualStudio>

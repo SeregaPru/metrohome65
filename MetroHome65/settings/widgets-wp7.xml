@@ -80,9 +80,11 @@
   <WidgetWrapper WidgetClass="MetroHome65.Widgets.DigitalClockWidget">
     <Parameters>
       <param Name="Is24Hour" Value="True" />
+      <param Name="ShowAlarm" Value="True" />
       <param Name="DateFormat" Value="dddd, MMMM d" />
       <param Name="TimeFont" Value="Segoe WP Semibold;36;-1" />
       <param Name="DateFont" Value="Segoe WP SemiLight;12;-1" />
+      <param Name="AlarmFont" Value="Segoe WP Light;12;-1" />
       <param Name="CommandLine" Value="" />
       <param Name="PlayOnTapAnimation" Value="True" />
       <param Name="Caption" Value="" />
@@ -93,7 +95,7 @@
     </Parameters>
     <Location>
       <X>0</X>
-      <Y>4</Y>
+      <Y>6</Y>
     </Location>
     <Size>
       <Width>4</Width>
@@ -112,7 +114,7 @@
     </Parameters>
     <Location>
       <X>0</X>
-      <Y>6</Y>
+      <Y>8</Y>
     </Location>
     <Size>
       <Width>1</Width>
@@ -131,7 +133,7 @@
     </Parameters>
     <Location>
       <X>1</X>
-      <Y>6</Y>
+      <Y>8</Y>
     </Location>
     <Size>
       <Width>1</Width>
@@ -150,7 +152,7 @@
     </Parameters>
     <Location>
       <X>2</X>
-      <Y>6</Y>
+      <Y>8</Y>
     </Location>
     <Size>
       <Width>1</Width>
@@ -169,7 +171,7 @@
     </Parameters>
     <Location>
       <X>0</X>
-      <Y>9</Y>
+      <Y>11</Y>
     </Location>
     <Size>
       <Width>4</Width>
@@ -188,7 +190,7 @@
     </Parameters>
     <Location>
       <X>3</X>
-      <Y>6</Y>
+      <Y>8</Y>
     </Location>
     <Size>
       <Width>1</Width>
@@ -202,7 +204,7 @@
     </Parameters>
     <Location>
       <X>0</X>
-      <Y>7</Y>
+      <Y>9</Y>
     </Location>
     <Size>
       <Width>2</Width>
@@ -216,7 +218,7 @@
     </Parameters>
     <Location>
       <X>2</X>
-      <Y>7</Y>
+      <Y>9</Y>
     </Location>
     <Size>
       <Width>2</Width>
@@ -241,7 +243,7 @@
     </Parameters>
     <Location>
       <X>0</X>
-      <Y>13</Y>
+      <Y>15</Y>
     </Location>
     <Size>
       <Width>4</Width>
@@ -266,7 +268,7 @@
     </Parameters>
     <Location>
       <X>0</X>
-      <Y>15</Y>
+      <Y>17</Y>
     </Location>
     <Size>
       <Width>4</Width>
@@ -285,7 +287,7 @@
     </Parameters>
     <Location>
       <X>0</X>
-      <Y>10</Y>
+      <Y>12</Y>
     </Location>
     <Size>
       <Width>4</Width>
@@ -304,10 +306,60 @@
     </Parameters>
     <Location>
       <X>0</X>
-      <Y>11</Y>
+      <Y>13</Y>
     </Location>
     <Size>
       <Width>4</Width>
+      <Height>2</Height>
+    </Size>
+  </WidgetWrapper>
+  <WidgetWrapper WidgetClass="MetroHome65.Widgets.DigitalClockWidget">
+    <Parameters>
+      <param Name="Is24Hour" Value="True" />
+      <param Name="ShowAlarm" Value="True" />
+      <param Name="DateFormat" Value="dddd, MMMM d" />
+      <param Name="TimeFont" Value="Segoe WP Semibold;16;-1" />
+      <param Name="DateFont" Value="Segoe WP SemiLight;12;-1" />
+      <param Name="AlarmFont" Value="Segoe WP SemiLight;12;-1" />
+      <param Name="CommandLine" Value="" />
+      <param Name="PlayOnTapAnimation" Value="True" />
+      <param Name="Caption" Value="" />
+      <param Name="CaptionFont" Value="Segoe WP Semibold;8;-1" />
+      <param Name="IconPath" Value="" />
+      <param Name="TileColor" Value="0" />
+      <param Name="TileImage" Value="" />
+    </Parameters>
+    <Location>
+      <X>2</X>
+      <Y>4</Y>
+    </Location>
+    <Size>
+      <Width>2</Width>
+      <Height>1</Height>
+    </Size>
+  </WidgetWrapper>
+  <WidgetWrapper WidgetClass="MetroHome65.Widgets.DigitalClockWidget">
+    <Parameters>
+      <param Name="Is24Hour" Value="True" />
+      <param Name="ShowAlarm" Value="False" />
+      <param Name="DateFormat" Value="d MMMM" />
+      <param Name="TimeFont" Value="Segoe WP Semibold;26;-1" />
+      <param Name="DateFont" Value="Segoe WP SemiLight;12;-1" />
+      <param Name="AlarmFont" Value="Segoe WP SemiLight;12;-1" />
+      <param Name="CommandLine" Value="" />
+      <param Name="PlayOnTapAnimation" Value="True" />
+      <param Name="Caption" Value="" />
+      <param Name="CaptionFont" Value="Segoe WP Semibold;8;-1" />
+      <param Name="IconPath" Value="" />
+      <param Name="TileColor" Value="0" />
+      <param Name="TileImage" Value="" />
+    </Parameters>
+    <Location>
+      <X>0</X>
+      <Y>4</Y>
+    </Location>
+    <Size>
+      <Width>2</Width>
       <Height>2</Height>
     </Size>
   </WidgetWrapper>

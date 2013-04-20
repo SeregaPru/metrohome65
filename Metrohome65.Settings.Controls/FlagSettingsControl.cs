@@ -26,7 +26,7 @@ namespace Metrohome65.Settings.Controls
 
         public FlagSettingsControl()
         {
-            Size = new Size(450, 85);
+            Size = new Size(450, 65);
 
             _cbFlag = new CheckBox("<flag parameter>")
                          {
