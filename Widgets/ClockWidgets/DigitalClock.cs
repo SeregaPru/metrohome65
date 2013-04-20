@@ -9,6 +9,7 @@ using MetroHome65.Interfaces;
 using MetroHome65.Routines;
 using MetroHome65.Routines.Screen;
 using Metrohome65.Settings.Controls;
+using Microsoft.Win32;
 
 namespace MetroHome65.Widgets
 {
@@ -19,6 +20,7 @@ namespace MetroHome65.Widgets
 
         private Boolean _showPoints = true;
         private Boolean _is24Hour = true;
+        private Boolean _showAlarm = false;
         private string _dateFormat = _dateFormats[0];
 
         private int _paddingRight;
@@ -26,8 +28,9 @@ namespace MetroHome65.Widgets
         private int _dotPaddingRight;
         private int _dotPaddingLeft;
 
-        private TextStyle _timeFont = new TextStyle(MetroTheme.PhoneFontFamilySemiBold, 36, Color.White);
-        private TextStyle _dateFont = new TextStyle(MetroTheme.PhoneFontFamilySemiLight, 12, Color.White);
+        private TextStyle _timeFont = new TextStyle(MetroTheme.PhoneFontFamilySemiBold, 36.ToLogic(), Color.White);
+        private TextStyle _dateFont = new TextStyle(MetroTheme.PhoneFontFamilySemiLight, 12.ToLogic(), Color.White);
+        private TextStyle _alarmFont = new TextStyle(MetroTheme.PhoneFontFamilySemiBold, 8.ToLogic(), Color.White);
 
 
         public DigitalClockWidget() 
@@ -54,8 +57,6 @@ namespace MetroHome65.Widgets
             }
             else
             {
-                //_timeFont.FontSize = 22;
-                //_dateFont.FontSize = 8;
                 _paddingRight = 8;
                 _dotWidth = (int)(_timeFont.FontSize / 3);
                 _dotPaddingRight = (int)(_timeFont.FontSize / 4);
@@ -94,6 +95,21 @@ namespace MetroHome65.Widgets
         }
 
         /// <summary>
+        /// Show alarm clock
+        /// </summary>
+        [TileParameter]
+        public Boolean ShowAlarm
+        {
+            get { return _showAlarm; }
+            set
+            {
+                if (_showAlarm == value) return;
+                _showAlarm = value;
+                NotifyPropertyChanged("ShowAlarm");
+            }
+        }
+
+        /// <summary>
         /// Format for date
         /// </summary>
         [TileParameter]
@@ -109,7 +125,7 @@ namespace MetroHome65.Widgets
                 }
             }
         }
-
+        
         public int DateSampleIndex
         {
             get 
@@ -153,6 +169,20 @@ namespace MetroHome65.Widgets
             }
         }
 
+        [TileParameter]
+        public TextStyle AlarmFont
+        {
+            get { return _alarmFont; }
+            set
+            {
+                if (_alarmFont != value)
+                {
+                    _alarmFont = value;
+                    NotifyPropertyChanged("AlarmFont");
+                }
+            }
+        }
+
         /// <summary>
         /// collection of formatted date with different foramts
         /// for display in date format selection form
@@ -175,6 +205,46 @@ namespace MetroHome65.Widgets
         {
             base.PaintBuffer(g, rect);
 
+            int timeOffsetY = 0;
+            // show alarm clock icon and time
+            if (_showAlarm)
+            {
+                var key = Registry.LocalMachine.OpenSubKey(@"Software\Microsoft\Clock\0", false);
+                if (key != null)
+                {
+                    var alarmFlagReg = (byte[])key.GetValue("AlarmFlags", 0);
+                    var alarmTimeReg = (byte[])key.GetValue("AlarmTime", 0);
+                    key.Close();
+
+                    if (alarmFlagReg[0] != 1)
+                    {
+                        new AlphaImage("ClockWidgets.Images.AlarmOff.png", base.GetType().Assembly).PaintIcon(g,
+                                        rect.Left + CaptionLeftOffset, rect.Top + CaptionBottomOffset);
+                        timeOffsetY += 24;
+                    }
+                    else
+                    {
+                        var alarmTime = (alarmTimeReg[1] * 0x100) + alarmTimeReg[0];
+                        var mins = alarmTime / 60;
+                        var hours = alarmTime - (mins * 60);
+                        var sAlarm = ((mins < 10) ? "0" : "") + mins.ToString() + ":" +
+                                     ((hours < 10) ? "0" : "") + hours.ToString();
+
+                        var fntAlarm = new Font(_alarmFont.FontFamily, _alarmFont.FontSize.ToLogic(), FontStyle.Regular);
+                        var brhAlarm = new SolidBrush(_alarmFont.Foreground);
+
+                        new AlphaImage("ClockWidgets.Images.AlarmOn.png", base.GetType().Assembly).PaintIcon(g,
+                                        rect.Left + CaptionLeftOffset, 
+                                        rect.Top + CaptionBottomOffset);
+                        var alarmBox = g.MeasureString(sAlarm, fntAlarm);
+                        g.DrawString(sAlarm, fntAlarm, brhAlarm,
+                                     rect.Left + CaptionLeftOffset + 24 + CaptionLeftOffset, 
+                                     rect.Top + CaptionBottomOffset);
+                        timeOffsetY += (int) alarmBox.Height;
+                    }
+                }
+            }
+
             var fntTime = new Font(_timeFont.FontFamily, _timeFont.FontSize.ToLogic(), FontStyle.Regular);
             var fntDate = new Font(_dateFont.FontFamily, _dateFont.FontSize.ToLogic(), FontStyle.Regular);
 
@@ -183,28 +253,28 @@ namespace MetroHome65.Widgets
             var sDate = DateTime.Now.ToString(DateFormat);
 
             var timeBox = g.MeasureString("99", fntTime);
-            var dateBox = (this.GridSize.Height == 2) ? 
-                g.MeasureString(sDate, fntDate) :
-                new SizeF(0, 0);
-
-            var timeBotom = rect.Top + (rect.Height - timeBox.Height - dateBox.Height - 4.ToLogic()) / 2;
+            var dateBox = (this.GridSize.Height == 2)
+                              ? g.MeasureString(sDate, fntDate)
+                              : new SizeF(0, 0);
 
             var brhTime = new SolidBrush(_timeFont.Foreground);
-            g.DrawString(sTimeMins, fntTime, brhTime, 
-                rect.Right - timeBox.Width - _paddingRight, timeBotom);
+            var timePosY = rect.Top + timeOffsetY/2 + (rect.Height - timeBox.Height - dateBox.Height)/2;
+            g.DrawString(sTimeMins, fntTime, brhTime,
+                         rect.Right - timeBox.Width - _paddingRight, timePosY);
             g.DrawString(sTimeHour, fntTime, brhTime,
-                rect.Right - timeBox.Width - _paddingRight - _dotWidth - _dotPaddingRight - _dotPaddingLeft - timeBox.Width,
-                rect.Top + (rect.Height - timeBox.Height - dateBox.Height) / 2);
+                         rect.Right - timeBox.Width - _paddingRight - _dotWidth - _dotPaddingRight - _dotPaddingLeft -
+                         timeBox.Width, timePosY);
             if (_showPoints)
                 g.DrawString(":", fntTime, brhTime,
-                    rect.Right - timeBox.Width - _paddingRight - _dotWidth - _dotPaddingRight,
-                    timeBotom - ScreenRoutines.Scale(5));
+                             rect.Right - timeBox.Width - _paddingRight - _dotWidth - _dotPaddingRight,
+                             timePosY - 8.ToLogic());
 
             if (this.GridSize.Height == 2)
             {
                 var brhDate = new SolidBrush(_dateFont.Foreground);
                 g.DrawString(sDate, fntDate, brhDate,
-                             rect.Right - dateBox.Width - _paddingRight, rect.Bottom - dateBox.Height - 4.ToLogic());
+                             rect.Right - dateBox.Width - _paddingRight, 
+                             rect.Bottom - dateBox.Height - 4.ToLogic());
             }
         }
 
@@ -244,12 +314,19 @@ namespace MetroHome65.Widgets
             var controls = base.EditControls(settingsPage);
             var bindingManager = new BindingManager();
 
-            var flagControl = new FlagSettingsControl
+            var is24HourControl = new FlagSettingsControl
                                   {
                                       Caption = "24-Hours".Localize(), 
                                   };
-            controls.Add(flagControl);
-            bindingManager.Bind(this, "Is24Hour", flagControl, "Value", true);
+            controls.Add(is24HourControl);
+            bindingManager.Bind(this, "Is24Hour", is24HourControl, "Value", true);
+
+            var showAlarmControl = new FlagSettingsControl
+            {
+                Caption = "Show alarm".Localize(),
+            };
+            controls.Add(showAlarmControl);
+            bindingManager.Bind(this, "ShowAlarm", showAlarmControl, "Value", true);
 
             var formatControl = new SelectSettingsControl
                                     {
@@ -273,6 +350,13 @@ namespace MetroHome65.Widgets
                                           };
             controls.Add(dateFontControl);
             bindingManager.Bind(this, "DateFont", dateFontControl, "Value", true);
+
+            var alarmFontControl = new FontSettingsControl
+            {
+                Caption = "Alarm Font".Localize(),
+            };
+            controls.Add(alarmFontControl);
+            bindingManager.Bind(this, "AlarmFont", alarmFontControl, "Value", true);
 
 
             // hide control for icon / caption selection

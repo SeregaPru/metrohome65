@@ -60,6 +60,7 @@ tile|плитка
 Time Font|Шрифт для времени
 Date Font|Шрифт для даты
 Week Font|Шрифт для недели
+Alarm Font|Шрифт для будильника
 
 Calendar|Календарь
 Mo|Пн
