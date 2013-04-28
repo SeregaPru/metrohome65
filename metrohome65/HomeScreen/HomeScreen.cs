@@ -44,6 +44,7 @@ namespace MetroHome65.HomeScreen
 
         public HomeScreen() : base(false)
         {
+            theForm.ControlBox = false;
             theForm.Menu = null;
             theForm.Text = "";
 

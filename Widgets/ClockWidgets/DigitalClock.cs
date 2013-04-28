@@ -7,7 +7,6 @@ using Fleux.Styles;
 using Fleux.UIElements;
 using MetroHome65.Interfaces;
 using MetroHome65.Routines;
-using MetroHome65.Routines.Screen;
 using Metrohome65.Settings.Controls;
 using Microsoft.Win32;
 
@@ -227,20 +226,22 @@ namespace MetroHome65.Widgets
                         var alarmTime = (alarmTimeReg[1] * 0x100) + alarmTimeReg[0];
                         var mins = alarmTime / 60;
                         var hours = alarmTime - (mins * 60);
-                        var sAlarm = ((mins < 10) ? "0" : "") + mins.ToString() + ":" +
+                        var sAlarm = ((mins < 10)  ? "0" : "") + mins.ToString() + ":" +
                                      ((hours < 10) ? "0" : "") + hours.ToString();
 
                         var fntAlarm = new Font(_alarmFont.FontFamily, _alarmFont.FontSize.ToLogic(), FontStyle.Regular);
                         var brhAlarm = new SolidBrush(_alarmFont.Foreground);
 
-                        new AlphaImage("ClockWidgets.Images.AlarmOn.png", base.GetType().Assembly).PaintIcon(g,
-                                        rect.Left + CaptionLeftOffset, 
-                                        rect.Top + CaptionBottomOffset);
                         var alarmBox = g.MeasureString(sAlarm, fntAlarm);
                         g.DrawString(sAlarm, fntAlarm, brhAlarm,
-                                     rect.Left + CaptionLeftOffset + 24 + CaptionLeftOffset, 
+                                     rect.Left + CaptionLeftOffset + 24 + CaptionLeftOffset / 2, 
                                      rect.Top + CaptionBottomOffset);
-                        timeOffsetY += (int) alarmBox.Height;
+
+                        new AlphaImage("ClockWidgets.Images.AlarmOn.png", base.GetType().Assembly).PaintIcon(g,
+                                        rect.Left + CaptionLeftOffset,
+                                        rect.Top + CaptionBottomOffset + (int)(alarmBox.Height / 2) - 8.ToLogic());
+
+                        timeOffsetY += (int)alarmBox.Height;
                     }
                 }
             }
@@ -252,7 +253,9 @@ namespace MetroHome65.Widgets
             var sTimeMins = DateTime.Now.ToString("mm");
             var sDate = DateTime.Now.ToString(DateFormat);
 
+            var dots = ":";
             var timeBox = g.MeasureString("99", fntTime);
+            var dotBox = g.MeasureString(dots, fntTime);
             var dateBox = (this.GridSize.Height == 2)
                               ? g.MeasureString(sDate, fntDate)
                               : new SizeF(0, 0);
@@ -261,13 +264,12 @@ namespace MetroHome65.Widgets
             var timePosY = rect.Top + timeOffsetY/2 + (rect.Height - timeBox.Height - dateBox.Height)/2;
             g.DrawString(sTimeMins, fntTime, brhTime,
                          rect.Right - timeBox.Width - _paddingRight, timePosY);
-            g.DrawString(sTimeHour, fntTime, brhTime,
-                         rect.Right - timeBox.Width - _paddingRight - _dotWidth - _dotPaddingRight - _dotPaddingLeft -
-                         timeBox.Width, timePosY);
             if (_showPoints)
-                g.DrawString(":", fntTime, brhTime,
-                             rect.Right - timeBox.Width - _paddingRight - _dotWidth - _dotPaddingRight,
-                             timePosY - 8.ToLogic());
+                g.DrawString(dots, fntTime, brhTime,
+                             rect.Right - timeBox.Width - _paddingRight - dotBox.Width,
+                             timePosY - dotBox.Height / 10);
+            g.DrawString(sTimeHour, fntTime, brhTime,
+                         rect.Right - timeBox.Width - _paddingRight - dotBox.Width - timeBox.Width, timePosY);
 
             if (this.GridSize.Height == 2)
             {
