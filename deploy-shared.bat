@@ -9,6 +9,8 @@ mkdir %destfolder%
 
 mkdir %destfolder%\buttons
 copy %srcfolder%\metrohome65\buttons\*.* %destfolder%\buttons\
+mkdir %destfolder%\Settings
+copy %srcfolder%\metrohome65\Settings\*.* %destfolder%\Settings\
 mkdir %destfolder%\icons
 mkdir %destfolder%\icons\small
 copy %srcfolder%\metrohome65\icons\*.* %destfolder%\icons\
