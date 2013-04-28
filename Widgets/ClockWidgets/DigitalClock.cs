@@ -23,13 +23,10 @@ namespace MetroHome65.Widgets
         private string _dateFormat = _dateFormats[0];
 
         private int _paddingRight;
-        private int _dotWidth;
-        private int _dotPaddingRight;
-        private int _dotPaddingLeft;
 
-        private TextStyle _timeFont = new TextStyle(MetroTheme.PhoneFontFamilySemiBold, 36.ToLogic(), Color.White);
-        private TextStyle _dateFont = new TextStyle(MetroTheme.PhoneFontFamilySemiLight, 12.ToLogic(), Color.White);
-        private TextStyle _alarmFont = new TextStyle(MetroTheme.PhoneFontFamilySemiBold, 8.ToLogic(), Color.White);
+        private TextStyle _timeFont = new TextStyle(MetroTheme.PhoneFontFamilySemiBold, 36, Color.White);
+        private TextStyle _dateFont = new TextStyle(MetroTheme.PhoneFontFamilySemiLight, 12, Color.White);
+        private TextStyle _alarmFont = new TextStyle(MetroTheme.PhoneFontFamilySemiBold, 8, Color.White);
 
 
         public DigitalClockWidget() 
@@ -50,16 +47,10 @@ namespace MetroHome65.Widgets
             if (this.GridSize.Width == 4)
             {
                 _paddingRight = 20;
-                _dotWidth = (int)(_timeFont.FontSize / 3);
-                _dotPaddingRight = (int)(_timeFont.FontSize / 4);
-                _dotPaddingLeft = (int)(_timeFont.FontSize / 9);
             }
             else
             {
                 _paddingRight = 8;
-                _dotWidth = (int)(_timeFont.FontSize / 3);
-                _dotPaddingRight = (int)(_timeFont.FontSize / 4);
-                _dotPaddingLeft = (int)(_timeFont.FontSize / 9);
             }
         }
 
