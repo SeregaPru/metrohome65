@@ -64,6 +64,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PlayerControl", "Widgets\Ad
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FleuxControls", "FleuxControls\FleuxControls.csproj", "{3EB3547E-EBC9-48FD-B7F7-F49844D8E42A}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WirelessControl", "Widgets\Additional\WPWireless\WirelessControl.csproj", "{75B0B6A8-6CA7-4338-AF9F-137E03B5E46A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		ControlsTest|Any CPU = ControlsTest|Any CPU
@@ -821,6 +823,34 @@ Global
 		{3EB3547E-EBC9-48FD-B7F7-F49844D8E42A}.Release|Windows Mobile 6.ActiveCfg = Release|Any CPU
 		{3EB3547E-EBC9-48FD-B7F7-F49844D8E42A}.Release|Windows Mobile 6.5.3 Professional DTK (ARMV4I).ActiveCfg = Release|Any CPU
 		{3EB3547E-EBC9-48FD-B7F7-F49844D8E42A}.Release|x86.ActiveCfg = Release|Any CPU
+		{75B0B6A8-6CA7-4338-AF9F-137E03B5E46A}.ControlsTest|Any CPU.ActiveCfg = Release|x86
+		{75B0B6A8-6CA7-4338-AF9F-137E03B5E46A}.ControlsTest|Mixed Platforms.ActiveCfg = Release|x86
+		{75B0B6A8-6CA7-4338-AF9F-137E03B5E46A}.ControlsTest|Mixed Platforms.Build.0 = Release|x86
+		{75B0B6A8-6CA7-4338-AF9F-137E03B5E46A}.ControlsTest|Windows Mobile 6.ActiveCfg = Release|x86
+		{75B0B6A8-6CA7-4338-AF9F-137E03B5E46A}.ControlsTest|Windows Mobile 6.5.3 Professional DTK (ARMV4I).ActiveCfg = Release|x86
+		{75B0B6A8-6CA7-4338-AF9F-137E03B5E46A}.ControlsTest|x86.ActiveCfg = Release|x86
+		{75B0B6A8-6CA7-4338-AF9F-137E03B5E46A}.ControlsTest|x86.Build.0 = Release|x86
+		{75B0B6A8-6CA7-4338-AF9F-137E03B5E46A}.Debug (SmartPhone)|Any CPU.ActiveCfg = Debug|x86
+		{75B0B6A8-6CA7-4338-AF9F-137E03B5E46A}.Debug (SmartPhone)|Mixed Platforms.ActiveCfg = Debug|x86
+		{75B0B6A8-6CA7-4338-AF9F-137E03B5E46A}.Debug (SmartPhone)|Mixed Platforms.Build.0 = Debug|x86
+		{75B0B6A8-6CA7-4338-AF9F-137E03B5E46A}.Debug (SmartPhone)|Windows Mobile 6.ActiveCfg = Debug|x86
+		{75B0B6A8-6CA7-4338-AF9F-137E03B5E46A}.Debug (SmartPhone)|Windows Mobile 6.5.3 Professional DTK (ARMV4I).ActiveCfg = Debug|x86
+		{75B0B6A8-6CA7-4338-AF9F-137E03B5E46A}.Debug (SmartPhone)|x86.ActiveCfg = Debug|x86
+		{75B0B6A8-6CA7-4338-AF9F-137E03B5E46A}.Debug (SmartPhone)|x86.Build.0 = Debug|x86
+		{75B0B6A8-6CA7-4338-AF9F-137E03B5E46A}.Debug|Any CPU.ActiveCfg = Debug|x86
+		{75B0B6A8-6CA7-4338-AF9F-137E03B5E46A}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
+		{75B0B6A8-6CA7-4338-AF9F-137E03B5E46A}.Debug|Mixed Platforms.Build.0 = Debug|x86
+		{75B0B6A8-6CA7-4338-AF9F-137E03B5E46A}.Debug|Windows Mobile 6.ActiveCfg = Debug|x86
+		{75B0B6A8-6CA7-4338-AF9F-137E03B5E46A}.Debug|Windows Mobile 6.5.3 Professional DTK (ARMV4I).ActiveCfg = Debug|x86
+		{75B0B6A8-6CA7-4338-AF9F-137E03B5E46A}.Debug|x86.ActiveCfg = Debug|x86
+		{75B0B6A8-6CA7-4338-AF9F-137E03B5E46A}.Debug|x86.Build.0 = Debug|x86
+		{75B0B6A8-6CA7-4338-AF9F-137E03B5E46A}.Release|Any CPU.ActiveCfg = Release|x86
+		{75B0B6A8-6CA7-4338-AF9F-137E03B5E46A}.Release|Mixed Platforms.ActiveCfg = Release|x86
+		{75B0B6A8-6CA7-4338-AF9F-137E03B5E46A}.Release|Mixed Platforms.Build.0 = Release|x86
+		{75B0B6A8-6CA7-4338-AF9F-137E03B5E46A}.Release|Windows Mobile 6.ActiveCfg = Release|x86
+		{75B0B6A8-6CA7-4338-AF9F-137E03B5E46A}.Release|Windows Mobile 6.5.3 Professional DTK (ARMV4I).ActiveCfg = Release|x86
+		{75B0B6A8-6CA7-4338-AF9F-137E03B5E46A}.Release|x86.ActiveCfg = Release|x86
+		{75B0B6A8-6CA7-4338-AF9F-137E03B5E46A}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -838,6 +868,7 @@ Global
 		{F7150E86-53CA-4BF5-8453-6CFD354924E2} = {0B797F7A-E0C8-48CD-878C-9DF1EB7F418B}
 		{F37525EE-F9D3-4DE5-B824-6461211DF678} = {0B797F7A-E0C8-48CD-878C-9DF1EB7F418B}
 		{4DE92367-7A44-405E-83C5-5E41140CF04E} = {0B797F7A-E0C8-48CD-878C-9DF1EB7F418B}
+		{75B0B6A8-6CA7-4338-AF9F-137E03B5E46A} = {0B797F7A-E0C8-48CD-878C-9DF1EB7F418B}
 		{45F5A97D-8487-4239-947C-0ED0DB434346} = {06846815-88AF-4DC8-B30A-951AA8864B87}
 		{BB2F0F29-E2CE-4053-A6D5-ADB3AABC7A8E} = {06846815-88AF-4DC8-B30A-951AA8864B87}
 		{0A9395F4-5F1A-4A4D-9187-1348DD68BB6C} = {DAAA24B1-DA24-464C-AA0E-967917374150}
