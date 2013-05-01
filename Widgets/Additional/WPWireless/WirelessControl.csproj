@@ -1,0 +1,79 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" DefaultTargets="Build">
+  <PropertyGroup>
+    <ProjectType>local</ProjectType>
+    <ProjectVersion>7.10.377</ProjectVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{75B0B6A8-6CA7-4338-AF9F-137E03B5E46A}</ProjectGuid>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <AssemblyName>WirelessControl</AssemblyName>
+    <OutputType>Library</OutputType>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <RootNamespace>WirelessControl</RootNamespace>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
+    <PlatformTarget>x86</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
+    <PlatformTarget>x86</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <ItemGroup>
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Core">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="WirelessControlPage.cs" />
+    <Compile Include="WirelessControlWidget.cs" />
+    <Compile Include="PhoneRadio.cs" />
+    <EmbeddedResource Include="Images\big.big_airplane.png" />
+    <EmbeddedResource Include="Images\small.small_bluetooth_on_visible.png" />
+    <EmbeddedResource Include="Images\small.small_phone.png" />
+    <EmbeddedResource Include="Images\small.small_airplane.png" />
+    <EmbeddedResource Include="Images\big.big_phone.png" />
+    <EmbeddedResource Include="Images\back_light.png" />
+    <EmbeddedResource Include="Images\big.big_wifi_on.png" />
+    <EmbeddedResource Include="Images\small.small_bluetooth_on_invisible.png" />
+    <EmbeddedResource Include="Images\big.big_bluetooth_on_invisible.png" />
+    <EmbeddedResource Include="Images\cancel.png" />
+    <EmbeddedResource Include="Images\big.big_wifi_off.png" />
+    <EmbeddedResource Include="Images\big.big_bluetooth_on_visible.png" />
+    <EmbeddedResource Include="Images\big.big_bluetooth_ad2p.png" />
+    <EmbeddedResource Include="Images\small.small_wifi_off.png" />
+    <EmbeddedResource Include="Images\small.small_bluetooth_ad2p.png" />
+    <EmbeddedResource Include="Images\big.big_bluetooth_off.png" />
+    <EmbeddedResource Include="Images\small.small_wifi_on.png" />
+    <EmbeddedResource Include="Images\small.small_bluetooth_off.png" />
+    <EmbeddedResource Include="Images\back_dark.png" />
+    <EmbeddedResource Include="Images\big.button.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\Fleux\Fleux.csproj">
+      <Project>{8526293A-9C66-48F6-A90D-FB2B7128BF08}</Project>
+      <Name>Fleux</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\MetroHome65.Routines\MetroHome65.Routines.csproj">
+      <Project>{18D428A8-6722-4A69-B39D-F652AFA34D90}</Project>
+      <Name>MetroHome65.Routines</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\BaseWidgets\BaseWidgets.csproj">
+      <Project>{B23D069D-4ED9-4F45-BE07-DA271A2106D4}</Project>
+      <Name>BaseWidgets</Name>
+    </ProjectReference>
+  </ItemGroup>
+</Project>
