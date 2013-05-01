@@ -202,18 +202,17 @@ namespace MetroHome65.Widgets
                 var key = Registry.LocalMachine.OpenSubKey(@"Software\Microsoft\Clock\0", false);
                 if (key != null)
                 {
-                    var alarmFlagReg = (byte[])key.GetValue("AlarmFlags", 0);
-                    var alarmTimeReg = (byte[])key.GetValue("AlarmTime", 0);
-                    key.Close();
-
+                    var alarmFlagReg = (byte[])key.GetValue("AlarmFlags", new byte[] { 0 });
                     if (alarmFlagReg[0] != 1)
                     {
                         new AlphaImage("ClockWidgets.Images.AlarmOff.png", base.GetType().Assembly).PaintIcon(g,
-                                        rect.Left + CaptionLeftOffset, rect.Top + CaptionBottomOffset);
+                                        rect.Left + CaptionLeftOffset, rect.Top + CaptionLeftOffset);
                         timeOffsetY += 24;
                     }
                     else
                     {
+                        var alarmTimeReg = (byte[])key.GetValue("AlarmTime", new byte[] { 0 });
+
                         var alarmTime = (alarmTimeReg[1] * 0x100) + alarmTimeReg[0];
                         var mins = alarmTime / 60;
                         var hours = alarmTime - (mins * 60);
@@ -234,6 +233,7 @@ namespace MetroHome65.Widgets
 
                         timeOffsetY += (int)alarmBox.Height;
                     }
+                    key.Close();
                 }
             }
 
