@@ -100,24 +100,29 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="Images\big_airplane.png" />
+    <EmbeddedResource Include="Images\big_bluetooth_ad2p.png" />
+    <EmbeddedResource Include="Images\big_bluetooth_off.png" />
+    <EmbeddedResource Include="Images\big_bluetooth_on_invisible.png" />
+    <EmbeddedResource Include="Images\big_bluetooth_on_visible.png" />
+    <EmbeddedResource Include="Images\big_phone.png" />
+    <EmbeddedResource Include="Images\big_wifi_off.png" />
+    <EmbeddedResource Include="Images\big_wifi_on.png" />
+    <EmbeddedResource Include="Images\big_button.png" />
+    <EmbeddedResource Include="Images\small_airplane.png" />
+    <EmbeddedResource Include="Images\small_bluetooth_ad2p.png" />
+    <EmbeddedResource Include="Images\small_bluetooth_off.png" />
+    <EmbeddedResource Include="Images\small_bluetooth_on_invisible.png" />
+    <EmbeddedResource Include="Images\small_bluetooth_on_visible.png" />
+    <EmbeddedResource Include="Images\small_phone.png" />
+    <EmbeddedResource Include="Images\small_wifi_off.png" />
+    <EmbeddedResource Include="Images\small_wifi_on.png" />
+  </ItemGroup>
+  <ItemGroup>
     <EmbeddedResource Include="Images\back-dark.bmp" />
-    <EmbeddedResource Include="Images\big.big_airplane.png" />
-    <EmbeddedResource Include="Images\big.big_bluetooth_ad2p.png" />
-    <EmbeddedResource Include="Images\big.big_bluetooth_off.png" />
-    <EmbeddedResource Include="Images\big.big_bluetooth_on_invisible.png" />
-    <EmbeddedResource Include="Images\big.big_bluetooth_on_visible.png" />
-    <EmbeddedResource Include="Images\big.big_phone.png" />
-    <EmbeddedResource Include="Images\big.big_wifi_off.png" />
-    <EmbeddedResource Include="Images\big.big_wifi_on.png" />
-    <EmbeddedResource Include="Images\big.button.png" />
-    <EmbeddedResource Include="Images\small.small_airplane.png" />
-    <EmbeddedResource Include="Images\small.small_bluetooth_ad2p.png" />
-    <EmbeddedResource Include="Images\small.small_bluetooth_off.png" />
-    <EmbeddedResource Include="Images\small.small_bluetooth_on_invisible.png" />
-    <EmbeddedResource Include="Images\small.small_bluetooth_on_visible.png" />
-    <EmbeddedResource Include="Images\small.small_phone.png" />
-    <EmbeddedResource Include="Images\small.small_wifi_off.png" />
-    <EmbeddedResource Include="Images\small.small_wifi_on.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Images\back-light.bmp" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CompactFramework.CSharp.targets" />
   <ProjectExtensions>

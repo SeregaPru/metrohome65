@@ -78,14 +78,20 @@ namespace MetroHome65.Widgets
         {
             base.PaintBuffer(g, rect);
 
-            new AlphaImage(ResPatch + "big.big_" + _phoneCur + ".png", GetType().Assembly).
-                PaintBackground(g, _phoneCur == "phone" ?
-                    new Rectangle(0,  0,  87, 87) :
-                    new Rectangle(87, 87, 87, 87)
+            var pos1 = (rect.Width - (2 * 87)) / 3;
+            var pos2 = pos1 * 2 + 87;
+
+            // TODO заменить нормальными картинками без масштаба
+            new AlphaImage(ResPatch + "small_" + _phoneCur + ".png", GetType().Assembly).
+                PaintIcon(g, _phoneCur == "phone" ?
+                    new Rectangle(pos1, pos1, 87, 87) :
+                    new Rectangle(pos2, pos2, 87, 87)
                 );
 
-            new AlphaImage(ResPatch + "big.big_" + _wifiCur + ".png", GetType().Assembly).PaintBackground(g, new Rectangle(87, 0, 87, 87));
-            new AlphaImage(ResPatch + "big.big_" + _blueCur + ".png", GetType().Assembly).PaintBackground(g, new Rectangle(0, 87, 87, 87));
+            new AlphaImage(ResPatch + "small_" + _wifiCur + ".png", GetType().Assembly).
+                PaintIcon(g, pos2, pos1);
+            new AlphaImage(ResPatch + "small_" + _blueCur + ".png", GetType().Assembly).
+                PaintIcon(g, pos1, pos2);
         }
 
         protected override void PaintCaption(Graphics g, Rectangle rect)
@@ -103,7 +109,7 @@ namespace MetroHome65.Widgets
                 _blueCur = SystemState.BluetoothStateDiscoverable ? "bluetooth_on_invisible" : "bluetooth_on_visible";
                 if (SystemState.BluetoothStateA2DPConnected)
                 {
-                    _blueCur = "big_bluetooth_ad2p";
+                    _blueCur = "bluetooth_ad2p";
                 }
             }
             else

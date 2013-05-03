@@ -2,8 +2,11 @@
 <ArrayOfWidgetWrapper xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   <WidgetWrapper WidgetClass="MetroHome65.Widgets.SMSWidget">
     <Parameters>
+      <param Name="UnreadType" Value="0" />
       <param Name="CommandLine" Value="\Windows\tmail.exe" />
+      <param Name="PlayOnTapAnimation" Value="True" />
       <param Name="Caption" Value="SMS" />
+      <param Name="CaptionFont" Value="Segoe WP Semibold;8;-1" />
       <param Name="IconPath" Value="\Program Files\MetroHome65\icons\message.png" />
       <param Name="TileColor" Value="0" />
       <param Name="TileImage" Value="" />
@@ -14,24 +17,285 @@
     </Location>
     <Size>
       <Width>2</Width>
-      <Height>2</Height>
+      <Height>1</Height>
     </Size>
   </WidgetWrapper>
   <WidgetWrapper WidgetClass="MetroHome65.Widgets.PhoneWidget">
     <Parameters>
       <param Name="CommandLine" Value="\Windows\cprog.exe" />
+      <param Name="PlayOnTapAnimation" Value="True" />
       <param Name="Caption" Value="Phone" />
+      <param Name="CaptionFont" Value="Segoe WP Semibold;8;-1" />
       <param Name="IconPath" Value="\Program Files\MetroHome65\icons\phone.png" />
       <param Name="TileColor" Value="0" />
       <param Name="TileImage" Value="" />
     </Parameters>
     <Location>
       <X>0</X>
-      <Y>2</Y>
+      <Y>1</Y>
     </Location>
     <Size>
       <Width>2</Width>
       <Height>2</Height>
+    </Size>
+  </WidgetWrapper>
+  <WidgetWrapper WidgetClass="MetroHome65.Widgets.ShortcutWidget">
+    <Parameters>
+      <param Name="CommandLine" Value="\Windows\addrbook.lnk" />
+      <param Name="PlayOnTapAnimation" Value="True" />
+      <param Name="Caption" Value="Contacts" />
+      <param Name="CaptionFont" Value="Segoe WP Semibold;8;-1" />
+      <param Name="IconPath" Value="\Program Files\MetroHome65\icons\contacts.png" />
+      <param Name="TileColor" Value="0" />
+      <param Name="TileImage" Value="" />
+    </Parameters>
+    <Location>
+      <X>2</X>
+      <Y>0</Y>
+    </Location>
+    <Size>
+      <Width>2</Width>
+      <Height>1</Height>
+    </Size>
+  </WidgetWrapper>
+  <WidgetWrapper WidgetClass="MetroHome65.Widgets.ShortcutWidget">
+    <Parameters>
+      <param Name="CommandLine" Value="\Windows\iexplore.exe" />
+      <param Name="PlayOnTapAnimation" Value="True" />
+      <param Name="Caption" Value="" />
+      <param Name="CaptionFont" Value="Segoe WP Semibold;8;-1" />
+      <param Name="IconPath" Value="\Program Files\MetroHome65\icons\iexplore.png" />
+      <param Name="TileColor" Value="-6160129" />
+      <param Name="TileImage" Value="" />
+    </Parameters>
+    <Location>
+      <X>0</X>
+      <Y>4</Y>
+    </Location>
+    <Size>
+      <Width>2</Width>
+      <Height>1</Height>
+    </Size>
+  </WidgetWrapper>
+  <WidgetWrapper WidgetClass="MetroHome65.Widgets.DigitalClockWidget">
+    <Parameters>
+      <param Name="Is24Hour" Value="True" />
+      <param Name="ShowAlarm" Value="True" />
+      <param Name="DateFormat" Value="dddd, MMMM d" />
+      <param Name="TimeFont" Value="Segoe WP Semibold;46;-1" />
+      <param Name="DateFont" Value="Segoe WP SemiLight;12;-1" />
+      <param Name="AlarmFont" Value="Segoe WP Light;12;-1" />
+      <param Name="CommandLine" Value="" />
+      <param Name="PlayOnTapAnimation" Value="True" />
+      <param Name="Caption" Value="" />
+      <param Name="CaptionFont" Value="Segoe WP Semibold;8;-1" />
+      <param Name="IconPath" Value="" />
+      <param Name="TileColor" Value="0" />
+      <param Name="TileImage" Value="\Program Files\MetroHome65\buttons\bg3.png" />
+    </Parameters>
+    <Location>
+      <X>0</X>
+      <Y>5</Y>
+    </Location>
+    <Size>
+      <Width>4</Width>
+      <Height>2</Height>
+    </Size>
+  </WidgetWrapper>
+  <WidgetWrapper WidgetClass="MetroHome65.Widgets.StatusWidgets.StatusWidget">
+    <Parameters>
+      <param Name="CommandLine" Value="" />
+      <param Name="PlayOnTapAnimation" Value="True" />
+      <param Name="Caption" Value="" />
+      <param Name="CaptionFont" Value="Segoe WP Semibold;8;-1" />
+      <param Name="IconPath" Value="" />
+      <param Name="TileColor" Value="0" />
+      <param Name="TileImage" Value="" />
+    </Parameters>
+    <Location>
+      <X>0</X>
+      <Y>9</Y>
+    </Location>
+    <Size>
+      <Width>4</Width>
+      <Height>1</Height>
+    </Size>
+  </WidgetWrapper>
+  <WidgetWrapper WidgetClass="MetroHome65.Widgets.ShortcutWidget">
+    <Parameters>
+      <param Name="CommandLine" Value="\Windows\calendar.exe" />
+      <param Name="PlayOnTapAnimation" Value="True" />
+      <param Name="Caption" Value="" />
+      <param Name="CaptionFont" Value="Segoe WP Semibold;8;-1" />
+      <param Name="IconPath" Value="\Program Files\MetroHome65\icons\small\small-calendar.png" />
+      <param Name="TileColor" Value="-16751616" />
+      <param Name="TileImage" Value="" />
+    </Parameters>
+    <Location>
+      <X>3</X>
+      <Y>1</Y>
+    </Location>
+    <Size>
+      <Width>1</Width>
+      <Height>1</Height>
+    </Size>
+  </WidgetWrapper>
+  <WidgetWrapper WidgetClass="MetroHome65.Widgets.ContactWidget">
+    <Parameters>
+      <param Name="ContactId" Value="-2147483647" />
+      <param Name="AlternatePicturePath" Value="" />
+    </Parameters>
+    <Location>
+      <X>2</X>
+      <Y>3</Y>
+    </Location>
+    <Size>
+      <Width>2</Width>
+      <Height>2</Height>
+    </Size>
+  </WidgetWrapper>
+  <WidgetWrapper WidgetClass="MetroHome65.Widgets.WPAppointment">
+    <Parameters>
+      <param Name="WeekFont" Value="Segoe WP Semibold;12;-1" />
+      <param Name="DateFont" Value="Segoe WP Semibold;9;-1" />
+      <param Name="TimeFont" Value="Segoe WP Semibold;14;-1" />
+      <param Name="IsShowDate" Value="True" />
+      <param Name="IsShowCalendar" Value="True" />
+      <param Name="TimeScreen" Value="6" />
+      <param Name="CommandLine" Value="" />
+      <param Name="PlayOnTapAnimation" Value="True" />
+      <param Name="Caption" Value="Appointments" />
+      <param Name="CaptionFont" Value="Segoe WP Semibold;8;-1" />
+      <param Name="IconPath" Value="" />
+      <param Name="TileColor" Value="-16733271" />
+      <param Name="TileImage" Value="" />
+    </Parameters>
+    <Location>
+      <X>0</X>
+      <Y>11</Y>
+    </Location>
+    <Size>
+      <Width>4</Width>
+      <Height>2</Height>
+    </Size>
+  </WidgetWrapper>
+  <WidgetWrapper WidgetClass="MetroHome65.Widgets.WPSMSExt">
+    <Parameters>
+      <param Name="CommandLine" Value="" />
+      <param Name="PlayOnTapAnimation" Value="True" />
+      <param Name="Caption" Value="Messages" />
+      <param Name="CaptionFont" Value="Segoe WP Semibold;8;-1" />
+      <param Name="IconPath" Value="" />
+      <param Name="TileColor" Value="0" />
+      <param Name="TileImage" Value="" />
+    </Parameters>
+    <Location>
+      <X>0</X>
+      <Y>10</Y>
+    </Location>
+    <Size>
+      <Width>4</Width>
+      <Height>1</Height>
+    </Size>
+  </WidgetWrapper>
+  <WidgetWrapper WidgetClass="MetroHome65.Widgets.DigitalClockWidget">
+    <Parameters>
+      <param Name="Is24Hour" Value="True" />
+      <param Name="ShowAlarm" Value="False" />
+      <param Name="DateFormat" Value="dddd, MMMM d" />
+      <param Name="TimeFont" Value="Segoe WP Semibold;28;-1" />
+      <param Name="DateFont" Value="Segoe WP SemiLight;12;-1" />
+      <param Name="AlarmFont" Value="Segoe WP SemiLight;12;-1" />
+      <param Name="CommandLine" Value="" />
+      <param Name="PlayOnTapAnimation" Value="True" />
+      <param Name="Caption" Value="" />
+      <param Name="CaptionFont" Value="Segoe WP Semibold;8;-1" />
+      <param Name="IconPath" Value="" />
+      <param Name="TileColor" Value="0" />
+      <param Name="TileImage" Value="" />
+    </Parameters>
+    <Location>
+      <X>2</X>
+      <Y>2</Y>
+    </Location>
+    <Size>
+      <Width>2</Width>
+      <Height>1</Height>
+    </Size>
+  </WidgetWrapper>
+  <WidgetWrapper WidgetClass="MetroHome65.Widgets.WirelessControlWidget">
+    <Parameters>
+      <param Name="CommandLine" Value="" />
+      <param Name="PlayOnTapAnimation" Value="True" />
+      <param Name="Caption" Value="" />
+      <param Name="CaptionFont" Value="Segoe WP Semibold;8;-1" />
+      <param Name="IconPath" Value="" />
+      <param Name="TileColor" Value="-1010167" />
+      <param Name="TileImage" Value="" />
+    </Parameters>
+    <Location>
+      <X>0</X>
+      <Y>7</Y>
+    </Location>
+    <Size>
+      <Width>2</Width>
+      <Height>2</Height>
+    </Size>
+  </WidgetWrapper>
+  <WidgetWrapper WidgetClass="MetroHome65.Widgets.WPBattery">
+    <Parameters>
+      <param Name="CommandLine" Value="" />
+      <param Name="PlayOnTapAnimation" Value="True" />
+      <param Name="Caption" Value="" />
+      <param Name="CaptionFont" Value="Segoe WP Semibold;8;-1" />
+      <param Name="IconPath" Value="" />
+      <param Name="TileColor" Value="0" />
+      <param Name="TileImage" Value="" />
+    </Parameters>
+    <Location>
+      <X>2</X>
+      <Y>7</Y>
+    </Location>
+    <Size>
+      <Width>2</Width>
+      <Height>2</Height>
+    </Size>
+  </WidgetWrapper>
+  <WidgetWrapper WidgetClass="MetroHome65.Widgets.WPOperatorName">
+    <Parameters>
+      <param Name="CommandLine" Value="" />
+      <param Name="PlayOnTapAnimation" Value="True" />
+      <param Name="Caption" Value="Fake Network" />
+      <param Name="CaptionFont" Value="Segoe WP Semibold;8;-1" />
+      <param Name="IconPath" Value="" />
+      <param Name="TileColor" Value="0" />
+      <param Name="TileImage" Value="" />
+    </Parameters>
+    <Location>
+      <X>0</X>
+      <Y>3</Y>
+    </Location>
+    <Size>
+      <Width>2</Width>
+      <Height>1</Height>
+    </Size>
+  </WidgetWrapper>
+  <WidgetWrapper WidgetClass="MetroHome65.Widgets.FolderWidget">
+    <Parameters>
+      <param Name="FolderGuid" Value="office" />
+      <param Name="Caption" Value="" />
+      <param Name="CaptionFont" Value="Segoe WP Semibold;8;-1" />
+      <param Name="IconPath" Value="" />
+      <param Name="TileColor" Value="0" />
+      <param Name="TileImage" Value="\Program Files\MetroHome65\buttons\office.png" />
+    </Parameters>
+    <Location>
+      <X>2</X>
+      <Y>1</Y>
+    </Location>
+    <Size>
+      <Width>1</Width>
+      <Height>1</Height>
     </Size>
   </WidgetWrapper>
 </ArrayOfWidgetWrapper>

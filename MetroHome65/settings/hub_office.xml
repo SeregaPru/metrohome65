@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<HubSettings xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <TileSettings>
+    <WidgetWrapper WidgetClass="MetroHome65.Widgets.ShortcutWidget">
+      <Parameters>
+        <param Name="CommandLine" Value="\Windows\Start Menu\Programs\Office Mobile\PowerPoint Mobile.lnk" />
+        <param Name="Caption" Value="PowerPoint Mobile" />
+        <param Name="IconPath" Value="\Program Files\MetroHome65\icons\PowerPoint.png" />
+        <param Name="TileColor" Value="-1010167" />
+        <param Name="TileImage" Value="" />
+      </Parameters>
+      <Location>
+        <X>0</X>
+        <Y>2</Y>
+      </Location>
+      <Size>
+        <Width>2</Width>
+        <Height>2</Height>
+      </Size>
+    </WidgetWrapper>
+    <WidgetWrapper WidgetClass="MetroHome65.Widgets.ShortcutWidget">
+      <Parameters>
+        <param Name="CommandLine" Value="\Windows\Start Menu\Programs\Office Mobile\Excel Mobile.lnk" />
+        <param Name="Caption" Value="Excel Mobile" />
+        <param Name="IconPath" Value="\Program Files\MetroHome65\icons\Excel.png" />
+        <param Name="TileColor" Value="-6110919" />
+        <param Name="TileImage" Value="" />
+      </Parameters>
+      <Location>
+        <X>2</X>
+        <Y>0</Y>
+      </Location>
+      <Size>
+        <Width>2</Width>
+        <Height>2</Height>
+      </Size>
+    </WidgetWrapper>
+    <WidgetWrapper WidgetClass="MetroHome65.Widgets.ShortcutWidget">
+      <Parameters>
+        <param Name="CommandLine" Value="\Windows\Start Menu\Programs\Office Mobile\Word Mobile.lnk" />
+        <param Name="Caption" Value="Word Mobile" />
+        <param Name="IconPath" Value="\Program Files\MetroHome65\icons\Word.png" />
+        <param Name="TileColor" Value="-14966302" />
+        <param Name="TileImage" Value="" />
+      </Parameters>
+      <Location>
+        <X>0</X>
+        <Y>0</Y>
+      </Location>
+      <Size>
+        <Width>2</Width>
+        <Height>2</Height>
+      </Size>
+    </WidgetWrapper>
+    <WidgetWrapper WidgetClass="MetroHome65.Widgets.ShortcutWidget">
+      <Parameters>
+        <param Name="CommandLine" Value="\Windows\Start Menu\Programs\Office Mobile\OneNote Mobile.lnk" />
+        <param Name="Caption" Value="OneNote Mobile" />
+        <param Name="IconPath" Value="\Program Files\MetroHome65\icons\OneNote.png" />
+        <param Name="TileColor" Value="-1674824" />
+        <param Name="TileImage" Value="" />
+      </Parameters>
+      <Location>
+        <X>2</X>
+        <Y>2</Y>
+      </Location>
+      <Size>
+        <Width>2</Width>
+        <Height>2</Height>
+      </Size>
+    </WidgetWrapper>
+  </TileSettings>
+  <Background>\Program Files\MetroHome65\wallpapers\office.png</Background>
+  <Title />
+  <Offset>270</Offset>
+</HubSettings>
