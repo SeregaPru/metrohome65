@@ -1,4 +1,6 @@
-﻿using MetroHome65.Routines.Screen;
+﻿using Fleux.Animations;
+using Fleux.Templates;
+using MetroHome65.Routines.Screen;
 using Microsoft.WindowsMobile.Status;
 
 namespace MetroHome65.Widgets
@@ -12,12 +14,8 @@ namespace MetroHome65.Widgets
     using System.Runtime.InteropServices;
     using System.Threading;
 
-    public class WirelessControlPage : FleuxControlPage
+    public class WirelessControlPage : WindowsPhone7Page
     {
-        public Canvas Background;
-
-        public Canvas Content;
-
         private enum DevicePowerState
         {
             D0 = 0,
@@ -37,7 +35,8 @@ namespace MetroHome65.Widgets
         private string _wifiCur = "wifi_off";
 
 
-        public WirelessControlPage() : base(false)
+        public WirelessControlPage()
+            : base("WIRELESS CONTROL", "", false)
         {
             ScreenRoutines.CursorWait();
 
@@ -45,102 +44,62 @@ namespace MetroHome65.Widgets
             {
                 theForm.Menu = null;
                 theForm.ControlBox = false;
-                Control.ShadowedAnimationMode = FleuxControl.ShadowedAnimationOptions.None;
+                Control.ShadowedAnimationMode = FleuxControl.ShadowedAnimationOptions.FromRight;
 
-                var canvas = new Canvas {
-                    Size = Size,
-                    Location = new Point(0, 0)
+                Content.Location = new Point(0, 80);
+                Content.Size = new Size(Size.Width, Size.Height - 80);
+
+                var appBar = new ApplicationBar
+                {
+                    Size = new Size(Content.Size.Width, 48 + 2 * 10),
+                    Location = new Point(0, Content.Size.Height - 48 - 2 * 10)
                 };
-                Content = canvas;
-                Control.AddElement(Content);
+                appBar.AddButton(ResourceManager.Instance.GetBitmapFromEmbeddedResource(ResPatch + 
+                    ((MetroTheme.PhoneBackgroundBrush == Color.White) ?
+                        "back-light.bmp" : "back-dark.bmp"
+                    )));
+                appBar.ButtonTap += (sender, args) => Close();
+                Content.AddElement(appBar.AnimateHorizontalEntrance(false));
 
-                var canvasBg = new Canvas { Size = Size };
-                Background = canvasBg;
-                Control.AddElement(Background);
 
                 UpdateStatus();
 
-                var element5 = new TextElement("Wireless") {
-                    Style = MetroTheme.PhoneTextPageTitle2Style,
-                    Location = new Point(120, 20)
-                };
-                Control.AddElement(element5);
-
-                var element6 = new TransparentImageElement(ResourceManager.Instance.GetIImageFromEmbeddedResource(
-                    ResPatch + "back-dark.bmp")) {
-                    TapHandler = TapOnArrow,
-                    Location = new Point(10, 57)
-                };
-                Control.AddElement(element6);
-
                 if (_phoneCur == "phone")
                 {
-                    var element = new TransparentImageElement(ResourceManager.Instance.GetIImageFromEmbeddedResource(
-                        ResPatch + "big.button.png")) {
-                        Location = new Point(60, 120),
-                        Size = new Size(200, 200)
-                    };
-                    Control.AddElement(element);
-                    var element2 = new TransparentImageElement(ResourceManager.Instance.GetIImageFromEmbeddedResource(
-                        ResPatch + "big.big_" + _phoneCur + ".png")) {
-                        TapHandler = TapPhone,
-                        Location = new Point(74, 134),
-                        Size = new Size(174, 174)
-                    };
-                    Control.AddElement(element2);
+                    CreateButton(_phoneCur, 27, 0, TapPhone);
                 }
                 else
                 {
-                    var element3 = new TransparentImageElement(ResourceManager.Instance.GetIImageFromEmbeddedResource(
-                        ResPatch + "big.button.png")) {
-                        Location = new Point(270, 330),
-                        Size = new Size(200, 200)
-                    };
-                    Control.AddElement(element3);
-                    var element4 = new TransparentImageElement(ResourceManager.Instance.GetIImageFromEmbeddedResource(
-                        ResPatch + "big.big_" + _phoneCur + ".png")) {
-                        TapHandler = TapAir,
-                        Location = new Point(284, 344),
-                        Size = new Size(174, 174)
-                    };
-                    Control.AddElement(element4);
+                    CreateButton(_phoneCur, 254, 227, TapAir);
                 }
 
-                var element7 = new TransparentImageElement(ResourceManager.Instance.GetIImageFromEmbeddedResource(
-                    ResPatch + "big.button.png")) {
-                    Location = new Point(270, 120),
-                    Size = new Size(200, 200)
-                };
-                Control.AddElement(element7);
-
-                var element8 = new TransparentImageElement(ResourceManager.Instance.GetIImageFromEmbeddedResource(
-                    ResPatch + "big.big_" + _wifiCur + ".png")) {
-                    TapHandler = TapWifi,
-                    Location = new Point(0x11c, 0x86),
-                    Size = new Size(0xae, 0xae)
-                };
-                Control.AddElement(element8);
-
-                var element9 = new TransparentImageElement(ResourceManager.Instance.GetIImageFromEmbeddedResource(
-                    ResPatch + "big.button.png")) {
-                    Location = new Point(60, 330),
-                    Size = new Size(200, 200)
-                };
-                Control.AddElement(element9);
-
-                var element10 = new TransparentImageElement(ResourceManager.Instance.GetIImageFromEmbeddedResource(
-                    ResPatch + "big.big_" + _blueCur + ".png")) {
-                    TapHandler = TapBlue,
-                    Location = new Point(0x4a, 0x158),
-                    Size = new Size(0xae, 0xae)
-                };
-                Control.AddElement(element10);
-
+                CreateButton(_wifiCur, 254, 0, TapWifi);
+                CreateButton(_blueCur, 27, 227, TapBlue);
             }
             finally
             {
                 ScreenRoutines.CursorNormal();
             }
+        }
+
+        private void CreateButton(string imageName, int x, int y, System.Func<Point, bool> handler)
+        {
+            var border = new TransparentImageElement(ResourceManager.Instance.GetIImageFromEmbeddedResource(
+                ResPatch + "big_button.png"))
+                {
+                    Location = new Point(x, y),
+                    Size = new Size(200, 200)
+                };
+            Content.AddElement(border);
+
+            var icon = new TransparentImageElement(ResourceManager.Instance.GetIImageFromEmbeddedResource(
+                ResPatch + "big_" + imageName + ".png"))
+                {
+                    TapHandler = handler,
+                    Location = new Point(x+14, y+14),
+                    Size = new Size(174, 174)
+                };
+            Content.AddElement(icon);
         }
 
         private void UpdateStatus()
@@ -150,7 +109,7 @@ namespace MetroHome65.Widgets
                 _blueCur = SystemState.BluetoothStateDiscoverable ? "bluetooth_on_invisible" : "bluetooth_on_visible";
                 if (SystemState.BluetoothStateA2DPConnected)
                 {
-                    _blueCur = "big_bluetooth_ad2p";
+                    _blueCur = "bluetooth_ad2p";
                 }
             }
             else
@@ -180,12 +139,6 @@ namespace MetroHome65.Widgets
         {
             BthSetMode(_blueCur == "bluetooth_off" ? RadioMode.Discoverable : RadioMode.Off);
             Thread.Sleep(1000);
-            Close();
-            return true;
-        }
-
-        public bool TapOnArrow(Point p)
-        {
             Close();
             return true;
         }
